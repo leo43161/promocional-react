@@ -3,7 +3,7 @@ import { MessageCircle, Facebook, Instagram, Twitter, Youtube } from 'lucide-rea
 
 export default function Header() {
     return (
-        <div className="w-full">
+        <div className="w-full sticky top-0">
             {/* Top navigation bar - gray background */}
             <div className='w-full bg-[#D6D3D1] flex justify-center'>
                 <div className="px-4 pt-1 flex justify-between items-center w-11/12">

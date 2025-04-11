@@ -1,6 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 import Header from './Header';
+import SmoothView from './common/SmoothView';
 
 export default function Layout({ children }) {
     return (
@@ -8,14 +9,14 @@ export default function Layout({ children }) {
             <Head>
                 <title>Tucuman Turismo</title>
             </Head>
-            <div>
-                <div>
+            <SmoothView>
+                <div className='relative'>
                     <Header></Header>
                     <main>
                         {children}
                     </main>
                 </div>
-            </div>
+            </SmoothView>
 
         </div>
     )
