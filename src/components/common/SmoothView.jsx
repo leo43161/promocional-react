@@ -2,10 +2,10 @@ import React from 'react'
 import { ReactLenis, useLenis } from 'lenis/react'
 
 export default function SmoothView({ children }) {
-    const lenis = useLenis(({ scroll }) => {
+    /* const lenis = useLenis(({ scroll }) => {
         console.log(scroll);
     })
-    console.log(lenis);
+    console.log(lenis); */
     return (
         <ReactLenis root options={{ lerp: 0.08 }}>
             {children}

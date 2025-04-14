@@ -5,6 +5,7 @@ import productReducer from './slices/productSlice';
 import categoryReducer from './slices/categorySlice';
 import uiReducer from './slices/uiSlice'; */
 import { eventosService } from './services/eventosService';
+import { prestadoresService } from './services/prestadoresService';
 
 export const store = configureStore({
   reducer: {
@@ -14,9 +15,10 @@ export const store = configureStore({
     categories: categoryReducer,
     ui: uiReducer, */
     [eventosService.reducerPath]: eventosService.reducer,
+    [prestadoresService.reducerPath]: prestadoresService.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(eventosService.middleware),
+    getDefaultMiddleware().concat(eventosService.middleware, prestadoresService.middleware),
 });
 
 export default store;
