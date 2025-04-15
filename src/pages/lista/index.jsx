@@ -100,7 +100,7 @@ export default function Lista() {
         </div>
       </div>
 
-      <div className='mb-10 w-11/14 mx-auto flex flex-col gap-15'>
+      <div className='mb-10 md:w-11/14 w-full mx-auto flex flex-col gap-15 px-5'>
         <ItemLista id="10" titulo="Conocé Tucumán en 2 días" img="guia.jpg"></ItemLista>
         <ItemLista id="10" titulo="Conocé Tucumán en 2 días" img="guia.jpg" right={true}></ItemLista>
         <ItemLista id="10" titulo="Conocé Tucumán en 2 días" img="guia.jpg"></ItemLista>
