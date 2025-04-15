@@ -5,6 +5,7 @@ import ParallaxContainer from '@/components/common/ParallaxContainer';
 import Breadcrumb from '@/components/common/Breadcrumb';
 import Button from '@/components/common/Button';
 import ItemLista from '@/components/lista/ItemLista';
+import ImageGallery from '@/components/articulos/ImageGallery';
 // Importa tus componentes de UI, layout, etc.
 // import Layout from '../../components/Layout';
 // import LoadingSpinner from '../../components/LoadingSpinner';
@@ -100,9 +101,21 @@ export default function Articulo() {
                 </div>
             </div>
 
-            <div className='mb-10 md:w-11/14 w-full mx-auto flex flex-col gap-15 px-5'>
-                <div></div>
-                <div></div>
+            <div className='mb-10 md:w-12/14 w-full mx-auto flex px-2 flex-wrap'>
+                <h1 className='text-3xl font-bold mb-6'>Conocé Tucumán en 2 días</h1>
+                <div className='md:w-8/11 w-full mb-4'>
+                    <ImageGallery imageUrls={[
+                        "https://www.tucumanturismo.gob.ar/public/img/itinerario4_fr8b345e_18-06-2024.jpg",
+                        "https://www.tucumanturismo.gob.ar/public/img/itinerario2_vvvwbn7e_18-06-2024.jpg",
+                        "https://www.tucumanturismo.gob.ar/public/img/itinerario3_e9ja39ab_18-06-2024.jpg"
+                    ]}></ImageGallery>
+                    <div className='w-full px-4'>
+                        <p className='text-justify'>Si venís a visitarnos por poco tiempo y querés hacer un pequeño recorrido por la provincia, te mostramos algunos sitios que integran los imperdibles de Tucumán. Podés visitar algunas localidades situadas a menos de una hora de viaje desde la capital, pasear por la Ciudad Histórica y degustar nuestras comidas típi</p>
+                    </div>
+                </div>
+                <div className='md:w-3/11 w-full border'>
+                
+                </div>
             </div>
 
         </div>
