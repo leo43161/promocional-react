@@ -7,7 +7,7 @@ export default function SmoothView({ children }) {
     })
     console.log(lenis); */
     return (
-        <ReactLenis root options={{ lerp: 0.08 }}>
+        <ReactLenis root options={{ lerp: 0.08, duration: 2 }}>
             {children}
         </ReactLenis>
     )

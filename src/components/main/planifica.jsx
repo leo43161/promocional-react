@@ -81,11 +81,11 @@ export default function Planifica() {
 
   return (
     <div className="w-full mx-auto px-4 md:px-0 flex flex-col items-center mb-6">
-      <h2 className="text-2xl text-gray-500 mb-6 text-center">PLANIFICA TU VIAJE</h2>
+      <h2 className="text-3xl text-gray-500 mb-6 text-center">PLANIFICA TU VIAJE</h2>
       
       {/* Contenedor de tabs - responsive */}
       <div className="overflow-x-auto no-scrollbar mb-4 w-full flex justify-center">
-        <div className="grid grid-cols-2 sm:flex gap-7">
+        <div className="grid grid-cols-2 sm:flex gap-7 w-full">
           {travelOptions.map((option) => (
             <button
               key={option.id}
@@ -95,7 +95,7 @@ export default function Planifica() {
               }`}
             >
               <div className="mb-2">{option.icon}</div>
-              <span className="text-center">{option.title}</span>
+              <span className="text-center font-semibold md:text-sm">{option.title}</span>
             </button>
           ))}
         </div>
@@ -105,9 +105,9 @@ export default function Planifica() {
       {activeOption && (
         <div className="md:relative w-full">
           {/* Vista móvil - descripción arriba, imagen debajo */}
-          <div className="bg-gray-100 p-6 md:absolute md:left-0 md:top-6 md:z-10 md:bg-gray-100/80 md:w-3/10">
-            <h3 className="text-xl text-gray-700 font-medium mb-3">{activeOption.title}</h3>
-            <p className="text-sm text-gray-600 mb-4">{activeOption.description}</p>
+          <div className="bg-gray-100 p-6 md:absolute md:left-0 md:top-6 md:z-10 md:bg-gray-100/80 md:w-4/11">
+            <h3 className="text-2xl text-gray-700 font-medium mb-3">{activeOption.title}</h3>
+            <p className="text-gray-600 mb-4">{activeOption.description}</p>
             <Link href={activeOption.link} className="bg-orange-500 text-white text-sm py-1 px-4 rounded hover:bg-orange-600 inline-block">
               Conocé más aquí
             </Link>

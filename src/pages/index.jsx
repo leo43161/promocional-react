@@ -5,10 +5,10 @@ import React from 'react'
 export default function index() {
   return (
     <div>
-      <div className='mb-6'>
+      <div className='mb-10'>
         <ResponsiveVideo />
       </div>
-      <div className='w-11/12 mx-auto'>
+      <div className='md:w-11/13 w-full mx-auto'>
         <Planifica></Planifica>
       </div>
     </div>
