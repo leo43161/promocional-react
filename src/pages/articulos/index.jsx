@@ -3,9 +3,8 @@ import { useRouter } from 'next/router';
 import axios from 'axios'; // Asegúrate de tener axios instalado e importado
 import ParallaxContainer from '@/components/common/ParallaxContainer';
 import Breadcrumb from '@/components/common/Breadcrumb';
-import Button from '@/components/common/Button';
-import ItemLista from '@/components/lista/ItemLista';
 import ImageGallery from '@/components/articulos/ImageGallery';
+import ImperdiblesCard from '@/components/articulos/ImperdiblesCard';
 // Importa tus componentes de UI, layout, etc.
 // import Layout from '../../components/Layout';
 // import LoadingSpinner from '../../components/LoadingSpinner';
@@ -102,19 +101,58 @@ export default function Articulo() {
             </div>
 
             <div className='mb-10 md:w-12/14 w-full mx-auto flex px-2 flex-wrap'>
-                <h1 className='text-3xl font-bold mb-6'>Conocé Tucumán en 2 días</h1>
                 <div className='md:w-8/11 w-full mb-4'>
-                    <ImageGallery imageUrls={[
-                        "https://www.tucumanturismo.gob.ar/public/img/itinerario4_fr8b345e_18-06-2024.jpg",
-                        "https://www.tucumanturismo.gob.ar/public/img/itinerario2_vvvwbn7e_18-06-2024.jpg",
-                        "https://www.tucumanturismo.gob.ar/public/img/itinerario3_e9ja39ab_18-06-2024.jpg"
+                    <h1 className='text-3xl font-bold mb-6'>Conocé Tucumán en 2 días</h1>
+                    <ImageGallery items={[
+                        {
+                            img: "https://www.tucumanturismo.gob.ar/public/img/itinerario4_fr8b345e_18-06-2024.jpg",
+                            text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Expent delectus!"
+                        },
+                        {
+                            img: "https://www.tucumanturismo.gob.ar/public/img/itinerario2_vvvwbn7e_18-06-2024.jpg",
+                            text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita rs!"
+                        },
+                        {
+                            img: "https://www.tucumanturismo.gob.ar/public/img/itinerario3_e9ja39ab_18-06-2024.jpg",
+                            text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita recusandae"
+                        },
+                        {
+                            img: "https://www.tucumanturismo.gob.ar/public/img/itinerario4_fr8b345e_18-06-2024.jpg",
+                            text: "Lorem ipsum dolota recusandae impedit quos laboriosam nesciunt delectus!"
+                        },
                     ]}></ImageGallery>
                     <div className='w-full px-4'>
                         <p className='text-justify'>Si venís a visitarnos por poco tiempo y querés hacer un pequeño recorrido por la provincia, te mostramos algunos sitios que integran los imperdibles de Tucumán. Podés visitar algunas localidades situadas a menos de una hora de viaje desde la capital, pasear por la Ciudad Histórica y degustar nuestras comidas típi</p>
                     </div>
                 </div>
-                <div className='md:w-3/11 w-full border'>
-                
+                <div className='md:w-3/11 w-full md:ps-4'>
+                    <div className='mb-4'>
+                        <h2 className='text-xl font-bold mb-3'>Para Descargar</h2>
+                        <div className='flex flex-col gap-5'>
+                            <a class="w-full flex items-stretch justify-center gap-2" target="_blank" tabindex="3" aria-label="Mapa de El Cadillal Hace click aqui para descargar" href="https://www.tucumanturismo.gob.ar/public/files/Mapa%20-%20Cadillal_w9xlethe_22-08-2024.pdf">
+                                <div class="w-2/10 p-2">
+                                    <img src="https://www.tucumanturismo.gob.ar/public/icons/svg/articulo/pdf-1.svg" class="w-full" alt="Mapa de El Cadillal" />
+                                </div>
+                                <div class="flex-1">
+                                    <p class="m-0">Hacé click para descargar</p>
+                                    <p class="m-0 font-bold">Mapa de El Cadillal</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div>
+                        <h2 className='text-xl font-bold mb-4'>Imperdibles</h2>
+                        <div className='flex flex-col gap-5'>
+                            <ImperdiblesCard
+                                img={"https://www.tucumanturismo.gob.ar/public/img/galeriacadillal_j0kpht3j_12-06-2024.jpg"}
+                                titulo={"El Cadillal"}
+                            />
+                            <ImperdiblesCard
+                                img={"https://www.tucumanturismo.gob.ar/public/img/cristo.jpg"}
+                                titulo={"San Javier"}
+                            />
+                        </div>
+                    </div>
                 </div>
             </div>
 

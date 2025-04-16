@@ -9,27 +9,28 @@ const ImagePlaceholder = ({ size = 48, message = null }) => (
   </div>
 );
 
-export default function ImageGallery({ imageUrls = [] }) {
+export default function ImageGallery({ items = [] }) {
   // Limit to using only the first 5 images
-  const limitedImages = imageUrls.slice(0, 5);
+  const limitedImages = items.slice(0, 5);
+  console.log(limitedImages);
 
   // State for the active image index
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   // State to track loading errors for each image URL
   const [imageErrors, setImageErrors] = useState(() => Array(limitedImages.length).fill(false));
 
-  // Effect to reset errors if imageUrls prop changes
+  // Effect to reset errors if items prop changes
   useEffect(() => {
     setImageErrors(Array(limitedImages.length).fill(false));
     setActiveImageIndex(0); // Reset active image as well
-  }, [imageUrls]); // Rerun effect if the imageUrls prop changes
+  }, [items]); // Rerun effect if the items prop changes
 
 
   // If no images after limiting, show an empty state
   if (limitedImages.length === 0) {
     return (
       <div className="w-full p-4">
-         <ImagePlaceholder message="No hay imágenes disponibles" size={64} />
+        <ImagePlaceholder message="No hay imágenes disponibles" size={64} />
       </div>
     );
   }
@@ -63,24 +64,29 @@ export default function ImageGallery({ imageUrls = [] }) {
   const hasCurrentError = imageErrors[activeImageIndex];
 
   return (
-    <div className="w-full p-2 sm:p-4"> {/* Added padding */}
+    <div className="w-full p-2 "> {/* Added padding */}
       <div className="flex flex-col md:flex-row gap-4 md:gap-6"> {/* Increased gap */}
 
         {/* Main Image Display Area */}
         <div className="flex-grow md:w-6/7 aspect-w-16 aspect-h-9"> {/* Enforce aspect ratio */}
-          <div className="relative overflow-hidden md:h-[70vh] h-[60vh]"> {/* Softer bg, larger radius, subtle shadow */}
+          <div className="relative overflow-hidden md:min-h-[70vh] h-[360px] shadow"> {/* Softer bg, larger radius, subtle shadow */}
             {hasCurrentError ? (
               <ImagePlaceholder message="No se pudo cargar la imagen" />
             ) : (
               <img
-                key={currentImageUrl} // Add key to force re-render on change (for potential transitions later)
-                src={currentImageUrl}
+                key={currentImageUrl.text} // Add key to force re-render on change (for potential transitions later)
+                src={currentImageUrl.img}
                 alt={`Imagen de galería ${activeImageIndex + 1}`}
-                className="w-full h-full object-cover shadow-md rounded" // Keep contain to see full image
+                className="w-full h-full object-cover rounded" // Keep contain to see full image
                 onError={() => handleImageError(activeImageIndex)}
                 loading="lazy" // Add lazy loading
               />
             )}
+            <div
+              className='absolute bottom-0 z-50 bg-gradient-to-t from-black/80 via-black/60 via-70% to-transparent w-full rounded-b-md pb-3 px-3'
+            >
+              <h1 className='text-xl text-white font-semibold'>{currentImageUrl.text}</h1>
+            </div>
           </div>
         </div>
 
@@ -98,7 +104,7 @@ export default function ImageGallery({ imageUrls = [] }) {
                 onKeyDown={(e) => handleKeyDown(e, index)}
                 tabIndex={hasError ? -1 : 0} // Make non-interactive if errored
                 className={`
-                  relative flex-shrink-0 w-20 h-20 md:w-full md:h-auto md:aspect-square  /* Sizing */
+                  relative h-20 md:w-full md:h-auto md:aspect-square flex-1  /* Sizing */
                   rounded-md overflow-hidden cursor-pointer group /* Base styles */
                   transition-all duration-200 ease-in-out /* Transitions */
                   ${hasError ? 'cursor-not-allowed' : 'cursor-pointer'}
@@ -114,26 +120,27 @@ export default function ImageGallery({ imageUrls = [] }) {
               >
                 <div className="w-full h-full bg-slate-100 flex items-center justify-center">
                   {hasError ? (
-                     <div className="w-full h-full flex flex-col items-center justify-center bg-slate-200 text-red-500 p-1">
-                       <AlertCircle size={20} />
-                       <span className="text-xs mt-1 text-center">Error</span>
-                     </div>
+                    <div className="w-full h-full flex flex-col items-center justify-center bg-slate-200 text-red-500 p-1">
+                      <AlertCircle size={20} />
+                      <span className="text-xs mt-1 text-center">Error</span>
+                    </div>
                   ) : (
                     <img
-                      src={imgUrl}
+                      src={imgUrl.img}
                       alt={`Miniatura ${index + 1}`}
                       className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-105" // Subtle zoom on hover
                       onError={() => handleImageError(index)}
                       loading="lazy"
                     />
                   )}
+
                 </div>
               </div>
             );
           })}
         </div>
       </div>
-       {/* Note: To hide scrollbars effectively cross-browser, you might need a plugin like `tailwindcss-scrollbar-hide`
+      {/* Note: To hide scrollbars effectively cross-browser, you might need a plugin like `tailwindcss-scrollbar-hide`
            or add custom CSS like:
            .scrollbar-hide::-webkit-scrollbar { display: none; }
            .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
