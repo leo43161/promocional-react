@@ -5,6 +5,7 @@ import ParallaxContainer from '@/components/common/ParallaxContainer';
 import Breadcrumb from '@/components/common/Breadcrumb';
 import ImageGallery from '@/components/articulos/ImageGallery';
 import ImperdiblesCard from '@/components/articulos/ImperdiblesCard';
+import BuscadorTransporte from '@/components/transportes/DestinosModule';
 // Importa tus componentes de UI, layout, etc.
 // import Layout from '../../components/Layout';
 // import LoadingSpinner from '../../components/LoadingSpinner';
@@ -76,7 +77,6 @@ export default function Articulo() {
     }
 
     return (
-        // <Layout> {/* Envuelve con tu layout si tienes uno */}
         <div> {/* Contenedor principal */}
             {content}
             <ParallaxContainer
@@ -99,7 +99,6 @@ export default function Articulo() {
                     }></Breadcrumb>
                 </div>
             </div>
-
             <div className='mb-10 md:w-12/14 w-full mx-auto flex px-2 flex-wrap'>
                 <div className='md:w-8/11 w-full mb-4'>
                     <h1 className='text-3xl font-bold mb-6'>Conocé Tucumán en 2 días</h1>
@@ -157,9 +156,5 @@ export default function Articulo() {
             </div>
 
         </div>
-        // </Layout>
     );
 }
-
-// ¡IMPORTANTE! Esta página NO necesita getStaticPaths ni getStaticProps
-// porque la obtención de datos es puramente del lado del cliente.

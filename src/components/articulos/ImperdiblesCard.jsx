@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function ImperdiblesCard({ titulo, img }) {
     return (
-        <div className='w-full flex items-end h-[150px] relative rounded'>
+        <div className='w-full flex items-end h-[150px] relative rounded overflow-hidden'>
             <img
                 src={img}
                 className='w-full h-full object-cover rounded'
