@@ -1,152 +1,173 @@
 import React, { useState, useEffect } from 'react';
-import { ImageOff, AlertCircle } from 'lucide-react'; // Added AlertCircle for errors
+import { ImageOff, AlertCircle } from 'lucide-react';
 
-// Helper component for image placeholders/error states
+// Helper component for image placeholders/error states (sin cambios)
 const ImagePlaceholder = ({ size = 48, message = null }) => (
-  <div className="w-full h-full flex flex-col items-center justify-center bg-slate-100 text-slate-400 rounded-lg">
-    <ImageOff size={size} />
-    {message && <p className="mt-2 text-xs text-center">{message}</p>}
-  </div>
+    <div className="w-full h-full flex flex-col items-center justify-center bg-slate-100 text-slate-400 rounded-lg">
+        <ImageOff size={size} />
+        {message && <p className="mt-2 text-xs text-center">{message}</p>}
+    </div>
 );
 
-export default function ImageGallery({ items = [] }) {
-  // Limit to using only the first 5 images
-  const limitedImages = items.slice(0, 5);
-  console.log(limitedImages);
-
-  // State for the active image index
-  const [activeImageIndex, setActiveImageIndex] = useState(0);
-  // State to track loading errors for each image URL
-  const [imageErrors, setImageErrors] = useState(() => Array(limitedImages.length).fill(false));
-
-  // Effect to reset errors if items prop changes
-  useEffect(() => {
-    setImageErrors(Array(limitedImages.length).fill(false));
-    setActiveImageIndex(0); // Reset active image as well
-  }, [items]); // Rerun effect if the items prop changes
-
-
-  // If no images after limiting, show an empty state
-  if (limitedImages.length === 0) {
-    return (
-      <div className="w-full p-4">
-        <ImagePlaceholder message="No hay imágenes disponibles" size={64} />
-      </div>
-    );
-  }
-
-  // Handle image loading errors by updating state
-  const handleImageError = (index) => {
-    setImageErrors(prevErrors => {
-      const newErrors = [...prevErrors];
-      newErrors[index] = true;
-      return newErrors;
-    });
-  };
-
-  // Change the active image
-  const handleThumbnailClick = (index) => {
-    // Only change if the image hasn't errored
-    if (!imageErrors[index]) {
-      setActiveImageIndex(index);
-    }
-  };
-
-  // Handle keyboard navigation for thumbnails
-  const handleKeyDown = (e, index) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      handleThumbnailClick(index); // Reuse click handler logic
-    }
-  };
-
-  const currentImageUrl = limitedImages[activeImageIndex];
-  const hasCurrentError = imageErrors[activeImageIndex];
-
-  return (
-    <div className="w-full p-2 "> {/* Added padding */}
-      <div className="flex flex-col md:flex-row gap-4 md:gap-6"> {/* Increased gap */}
-
-        {/* Main Image Display Area */}
-        <div className="flex-grow md:w-6/7 aspect-w-16 aspect-h-9"> {/* Enforce aspect ratio */}
-          <div className="relative overflow-hidden md:min-h-[70vh] h-[360px] shadow"> {/* Softer bg, larger radius, subtle shadow */}
-            {hasCurrentError ? (
-              <ImagePlaceholder message="No se pudo cargar la imagen" />
-            ) : (
-              <img
-                key={currentImageUrl.text} // Add key to force re-render on change (for potential transitions later)
-                src={currentImageUrl.img}
-                alt={`Imagen de galería ${activeImageIndex + 1}`}
-                className="w-full h-full object-cover rounded" // Keep contain to see full image
-                onError={() => handleImageError(activeImageIndex)}
-                loading="lazy" // Add lazy loading
-              />
-            )}
-            <div
-              className='absolute bottom-0 z-50 bg-gradient-to-t from-black/80 via-black/60 via-70% to-transparent w-full rounded-b-md pb-3 px-3'
-            >
-              <h1 className='text-xl text-white font-semibold'>{currentImageUrl.text}</h1>
-            </div>
-          </div>
-        </div>
-
-        {/* Thumbnails - Vertical on desktop, horizontal on mobile */}
-        {/* Added scrollbar-hide utility class example (requires tailwindcss-scrollbar-hide plugin or custom CSS) */}
-        <div className="flex flex-row md:flex-col gap-3 md:gap-4 overflow-x-auto md:overflow-x-hidden md:overflow-y-auto md:w-1/7 pb-2 md:pb-0 scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-transparent md:pr-1"> {/* Adjusted gap, padding, scrollbar styling hint */}
-          {limitedImages.map((imgUrl, index) => {
-            const hasError = imageErrors[index];
-            const isActive = activeImageIndex === index;
-
-            return (
-              <div
-                key={index}
-                onClick={() => handleThumbnailClick(index)}
-                onKeyDown={(e) => handleKeyDown(e, index)}
-                tabIndex={hasError ? -1 : 0} // Make non-interactive if errored
-                className={`
-                  relative h-20 md:w-full md:h-auto md:aspect-square flex-1  /* Sizing */
-                  rounded-md overflow-hidden cursor-pointer group /* Base styles */
-                  transition-all duration-200 ease-in-out /* Transitions */
-                  ${hasError ? 'cursor-not-allowed' : 'cursor-pointer'}
-                  ${isActive && !hasError
-                    ? 'border-2 border-primary opacity-100' /* Active state */
-                    : hasError
-                      ? 'opacity-50' /* Error state */
-                      : 'opacity-60 hover:opacity-100' /* Inactive state */}
-                `}
-                aria-label={`Seleccionar imagen ${index + 1}${hasError ? ' (Error)' : ''}`}
-                role="button"
-                aria-pressed={isActive}
-              >
-                <div className="w-full h-full bg-slate-100 flex items-center justify-center">
-                  {hasError ? (
-                    <div className="w-full h-full flex flex-col items-center justify-center bg-slate-200 text-red-500 p-1">
-                      <AlertCircle size={20} />
-                      <span className="text-xs mt-1 text-center">Error</span>
-                    </div>
-                  ) : (
-                    <img
-                      src={imgUrl.img}
-                      alt={`Miniatura ${index + 1}`}
-                      className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-105" // Subtle zoom on hover
-                      onError={() => handleImageError(index)}
-                      loading="lazy"
-                    />
-                  )}
-
+// --- NUEVO: Componente Skeleton para la Galería ---
+const GallerySkeleton = () => (
+    <div className="w-full p-2 animate-pulse"> {/* Animar todo el skeleton */}
+        <div className="flex flex-col md:flex-row gap-4 md:gap-6">
+            {/* Main Image Skeleton */}
+            <div className="flex-grow md:w-6/7 aspect-w-16 aspect-h-9">
+                <div className="relative md:min-h-[70vh] h-[360px] bg-gray-300 rounded-lg">
+                     {/* Skeleton para el texto overlay */}
+                     <div className='absolute bottom-0 bg-gray-400/50 w-full rounded-b-md pb-3 px-3 h-12'>
+                         <div className="h-4 bg-gray-500 rounded w-3/4 mt-4"></div>
+                     </div>
                 </div>
-              </div>
-            );
-          })}
+            </div>
+            {/* Thumbnails Skeleton */}
+            <div className="flex flex-row md:flex-col gap-3 md:gap-4 md:w-1/7 pb-2 md:pb-0">
+                {/* Renderiza 5 skeletons de miniaturas por defecto */}
+                {Array.from({ length: 5 }).map((_, index) => (
+                    <div
+                        key={index}
+                        className="relative h-20 md:w-full md:h-auto md:aspect-square flex-1 bg-gray-300 rounded-md"
+                    ></div>
+                ))}
+            </div>
         </div>
-      </div>
-      {/* Note: To hide scrollbars effectively cross-browser, you might need a plugin like `tailwindcss-scrollbar-hide`
-           or add custom CSS like:
-           .scrollbar-hide::-webkit-scrollbar { display: none; }
-           .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-           Then add `scrollbar-hide` class to the thumbnail container div.
-           The example above uses `scrollbar-thin` which might need configuration or might not work standalone.
-       */}
     </div>
-  );
+);
+// --- FIN Skeleton ---
+
+// Añadimos isLoading a las props, con valor por defecto false
+export default function ImageGallery({ items = [], isLoading = false }) {
+    const limitedImages = items.slice(0, 5);
+    // console.log(limitedImages); // Puedes mantener o quitar el console.log
+
+    const [activeImageIndex, setActiveImageIndex] = useState(0);
+    const [imageErrors, setImageErrors] = useState(() => Array(limitedImages.length).fill(false));
+
+    useEffect(() => {
+        setImageErrors(Array(limitedImages.length).fill(false));
+        setActiveImageIndex(0);
+    }, [items]); // La dependencia sigue siendo 'items'
+
+    // --- RENDERIZADO CONDICIONAL PRINCIPAL ---
+    // Si isLoading es true, muestra el Skeleton
+    if (isLoading) {
+        return <GallerySkeleton />;
+    }
+
+    // --- Lógica existente si no está cargando ---
+    if (limitedImages.length === 0) {
+        return (
+            <div className="w-full p-4">
+                <ImagePlaceholder message="No hay imágenes disponibles" size={64} />
+            </div>
+        );
+    }
+
+    const handleImageError = (index) => {
+        setImageErrors(prevErrors => {
+            const newErrors = [...prevErrors];
+            newErrors[index] = true;
+            return newErrors;
+        });
+    };
+
+    const handleThumbnailClick = (index) => {
+        if (!imageErrors[index]) {
+            setActiveImageIndex(index);
+        }
+    };
+
+    const handleKeyDown = (e, index) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            handleThumbnailClick(index);
+        }
+    };
+
+    const currentImageUrl = limitedImages[activeImageIndex];
+    const hasCurrentError = imageErrors[activeImageIndex];
+
+    // El JSX original de la galería se mantiene aquí sin cambios
+    return (
+        <div className="w-full p-2 ">
+            <div className="flex flex-col md:flex-row gap-4 md:gap-6">
+
+                {/* Main Image Display Area */}
+                <div className="flex-grow md:w-6/7 aspect-w-16 aspect-h-9">
+                    <div className="relative overflow-hidden md:min-h-[70vh] h-[360px] shadow">
+                        {hasCurrentError ? (
+                            <ImagePlaceholder message="No se pudo cargar la imagen" />
+                        ) : (
+                            <img
+                                key={currentImageUrl?.text} // Añadido optional chaining por si acaso
+                                src={currentImageUrl?.img}  // Añadido optional chaining
+                                alt={`Imagen de galería ${activeImageIndex + 1}`}
+                                className="w-full h-full object-cover rounded"
+                                onError={() => handleImageError(activeImageIndex)}
+                                loading="lazy"
+                            />
+                        )}
+                        {/* Overlay de texto, añadido optional chaining */}
+                        {currentImageUrl?.text && (
+                           <div
+                                className='absolute bottom-0 z-20 bg-gradient-to-t from-black/80 via-black/60 via-70% to-transparent w-full rounded-b-md pb-3 px-3'
+                            >
+                                <h1 className='text-xl text-white font-semibold'>{currentImageUrl.text}</h1>
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+                {/* Thumbnails */}
+                <div className="flex flex-row md:flex-col gap-3 md:gap-4 overflow-x-auto md:overflow-x-hidden md:overflow-y-auto md:w-1/7 pb-2 md:pb-0 scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-transparent md:pr-1">
+                    {limitedImages.map((imgUrl, index) => {
+                        const hasError = imageErrors[index];
+                        const isActive = activeImageIndex === index;
+
+                        return (
+                            <div
+                                key={index}
+                                onClick={() => handleThumbnailClick(index)}
+                                onKeyDown={(e) => handleKeyDown(e, index)}
+                                tabIndex={hasError ? -1 : 0}
+                                className={`
+                                    relative h-20 md:w-full md:h-auto md:aspect-square flex-1
+                                    rounded-md overflow-hidden group
+                                    transition-all duration-200 ease-in-out
+                                    ${hasError ? 'cursor-not-allowed' : 'cursor-pointer'}
+                                    ${isActive && !hasError
+                                        ? 'border-2 border-primary opacity-100'
+                                        : hasError
+                                            ? 'opacity-50'
+                                            : 'opacity-60 hover:opacity-100'}
+                                `}
+                                aria-label={`Seleccionar imagen ${index + 1}${hasError ? ' (Error)' : ''}`}
+                                role="button"
+                                aria-pressed={isActive}
+                            >
+                                <div className="w-full h-full bg-slate-100 flex items-center justify-center">
+                                    {hasError ? (
+                                        <div className="w-full h-full flex flex-col items-center justify-center bg-slate-200 text-red-500 p-1">
+                                            <AlertCircle size={20} />
+                                            <span className="text-xs mt-1 text-center">Error</span>
+                                        </div>
+                                    ) : (
+                                        <img
+                                            src={imgUrl.img} // Aquí no necesita optional chaining porque limitedImages ya está filtrado
+                                            alt={`Miniatura ${index + 1}`}
+                                            className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-105"
+                                            onError={() => handleImageError(index)}
+                                            loading="lazy"
+                                        />
+                                    )}
+                                </div>
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
+        </div>
+    );
 }
