@@ -161,7 +161,7 @@ export default function Articulo() {
 
             <div className='mb-10 md:w-12/14 w-full mx-auto flex px-2 flex-wrap'>
                 {/* --- Columna Izquierda (Contenido Principal) --- */}
-                <div className='md:w-8/11 w-full mb-6 md:mb-4 md:pr-4'> {/* Añadido padding derecho en desktop */}
+                <div className={`${pdfsForComponent?.length > 0 && 'md:w-8/11'} w-full mb-6 md:mb-4 md:pr-4`}> {/* Añadido padding derecho en desktop */}
                     {/* Título Principal del Artículo: Usa 'nombre' */}
                     {isLoading ? (
                         <SkeletonText width="w-3/4" height="h-8" className="mb-6" />
@@ -182,7 +182,7 @@ export default function Articulo() {
                     />
 
                     {/* Cuerpo del Artículo: Usa 'cuerpo' */}
-                    <div className='prose prose-slate max-w-none w-full px-4 mt-0 mb-3'> {/* Estilos de 'prose' para el HTML, ajustado margen */}
+                    <div className={`prose prose-slate max-w-none w-full px-4 mt-3 mb-4 ${!pdfsForComponent?.length > 0 && 'md:w-8/11 md:mt-3'}`}>
                         {isLoading ? (
                             <SkeletonBlock lines={8} /> // Más líneas para el cuerpo
                         ) : (
@@ -196,11 +196,11 @@ export default function Articulo() {
                     </div>
 
                     {!isLoading && articulo?.imagenTexto && (
-                        <div className='w-full mb-6 p-3 md:p-5'>
+                        <div className={`w-full mb-6 p-3 md:p-5 md:h-[100vh] ${!pdfsForComponent?.length > 0 && 'md:w-8/11'}`}>
                             <img
-                                src={`https://www.tucumanturismo.gob.ar/public/img/${articulo.imagenTexto}`}
+                                src={imageBaseUrl + articulo.imagenTexto}
                                 alt={articulo.pieImagen || articulo.nombre}
-                                className='w-full h-auto object-cover rounded'
+                                className='object-cover md:object-contain rounded'
                             />
                             {articulo.pieImagen && (
                                 <p className='text-sm text-gray-600 mt-2 italic'>{articulo.pieImagen}</p>
@@ -209,59 +209,61 @@ export default function Articulo() {
                     )}
                 </div>
 
-                {/* --- Columna Derecha (Descargas, Imperdibles) --- */}
-                <div className='md:w-3/11 w-full md:ps-4'>
-                    {/* Sección "Para Descargar": Usa datos de getPdfs */}
-                    {/* Mostramos solo si está cargando O si hay PDFs después de cargar */}
-                    {(isLoading || pdfsForComponent.length > 0) && (
-                        <div className='mb-6'>
-                            <h2 className='text-xl font-bold mb-3'>Para Descargar</h2>
-                            <div className='flex flex-col gap-3'>
-                                {isLoading ? (
-                                    <>
-                                        <SkeletonListItem />
-                                        <SkeletonListItem />
-                                    </>
-                                ) : (
-                                    pdfsForComponent.map((file, index) => (
-                                        <a key={index}
-                                            className="w-full flex items-center gap-3 px-4 py-2 border border-gray-200 rounded hover:bg-gray-100 transition-colors"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            href={file.url} // URL del archivo mapeado
-                                            aria-label={`Descargar ${file.nombre}`} // Nombre del archivo mapeado
-                                        >
-                                            <div className="w-1/10 flex-shrink-0">
-                                                <img src="https://www.tucumanturismo.gob.ar/public/icons/svg/articulo/pdf-1.svg" className="w-full h-auto" alt="Icono de archivo" />
-                                            </div>
-                                            <div className="flex-1 overflow-hidden">
-                                                <p className="m-0 text-sm text-gray-600">Hacé click para descargar</p>
-                                                <p className="m-0 font-bold text-base truncate" title={file.nombre}>{file.nombre}</p> {/* Nombre del archivo mapeado */}
-                                            </div>
-                                        </a>
-                                    ))
-                                )}
+                {(isLoading || pdfsForComponent.length > 0) && (
+                    <>
+                        {/* --- Columna Derecha (Descargas, Imperdibles) --- */}
+                        <div className='md:w-3/11 w-full md:ps-4'>
+                            {/* Sección "Para Descargar": Usa datos de getPdfs */}
+                            {/* Mostramos solo si está cargando O si hay PDFs después de cargar */}
+                            <div className='mb-6'>
+                                <h2 className='text-xl font-bold mb-3'>Para Descargar</h2>
+                                <div className='flex flex-col gap-3'>
+                                    {isLoading ? (
+                                        <>
+                                            <SkeletonListItem />
+                                            <SkeletonListItem />
+                                        </>
+                                    ) : (
+                                        pdfsForComponent.map((file, index) => (
+                                            <a key={index}
+                                                className="w-full flex items-center gap-3 px-4 py-2 border border-gray-200 rounded hover:bg-gray-100 transition-colors"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                href={file.url} // URL del archivo mapeado
+                                                aria-label={`Descargar ${file.nombre}`} // Nombre del archivo mapeado
+                                            >
+                                                <div className="w-1/10 flex-shrink-0">
+                                                    <img src="https://www.tucumanturismo.gob.ar/public/icons/svg/articulo/pdf-1.svg" className="w-full h-auto" alt="Icono de archivo" />
+                                                </div>
+                                                <div className="flex-1 overflow-hidden">
+                                                    <p className="m-0 text-sm text-gray-600">Hacé click para descargar</p>
+                                                    <p className="m-0 font-bold text-base truncate" title={file.nombre}>{file.nombre}</p> {/* Nombre del archivo mapeado */}
+                                                </div>
+                                            </a>
+                                        ))
+                                    )}
+                                </div>
+                            </div>
+                            {/* Si no está cargando y no hay PDFs, no se muestra la sección */}
+
+
+                            {/* Sección "Imperdibles" (Se mantiene estática) */}
+                            <div className='hidden'>
+                                <h2 className='text-xl font-bold mb-4'>Imperdibles</h2>
+                                <div className='flex flex-col gap-5'>
+                                    <ImperdiblesCard
+                                        img={"https://www.tucumanturismo.gob.ar/public/img/galeriacadillal_j0kpht3j_12-06-2024.jpg"}
+                                        titulo={"El Cadillal"}
+                                    />
+                                    <ImperdiblesCard
+                                        img={"https://www.tucumanturismo.gob.ar/public/img/cristo.jpg"}
+                                        titulo={"San Javier"}
+                                    />
+                                </div>
                             </div>
                         </div>
-                    )}
-                    {/* Si no está cargando y no hay PDFs, no se muestra la sección */}
-
-
-                    {/* Sección "Imperdibles" (Se mantiene estática) */}
-                    <div>
-                        <h2 className='text-xl font-bold mb-4'>Imperdibles</h2>
-                        <div className='flex flex-col gap-5'>
-                            <ImperdiblesCard
-                                img={"https://www.tucumanturismo.gob.ar/public/img/galeriacadillal_j0kpht3j_12-06-2024.jpg"}
-                                titulo={"El Cadillal"}
-                            />
-                            <ImperdiblesCard
-                                img={"https://www.tucumanturismo.gob.ar/public/img/cristo.jpg"}
-                                titulo={"San Javier"}
-                            />
-                        </div>
-                    </div>
-                </div>
+                    </>
+                )}
             </div>
         </div>
     );

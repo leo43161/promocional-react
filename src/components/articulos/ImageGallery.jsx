@@ -92,7 +92,7 @@ export default function ImageGallery({ items = [], isLoading = false }) {
     // El JSX original de la galería se mantiene aquí sin cambios
     return (
         <div className="w-full p-2 ">
-            <div className="flex flex-col md:flex-row gap-4 md:gap-6">
+            <div className="flex flex-col md:flex-row gap-4 md:gap-6 md:items-center">
 
                 {/* Main Image Display Area */}
                 <div className="flex-grow md:w-6/7 aspect-w-16 aspect-h-9">
