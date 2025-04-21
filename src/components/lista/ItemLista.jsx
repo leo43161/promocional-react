@@ -9,7 +9,7 @@ export default function ItemLista({id, titulo, img, right = false}) {
             </div>
             <div className={`md:w-3/6 flex flex-col justify-center md:gap-10 gap-7 ${right ? "md:items-end" : "md:items-start"}`}>
                 <h2 className='text-3xl font-bold'>{titulo}</h2>
-                <a href={`articulo?articulo=${id}`}>
+                <a className='cursor-pointer' href={`articulos?id=${id}`}>
                     <Button className='shadow-lg'>
                         Haz click aqui
                     </Button>

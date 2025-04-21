@@ -76,7 +76,7 @@ export default function Articulo() {
     // --- Manejo de Errores Globales (prioriza error del artículo principal) ---
     if (isErrorArticulo) {
         console.error("Error fetching article data:", errorArticulo);
-        return <div className="container mx-auto p-5 text-center text-red-600">Error: {errorArticulo?.data?.message || errorArticulo?.error || "No se pudo cargar el artículo."}</div>;
+        return <div className="container mx-auto p-5 text-center text-red-600">Error: {"No se pudo cargar el artículo."}</div>;
     }
     // Aquí podrías añadir manejo para isErrorGaleria, isErrorPdfs si necesitas mensajes más específicos
 
