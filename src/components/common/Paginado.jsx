@@ -91,7 +91,7 @@ const Paginado = ({
               onClick={() => onPageChange(page)}
               className={`px-3 py-1 text-sm rounded-md ${
                 currentPage === page
-                  ? 'bg-green-600 text-white'
+                  ? 'bg-primary text-white'
                   : 'text-gray-700 hover:bg-gray-100'
               }`}
             >

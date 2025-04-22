@@ -36,21 +36,21 @@ export default function Filters({ filter, setFilter }) {
   const handleCategoriaChange = (categoriaId) => {
     setFilter({
       ...filter,
-      categoria: categoriaId
+      categoria: categoriaId || ""
     });
   };
 
   const handleEstrellasChange = (estrellas) => {
     setFilter({
       ...filter,
-      estrellas
+      estrellas: estrellas || ""
     });
   };
 
   const handleLocalidadChange = (localidadId) => {
     setFilter({
       ...filter,
-      localidad: localidadId
+      localidad: localidadId || ""
     });
   };
 
@@ -61,16 +61,16 @@ export default function Filters({ filter, setFilter }) {
         className="flex flex-col md:flex-row gap-3 items-end mb-6"
       >
         {/* Search Input */}
-        <div className="flex-grow">
+        <div className="flex-grow w-full md:w-auto">
           <div className="relative">
             <input
               type="text"
               placeholder="Nombre del hotel"
-              className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary ps-9"
+              className="w-full border-b-2 border-gray-300 px-4 py-2 focus:outline-none focus:border-primary ps-9 placeholder:text-gray-600 placeholder:italic"
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
             />
-            <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+            <div className="absolute inset-y-0 left-2 flex items-center pointer-events-none">
               <Search size={18} className="text-gray-400" />
             </div>
           </div>

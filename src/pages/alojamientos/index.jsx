@@ -5,6 +5,7 @@ import Breadcrumb from '@/components/common/Breadcrumb';
 import Paginado from '@/components/common/Paginado';
 import Filters from '@/components/alojamientos/Filters';
 import { useGetAlojamientosQuery } from '@/redux/services/alojamientosService';
+import CardAlojamiento from '@/components/alojamientos/CardAlojamiento';
 
 export default function Alojamientos() {
     // Estado para controlar la paginación y búsqueda
@@ -31,21 +32,15 @@ export default function Alojamientos() {
         refetch();
     };
 
-    // Manejar búsqueda
-    // Update the handleFilters function in Alojamientos.jsx
-    const handleFilters = (newFilter) => {
-        setFilter(newFilter);
-        setCurrentPage(1); // Reset to first page when filters change
-        refetch();
-    };
-
     // Resetear la página cuando cambia el término de búsqueda
     useEffect(() => {
+        console.log("filter:", filter);
         setCurrentPage(1);
     }, [filter]);
 
     console.log("isLoading:", isLoading, "isFetching:", isFetching);
     console.log(alojamientos)
+    console.log(error)
     if (error) return <p>Hubo un error al cargar los alojamientos</p>;
 
     const totalItems = parseInt(alojamientos?.all) || 0;
@@ -81,7 +76,7 @@ export default function Alojamientos() {
                         <Filters filter={filter} setFilter={setFilter} />
                     </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-7">
                     {loading ? (
                         // Mostrar skeletons mientras se están cargando datos
                         Array(itemsPerPage).fill(0).map((_, index) => (
@@ -91,9 +86,9 @@ export default function Alojamientos() {
                         ))
                     ) : (
                         // Mostrar datos reales cuando no está cargando
-                        alojamientos.result?.map((prestador) => (
-                            <div key={prestador.id}>
-
+                        alojamientos.result?.map((alojamiento) => (
+                            <div key={alojamiento.id}>
+                                <CardAlojamiento alojamiento={alojamiento} />
                             </div>
                         ))
                     )}
