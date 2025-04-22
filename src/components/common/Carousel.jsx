@@ -7,7 +7,8 @@ export default function Carousel({
   showIndicators = true, 
   showArrows = true,
   interval = 5000,
-  autoPlay = true
+  autoPlay = true,
+  className = ""
 }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
@@ -51,7 +52,7 @@ export default function Carousel({
 
   return (
     <div 
-      className="relative w-full overflow-hidden min-h-40"
+      className={"relative w-full overflow-hidden min-h-40 h-full " + className}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >

@@ -1,6 +1,7 @@
 import Carousel from '@/components/common/Carousel'
 import ResponsiveVideo from '@/components/common/ResponsiveVideo'
 import Entumesa from '@/components/main/Entumesa'
+import EventosHome from '@/components/main/EventosHome'
 import Imperdible from '@/components/main/Imperdible'
 import Planifica from '@/components/main/planifica'
 import React from 'react'
@@ -21,8 +22,11 @@ export default function index() {
         <h1 className="text-4xl mb-7 text-center text-gray-500/70">IMPERDIBLES</h1>
         <Imperdible></Imperdible>
       </div>
-      <div className='md:w-11/13 w-full mx-auto h-60 border border-amber-500'>
-        <h1>Titulo de ejemplo</h1>
+      <div className='md:w-11/13 w-full mx-auto'>
+      <h1 className="text-4xl mb-7 text-center text-gray-500/70">EVENTOS DESTACADOS</h1>
+        <div>
+          <EventosHome></EventosHome>
+        </div>
       </div>
     </div>
   )
