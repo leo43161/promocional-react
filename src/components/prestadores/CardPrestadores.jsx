@@ -71,7 +71,7 @@ export default function CardPrestadores({ prestador, isLoading = false }) {
   return (
     <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
       {/* Encabezado verde */}
-      <div className="bg-green-600 p-4 text-white font-medium">
+      <div className="bg-secondary p-4 text-white font-medium">
         <h3 className="text-lg">{titulo}</h3>
       </div>
       
