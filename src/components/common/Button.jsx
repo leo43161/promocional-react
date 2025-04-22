@@ -22,7 +22,7 @@ export default function Button({
   const variantStyles = {
     primary: "bg-primary hover:bg-secondary text-white",
     secondary: "bg-secondary hover:bg-primary text-secondary-800",
-    success: "bg-green-600 hover:bg-green-700 focus:ring-green-500 text-white",
+    success: "bg-green-600 hover:bg-primary/70 focus:ring-green-500 text-white",
     danger: "bg-red-600 hover:bg-red-700 focus:ring-red-500 text-white",
     warning: "bg-yellow-500 hover:bg-yellow-600 focus:ring-yellow-400 text-white",
     info: "bg-cyan-500 hover:bg-cyan-600 focus:ring-cyan-400 text-white",

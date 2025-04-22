@@ -113,19 +113,19 @@ export default function CardGuias({ prestador, isLoading = false }) {
                         <p className="text-gray-800 font-medium uppercase mb-2">Encontranos en</p>
                         <div className="flex gap-2">
                             {web && (
-                                <a href={web} target="_blank" rel="noopener noreferrer" className="text-secondary/70 hover:text-secondary">
+                                <a href={web} target="_blank" rel="noopener noreferrer" className="text-secondary/90 hover:text-secondary">
                                     <Globe className="h-6 w-6" />
                                 </a>
                             )}
 
                             {facebook && (
-                                <a href={facebook} target="_blank" rel="noopener noreferrer" className="text-secondary/70 hover:text-secondary">
+                                <a href={facebook} target="_blank" rel="noopener noreferrer" className="text-secondary/90 hover:text-secondary">
                                     <Facebook className="h-6 w-6" />
                                 </a>
                             )}
 
                             {instagram && (
-                                <a href={instagram} target="_blank" rel="noopener noreferrer" className="text-secondary/70 hover:text-secondary">
+                                <a href={instagram} target="_blank" rel="noopener noreferrer" className="text-secondary/90 hover:text-secondary">
                                     <Instagram className="h-6 w-6" />
                                 </a>
                             )}

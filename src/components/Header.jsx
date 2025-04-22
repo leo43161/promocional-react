@@ -173,7 +173,7 @@ export default function Header() {
                                  opacity-0 max-h-0 group-hover:max-h-96 group-hover:opacity-100 overflow-hidden
                                  transition-all duration-300 ease-in-out z-20">
                                         {item.children.map((child) => (
-                                            <a key={child.label} href={child.href} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-green-700">
+                                            <a key={child.label} href={child.href} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-secondary/70">
                                                 {child.label}
                                             </a>
                                         ))}
@@ -191,7 +191,7 @@ export default function Header() {
                             {/* Botón que muestra idioma actual y abre dropdown */}
                             <button
                                 onClick={() => setIsLangDropdownOpen(!isLangDropdownOpen)}
-                                className="flex items-center text-gray-700 text-xs font-semibold hover:text-green-700 py-2"
+                                className="flex items-center text-gray-700 text-xs font-semibold hover:text-secondary/70 py-2"
                                 aria-label="Seleccionar idioma"
                                 aria-haspopup="true"
                                 aria-expanded={isLangDropdownOpen}
@@ -208,7 +208,7 @@ export default function Header() {
                                         <button
                                             key={lang.code}
                                             onClick={() => handleLanguageChange(lang)}
-                                            className="w-full flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-green-700"
+                                            className="w-full flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-secondary/70"
                                             role="menuitem"
                                         >
                                             <img src={lang.flag} alt={lang.alt} className="w-5 h-auto mr-2 rounded-sm" /> {/* Icono Bandera */}
@@ -224,7 +224,7 @@ export default function Header() {
 
                         {/* Botón Hamburguesa */}
                         <button
-                            className="lg:hidden text-gray-700 hover:text-green-700"
+                            className="lg:hidden text-gray-700 hover:text-secondary/70"
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                             aria-label={isMobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
                             aria-expanded={isMobileMenuOpen}
@@ -249,7 +249,7 @@ export default function Header() {
                                 onClick={item.children ? () => toggleAccordion(item.label) : undefined}
                             >
                                 {!item.children ? (
-                                    <a href={item.href} className="text-gray-700 font-medium hover:text-green-700 flex-grow" onClick={() => setIsMobileMenuOpen(false)}>
+                                    <a href={item.href} className="text-gray-700 font-medium hover:text-secondary/70 flex-grow" onClick={() => setIsMobileMenuOpen(false)}>
                                         {item.label}
                                     </a>
                                 ) : (
@@ -275,7 +275,7 @@ export default function Header() {
                                             <a
                                                 key={child.label}
                                                 href={child.href}
-                                                className="block py-2 text-sm text-gray-600 hover:text-green-700"
+                                                className="block py-2 text-sm text-gray-600 hover:text-secondary/70"
                                                 onClick={() => setIsMobileMenuOpen(false)}
                                             >
                                                 {child.label}

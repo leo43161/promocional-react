@@ -7,6 +7,7 @@ import uiReducer from './slices/uiSlice'; */
 import { eventosService } from './services/eventosService';
 import { prestadoresService } from './services/prestadoresService';
 import { articulosService } from './services/articulosService';
+import { alojamientosService } from './services/alojamientosService';
 
 export const store = configureStore({
   reducer: {
@@ -18,12 +19,13 @@ export const store = configureStore({
     [eventosService.reducerPath]: eventosService.reducer,
     [prestadoresService.reducerPath]: prestadoresService.reducer,
     [articulosService.reducerPath]: articulosService.reducer,
+    [alojamientosService.reducerPath]: alojamientosService.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
       eventosService.middleware,
       prestadoresService.middleware,
-      articulosService.middleware,
+      alojamientosService.middleware,
     ),
 });
 
