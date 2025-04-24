@@ -47,7 +47,7 @@ jobs:
           protocol: ftp # Especifica SFTP (o ftps, o ftp)
           port: ${{ secrets.CPANEL_PORT || '21' }} # Usa el secreto del puerto o el default 22 para SFTP
           local-dir: ./out/ # Directorio local a subir (resultado de 'next export')
-          server-dir: ${{ secrets.TARGET_DIR }} # Directorio remoto en cPanel
+          server-dir: / # Directorio remoto en cPanel
           # Opciones importantes:
           dangerous-clean-slate: true # BORRA TODO en server-dir antes de subir. ¡CUIDADO! Asegúrate que TARGET_DIR sea correcto.
           # O alternativa más segura (solo borra archivos que no existen en local-dir):
