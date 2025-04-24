@@ -8,13 +8,13 @@ const nextConfig = {
     output: 'export',
     images: {
         unoptimized: true
-    }
+    },
 };
 
 if (process.env.IS_CPANEL_DEPLOY === 'true') {
     console.log("Aplicando basePath para despliegue en cPanel...");
     nextConfig.basePath = '/reactdev';
-    nextConfig.images.path = '/reactdev';
+    nextConfig.assetPrefix = '/reactdev';
 } else {
     console.log("No aplicando basePath.");
 }
