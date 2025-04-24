@@ -21,7 +21,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18' # Usa una versión LTS recomendada o la que uses tú
+          node-version: '22.12.0' # Usa una versión LTS recomendada o la que uses tú
           cache: 'npm' # Habilita caché para 'npm install'
 
       # 3. Instala las dependencias (usa 'npm ci' para instalaciones más rápidas y fiables en CI)
