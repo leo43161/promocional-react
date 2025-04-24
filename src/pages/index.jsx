@@ -23,7 +23,7 @@ export default function index() {
         <Imperdible></Imperdible>
       </div>
       <div className='md:w-11/13 w-full mx-auto'>
-      <h1 className="text-4xl mb-7 text-center text-gray-500/70">EVENTOS DESTACADOS NUEVOS</h1>
+      <h1 className="text-4xl mb-7 text-center text-gray-500/70">EVENTOS DESTACADOS</h1>
         <div>
           <EventosHome></EventosHome>
         </div>
