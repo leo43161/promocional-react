@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react';
 
 const ResponsiveVideo = ({
-    desktopSrc = "/video/Tucuman_Tiene_Todo.mp4",
-    mobileSrc = "/video/Tucuman_Tiene_Todo_M.mp4",
+    desktopSrc = "video/Tucuman_Tiene_Todo.mp4",
+    mobileSrc = "video/Tucuman_Tiene_Todo_M.mp4",
     posterSrc = "images/banner-video.jpg",
     isBackgroundVideo = true,
     className = "",
