@@ -1,0 +1,61 @@
+name: Deploy Next.js Static Site to cPanel
+
+# Disparador: Se ejecuta cuando haces push a la rama 'main'
+# También permite ejecución manual desde la pestaña Actions en GitHub
+on:
+  push:
+    branches:
+      - main # O la rama principal que uses (master, prod, etc.)
+  workflow_dispatch: # Permite la ejecución manual
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest # Usa un runner de Linux
+
+    steps:
+      # 1. Descarga el código del repositorio
+      - name: Checkout code
+        uses: actions/checkout@v4 # Acción oficial para clonar el repo
+
+      # 2. Configura Node.js (ajusta la versión si es necesario)
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18' # Usa una versión LTS recomendada o la que uses tú
+          cache: 'npm' # Habilita caché para 'npm install'
+
+      # 3. Instala las dependencias (usa 'npm ci' para instalaciones más rápidas y fiables en CI)
+      - name: Install dependencies
+        run: npm ci
+
+      # 4. Construye el sitio estático (incluye next export)
+      # Si tu build necesita variables de entorno (ej: URL de API), añádelas aquí
+      - name: Build static site
+        run: npm run build
+        # Ejemplo si necesitaras variables de entorno:
+        # env:
+        #   URL_API_BASE: ${{ secrets.API_URL }} # Asumiendo que tienes un secret API_URL
+        #   NEXT_PUBLIC_ALGUNA_VAR: ${{ secrets.ALGUNA_VAR_PUBLICA }}
+
+      # 5. Despliega a cPanel usando SFTP
+      - name: Deploy to cPanel via SFTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4 # Acción popular para FTP/SFTP
+        with:
+          server: ${{ secrets.CPANEL_SERVER }} # Usa los secretos configurados
+          username: ${{ secrets.CPANEL_USERNAME }}
+          password: ${{ secrets.CPANEL_PASSWORD }}
+          protocol: sftp # Especifica SFTP (o ftps, o ftp)
+          port: ${{ secrets.CPANEL_PORT || '22' }} # Usa el secreto del puerto o el default 22 para SFTP
+          local-dir: ./out/ # Directorio local a subir (resultado de 'next export')
+          server-dir: ${{ secrets.TARGET_DIR }} # Directorio remoto en cPanel
+          # Opciones importantes:
+          dangerous-clean-slate: true # BORRA TODO en server-dir antes de subir. ¡CUIDADO! Asegúrate que TARGET_DIR sea correcto.
+          # O alternativa más segura (solo borra archivos que no existen en local-dir):
+          # sync-root: true # Opcional, puede ayudar con la sincronización
+          # delete: true # Borra archivos en el servidor que no están en ./out/
+
+          # Puedes añadir más opciones aquí si es necesario, revisa la documentación de la acción
+          # exclude: | # Ejemplo para excluir archivos/carpetas
+          #   **/.git*
+          #   **/.git*/**
+          #   **/node_modules/**

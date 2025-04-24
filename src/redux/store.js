@@ -26,6 +26,7 @@ export const store = configureStore({
       eventosService.middleware,
       prestadoresService.middleware,
       alojamientosService.middleware,
+      articulosService.middleware,
     ),
 });
 
