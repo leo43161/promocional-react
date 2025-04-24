@@ -12,7 +12,7 @@ export default function Planifica() {
       icon: <Home size={30} />,
       title: 'Alojamiento',
       description: '¿Buscas dónde hospedarte durante tu viaje? Encuentra las mejores opciones de hoteles, hostales y apartamentos.',
-      image: '/images/main/activos.jpg',
+      image: 'images/main/activos.jpg',
       link: '/alojamiento'
     },
     {
@@ -20,7 +20,7 @@ export default function Planifica() {
       icon: <Bus size={30} />,
       title: 'Transporte',
       description: '¿Quieres conocer todo lo que Tucumán tiene para ofrecerte y no sabes cómo moverte? Encontrá los horarios y valores de los viajes en micro hacia todos los puntos turísticos de la provincia.',
-      image: '/images/main/transporte.jpg',
+      image: 'images/main/transporte.jpg',
       link: '/transporte'
     },
     {
@@ -28,7 +28,7 @@ export default function Planifica() {
       icon: <Car size={30} />,
       title: 'Alquiler de Autos',
       description: 'Alquila un auto y disfruta de la libertad de moverte a tu propio ritmo durante tus vacaciones.',
-      image: '/images/main/alquiler.jpg',
+      image: 'images/main/alquiler.jpg',
       link: '/alquiler-autos'
     },
     {
@@ -36,7 +36,7 @@ export default function Planifica() {
       icon: <Users size={30} />,
       title: 'Prestadores activos',
       description: 'Conoce a todos los prestadores de servicios turísticos disponibles para hacer de tu viaje una experiencia inolvidable.',
-      image: '/images/main/activos.jpg',
+      image: 'images/main/activos.jpg',
       link: '/prestadores'
     },
     {
@@ -44,7 +44,7 @@ export default function Planifica() {
       icon: <Building size={30} />,
       title: 'Agencias',
       description: 'Contacta con agencias de viajes locales que te ayudarán a organizar tu estadía y tours por la región.',
-      image: '/images/main/agencias.jpg',
+      image: 'images/main/agencias.jpg',
       link: '/agencias'
     },
     {
@@ -52,7 +52,7 @@ export default function Planifica() {
       icon: <MapPin size={30} />,
       title: 'Guías de Turismo',
       description: 'Contrata guías profesionales que te mostrarán los mejores lugares y te contarán la historia y cultura local.',
-      image: '/images/main/guia.jpg',
+      image: 'images/main/guia.jpg',
       link: '/guias-turismo'
     },
     {
@@ -60,7 +60,7 @@ export default function Planifica() {
       icon: <Calendar size={30} />,
       title: 'Itinerarios',
       description: 'Descubre rutas prediseñadas para aprovechar al máximo tu tiempo y visitar los lugares más destacados.',
-      image: '/images/main/itinerarios.jpg',
+      image: 'images/main/itinerarios.jpg',
       link: '/itinerarios'
     },
     {
@@ -68,7 +68,7 @@ export default function Planifica() {
       icon: <Map size={30} />,
       title: 'Mapas y Folletos',
       description: 'Accede a mapas detallados y folletos informativos para orientarte durante tu visita.',
-      image: '/images/main/mapas.jpg',
+      image: 'images/main/mapas.jpg',
       link: '/mapas-folletos'
     }
   ];
