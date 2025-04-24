@@ -5,7 +5,10 @@ const nextConfig = {
         URL_IMG: "https://www.tucumanturismo.gob.ar/public/img/",
         URL_SERVER: 'http://10.20.20.5/promocional25/api/'
     },
-    output: 'export'
+    output: 'export',
+    images: {
+        unoptimized: true
+    }
 };
 
 export default nextConfig;
