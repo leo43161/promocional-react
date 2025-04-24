@@ -44,7 +44,7 @@ jobs:
           server: ${{ secrets.CPANEL_SERVER }} # Usa los secretos configurados
           username: ${{ secrets.CPANEL_USERNAME }}
           password: ${{ secrets.CPANEL_PASSWORD }}
-          protocol: sftp # Especifica SFTP (o ftps, o ftp)
+          protocol: ftp # Especifica SFTP (o ftps, o ftp)
           port: ${{ secrets.CPANEL_PORT || '22' }} # Usa el secreto del puerto o el default 22 para SFTP
           local-dir: ./out/ # Directorio local a subir (resultado de 'next export')
           server-dir: ${{ secrets.TARGET_DIR }} # Directorio remoto en cPanel
