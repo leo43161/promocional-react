@@ -1,37 +1,5 @@
 @import 'tailwindcss';
-
-/* --- Añade la regla @font-face para tu fuente local --- */
-/* Asegúrate de que los nombres de archivo (.ttf, .ttf) y las rutas sean correctas */
-/* Las rutas deben ser relativas a la carpeta 'public' y empezar con '/' */
-
-/* Regla para la versión normal (no itálica) de la fuente variable */
-@font-face {
-  font-family: 'Montserrat';
-  /* Define las fuentes locales que has guardado */
-  /* Es buena práctica listar varios formatos para compatibilidad de navegadores */
-  /* Empieza por WOFF2 (más moderno y eficiente), luego WOFF, etc. */
-  /* Asegúrate de usar los nombres exactos de tus archivos */
-  src: url('/font/monserrat/Montserrat-VariableFont_wght.ttf') format('ttf');
-  /* Ejemplo para variable font WOFF */
-  /* Añade otras líneas src si tienes archivos .ttf, .otf, etc. */
-
-  font-weight: 100 900;
-  /* Rango de pesos de la variable font (Thin a Black) */
-  font-style: normal;
-  font-display: swap;
-  /* Indica al navegador cómo manejar la carga de la fuente (mejora UX) */
-}
-
-/* Si descargaste también la versión itálica variable, añade otra regla @font-face */
-@font-face {
-  font-family: 'Montserrat';
-  src: url('/font/monserrat/Montserrat-Italic-VariableFont_wght.ttf') format('ttf');
-  /* Ejemplo para itálica variable font WOFF */
-  font-weight: 100 900;
-  /* Rango de pesos de la variable font (Thin a Black) */
-  font-style: italic;
-  font-display: swap;
-}
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
 @theme {
   --font-family: "Montserrat", sans-serif;
