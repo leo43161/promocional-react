@@ -21,8 +21,8 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22.12.0' # Usa una versión LTS recomendada o la que uses tú
-          cache: 'npm' # Habilita caché para 'npm install'
+          node-version: "22.12.0" # Usa una versión LTS recomendada o la que uses tú
+          cache: "npm" # Habilita caché para 'npm install'
 
       # 3. Instala las dependencias (usa 'npm ci' para instalaciones más rápidas y fiables en CI)
       - name: Install dependencies
@@ -33,8 +33,8 @@ jobs:
       - name: Build static site
         run: npm run build
         # Ejemplo si necesitaras variables de entorno:
-        # env:
-        #   URL_API_BASE: ${{ secrets.API_URL }} # Asumiendo que tienes un secret API_URL
+        env:
+          IS_CPANEL_DEPLOY: "true"
         #   NEXT_PUBLIC_ALGUNA_VAR: ${{ secrets.ALGUNA_VAR_PUBLICA }}
 
       # 5. Despliega a cPanel usando SFTP
