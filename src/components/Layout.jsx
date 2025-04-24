@@ -3,9 +3,9 @@ import Head from 'next/head';
 import Header from './Header';
 import SmoothView from './common/SmoothView';
 
-export default function Layout({ children }) {
+export default function Layout({ children, className }) {
     return (
-        <div className="bg-neutral-50 min-h-screen">
+        <div className={"bg-neutral-50 min-h-screen " + className}>
             <Head>
                 <title>Tucuman Turismo</title>
             </Head>
