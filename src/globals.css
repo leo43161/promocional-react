@@ -3,6 +3,7 @@
 
 @theme {
   --font-family: "Montserrat", sans-serif;
+  --font-sans: var(--font-family);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);
