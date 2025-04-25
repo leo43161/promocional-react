@@ -9,6 +9,7 @@ import React from 'react'
 export default function index() {
   return (
     <div>
+      <h1 className="text-4xl mb-7 text-center text-gray-500/70">Cambio 1</h1>
       <div className='mb-10'>
         <ResponsiveVideo />
       </div>
@@ -23,7 +24,7 @@ export default function index() {
         <Imperdible></Imperdible>
       </div>
       <div className='md:w-11/13 w-full mx-auto'>
-      <h1 className="text-4xl mb-7 text-center text-gray-500/70">EVENTOS DESTACADOS</h1>
+        <h1 className="text-4xl mb-7 text-center text-gray-500/70">EVENTOS DESTACADOS</h1>
         <div>
           <EventosHome></EventosHome>
         </div>
