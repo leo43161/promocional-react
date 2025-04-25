@@ -8,6 +8,15 @@ on:
       - main # O la rama principal que uses (master, prod, etc.)
   workflow_dispatch: # Permite la ejecución manual
 
+  # --- AÑADIR ESTO ---
+concurrency:
+  # Agrupa las ejecuciones por el nombre del workflow Y la rama (o referencia git)
+  # Esto asegura que solo haya una ejecución activa por rama a la vez para este workflow.
+  group: ${{ github.workflow }}-${{ github.ref }}
+  # Cancela ejecuciones anteriores en progreso dentro del mismo grupo
+  cancel-in-progress: true
+# --- FIN DE LO AÑADIDO ---
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest # Usa un runner de Linux
