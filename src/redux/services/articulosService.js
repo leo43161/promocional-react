@@ -3,9 +3,14 @@ export const articulosService = createApi({
   reducerPath: 'articulosService',
   baseQuery: fetchBaseQuery({ baseUrl: process.env.URL_SERVER }), // Cambia a la URL base de tu API
   endpoints: (builder) => ({
+    getArticulos: builder.query({
+      query: () => ({
+        url: `articulos`,
+      }),
+    }),
     getArticuloId: builder.query({
       query: ({ id }) => ({
-        url: `articulos`,
+        url: `articulos_id`,
         params: { id },
       }),
     }),
@@ -27,5 +32,6 @@ export const articulosService = createApi({
 export const {
   useGetArticuloIdQuery,
   useGetGaleriaQuery,
-  useGetPdfsQuery
+  useGetPdfsQuery,
+  useGetArticulosQuery
 } = articulosService;
