@@ -1,13 +1,26 @@
-# --- public_html/.htaccess (Archivo Raíz) ---
+# --- .htaccess para /reactdev/ ---
+
+# Activa el motor de reescritura
 RewriteEngine On
 
-# --- AÑADIR ESTA CONDICIÓN ---
-# Si la URL NO empieza con /reactdev/, aplica la regla de index.php
-RewriteCond %{REQUEST_URI} !^/reactdev/
-# --- FIN DE CONDICIÓN AÑADIDA ---
+# Establece la base para las reglas de reescritura en esta carpeta
+# IMPORTANTE: Aseg煤rate que la ruta sea correcta y termine con /
+RewriteBase /reactdev/
+
+# --- Reglas para URLs Limpias (sin .html) ---
+
+# 1. Redirecciona solicitudes CON .html a la versi贸n SIN .html
+#    (Ajustada para funcionar correctamente dentro de la subcarpeta)
+RewriteCond %{THE_REQUEST} \s/+(reactdev/.+?)\.html[\s?] [NC]
+RewriteRule ^(.+?)\.html$ %1 [R=301,L,NE]
+
+# 2. Reescribe internamente las solicitudes SIN extensi贸n al archivo .html correspondiente SI EXISTE
+#    (Ajustada para funcionar correctamente dentro de la subcarpeta)
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-l
-RewriteRule ^(.*)$ index.php?url=$1 [L,QSA]
+# Usamos %{REQUEST_FILENAME}.html para verificar si el archivo .html existe RELATIVO a la solicitud actual
+RewriteCond %{REQUEST_FILENAME}\.html -f
+# Reescribe a 'lo_que_sea.html' sin la barra inicial para que sea relativo a RewriteBase
+RewriteRule ^(.*?)/?$ $1.html [L]
 
-# ... (resto de tu .htaccess raíz, como <Files ".env.local">) ...
+# --- Fin de Reglas para URLs Limpias ---
