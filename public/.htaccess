@@ -1,0 +1,13 @@
+# --- public_html/.htaccess (Archivo Raíz) ---
+RewriteEngine On
+
+# --- AÑADIR ESTA CONDICIÓN ---
+# Si la URL NO empieza con /reactdev/, aplica la regla de index.php
+RewriteCond %{REQUEST_URI} !^/reactdev/
+# --- FIN DE CONDICIÓN AÑADIDA ---
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-l
+RewriteRule ^(.*)$ index.php?url=$1 [L,QSA]
+
+# ... (resto de tu .htaccess raíz, como <Files ".env.local">) ...
