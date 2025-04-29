@@ -69,9 +69,9 @@ const menuItems = [
 
 // --- Opciones de Idioma ---
 const languages = [
-    { code: 'ES', label: 'Español', flag: 'svg/arg.svg', alt: 'Bandera Argentina' },
+    { code: 'ES', label: 'Español', flag: '/svg/arg.svg', alt: 'Bandera Argentina' },
     // Cambia 'flag' y 'alt' para el inglés cuando tengas el SVG correcto
-    { code: 'EN', label: 'English', flag: 'svg/eng.svg', alt: 'Bandera Reino Unido' } // Placeholder flag
+    { code: 'EN', label: 'English', flag: '/svg/eng.svg', alt: 'Bandera Reino Unido' } // Placeholder flag
 ];
 
 
@@ -157,7 +157,7 @@ export default function Header() {
                     {/* Logo */}
                     <div className="flex items-center w-3/6 md:w-3/18">
                         <a href="/" className="flex items-center w-full">
-                            <img src="images/logo.png" className='w-full h-auto' alt="" />
+                            <img src="/images/logo.png" className='w-full h-auto' alt="" />
                         </a>
                     </div>
 

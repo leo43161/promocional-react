@@ -8,24 +8,30 @@ import Breadcrumb from '@/components/common/Breadcrumb';
 import ImageGallery from '@/components/articulos/ImageGallery';
 import ImperdiblesCard from '@/components/articulos/ImperdiblesCard';
 
+
 // Importa los hooks de RTK Query (principal, galería, pdfs)
 import {
     useGetArticuloIdQuery,
-    useGetGaleriaQuery,  // <-- Nuevo hook
-    useGetPdfsQuery      // <-- Nuevo hook
+    useGetGaleriaQuery, // <-- Nuevo hook
+    useGetPdfsQuery, // <-- Nuevo hook
 } from '@/redux/services/articulosService'; // Ajusta la ruta si es necesario
 
 // --- Componentes Skeleton Simples (sin cambios) ---
+
 const SkeletonText = ({ width = 'w-full', height = 'h-4', className = '' }) => (
     <div className={`bg-gray-300 rounded ${height} ${width} animate-pulse ${className}`}></div>
 );
+
 const SkeletonBlock = ({ lines = 3, className = '' }) => (
     <div className={`space-y-2 ${className}`}>
         {Array.from({ length: lines }).map((_, i) => (
             <SkeletonText key={i} width={i === lines - 1 ? 'w-5/6' : 'w-full'} />
         ))}
+
     </div>
+
 );
+
 const SkeletonListItem = ({ className = '' }) => (
     <div className={`flex items-center gap-3 p-2 border border-gray-200 rounded ${className}`}>
         <div className="w-8 h-8 bg-gray-300 rounded animate-pulse"></div>
@@ -34,93 +40,179 @@ const SkeletonListItem = ({ className = '' }) => (
             <SkeletonText height="h-4" width="w-2/3" />
         </div>
     </div>
+
 );
+
 // --- FIN Skeletons ---
 
 
+
 // --- Componente Principal ---
+
 export default function Articulo() {
+
     const router = useRouter();
+
     const { id } = router.query;
 
+
+
     // --- Llamadas a los Hooks RTK Query ---
+
     const {
+
         data: articuloData,
+
         isLoading: isLoadingArticulo,
+
         isError: isErrorArticulo,
+
         error: errorArticulo,
+
     } = useGetArticuloIdQuery({ id }, { skip: !id });
 
+
+
     const {
+
         data: galeriaData,
+
         isLoading: isLoadingGaleria,
+
         isError: isErrorGaleria, // Podrías manejar errores específicos si quieres
+
     } = useGetGaleriaQuery({ id }, { skip: !id });
 
+
+
     const {
+
         data: pdfsData,
+
         isLoading: isLoadingPdfs,
+
         isError: isErrorPdfs, // Podrías manejar errores específicos si quieres
+
     } = useGetPdfsQuery({ id }, { skip: !id });
 
+
+
     // --- Estado de Carga Combinado ---
+
     // Los skeletons se mostrarán hasta que todos los datos necesarios estén cargados
+
     const isLoading = isLoadingArticulo || isLoadingGaleria || isLoadingPdfs;
 
+
+
     // --- Extracción de Datos ---
+
     // Usamos optional chaining ?. para acceder de forma segura a 'result'
+
     const articulo = articuloData?.result;
+
     const galeriaItemsRaw = galeriaData?.result; // Datos crudos de la galería
-    const pdfItemsRaw = pdfsData?.result;       // Datos crudos de los PDFs
+
+    const pdfItemsRaw = pdfsData?.result;       // Datos crudos de los PDFs
+
+
 
     // --- Manejo de Errores Globales (prioriza error del artículo principal) ---
+
     if (isErrorArticulo) {
+
         console.error("Error fetching article data:", errorArticulo);
+
         return <div className="container mx-auto p-5 text-center text-red-600">Error: {"No se pudo cargar el artículo."}</div>;
+
     }
+
     // Aquí podrías añadir manejo para isErrorGaleria, isErrorPdfs si necesitas mensajes más específicos
 
+
+
     // --- Manejo de Sin ID ---
+
     if (!id && !isLoadingArticulo) { // Basta con chequear isLoadingArticulo aquí
+
         return <div className="container mx-auto p-5 text-center">ID de artículo no especificado en la URL.</div>;
+
     }
 
+
+
     // --- Manejo de Artículo No Encontrado (después de cargar) ---
+
     if (!articulo && !isLoadingArticulo && id) {
+
         return <div className="container mx-auto p-5 text-center">No se encontró el artículo solicitado.</div>;
+
     }
+
+
 
     // --- Preparación de Datos para Componentes ---
 
+
+
     const imageBaseUrl = process.env.URL_IMG || '';
+
     const pdfBaseUrl = process.env.URL_PDF || '';
+
     // Mapeo para ImageGallery (asumiendo estructura de galeriaData.result)
+
     const galleryItemsForComponent = isLoading ? [] : (galeriaItemsRaw?.map(item => ({
+
         img: imageBaseUrl + item.archivo, // Asume que esto es una URL completa
+
         text: item.texto
+
     })) || []);
+
+
 
     // Mapeo para lista de PDFs (asumiendo estructura de pdfsData.result)
+
     const pdfsForComponent = isLoading ? [] : (pdfItemsRaw?.map(file => ({
+
         url: pdfBaseUrl + file.archivo, // Asume que esto es una URL completa
+
         nombre: file.titulo
+
     })) || []);
 
+
+
     // URL para la imagen del Parallax (usando 'imagen' del articuloData.result)
+
     const parallaxImageUrl = articulo?.imagen ? `${imageBaseUrl}/${articulo.imagen}` : undefined;
 
+
+
     console.log(articulo);
+
     // --- Renderizado Principal ---
+
     return (
+
         <div> {/* Contenedor principal */}
+
             <Head>
+
                 {/* Título: Usa 'nombre' del artículo */}
+
                 <title>{isLoading ? 'Cargando...' : (articulo?.nombre || 'Detalle')}</title>
+
                 {/* Descripción: Usa 'copete' del artículo */}
+
                 {articulo?.copete && <meta name="description" content={articulo.copete} />}
+
             </Head>
 
+
+
             {/* --- Parallax --- */}
+
             <ParallaxContainer
                 speed={0.2}
                 minHeight="h-96 md:h-[58vh]"
@@ -142,7 +234,10 @@ export default function Articulo() {
                 </div>
             </ParallaxContainer>
 
+
+
             {/* --- Breadcrumb y Contenido Principal --- */}
+
             <div className='w-11/12 mx-auto pt-5 mb-10'>
                 <div className='mb-5'>
                     {/* Breadcrumb Dinámico */}
@@ -168,20 +263,25 @@ export default function Articulo() {
                     ) : (
                         <h1 className='text-3xl font-bold mb-6'>{articulo?.nombre || 'Artículo sin título'}</h1>
                     )}
-
                     {!isLoading && articulo?.copete && (
                         <div className='w-full px-2 mb-3'>
+
                             <p className='text-lg font-semibold'>{articulo.copete}</p>
                         </div>
+
                     )}
 
+
+
                     {/* Galería de Imágenes: Usa datos de getGaleria */}
+
                     <ImageGallery
                         isLoading={isLoading} // Pasa el estado de carga combinado
                         items={galleryItemsForComponent} // Pasa los items mapeados
                     />
 
                     {/* Cuerpo del Artículo: Usa 'cuerpo' */}
+
                     <div className={`prose prose-slate max-w-none w-full px-4 mt-3 mb-4 ${!pdfsForComponent?.length > 0 && 'md:w-8/11 md:mt-3'}`}>
                         {isLoading ? (
                             <SkeletonBlock lines={8} /> // Más líneas para el cuerpo
@@ -240,12 +340,13 @@ export default function Articulo() {
                                                     <p className="m-0 font-bold text-base truncate" title={file.nombre}>{file.nombre}</p> {/* Nombre del archivo mapeado */}
                                                 </div>
                                             </a>
+
                                         ))
+
                                     )}
                                 </div>
                             </div>
                             {/* Si no está cargando y no hay PDFs, no se muestra la sección */}
-
 
                             {/* Sección "Imperdibles" (Se mantiene estática) */}
                             <div className='hidden'>
@@ -266,5 +367,7 @@ export default function Articulo() {
                 )}
             </div>
         </div>
+
     );
+
 }

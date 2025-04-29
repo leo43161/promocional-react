@@ -63,7 +63,7 @@ export default function Entumesa() {
                     <div 
                         className='w-9/12'
                     >
-                        <img src="svg/main/entumesa.svg" className='h-auto w-full drop-shadow-xl' alt="" />
+                        <img src="/svg/main/entumesa.svg" className='h-auto w-full drop-shadow-xl' alt="" />
                     </div>
                 </div>
             </div>

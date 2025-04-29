@@ -1,97 +1,90 @@
-import React from 'react'
-import { generateSlug } from '@/utils'
+// pages/articulos/articulo/[id]/[slug].js
+import React from 'react'; // No necesitamos useEffect aquí ahora
+// import { useRouter } from 'next/router'; // Ya no lo necesitamos para el ID inicial, pero puede ser útil DENTRO del componente si necesitas los params
+import Head from 'next/head';
 
+// Importa tu función para generar slugs
+import { generateSlug } from '@/utils'; // Asegúrate que la ruta sea correcta
+
+// Importa tus componentes visuales
+import ParallaxContainer from '@/components/common/ParallaxContainer';
+import Breadcrumb from '@/components/common/Breadcrumb';
+import ImageGallery from '@/components/articulos/ImageGallery';
+import ImperdiblesCard from '@/components/articulos/ImperdiblesCard';
+
+// --- getStaticPaths (del primer bloque de código, sin cambios funcionales) ---
 export async function getStaticPaths() {
     // 1. Obtener la lista de TODOS los artículos desde tu API
-    //    Debe devolver al menos 'id' y 'nombre' (o el campo del título)
     const apiBaseUrl = process.env.URL_SERVER || 'URL_POR_DEFECTO_DE_TU_API';
     let articles = [];
     try {
-        // Asegúrate que este endpoint devuelva la lista completa que necesitas pre-renderizar
-        const res = await fetch(`${apiBaseUrl}/articulos`); // O el endpoint correcto
-        if (!res.ok) throw new Error(`API Error: ${res.status}`);
+        const res = await fetch(`${apiBaseUrl}/articulos`); // Ajusta el endpoint si es necesario
+        if (!res.ok) throw new Error(`API Error fetching list: ${res.status}`);
         const data = await res.json();
-        //Quiero cortar el array data para que solo haya 2 elementos
-        data.result = data.result.slice(0, 2);
-        /* console.log("API Response:", data); */
-        // Asume que los artículos están en un array dentro de 'data.result' o similar
+        // --- NOTA: La línea de slice era para pruebas, quítala para producción ---
+        /* data.result = data.result.slice(0, 5); */
         articles = data.result || [];
     } catch (error) {
         console.error("Error fetching article list for getStaticPaths:", error);
-        return { paths: [], fallback: false }; // No generar páginas si la lista falla
+        return { paths: [], fallback: false };
     }
-    console.log("Articulos:" + articles[0].idArticulo);
-    // 2. Generar los 'paths' con los 'params' correctos ({ id: '...', slug: '...' })
+
+    // 2. Generar los 'paths'
     const paths = articles.map(article => {
-        // Asegúrate que 'id' y 'nombre' existan y no sean null/undefined
-        const articleId = article.idArticulo ? String(article.idArticulo) : null; // Convertir ID a string
-        const articleTitle = article.nombre || ''; // Usar título o string vacío
-        const slug = generateSlug(articleTitle) || 'sin-titulo'; // Generar slug o usar fallback
+        const articleId = article.idArticulo ? String(article.idArticulo) : null;
+        const articleTitle = article.nombre || '';
+        const slug = generateSlug(articleTitle) || 'sin-titulo';
 
         if (!articleId) {
             console.warn(`Article missing ID, skipping path generation:`, article);
-            return null; // Saltar este artículo si no tiene ID
+            return null;
         }
 
         return {
             params: {
-                id: articleId,   // El ID del artículo como string
-                slug: slug,      // El slug generado
+                id: articleId,
+                slug: slug,
             },
         };
     })
-        .filter(path => path !== null); // Filtrar los artículos que se saltaron
+    .filter(path => path !== null);
 
-    // 3. Devolver los paths y fallback: false (esencial para `next export`)
+    // 3. Devolver los paths
     return { paths, fallback: false };
 }
 
+// --- getStaticProps (del primer bloque de código, sin cambios funcionales) ---
 export async function getStaticProps(context) {
-    /* console.log("context.params:", context.params); */
-    // context.params contendrá { id: '...', slug: '...' }
-    const { id, slug } = context.params; // Obtenemos ambos, pero usaremos principalmente el ID para el fetch
-
+    const { id, slug } = context.params;
     const apiBaseUrl = process.env.URL_SERVER || 'URL_POR_DEFECTO_DE_TU_API';
     const imageBaseUrl = process.env.URL_IMG || '';
     const pdfBaseUrl = process.env.URL_PDF || '';
-    // 1. Obtener los datos específicos del artículo USANDO EL ID
+
     try {
-        // Usamos Promise.all para hacer las llamadas en paralelo si es posible
         const [articuloRes, galeriaRes, pdfsRes] = await Promise.all([
-            fetch(`${apiBaseUrl}articulos_id/${id}`), // Endpoint del artículo por ID
-            fetch(`${apiBaseUrl}galeria_art/${id}`),   // Endpoint de galería por ID (ajusta si es necesario)
-            fetch(`${apiBaseUrl}pdfs_art/${id}`)       // Endpoint de PDFs por ID (ajusta si es necesario)
+            fetch(`${apiBaseUrl}articulos_id/${id}`),
+            fetch(`${apiBaseUrl}galeria_art/${id}`),
+            fetch(`${apiBaseUrl}pdfs_art/${id}`)
         ]);
-        // Verificar respuesta del artículo principal (crítico)
+
         if (!articuloRes.ok) {
-            // Si el artículo específico no se encuentra para este ID, devuelve 404
-            if (articuloRes.status === 404) {
-                return { notFound: true };
-            }
-            // Otro error de API
+            if (articuloRes.status === 404) return { notFound: true };
             throw new Error(`API Error Articulo ${id}: ${articuloRes.status}`);
         }
-        /* console.log(articuloRes); */
-        // Obtener JSONs (manejar errores opcionales para galería/pdfs)
+
         const articuloData = await articuloRes.json();
         const galeriaData = galeriaRes.ok ? await galeriaRes.json() : { result: [] };
         const pdfsData = pdfsRes.ok ? await pdfsRes.json() : { result: [] };
 
-        // 2. Extraer y procesar los datos para el componente
         const articulo = articuloData?.result;
-        console.log("articulo:", articulo);
-        // ¡Importante! Verificar si el slug de la URL coincide con el slug generado del artículo encontrado
-        // Esto evita que URLs con ID correcto pero slug incorrecto muestren contenido (bueno para SEO).
+
+        // Validación de Slug
         const expectedSlug = generateSlug(articulo?.nombre || '') || 'sin-titulo';
-
         if (slug !== expectedSlug) {
-            console.warn(`Slug mismatch for ID ${id}. URL slug: "${slug}", Expected slug: "${expectedSlug}". Redirecting or 404.`);
-            // Puedes devolver notFound o redirigir a la URL correcta (redirigir es más complejo en SSG puro)
+            console.warn(`Slug mismatch for ID ${id}. URL slug: "${slug}", Expected slug: "${expectedSlug}". Returning 404.`);
             return { notFound: true };
-            // O para redirigir (más avanzado, requiere configuración extra o manejo en cliente):
-            // return { redirect: { destination: `/articulos/articulo/${id}/${expectedSlug}`, permanent: false } };
+            // Considerar redirección si es necesario en el futuro
         }
-
 
         const galeriaItemsRaw = galeriaData?.result || [];
         const pdfItemsRaw = pdfsData?.result || [];
@@ -106,31 +99,170 @@ export async function getStaticProps(context) {
             nombre: file.titulo
         }));
 
-        const parallaxImageUrl = articulo?.imagen ? `${imageBaseUrl}/${articulo.imagen}` : undefined;
+        const parallaxImageUrl = articulo?.imagen ? `${imageBaseUrl}${articulo.imagen}` : undefined;
 
-        // 3. Devolver los datos necesarios como props
+        // Devolver los datos como props
         return {
             props: {
-                articulo,
+                // Pasamos los datos necesarios al componente
+                articulo, // El objeto completo del artículo
                 galleryItems: galleryItemsForComponent,
                 pdfItems: pdfsForComponent,
                 parallaxImageUrl,
-                // Ya no necesitamos pasar currentSlug porque podemos obtenerlo del router si es necesario
-                // o reconstruirlo a partir del articulo.nombre dentro del componente si se quiere.
+                // Pasamos id y slug también por si se necesitan directamente en el componente (ej: para links)
+                id,
+                slug,
             },
         };
 
     } catch (error) {
         console.error(`Error fetching data for article ID ${id} (slug: ${slug}):`, error);
-        // Si falla cualquier fetch crítico, devuelve 404
         return { notFound: true };
     }
 }
 
-export default function ArticuloPage() {
+// --- Componente Principal (Basado en el segundo bloque, adaptado para usar props) ---
+// Renombramos a ArticuloPage para claridad
+export default function ArticuloPage({ articulo, galleryItems, pdfItems, parallaxImageUrl, id, slug }) {
+    
+    if (!articulo) {
+        return <div className="container mx-auto p-5 text-center">Artículo no disponible.</div>;
+    }
+
+    // --- Construcción del Breadcrumb usando los props ---
+    // Necesitamos la base de la URL de las imágenes y PDFs si no vienen completas
+    const imageBaseUrl = process.env.URL_IMG || ''; // Usa NEXT_PUBLIC_ si la necesitas en el cliente también
+    const pdfBaseUrl = process.env.URL_PDF || '';
+
+    const breadcrumbItems = [
+        // Muestra la subsección si existe en el objeto 'articulo'
+        ...(articulo?.nomSubseccion ? [{ label: articulo.nomSubseccion, href: `/seccion/${articulo.idSubseccion}` }] : []), // Ajusta el href según tu routing real
+        // Muestra el nombre del artículo actual (usando el slug y el id pasados como props)
+        { label: articulo.nombre || "Detalle", href: `/articulos/articulo/${id}/${slug}` }
+    ];
+
+
+    // --- Renderizado Principal (Usando directamente las props) ---
     return (
-        <div>
-            <h3>Articulo</h3>
+        <div> {/* Contenedor principal */}
+            <Head>
+                {/* Título: Usa 'nombre' del prop articulo */}
+                <title>{articulo?.nombre || 'Detalle del Artículo'}</title>
+                {/* Descripción: Usa 'copete' del prop articulo */}
+                {articulo?.copete && <meta name="description" content={articulo.copete} />}
+                {/* Puedes añadir más meta tags específicos aquí */}
+            </Head>
+
+            {/* --- Parallax --- */}
+            <ParallaxContainer
+                speed={0.2}
+                minHeight="h-96 md:h-[58vh]"
+                className="bg-gray-400" // Color de fondo si no hay imagen
+                imageUrl={parallaxImageUrl} // Usa el prop directamente
+            >
+                <div className="container mx-auto h-full text-white flex flex-col justify-end">
+                    <div className='w-11/12 mx-auto pt-5 py-4'>
+                        {/* Título dentro del Parallax: Usa 'nombre' del prop articulo */}
+                        <h2 className="text-4xl md:text-5xl font-bold mb-6">
+                            {articulo?.nombre || 'Título no disponible'}
+                        </h2>
+                    </div>
+                </div>
+            </ParallaxContainer>
+
+            {/* --- Breadcrumb y Contenido Principal --- */}
+            <div className='w-11/12 mx-auto pt-5 mb-10'>
+                <div className='mb-5'>
+                    {/* Breadcrumb Dinámico */}
+                    <Breadcrumb items={breadcrumbItems} />
+                </div>
+            </div>
+
+            <div className='mb-10 md:w-12/14 w-full mx-auto flex px-2 flex-wrap'>
+                {/* --- Columna Izquierda (Contenido Principal) --- */}
+                {/* Ajusta el width basado en si hay PDFs (usando pdfItems de props) */}
+                <div className={`${pdfItems?.length > 0 ? 'md:w-8/11' : 'w-full'} w-full mb-6 md:mb-4 md:pr-4`}>
+                    {/* Título Principal del Artículo: Usa 'nombre' del prop articulo */}
+                    <h1 className='text-3xl font-bold mb-6'>{articulo?.nombre || 'Artículo sin título'}</h1>
+
+                    {/* Copete: Usa 'copete' del prop articulo */}
+                    {articulo?.copete && (
+                        <div className='w-full px-2 mb-3'>
+                            <p className='text-lg font-semibold'>{articulo.copete}</p>
+                        </div>
+                    )}
+
+                    {/* Galería de Imágenes: Usa 'galleryItems' de props */}
+                    {/* isLoading es siempre false aquí porque la página es estática */}
+                    <ImageGallery
+                        isLoading={false}
+                        items={galleryItems}
+                    />
+
+                    {/* Cuerpo del Artículo: Usa 'cuerpo' del prop articulo */}
+                    <div className={`prose prose-slate max-w-none w-full px-4 mt-3 mb-4 ${pdfItems?.length === 0 ? 'md:w-8/11 md:mt-3' : ''}`}>
+                         {/* Renderiza el HTML del campo 'cuerpo' */}
+                         {articulo?.cuerpo ? (
+                            <div dangerouslySetInnerHTML={{ __html: articulo.cuerpo }} />
+                         ) : (
+                            <p>Contenido no disponible.</p>
+                         )}
+                    </div>
+
+                    {/* Imagen Texto: Usa 'imagenTexto' del prop articulo */}
+                    {articulo?.imagenTexto && (
+                        <div className={`w-full mb-6 p-3 md:p-5 md:h-[100vh] ${pdfItems?.length === 0 ? 'md:w-8/11' : ''}`}>
+                            <img
+                                // Construye la URL completa si es necesario
+                                src={imageBaseUrl + articulo.imagenTexto}
+                                alt={articulo.pieImagen || articulo.nombre}
+                                className='object-cover md:object-contain rounded'
+                                loading="lazy" // Buena idea añadir lazy loading
+                            />
+                            {/* Pie de Imagen: Usa 'pieImagen' del prop articulo */}
+                            {articulo.pieImagen && (
+                                <p className='text-sm text-gray-600 mt-2 italic'>{articulo.pieImagen}</p>
+                            )}
+                        </div>
+                    )}
+                </div>
+
+                {/* --- Columna Derecha (Descargas, Imperdibles) --- */}
+                {/* Mostramos solo si hay PDFs (usando pdfItems de props) */}
+                {pdfItems.length > 0 && (
+                    <div className='md:w-3/11 w-full md:ps-4'>
+                        {/* Sección "Para Descargar": Usa 'pdfItems' de props */}
+                        <div className='mb-6'>
+                            <h2 className='text-xl font-bold mb-3'>Para Descargar</h2>
+                            <div className='flex flex-col gap-3'>
+                                {pdfItems.map((file, index) => (
+                                    <a key={index}
+                                        className="w-full flex items-center gap-3 px-4 py-2 border border-gray-200 rounded hover:bg-gray-100 transition-colors"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        href={file.url} // Ya viene completa desde getStaticProps
+                                        aria-label={`Descargar ${file.nombre}`}
+                                    >
+                                        <div className="w-1/10 flex-shrink-0">
+                                            {/* Considera poner este icono en /public o usar un componente Icon */}
+                                            <img src="/icons/pdf-1.svg" className="w-full h-auto" alt="Icono de archivo" />
+                                        </div>
+                                        <div className="flex-1 overflow-hidden">
+                                            <p className="m-0 text-sm text-gray-600">Hacé click para descargar</p>
+                                            <p className="m-0 font-bold text-base truncate" title={file.nombre}>{file.nombre}</p>
+                                        </div>
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Sección "Imperdibles" (Mantenida estática como en tu ejemplo) */}
+                        {/* <div className='hidden'> ... </div> */}
+                         {/* Si necesitas que "Imperdibles" sea dinámico, tendrías que pasarlo también desde getStaticProps */}
+
+                    </div>
+                )}
+            </div>
         </div>
-    )
+    );
 }
