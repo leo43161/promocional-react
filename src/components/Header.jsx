@@ -157,7 +157,7 @@ export default function Header() {
                     {/* Logo */}
                     <div className="flex items-center w-3/6 md:w-3/18">
                         <a href="/" className="flex items-center w-full">
-                            <img src="/images/logo.png" className='w-full h-auto' alt="" />
+                            <img src={process.env.URL_IMG_LOCAL +"/images/logo.png"} className='w-full h-auto' alt="" />
                         </a>
                     </div>
 

@@ -9,7 +9,6 @@ import React from 'react'
 export default function index() {
   return (
     <div>
-      <h1 className="text-4xl mb-7 text-center text-gray-500/70">Cambio 2</h1>
       <div className='mb-10'>
         <ResponsiveVideo />
       </div>

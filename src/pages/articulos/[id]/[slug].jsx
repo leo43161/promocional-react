@@ -47,7 +47,7 @@ export async function getStaticPaths() {
             },
         };
     })
-    .filter(path => path !== null);
+        .filter(path => path !== null);
 
     // 3. Devolver los paths
     return { paths, fallback: false };
@@ -124,7 +124,7 @@ export async function getStaticProps(context) {
 // --- Componente Principal (Basado en el segundo bloque, adaptado para usar props) ---
 // Renombramos a ArticuloPage para claridad
 export default function ArticuloPage({ articulo, galleryItems, pdfItems, parallaxImageUrl, id, slug }) {
-    
+
     if (!articulo) {
         return <div className="container mx-auto p-5 text-center">Artículo no disponible.</div>;
     }
@@ -171,17 +171,17 @@ export default function ArticuloPage({ articulo, galleryItems, pdfItems, paralla
             </ParallaxContainer>
 
             {/* --- Breadcrumb y Contenido Principal --- */}
-            <div className='w-11/12 mx-auto pt-5 mb-10'>
+            <div className='w-11/12 mx-auto pt-5 md:mb-10'>
                 <div className='mb-5'>
                     {/* Breadcrumb Dinámico */}
                     <Breadcrumb items={breadcrumbItems} />
                 </div>
             </div>
 
-            <div className='mb-10 md:w-12/14 w-full mx-auto flex px-2 flex-wrap'>
+            <div className='md:mb-10 md:w-12/14 w-full mx-auto flex px-2 flex-wrap flex-col md:flex-row'>
                 {/* --- Columna Izquierda (Contenido Principal) --- */}
                 {/* Ajusta el width basado en si hay PDFs (usando pdfItems de props) */}
-                <div className={`${pdfItems?.length > 0 ? 'md:w-8/11' : 'w-full'} w-full mb-6 md:mb-4 md:pr-4`}>
+                <div className={`${pdfItems?.length > 0 ? 'md:w-8/11' : 'w-full'} w-full mb-6 md:mb-4 md:pr-4 order-2 md:order-1`}>
                     {/* Título Principal del Artículo: Usa 'nombre' del prop articulo */}
                     <h1 className='text-3xl font-bold mb-6'>{articulo?.nombre || 'Artículo sin título'}</h1>
 
@@ -201,12 +201,12 @@ export default function ArticuloPage({ articulo, galleryItems, pdfItems, paralla
 
                     {/* Cuerpo del Artículo: Usa 'cuerpo' del prop articulo */}
                     <div className={`prose prose-slate max-w-none w-full px-4 mt-3 mb-4 ${pdfItems?.length === 0 ? 'md:w-8/11 md:mt-3' : ''}`}>
-                         {/* Renderiza el HTML del campo 'cuerpo' */}
-                         {articulo?.cuerpo ? (
+                        {/* Renderiza el HTML del campo 'cuerpo' */}
+                        {articulo?.cuerpo ? (
                             <div dangerouslySetInnerHTML={{ __html: articulo.cuerpo }} />
-                         ) : (
+                        ) : (
                             <p>Contenido no disponible.</p>
-                         )}
+                        )}
                     </div>
 
                     {/* Imagen Texto: Usa 'imagenTexto' del prop articulo */}
@@ -230,11 +230,11 @@ export default function ArticuloPage({ articulo, galleryItems, pdfItems, paralla
                 {/* --- Columna Derecha (Descargas, Imperdibles) --- */}
                 {/* Mostramos solo si hay PDFs (usando pdfItems de props) */}
                 {pdfItems.length > 0 && (
-                    <div className='md:w-3/11 w-full md:ps-4'>
+                    <div className='md:w-3/11 w-full md:ps-4 order-1 md:order-2'>
                         {/* Sección "Para Descargar": Usa 'pdfItems' de props */}
                         <div className='mb-6'>
                             <h2 className='text-xl font-bold mb-3'>Para Descargar</h2>
-                            <div className='flex flex-col gap-3'>
+                            <div className='flex flex-col gap-3  px-2 md:px-0'>
                                 {pdfItems.map((file, index) => (
                                     <a key={index}
                                         className="w-full flex items-center gap-3 px-4 py-2 border border-gray-200 rounded hover:bg-gray-100 transition-colors"
@@ -245,7 +245,7 @@ export default function ArticuloPage({ articulo, galleryItems, pdfItems, paralla
                                     >
                                         <div className="w-1/10 flex-shrink-0">
                                             {/* Considera poner este icono en /public o usar un componente Icon */}
-                                            <img src="/icons/pdf-1.svg" className="w-full h-auto" alt="Icono de archivo" />
+                                            <img src={process.env.URL_IMG_LOCAL + "/icons/pdf-1.svg"} className="w-full h-auto" alt="Icono de archivo" />
                                         </div>
                                         <div className="flex-1 overflow-hidden">
                                             <p className="m-0 text-sm text-gray-600">Hacé click para descargar</p>
@@ -258,7 +258,7 @@ export default function ArticuloPage({ articulo, galleryItems, pdfItems, paralla
 
                         {/* Sección "Imperdibles" (Mantenida estática como en tu ejemplo) */}
                         {/* <div className='hidden'> ... </div> */}
-                         {/* Si necesitas que "Imperdibles" sea dinámico, tendrías que pasarlo también desde getStaticProps */}
+                        {/* Si necesitas que "Imperdibles" sea dinámico, tendrías que pasarlo también desde getStaticProps */}
 
                     </div>
                 )}

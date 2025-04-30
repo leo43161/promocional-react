@@ -3,6 +3,7 @@ const nextConfig = {
     env: {
         URL_PDF: "https://www.tucumanturismo.gob.ar/public/files/",
         URL_IMG: "https://www.tucumanturismo.gob.ar/public/img/",
+        URL_IMG_LOCAL: process.env.NODE_ENV === 'production' ? "/reactdev" : "",
         URL_SERVER: 'https://www.tucumanturismo.gob.ar/api/'
     },
     output: 'export',
