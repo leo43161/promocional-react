@@ -7,20 +7,17 @@ RewriteEngine On
 # IMPORTANTE: Aseg煤rate que la ruta sea correcta y termine con /
 RewriteBase /reactdev/
 
-# --- Reglas para URLs Limpias (sin .html) ---
+# --- Regla específica para /articulos/ID ---
+# Intenta servir directamente el archivo 56.html si existe para la ruta /articulos/56
+RewriteCond %{REQUEST_URI} ^/reactdev/articulos/([0-9]+)/?$
+RewriteCond %{DOCUMENT_ROOT}/reactdev/articulos/$1.html -f [NC]
+RewriteRule ^articulos/([0-9]+)/?$ articulos/$1.html [L]
 
-# 1. Redirecciona solicitudes CON .html a la versi贸n SIN .html
-#    (Ajustada para funcionar correctamente dentro de la subcarpeta)
+# --- Reglas generales (sin cambios respecto a tu versión) ---
 RewriteCond %{THE_REQUEST} \s/+(reactdev/.+?)\.html[\s?] [NC]
 RewriteRule ^(.+?)\.html$ %1 [R=301,L,NE]
 
-# 2. Reescribe internamente las solicitudes SIN extensi贸n al archivo .html correspondiente SI EXISTE
-#    (Ajustada para funcionar correctamente dentro de la subcarpeta)
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
-# Usamos %{REQUEST_FILENAME}.html para verificar si el archivo .html existe RELATIVO a la solicitud actual
 RewriteCond %{REQUEST_FILENAME}\.html -f
-# Reescribe a 'lo_que_sea.html' sin la barra inicial para que sea relativo a RewriteBase
 RewriteRule ^(.*?)/?$ $1.html [L]
-
-# --- Fin de Reglas para URLs Limpias ---
