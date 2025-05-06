@@ -88,18 +88,22 @@ export async function getStaticProps(context) {
         props: {
             id, // Pasa el ID
             slug, // Pasa el slug obtenido
+            idioma: articulo.idioma,
         },
     };
 }
 
 // 3. Componente que realiza la redirección en el cliente
-export default function ArticuloRedirectPage({ id, slug }) {
+export default function ArticuloRedirectPage({ id, slug, idioma }) {
     const router = useRouter();
 
     useEffect(() => {
         if (id && slug) {
-            const targetUrl = `/articulos/${id}/${slug}`;
-            console.log(`Redirecting from /articulos/${id} to ${targetUrl}`);
+            let targetUrl = `/articulos/articulo/${id}/${slug}`;
+            if (parseInt(idioma) !== 1) {
+                targetUrl += `?lang=${idioma}`
+            }
+            console.log(`Redirecting from /articulos/articulo/${id} to ${targetUrl}`);
             router.replace(targetUrl);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps

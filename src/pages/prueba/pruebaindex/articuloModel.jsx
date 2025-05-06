@@ -50,135 +50,83 @@ const SkeletonListItem = ({ className = '' }) => (
 // --- Componente Principal ---
 
 export default function Articulo() {
-
     const router = useRouter();
-
     const { id } = router.query;
 
-
-
     // --- Llamadas a los Hooks RTK Query ---
-
     const {
-
         data: articuloData,
-
         isLoading: isLoadingArticulo,
-
         isError: isErrorArticulo,
-
         error: errorArticulo,
-
     } = useGetArticuloIdQuery({ id }, { skip: !id });
 
 
 
     const {
-
         data: galeriaData,
-
         isLoading: isLoadingGaleria,
-
         isError: isErrorGaleria, // Podrías manejar errores específicos si quieres
-
     } = useGetGaleriaQuery({ id }, { skip: !id });
 
 
 
     const {
-
         data: pdfsData,
-
         isLoading: isLoadingPdfs,
-
         isError: isErrorPdfs, // Podrías manejar errores específicos si quieres
-
     } = useGetPdfsQuery({ id }, { skip: !id });
 
 
-
     // --- Estado de Carga Combinado ---
-
     // Los skeletons se mostrarán hasta que todos los datos necesarios estén cargados
-
     const isLoading = isLoadingArticulo || isLoadingGaleria || isLoadingPdfs;
-
 
 
     // --- Extracción de Datos ---
 
     // Usamos optional chaining ?. para acceder de forma segura a 'result'
-
     const articulo = articuloData?.result;
-
     const galeriaItemsRaw = galeriaData?.result; // Datos crudos de la galería
-
-    const pdfItemsRaw = pdfsData?.result;       // Datos crudos de los PDFs
-
-
+    const pdfItemsRaw = pdfsData?.result; // Datos crudos de los PDFs
 
     // --- Manejo de Errores Globales (prioriza error del artículo principal) ---
-
     if (isErrorArticulo) {
-
         console.error("Error fetching article data:", errorArticulo);
-
         return <div className="container mx-auto p-5 text-center text-red-600">Error: {"No se pudo cargar el artículo."}</div>;
-
     }
 
     // Aquí podrías añadir manejo para isErrorGaleria, isErrorPdfs si necesitas mensajes más específicos
 
-
-
     // --- Manejo de Sin ID ---
-
     if (!id && !isLoadingArticulo) { // Basta con chequear isLoadingArticulo aquí
-
         return <div className="container mx-auto p-5 text-center">ID de artículo no especificado en la URL.</div>;
-
     }
 
 
 
     // --- Manejo de Artículo No Encontrado (después de cargar) ---
-
     if (!articulo && !isLoadingArticulo && id) {
-
         return <div className="container mx-auto p-5 text-center">No se encontró el artículo solicitado.</div>;
-
     }
 
 
-
     // --- Preparación de Datos para Componentes ---
-
-
-
     const imageBaseUrl = process.env.URL_IMG || '';
-
     const pdfBaseUrl = process.env.URL_PDF || '';
 
     // Mapeo para ImageGallery (asumiendo estructura de galeriaData.result)
-
     const galleryItemsForComponent = isLoading ? [] : (galeriaItemsRaw?.map(item => ({
-
         img: imageBaseUrl + item.archivo, // Asume que esto es una URL completa
-
         text: item.texto
-
     })) || []);
 
 
 
     // Mapeo para lista de PDFs (asumiendo estructura de pdfsData.result)
-
     const pdfsForComponent = isLoading ? [] : (pdfItemsRaw?.map(file => ({
-
         url: pdfBaseUrl + file.archivo, // Asume que esto es una URL completa
-
         nombre: file.titulo
-
     })) || []);
 
 
@@ -196,20 +144,12 @@ export default function Articulo() {
     return (
 
         <div> {/* Contenedor principal */}
-
             <Head>
-
                 {/* Título: Usa 'nombre' del artículo */}
-
                 <title>{isLoading ? 'Cargando...' : (articulo?.nombre || 'Detalle')}</title>
-
                 {/* Descripción: Usa 'copete' del artículo */}
-
                 {articulo?.copete && <meta name="description" content={articulo.copete} />}
-
             </Head>
-
-
 
             {/* --- Parallax --- */}
 
@@ -248,7 +188,7 @@ export default function Articulo() {
                             // Muestra el nombre del artículo actual
                             ...(isLoading ?
                                 [{ label: '...', href: '#' }] :
-                                articulo ? [{ label: articulo.nombre || "Detalle", href: `/articulos/${id}` }] : []) // O /articulo/${id}
+                                articulo ? [{ label: articulo.nombre || "Detalle", href: `/articulos/articulo/${id}` }] : []) // O /articulo/${id}
                         ]
                     } />
                 </div>

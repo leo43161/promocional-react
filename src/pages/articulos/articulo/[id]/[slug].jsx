@@ -171,17 +171,17 @@ export default function ArticuloPage({ articulo, galleryItems, pdfItems, paralla
             </ParallaxContainer>
 
             {/* --- Breadcrumb y Contenido Principal --- */}
-            <div className='w-11/12 mx-auto pt-5 md:mb-10'>
+            <div className='w-11/12 mx-auto pt-5 lg:mb-10'>
                 <div className='mb-5'>
                     {/* Breadcrumb Dinámico */}
                     <Breadcrumb items={breadcrumbItems} />
                 </div>
             </div>
 
-            <div className='md:mb-10 md:w-12/14 w-full mx-auto flex px-2 flex-wrap flex-col md:flex-row'>
+            <div className='lg:mb-10 lg:w-12/14 w-full mx-auto flex px-2 flex-wrap flex-col lg:flex-row'>
                 {/* --- Columna Izquierda (Contenido Principal) --- */}
                 {/* Ajusta el width basado en si hay PDFs (usando pdfItems de props) */}
-                <div className={`${pdfItems?.length > 0 ? 'md:w-8/11' : 'w-full'} w-full mb-6 md:mb-4 md:pr-4 order-2 md:order-1`}>
+                <div className={`${pdfItems?.length > 0 ? 'lg:w-8/11' : 'w-full'} w-full mb-6 lg:mb-4 lg:pr-4 order-2 lg:order-1`}>
                     {/* Título Principal del Artículo: Usa 'nombre' del prop articulo */}
                     <h1 className='text-3xl font-bold mb-6'>{articulo?.nombre || 'Artículo sin título'}</h1>
 
@@ -230,7 +230,7 @@ export default function ArticuloPage({ articulo, galleryItems, pdfItems, paralla
                 {/* --- Columna Derecha (Descargas, Imperdibles) --- */}
                 {/* Mostramos solo si hay PDFs (usando pdfItems de props) */}
                 {pdfItems.length > 0 && (
-                    <div className='md:w-3/11 w-full md:ps-4 order-1 md:order-2'>
+                    <div className='lg:w-3/11 w-full lg:ps-4 order-1 lg:order-2'>
                         {/* Sección "Para Descargar": Usa 'pdfItems' de props */}
                         <div className='mb-6'>
                             <h2 className='text-xl font-bold mb-3'>Para Descargar</h2>

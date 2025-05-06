@@ -1,23 +1,37 @@
 # --- .htaccess para /reactdev/ ---
 
-# Activa el motor de reescritura
 RewriteEngine On
-
-# Establece la base para las reglas de reescritura en esta carpeta
-# IMPORTANTE: Aseg煤rate que la ruta sea correcta y termine con /
 RewriteBase /reactdev/
 
-# --- Regla específica para /articulos/ID ---
-# Intenta servir directamente el archivo 56.html si existe para la ruta /articulos/56
-RewriteCond %{REQUEST_URI} ^/reactdev/articulos/([0-9]+)/?$
-RewriteCond %{DOCUMENT_ROOT}/reactdev/articulos/$1.html -f [NC]
-RewriteRule ^articulos/([0-9]+)/?$ articulos/$1.html [L]
+# --- REGLAS ESPECÍFICAS PRIMERO ---
 
-# --- Reglas generales (sin cambios respecto a tu versión) ---
+# REGLA A: Intenta servir /articulos/articulo/ID.html si se solicita /articulos/articulo/ID (Ya la tenías)
+# Captura el ID numérico en %1 y $1
+RewriteCond %{REQUEST_URI} ^/reactdev/articulos/articulo/([0-9]+)/?$
+RewriteCond %{DOCUMENT_ROOT}/reactdev/articulos/articulo/$1.html -f [NC]
+RewriteRule ^articulos/([0-9]+)/?$ articulos/$1.html [L] # Sirve internamente la página redirector
+
+# REGLA B: Si se solicita /articulos/articulo/ID/SLUG_INCORRECTO, redirige a /articulos/articulo/ID (NUEVA)
+# Captura el ID numérico en %1
+RewriteCond %{REQUEST_URI} ^/reactdev/articulos/articulo/([0-9]+)/.+$
+# Verifica que la página redirector para ese ID exista (ID válido)
+RewriteCond %{DOCUMENT_ROOT}/reactdev/articulos/articulo/$1.html -f [NC]
+# Asegúrate de que la URL completa solicitada NO sea un archivo o directorio real
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+# Si todo coincide, redirige EXTERNAMENTE (R=301) al navegador a /articulos/articulo/ID
+RewriteRule ^articulos/[0-9]+/.+$ /reactdev/articulos/articulo/%1 [R=301,L]
+
+# --- REGLAS GENERALES DESPUÉS ---
+
+# REGLA C: Redirecciona .html a extensionless (Ya la tenías)
 RewriteCond %{THE_REQUEST} \s/+(reactdev/.+?)\.html[\s?] [NC]
 RewriteRule ^(.+?)\.html$ %1 [R=301,L,NE]
 
+# REGLA D: Sirve el archivo .html si existe para OTRAS rutas sin extensión (Ya la tenías)
+# Esta ahora manejará principalmente /articulos/articulo/articulo/ID/SLUG_CORRECTO
+# Y otras rutas genéricas sin extensión que tengas en /reactdev/
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME}\.html -f
-RewriteRule ^(.*?)/?$ $1.html [L]
+RewriteRule ^(.*)$ $1.html [L]
