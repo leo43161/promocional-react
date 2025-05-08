@@ -1,36 +1,54 @@
 # --- .htaccess para /reactdev/ ---
-
+# Options -MultiViews
 RewriteEngine On
 RewriteBase /reactdev/
 
 # --- REGLAS ESPECÍFICAS PRIMERO ---
 
-# REGLA A: Intenta servir /articulos/articulo/ID.html si se solicita /articulos/articulo/ID (Ya la tenías)
-# Captura el ID numérico en %1 y $1
+# REGLA A: Sirve la página de redirección /articulos/articulo/ID.html si se solicita /articulos/articulo/ID
+# Esta página (generada por pages/articulos/articulo/[id].jsx) luego redirige vía JS al slug correcto.
 RewriteCond %{REQUEST_URI} ^/reactdev/articulos/articulo/([0-9]+)/?$
 RewriteCond %{DOCUMENT_ROOT}/reactdev/articulos/articulo/$1.html -f [NC]
-RewriteRule ^articulos/([0-9]+)/?$ articulos/$1.html [L] # Sirve internamente la página redirector
+RewriteRule ^articulos/articulo/([0-9]+)/?$ articulos/articulo/$1.html [L]
 
-# REGLA B: Si se solicita /articulos/articulo/ID/SLUG_INCORRECTO, redirige a /articulos/articulo/ID (NUEVA)
-# Captura el ID numérico en %1
-RewriteCond %{REQUEST_URI} ^/reactdev/articulos/articulo/([0-9]+)/.+$
-# Verifica que la página redirector para ese ID exista (ID válido)
-RewriteCond %{DOCUMENT_ROOT}/reactdev/articulos/articulo/$1.html -f [NC]
-# Asegúrate de que la URL completa solicitada NO sea un archivo o directorio real
+
+# REGLA B: Si se solicita /articulos/articulo/ID/SLUG_INCORRECTO, redirige a /articulos/articulo/ID
+# Esto permite que la REGLA A y la página de redirección se encarguen de llevar al slug correcto.
+
+# Condición 1: La solicitud original (THE_REQUEST) debe coincidir con el patrón de ID y cualquier slug.
+# THE_REQUEST es menos propenso a modificaciones internas que REQUEST_URI.
+# Capturamos el ID numérico en %1 para usarlo en la siguiente condición.
+RewriteCond %{THE_REQUEST} \s/reactdev/articulos/articulo/([0-9]+)/[^?\s]+\s [NC]
+
+# Condición 2: Verifica que el archivo HTML de redirección para el ID capturado (%1) exista.
+# Esta es la misma lógica de verificación que usa REGLA A.
+RewriteCond %{DOCUMENT_ROOT}/reactdev/articulos/articulo/%1.html -f [NC]
+
+# Condición 3 (NUEVA Y CLAVE): Verifica que NO exista un archivo .html para el slug solicitado.
+# Si SÍ existiera (ej. campana-de-turismo-sustentable.html), entonces el slug es correcto y esta regla NO debe aplicarse.
+RewriteCond %{REQUEST_FILENAME}.html !-f
+
+# Condición 4: Asegura que la URL solicitada directamente no sea un archivo existente.
 RewriteCond %{REQUEST_FILENAME} !-f
+
+# Condición 5: Asegura que la URL solicitada directamente no sea un directorio existente.
 RewriteCond %{REQUEST_FILENAME} !-d
-# Si todo coincide, redirige EXTERNAMENTE (R=301) al navegador a /articulos/articulo/ID
-RewriteRule ^articulos/[0-9]+/.+$ /reactdev/articulos/articulo/%1 [R=301,L]
+
+# Regla: Si todas las condiciones anteriores son verdaderas, redirige externamente (R=301)
+# a la URL base del artículo (solo con ID).
+# El patrón de RewriteRule coincide con la parte de la URL después de RewriteBase.
+# NE (NoEscape) evita que caracteres especiales en la URL de redirección se escapen.
+RewriteRule ^articulos/articulo/[0-9]+/.+$ /reactdev/articulos/articulo/%1 [R=301,L,NE]
+
 
 # --- REGLAS GENERALES DESPUÉS ---
 
-# REGLA C: Redirecciona .html a extensionless (Ya la tenías)
+# REGLA C: Redirecciona .html a extensionless
 RewriteCond %{THE_REQUEST} \s/+(reactdev/.+?)\.html[\s?] [NC]
 RewriteRule ^(.+?)\.html$ %1 [R=301,L,NE]
 
-# REGLA D: Sirve el archivo .html si existe para OTRAS rutas sin extensión (Ya la tenías)
-# Esta ahora manejará principalmente /articulos/articulo/articulo/ID/SLUG_CORRECTO
-# Y otras rutas genéricas sin extensión que tengas en /reactdev/
+# REGLA D: Sirve el archivo .html si existe para OTRAS rutas sin extensión
+# Maneja /articulos/articulo/ID/SLUG_CORRECTO y otras rutas genéricas.
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME}\.html -f
