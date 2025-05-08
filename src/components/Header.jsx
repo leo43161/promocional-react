@@ -53,7 +53,7 @@ export default function Header() {
                     if (sub.primerArt && parseInt(sub.articulos) === 1) {
                         href = `/articulos/articulo/${sub.primerArt}`; // Link to first article
                     } else if (sub.idSubseccion) {
-                        href = `/subsecciones/lista?subseccion=${sub.idSubseccion}`;
+                        href = `/subsecciones/lista/${sub.idSubseccion}`;
                     }
                     if (parseInt(sub.idioma) !== 1) {
                         href += `?lang=${sub.idioma}`
