@@ -75,8 +75,8 @@ export async function getStaticProps(context) {
             // Considerar redirección si es necesario en el futuro
         }
 
-        const parallaxImageUrl = subseccion?.portada ? `${imageBaseUrl}${subseccion.portada}` : undefined;
-        const parallaxImageUrlMobile = subseccion?.portadaMovil ? `${imageBaseUrl}${subseccion.portadaMovil}` : undefined;
+        const parallaxImageUrl = subseccion?.portada ? `${imageBaseUrl}${subseccion.portada}` : null;
+        const parallaxImageUrlMobile = subseccion?.portadaMovil ? `${imageBaseUrl}${subseccion.portadaMovil}` : null;
 
         // Devolver los datos como props
         return {
@@ -90,7 +90,7 @@ export async function getStaticProps(context) {
                 id,
                 slug,
             },
-        };
+        }; 
 
     } catch (error) {
         console.error(`Error fetching data for article ID ${id} (slug: ${slug}):`, error);
@@ -98,7 +98,7 @@ export async function getStaticProps(context) {
     }
 }
 
-export default function SubseccionPage({ subseccion, articulos, parallaxImageUrl, parallaxImageUrlMobile, id, slug }) {
+export default function SubseccionPage({ subseccion, articulos, parallaxImageUrl, id, slug }) {
     return (
         <div>
             <ParallaxContainer
