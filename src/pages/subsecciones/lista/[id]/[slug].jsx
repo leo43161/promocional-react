@@ -125,7 +125,7 @@ export default function SubseccionPage({ subseccion, articulos, parallaxImageUrl
 
             <div className='mb-10 md:w-11/14 w-full mx-auto flex flex-col gap-15 px-5'>
                 {articulos.map((articulo, index) => (
-                    <ItemLista articulo={articulo} key={articulo.index} right={index % 2 === 0}></ItemLista>
+                    <ItemLista articulo={articulo} key={articulo.index} right={!(index % 2 === 0)}></ItemLista>
                 ))}
             </div>
 
