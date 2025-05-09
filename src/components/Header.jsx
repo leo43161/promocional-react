@@ -6,8 +6,8 @@ import { useGetSeccionesQuery } from '@/redux/services/headerService';
 // --- Opciones de Idioma (AHORA CON ID) ---
 // AJUSTA los 'id' según los valores que espera tu API para cada idioma
 const languages = [
-    { id: 1, code: 'ES', label: 'Español', flag: '/svg/arg.svg', alt: 'Bandera Argentina' },
-    { id: 2, code: 'EN', label: 'English', flag: '/svg/eng.svg', alt: 'Bandera Reino Unido' } // Asumiendo ID 2 para inglés
+    { id: 1, code: 'ES', label: 'Español', flag: (process.env.URL_IMG_LOCAL || '') + '/svg/arg.svg', alt: 'Bandera Argentina' },
+    { id: 2, code: 'EN', label: 'English', flag: (process.env.URL_IMG_LOCAL || '') + '/svg/eng.svg', alt: 'Bandera Reino Unido' } // Asumiendo ID 2 para inglés
 ];
 
 

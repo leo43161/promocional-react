@@ -273,7 +273,7 @@ export default function Articulo() {
                                                 aria-label={`Descargar ${file.nombre}`} // Nombre del archivo mapeado
                                             >
                                                 <div className="w-1/10 flex-shrink-0">
-                                                    <img src="https://www.tucumanturismo.gob.ar/public/iconssvg/articulo/pdf-1.svg" className="w-full h-auto" alt="Icono de archivo" />
+                                                    <img src="https://www.tucumanturismo.gob.ar/public/icons/svg/articulo/pdf-1.svg" className="w-full h-auto" alt="Icono de archivo" />
                                                 </div>
                                                 <div className="flex-1 overflow-hidden">
                                                     <p className="m-0 text-sm text-gray-600">Hacé click para descargar</p>
