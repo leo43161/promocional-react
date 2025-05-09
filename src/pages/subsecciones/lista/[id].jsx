@@ -64,20 +64,20 @@ export async function getStaticProps(context) {
     return { notFound: true }; // Si falla el fetch, 404
   }
 
-  const seccion = subseccionData?.result.subseccion;
-  if (!seccion || !seccion.nombre) {
+  const subseccion = subseccionData?.result.subseccion;
+  if (!subseccion || !subseccion.nombre) {
     // Si la API no devuelve el artículo o el nombre, no podemos redirigir
     console.warn(`Article or subseccion name not found for ID ${id} in [id].jsx`);
     return { notFound: true };
   }
 
-  const slug = generateSlug(seccion.nombre) || 'sin-titulo';
+  const slug = generateSlug(subseccion.nombre) || 'sin-titulo';
 
   return {
     props: {
       id, // Pasa el ID
       slug, // Pasa el slug obtenido
-      idioma: seccion.idioma,
+      idioma: subseccion.idioma,
     },
   };
 }
