@@ -2,6 +2,7 @@ import React from 'react';
 import Head from 'next/head';
 import Header from './Header';
 import SmoothView from './common/SmoothView';
+import Footer from './Footer';
 
 export default function Layout({ children, className }) {
     return (
@@ -17,6 +18,7 @@ export default function Layout({ children, className }) {
                     </main>
                 </div>
             </SmoothView>
+            <Footer></Footer> 
 
         </div>
     )
