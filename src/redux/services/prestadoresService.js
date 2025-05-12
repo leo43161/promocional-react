@@ -15,10 +15,17 @@ export const prestadoresService = createApi({
         params: { limit: 100, offset: 0, search: "", tipo: 2 },
       }),
     }),
+    getAutos: builder.query({
+      query: () => ({
+        url: `prestadores`,
+        params: { limit: 100, offset: 0, search: "", tipo: 3 },
+      }),
+    }),
   }),
 });
 
 export const {
   useGetPrestadoresQuery,
   useGetGuiasQuery,
+  useGetAutosQuery
 } = prestadoresService;

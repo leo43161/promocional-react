@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { MessageCircle, Facebook, Instagram, Twitter, Youtube, Menu, X, ChevronDown } from 'lucide-react';
 // Asegúrate que la ruta sea correcta para tu proyecto
 import { useGetSeccionesQuery } from '@/redux/services/headerService';
+import { useRouter } from 'next/router';
 
 // --- Opciones de Idioma (AHORA CON ID) ---
 // AJUSTA los 'id' según los valores que espera tu API para cada idioma
@@ -13,6 +14,7 @@ const languages = [
 
 // --- Componente Header ---
 export default function Header() {
+    const router = useRouter();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [openAccordionItem, setOpenAccordionItem] = useState(null);
     const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
@@ -23,6 +25,20 @@ export default function Header() {
 
     // --- Obtener datos de la API usando el ID del idioma seleccionado ---
     const { data: seccionesApi, error, isLoading, isFetching } = useGetSeccionesQuery(selectedLangId);
+
+    // Sincronizo con ?lang=… en la URL
+    useEffect(() => {
+        if (!router.isReady) return;
+        const { lang } = router.query;
+        if (lang) {
+            const id = parseInt(lang, 10);
+            const found = languages.find(l => l.id === id);
+            if (found) {
+                setSelectedLangId(id);
+                setSelectedLang(found);
+            }
+        }
+    }, [router.isReady, router.query.lang]);
 
     // --- Transformar datos de la API al formato del menú (Memoizado) ---
     // se recalculará automáticamente cuando seccionesApi cambie (debido al cambio de selectedLangId)
@@ -112,6 +128,11 @@ export default function Header() {
         setOpenAccordionItem(null); // Reset mobile accordion
         console.log("Idioma seleccionado (ID):", lang.id);
         // No need to manually call refetch, RTK Query handles it when selectedLangId changes
+        router.push(
+            { pathname: router.pathname, query: { ...router.query, lang: lang.id } },
+            undefined,
+            { shallow: true }
+          );
     };
 
     // --- Function to toggle mobile accordion (no changes needed) ---

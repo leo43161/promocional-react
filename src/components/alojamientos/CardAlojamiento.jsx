@@ -61,22 +61,31 @@ const CardAlojamiento = ({ alojamiento, isLoading = false }) => {
                 </div>
             </div>
 
-            <div className="flex items-start mb-2">
+            <div className="flex items-center mb-2">
                 <MapPin className="min-w-5 h-5 text-gray-500 mr-2" />
-                <span className="text-sm text-gray-700">
-                    {alojamiento.direccion}<br />
-                    {alojamiento.localidad}
-                </span>
+                {alojamiento.latitude && alojamiento.longitude ? (
+                    <a
+                        href={`https://www.google.com/maps/search/${alojamiento.latitude},+${alojamiento.longitude}`}
+                        className="text-sm text-secondary hover:underline truncate"
+                    >
+                        
+                        <span className="text-sm">
+                            {alojamiento.direccion}<br />
+                            {alojamiento.localidad}
+                        </span>
+                    </a>
+                ) : (<span className="text-sm text-gray-700">{alojamiento.direccion}</span>)}
             </div>
 
             <div className="flex items-center mb-2">
                 <Phone className="min-w-5 h-5 text-gray-500 mr-2" />
-                <a
+                {/* <a
                     href={`tel:${alojamiento.telefono}`}
                     className="text-sm text-secondary hover:underline truncate"
-                >
-                    <span className="text-sm text-gray-700">{alojamiento.telefono}</span>
-                </a>
+                > */}
+
+                <span className="text-sm text-gray-700">{alojamiento.telefono}</span>
+                {/* </a> */}
             </div>
 
             {alojamiento.mail && (
@@ -105,14 +114,14 @@ const CardAlojamiento = ({ alojamiento, isLoading = false }) => {
                 </div>
             )}
 
-            <div className="mt-auto pt-4">
+            {/* <div className="mt-auto pt-4">
                 <Link
                     href={`/alojamientos/${alojamiento.id}`}
                     className="block text-center bg-orange-500 text-white py-2 rounded hover:bg-orange-600 transition-colors"
                 >
                     Ver Detalles
                 </Link>
-            </div>
+            </div> */}
         </div>
     );
 };

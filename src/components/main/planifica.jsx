@@ -13,7 +13,7 @@ export default function Planifica() {
       title: 'Alojamiento',
       description: '¿Buscas dónde hospedarte durante tu viaje? Encuentra las mejores opciones de hoteles, hostales y apartamentos.',
       image: '/images/main/activos.jpg',
-      link: '/alojamiento'
+      link: '/alojamientos'
     },
     {
       id: 'transporte',
@@ -21,7 +21,7 @@ export default function Planifica() {
       title: 'Transporte',
       description: '¿Quieres conocer todo lo que Tucumán tiene para ofrecerte y no sabes cómo moverte? Encontrá los horarios y valores de los viajes en micro hacia todos los puntos turísticos de la provincia.',
       image: '/images/main/transporte.jpg',
-      link: '/transporte'
+      link: '/transportes'
     },
     {
       id: 'alquiler-autos',

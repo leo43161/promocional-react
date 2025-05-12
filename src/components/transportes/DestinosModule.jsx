@@ -10,10 +10,10 @@ const CIRCUITOS = [
 ];
 
 const DESTINOS = {
-    choromoro: ['Simoca', 'La cocha', 'Lules', 'Famaillá', 'Monteros', 'Concepción', 'Alberdi'],
-    sur: ['La cocha', 'Simoca', 'Alberdi', 'Famaillá', 'Monteros'],
-    valles: ['Bella Vista', 'Río Colorado', 'Atahona', 'Monteagudo', 'Lamadrid', 'Taco Ralo', 'Samay Cochuna'],
-    yungas: ['Monteros', 'Concepción', 'La cocha', 'Taco Ralo']
+    choromoro: ['San Pedro de Colalao', 'Trancas'],
+    sur: ['Simoca', 'La cocha', 'Lules', 'Famaillá', 'Monteros', 'Concepcion', 'Alberdi', 'Bella vista', 'Rio Colorado', 'Atahona', 'Monteagudo', 'Lamadrid', 'Taco Ralo', 'Samay Cochuna'],
+    valles: ['El Mollar', 'Tafi del Valle', 'Amaicha del Valle', 'Colalao del Valle', 'Cafayate'],
+    yungas: ['Yerba Buena', 'Tafi Viejo', 'Primera Confiteria', 'Horco Molle', 'San Javier', 'Raco y El Siambón', 'El Cadillal y Rio Loro']
 };
 
 // Estructura de datos mejorada para manejar diferentes tipos de horarios
@@ -89,7 +89,7 @@ const LINEAS = {
 };
 
 export default function BuscadorTransporte() {
-    const [circuitoActivo, setCircuitoActivo] = useState('sur');
+    const [circuitoActivo, setCircuitoActivo] = useState('choromoro');
     const [destinoSeleccionado, setDestinoSeleccionado] = useState('La cocha');
     const [mostrarHorarios, setMostrarHorarios] = useState(false);
     const [infoDestino, setInfoDestino] = useState(null);
@@ -142,7 +142,7 @@ export default function BuscadorTransporte() {
             </div>
 
             <div className="text-center mb-4">
-                <p className="text-gray-600 uppercase text-sm font-semibold">ENCONTRÁ LA LÍNEA QUE SE ADAPTE A TU DESTINO EN LA COCHA</p>
+                <p className="text-gray-600 uppercase text-sm font-semibold">ENCONTRÁ LA LÍNEA QUE SE ADAPTE A TU DESTINO EN {destinoSeleccionado}</p>
             </div>
 
             <div className="flex flex-col md:flex-row gap-6">
@@ -176,7 +176,7 @@ export default function BuscadorTransporte() {
                         </div>
 
                         {/* Mapa */}
-                        <div className="relative w-full h-96 bg-gray-200 mb-6 rounded-md overflow-hidden">
+                        <div className="relative w-full md:h-96 h-80 bg-gray-200 mb-6 rounded-md overflow-hidden">
                             <iframe
                                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3560.1356400145232!2d-65.19638282534416!3d-26.835637789986375!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94225d5ba1c427e3%3A0xa2eb36874652c16b!2sTerminal%20de%20Omnibus%20Tucum%C3%A1n!5e0!3m2!1ses-419!2sar!4v1717078006968!5m2!1ses-419!2sar"
                                 width="100%"

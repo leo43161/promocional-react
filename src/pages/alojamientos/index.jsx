@@ -38,9 +38,7 @@ export default function Alojamientos() {
         setCurrentPage(1);
     }, [filter]);
 
-    console.log("isLoading:", isLoading, "isFetching:", isFetching);
-    console.log(alojamientos)
-    console.log(error)
+    console.log(alojamientos);
     if (error) return <p>Hubo un error al cargar los alojamientos</p>;
 
     const totalItems = parseInt(alojamientos?.all) || 0;
@@ -53,11 +51,12 @@ export default function Alojamientos() {
                     speed={0.2}
                     minHeight="h-96 md:h-[58vh]"
                     className=""
+                    imageUrl='https://www.tucumanturismo.gob.ar/public/img/planviaje/1920x650-HOTEL-Desktop.jpg'
                 >
                     <div className="container mx-auto h-full text-white flex flex-col justify-end">
                         <div className='w-11/12 mx-auto pt-5'>
                             <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                                Segunda Sección
+                                Alojamientos
                             </h2>
                         </div>
                     </div>

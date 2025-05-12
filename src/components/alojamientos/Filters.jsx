@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronDown, Search } from 'lucide-react';
+import { useGetAlojamientosFiltersQuery } from '@/redux/services/alojamientosService';
 
 export default function Filters({ filter, setFilter }) {
+  // Consulta con RTK Query
+  const { data: filters, error, isLoading, isFetching } = useGetAlojamientosFiltersQuery();
+  console.log(filters)
   const [searchInput, setSearchInput] = useState(filter.search || '');
-  const [categorias] = useState([
-    { id: 1, name: 'Hotel' },
-    { id: 2, name: 'Hostel' },
-    { id: 3, name: 'Cabaña' },
-    { id: 4, name: 'Apartamento' }
-  ]);
-  
-  const [localidades] = useState([
-    { id: 1, name: 'Ciudad Principal' },
-    { id: 2, name: 'Villa Turística' },
-    { id: 3, name: 'Costa' },
-    { id: 4, name: 'Montaña' }
-  ]);
-  
+  const [_categorias, setCategorias] = useState([]);
+  const [_localidades, setLocalidades] = useState([]);
+
+  useEffect(() => {
+    if (filters) {
+      setCategorias(filters.categorias);
+      setLocalidades(filters.localidades);
+    }
+  }, [filters]);
+
   const [estrellaOptions] = useState([
     { value: 1, label: '1 Estrella' },
     { value: 2, label: '2 Estrellas' },
@@ -54,9 +54,18 @@ export default function Filters({ filter, setFilter }) {
     });
   };
 
-  return (
+  return isLoading || isFetching ? (
+    <div className='flex flex-col md:flex-row gap-3 items-center mb-6'>
+      <div className='flex-grow w-full md:w-auto bg-gray-400 animate-pulse h-7'></div>
+      <div className='w-full md:w-44 bg-gray-400 animate-pulse h-7'></div>
+      <div className='w-full md:w-44 bg-gray-400 animate-pulse h-7'></div>
+      <div className='w-full md:w-44 bg-gray-400 animate-pulse h-7'></div>
+    </div>
+  ) : error ? (
+    <div>Hubo un error</div>
+  ) : (
     <div className="mb-8">
-      <form 
+      <form
         onSubmit={handleSearch}
         className="flex flex-col md:flex-row gap-3 items-end mb-6"
       >
@@ -85,8 +94,8 @@ export default function Filters({ filter, setFilter }) {
               onChange={(e) => handleCategoriaChange(e.target.value ? Number(e.target.value) : null)}
             >
               <option value="">Categorías</option>
-              {categorias.map(cat => (
-                <option key={cat.id} value={cat.id}>{cat.name}</option>
+              {_categorias.map(cat => (
+                <option key={cat.id} value={cat.id}>{cat.nombre}</option>
               ))}
             </select>
             <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
@@ -123,8 +132,8 @@ export default function Filters({ filter, setFilter }) {
               onChange={(e) => handleLocalidadChange(e.target.value ? Number(e.target.value) : null)}
             >
               <option value="">Localidad</option>
-              {localidades.map(loc => (
-                <option key={loc.id} value={loc.id}>{loc.name}</option>
+              {_localidades.map(loc => (
+                <option key={loc.id} value={loc.id}>{loc.nombre}</option>
               ))}
             </select>
             <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">

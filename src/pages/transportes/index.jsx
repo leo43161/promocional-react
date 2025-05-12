@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
-import axios from 'axios'; // Asegúrate de tener axios instalado e importado
 import ParallaxContainer from '@/components/common/ParallaxContainer';
 import Breadcrumb from '@/components/common/Breadcrumb';
-import ImageGallery from '@/components/articulos/ImageGallery';
-import ImperdiblesCard from '@/components/articulos/ImperdiblesCard';
 import BuscadorTransporte from '@/components/transportes/DestinosModule';
 export default function Transportes() {
     return (
@@ -13,11 +9,12 @@ export default function Transportes() {
                 speed={0.2}
                 minHeight="h-96 md:h-[58vh]"
                 className=""
+                imageUrl='https://www.tucumanturismo.gob.ar/public/img/planviaje/1920x650-Planifica-Transporte-Desktop.jpg'
             >
                 <div className="container mx-auto h-full text-white flex flex-col justify-end">
                     <div className='w-11/12 mx-auto pt-5'>
                         <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                            Segunda Sección
+                            Transportes
                         </h2>
                     </div>
                 </div>
