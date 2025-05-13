@@ -48,7 +48,6 @@ export default function Header() {
             // Podrías diferenciar entre loading y error si quieres mostrar mensajes distintos
             return [];
         }
-        console.log(seccionesApi);
         // Filtrar secciones activas y visibles, luego ordenar
         const visibleSections = seccionesApi
             .result
@@ -126,13 +125,12 @@ export default function Header() {
         setIsLangDropdownOpen(false); // Close dropdown
         setIsMobileMenuOpen(false); // Close mobile menu if open
         setOpenAccordionItem(null); // Reset mobile accordion
-        console.log("Idioma seleccionado (ID):", lang.id);
         // No need to manually call refetch, RTK Query handles it when selectedLangId changes
         router.push(
             { pathname: router.pathname, query: { ...router.query, lang: lang.id } },
             undefined,
             { shallow: true }
-          );
+        );
     };
 
     // --- Function to toggle mobile accordion (no changes needed) ---
@@ -225,11 +223,8 @@ export default function Header() {
                                             {item.label}
                                         </a>
                                     ) : (
-                                        /* Label (potentially with dropdown) if it has children or no direct href */
                                         <div className={`py-2 flex items-center font-semibold text-xs ${item.children ? 'cursor-default hover:text-primary' : 'cursor-default'}`}>
                                             {item.label}
-                                            {/* Arrow only if it has children */}
-                                            {/* item.children && <ChevronDown size={14} className="ml-1 opacity-70 group-hover:opacity-100" /> */}
                                         </div>
                                     )}
 

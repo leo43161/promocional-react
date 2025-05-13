@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import { Home, Bus, Car, Users, Building, MapPin, Calendar, Map } from 'lucide-react';
 import Link from 'next/link';
+import { useLenis } from 'lenis/react'
 
 // Este es un componente de tabs para planificación de viaje que muestra opciones
 // como alojamiento, transporte, alquiler de autos, etc.
 export default function Planifica() {
+  const lenis = useLenis();
+
   // Array de opciones de planificación de viaje
   const travelOptions = [
     {
@@ -29,7 +32,7 @@ export default function Planifica() {
       title: 'Alquiler de Autos',
       description: 'Alquila un auto y disfruta de la libertad de moverte a tu propio ritmo durante tus vacaciones.',
       image: '/images/main/alquiler.jpg',
-      link: '/alquiler-autos'
+      link: '/autos'
     },
     {
       id: 'prestadores',
@@ -53,7 +56,7 @@ export default function Planifica() {
       title: 'Guías de Turismo',
       description: 'Contrata guías profesionales que te mostrarán los mejores lugares y te contarán la historia y cultura local.',
       image: '/images/main/guia.jpg',
-      link: '/guias-turismo'
+      link: '/guias'
     },
     {
       id: 'itinerarios',
@@ -61,7 +64,7 @@ export default function Planifica() {
       title: 'Itinerarios',
       description: 'Descubre rutas prediseñadas para aprovechar al máximo tu tiempo y visitar los lugares más destacados.',
       image: '/images/main/itinerarios.jpg',
-      link: '/itinerarios'
+      link: '/subsecciones/lista/45'
     },
     {
       id: 'mapas',
@@ -69,7 +72,7 @@ export default function Planifica() {
       title: 'Mapas y Folletos',
       description: 'Accede a mapas detallados y folletos informativos para orientarte durante tu visita.',
       image: '/images/main/mapas.jpg',
-      link: '/mapas-folletos'
+      link: '/subsecciones/lista/46'
     }
   ];
 
@@ -79,20 +82,30 @@ export default function Planifica() {
   // Encontrar la opción activa
   const activeOption = travelOptions.find(option => option.id === activeTab);
 
+  const handleActiveTab = (id) => {
+    setActiveTab(id);
+    if (lenis) {
+      lenis.scrollTo('#infoActive', {
+        duration: 2,
+        easing: (t) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t)), // Optional: easing function
+        offset: -110,
+      });
+    }
+  }
+
   return (
     <div className="w-full mx-auto px-4 md:px-0 flex flex-col items-center mb-6">
       <h2 className="text-3xl text-gray-500 mb-6 text-center">PLANIFICA TU VIAJE</h2>
-      
+
       {/* Contenedor de tabs - responsive */}
       <div className="overflow-x-auto no-scrollbar mb-4 w-full flex justify-center">
         <div className="grid grid-cols-2 sm:flex gap-7 w-full">
           {travelOptions.map((option) => (
             <button
               key={option.id}
-              onClick={() => setActiveTab(option.id)}
-              className={`flex flex-col items-center justify-around min-w-24 px-2 py-2 flex-1 ${
-                activeTab === option.id ? 'bg-secondary text-white' : ' text-gray-700 hover:bg-gray-200'
-              }`}
+              onClick={() => handleActiveTab(option.id)}
+              className={`flex flex-col items-center justify-around min-w-24 px-2 py-2 flex-1 ${activeTab === option.id ? 'bg-secondary text-white' : ' text-gray-700 hover:bg-gray-200'
+                }`}
             >
               <div className="mb-2">{option.icon}</div>
               <span className="text-center font-semibold md:text-sm">{option.title}</span>
@@ -100,10 +113,10 @@ export default function Planifica() {
           ))}
         </div>
       </div>
-      
+
       {/* Contenido del tab activo - responsive */}
       {activeOption && (
-        <div className="md:relative w-full">
+        <div className="md:relative w-full" id='infoActive'>
           {/* Vista móvil - descripción arriba, imagen debajo */}
           <div className="bg-gray-100 p-6 md:absolute md:left-0 md:top-6 md:z-10 md:bg-gray-100/80 md:w-4/11">
             <h3 className="text-2xl text-gray-700 font-medium mb-3">{activeOption.title}</h3>
@@ -112,12 +125,12 @@ export default function Planifica() {
               Conocé más aquí
             </Link>
           </div>
-          
+
           {/* Imagen - responsive */}
-          <img 
-            src={activeOption.image} 
+          <img
+            src={activeOption.image}
             alt={activeOption.title}
-            className="w-full md:w-6/8 object-cover mt-0 md:mt-0 md:h-[65vh] ms-auto" 
+            className="w-full md:w-6/8 object-cover mt-0 md:mt-0 md:h-[65vh] ms-auto"
           />
         </div>
       )}

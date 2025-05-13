@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { DollarSign, MapPin, Clock, ChevronDown, ChevronUp } from 'lucide-react';
+import { useLenis } from 'lenis/react'
 
 // Datos de ejemplo (placeholder)
 const CIRCUITOS = [
@@ -89,10 +90,22 @@ const LINEAS = {
 };
 
 export default function BuscadorTransporte() {
+    const lenis = useLenis();
     const [circuitoActivo, setCircuitoActivo] = useState('choromoro');
     const [destinoSeleccionado, setDestinoSeleccionado] = useState('La cocha');
     const [mostrarHorarios, setMostrarHorarios] = useState(false);
     const [infoDestino, setInfoDestino] = useState(null);
+
+    const handleScrollSlide = (id) => {
+        if (window.innerWidth < 1024) {
+            if (lenis) {
+                lenis.scrollTo('#' + id, {
+                    duration: 2,
+                    offset: -50,
+                });
+            }
+        }
+    };
 
     // Obtener el color del circuito activo
     const getCircuitoColor = () => {
@@ -148,16 +161,16 @@ export default function BuscadorTransporte() {
             <div className="flex flex-col md:flex-row gap-6">
                 {/* Lista de Destinos */}
                 <div className="w-full md:w-1/4">
-                    <div className="bg-white rounded-lg shadow-md">
+                    <div className="bg-white rounded-lg shadow-md" id='destinos-transporte'>
                         {DESTINOS[circuitoActivo].map((destino) => (
                             <button
                                 key={destino}
                                 className={`w-full text-left px-4 py-3 border-b last:border-b-0 transition-colors hover:bg-gray-50`}
-                                style={{ 
+                                style={{
                                     backgroundColor: destinoSeleccionado === destino ? `${circuitoColor}15` : '',
                                     fontWeight: destinoSeleccionado === destino ? '500' : '400'
                                 }}
-                                onClick={() => setDestinoSeleccionado(destino)}
+                                onClick={() => { setDestinoSeleccionado(destino), handleScrollSlide('info-transporte') }}
                             >
                                 {destino}
                             </button>
@@ -167,7 +180,7 @@ export default function BuscadorTransporte() {
 
                 {/* Panel de Información */}
                 {infoDestino && (
-                    <div className="w-full md:w-3/4 bg-white rounded-lg shadow-md p-4">
+                    <div className="w-full md:w-3/4 bg-white rounded-lg shadow-md p-4" id='info-transporte'>
                         {/* Nombre de la línea */}
                         <div className="mb-4">
                             <div className="inline-block text-white px-4 py-1 rounded-md font-medium" style={{ backgroundColor: circuitoColor }}>
@@ -251,7 +264,7 @@ export default function BuscadorTransporte() {
                                                         <div
                                                             key={`row-${horario.titulo}-${rowIndex}`}
                                                             className="grid grid-cols-2"
-                                                            style={{ 
+                                                            style={{
                                                                 backgroundColor: rowIndex % 2 === 0 ? `${circuitoColor}05` : 'white'
                                                             }}
                                                         >
