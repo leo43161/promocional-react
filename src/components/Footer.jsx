@@ -1,4 +1,5 @@
 import React from "react";
+
 const mountainSVG = `
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg"  x="0px" y="0px"
     width="100%" height="auto" viewBox="0 0 1040.18 166.71">
@@ -17,20 +18,20 @@ const Footer = () => {
   }
   return (
     <div
-      className="h-auto bg-cover bg-center bg-no-repeat "
+      className="h-auto bg-cover bg-no-repeat"
       style={{
         backgroundImage: `url('data:image/svg+xml,${encodeURIComponent(
           mountainSVG
         )}')`,
       }}
     >
-      <div class="max-w-7xl mx-auto flex justify-center text-white ">
-        <div className="mx-6 pt-40 grid gap-5 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 text-white text-12">
+      <div className="max-w-7xl mx-auto flex justify-center pt-3">
+        <div className="grid grid-cols-1 sm:grid-cols-1  md:grid-cols-5 lg:grid-cols-5 sm:text-center md:text-start gap-6 text-white text-9 mt-5">
           {/* Contenido del footer */}
 
-          <div className="">
+          <div className="col-span-2 sm:col-span-1 sm:justify-center mt-5 p-4">
             <strong>Enlaces útles</strong>
-            <ul className="list-disc">
+            <ul className="list-disc mt-2">
               <li>
                 <a href="" className="text-white hover:text-gray-300">
                   Rutas temáticas
@@ -53,8 +54,8 @@ const Footer = () => {
               </li>
             </ul>
           </div>
-          <div className="">
-            <ul className="list-disc">
+          <div className="col-span-2 sm:col-span-1 sm:justify-center mt-5 p-4">
+            <ul className="list-disc mt-5">
               <li>
                 <a href="" className="text-white hover:text-gray-300">
                   Circuitos Turísticos
@@ -77,8 +78,8 @@ const Footer = () => {
               </li>
             </ul>
           </div>
-          <div className="col-span-2 sm:col-span-1 sm:justify-center">
-            <strong className="text-13 font-semibold">
+          <div className="col-span-3 sm:col-span-1 sm:justify-center mt-5 p-4">
+            <strong className="text-9 font-semibold">
               Casa de Tucumán
               <br />
               en Buenos Aires
@@ -91,19 +92,25 @@ const Footer = () => {
               <li>casaenbsas@tucumanturismo.gob.ar</li>
             </ul>
           </div>
-          <div className="col-span-2 sm:col-span-1 sm:justify-center">
-            <strong className="text-13 font-semibold">
-              Casa de Tucumán
-              <br />
-              en Buenos Aires
+          <div className="col-span-3 sm:col-span-1 sm:justify-center mt-5 p-4">
+            <strong className="text-9 font-semibold">
+              Anexo Ente Tucumán turismo
             </strong>
             <ul>
-              <li className="mt-2">Anexo Ente Tucumán turismo - Santa Fe 2121</li>
+              <li className="mt-2">
+                Santa Fe 2121 - San Miguel de Tucumán
+              </li>
               <li>Tucumán- Argentina</li>
               <li>Código Postal: 4000</li>
               <li>+54 (0381)-2621377</li>
               <li>informes@tucumanturismo.gob.ar</li>
             </ul>
+          </div>
+         <div className="col-span-2 sm:col-span-1 sm:justify-center mt-5">
+                                                        
+            <img src="/svg/eatt2024blancohorizontal.svg" alt="Logo Gobierno Tucumán" className="w-40 mx-auto py-auto m-5"/>
+            <img src="/svg/logo-tuctur-w.svg" alt="Logo Tucumán Turismo" className="w-40 mx-auto py-auto m-5"/>
+            
           </div>
         </div>
       </div>
