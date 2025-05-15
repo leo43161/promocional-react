@@ -26,12 +26,12 @@ const Footer = () => {
       }}
     >
       <div className="max-w-7xl mx-auto flex justify-center pt-3">
-        <div className="grid grid-cols-1 sm:grid-cols-1  md:grid-cols-5 lg:grid-cols-5 sm:text-center md:text-start gap-6 text-white text-9 mt-5">
+        <div className="grid grid-cols-1 sm:grid-cols-1  md:grid-cols-5 lg:grid-cols-5 sm:text-center md:text-start gap-6 text-white text-xs mt-5">
           {/* Contenido del footer */}
 
-          <div className="col-span-2 sm:col-span-1 sm:justify-center mt-5 p-4">
+          <div className="col-span-2 sm:col-span-1 sm:justify-center md:mt-5 md:p-4">
             <strong>Enlaces útles</strong>
-            <ul className="list-disc mt-2">
+            <ul className="list-disc mt-2 ms:text-decorative-none">
               <li>
                 <a href="" className="text-white hover:text-gray-300">
                   Rutas temáticas
@@ -54,7 +54,7 @@ const Footer = () => {
               </li>
             </ul>
           </div>
-          <div className="col-span-2 sm:col-span-1 sm:justify-center mt-5 p-4">
+          <div className="col-span-2 sm:col-span-1 sm:justify-center md:mt-5 md:p-4">
             <ul className="list-disc mt-5">
               <li>
                 <a href="" className="text-white hover:text-gray-300">
@@ -78,7 +78,7 @@ const Footer = () => {
               </li>
             </ul>
           </div>
-          <div className="col-span-3 sm:col-span-1 sm:justify-center mt-5 p-4">
+          <div className="col-span-3 sm:col-span-1 sm:justify-center md:mt-5 md:p-4">
             <strong className="text-9 font-semibold">
               Casa de Tucumán
               <br />
@@ -92,25 +92,29 @@ const Footer = () => {
               <li>casaenbsas@tucumanturismo.gob.ar</li>
             </ul>
           </div>
-          <div className="col-span-3 sm:col-span-1 sm:justify-center mt-5 p-4">
+          <div className="col-span-3 sm:col-span-1 sm:justify-center md:mt-5 md:p-4">
             <strong className="text-9 font-semibold">
               Anexo Ente Tucumán turismo
             </strong>
             <ul>
-              <li className="mt-2">
-                Santa Fe 2121 - San Miguel de Tucumán
-              </li>
+              <li className="mt-2">Santa Fe 2121 - San Miguel de Tucumán</li>
               <li>Tucumán- Argentina</li>
               <li>Código Postal: 4000</li>
               <li>+54 (0381)-2621377</li>
               <li>informes@tucumanturismo.gob.ar</li>
             </ul>
           </div>
-         <div className="col-span-2 sm:col-span-1 sm:justify-center mt-5">
-                                                        
-            <img src="/svg/eatt2024blancohorizontal.svg" alt="Logo Gobierno Tucumán" className="w-40 mx-auto py-auto m-5"/>
-            <img src="/svg/logo-tuctur-w.svg" alt="Logo Tucumán Turismo" className="w-40 mx-auto py-auto m-5"/>
-            
+          <div className="col-span-1 sm:col-span-1 sm:justify-center md:mt-5 md:p-4">
+            <img
+              src="/svg/eatt2024blancohorizontal.svg"
+              alt="Logo Gobierno Tucumán"
+              className="w-40 mx-auto py-auto md:m-5 ms:m-2"
+            />
+            <img
+              src="/svg/logo-tuctur-w.svg"
+              alt="Logo Tucumán Turismo"
+              className="w-40 mx-auto py-auto md:m-5 ms:m-2"
+            />
           </div>
         </div>
       </div>
