@@ -30,18 +30,11 @@ export default function CookieBanner() {
         </p>
       </div>
       <div className="flex gap-3">
-        <button
-          onClick={handleAccept}
+        <button onClick={handleAccept}
           className="bg-primary text-white px-4 py-2 rounded-lg text-base"
-        >
-          Aceptar
-        </button>
-        <button
-          onClick={handleReject}
-          className="bg-primary text-white px-4 py-2 rounded-lg text-sm"
-        >
-          Rechazar
-        </button>
+        >Aceptar</button>
+        <button onClick={handleReject} className="bg-primary text-white px-4 py-2 rounded-lg text-sm"
+        >Rechazar</button>
       </div>
     </div>
   );

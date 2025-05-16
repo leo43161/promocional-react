@@ -136,6 +136,21 @@ const Footer = () => {
           <p>Desarrollado por Dpto. Informatica EATT 2024</p>
         </div>
         </div>
+        <div className="fixed bottom-0 left-0 right-0 bg-gray-100 p-4 flex flex-col md:flex-row justify-between items-center border-t border-gray-400 z-50 w-screen">
+      <div className="text-center text-black mb-2 md:mb-0 text-sm">
+        <p className="m-0">
+          Para ofrecerte una mejor experiencia, este sitio utiliza cookies. Al continuar navegando, aceptas nuestra{' '}
+          <a href="/privacidad" className="text-blue-600 underline">política de privacidad</a>.
+        </p>
+      </div>
+      <div className="flex gap-3">
+        <button className="bg-primary text-white px-4 py-2 rounded-lg text-sm"
+        >Aceptar</button>
+        <button className="bg-primary text-white px-4 py-2 rounded-lg text-sm"
+        >Rechazar</button>
+      </div>
+    </div>
+
     </div>
   );
 };
