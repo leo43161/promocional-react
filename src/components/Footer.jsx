@@ -25,13 +25,13 @@ const Footer = () => {
         )}')`,
       }}
     >
-      <div className="max-w-7xl mx-auto flex justify-center pt-3">
+      <div className="max-w-7xl mx-auto flex justify-center pt-30">
         <div className="grid grid-cols-1 sm:grid-cols-1  md:grid-cols-5 lg:grid-cols-5 sm:text-center md:text-start gap-6 text-white text-xs mt-5">
           {/* Contenido del footer */}
 
           <div className="col-span-2 sm:col-span-1 sm:justify-center md:mt-5 md:p-4">
             <strong>Enlaces útles</strong>
-            <ul className="list-disc mt-2 ms:text-decorative-none">
+            <ul className="list-none md:list-disc mt-2">
               <li>
                 <a href="" className="text-white hover:text-gray-300">
                   Rutas temáticas
@@ -55,7 +55,7 @@ const Footer = () => {
             </ul>
           </div>
           <div className="col-span-2 sm:col-span-1 sm:justify-center md:mt-5 md:p-4">
-            <ul className="list-disc mt-5">
+            <ul className="list-none md:list-disc mt-5">
               <li>
                 <a href="" className="text-white hover:text-gray-300">
                   Circuitos Turísticos
@@ -104,20 +104,34 @@ const Footer = () => {
               <li>informes@tucumanturismo.gob.ar</li>
             </ul>
           </div>
-          <div className="col-span-1 sm:col-span-1 sm:justify-center md:mt-5 md:p-4">
+          <div className="col-span-1 sm:col-span-1 sm:justify-center md:mt-5 md:p-2">
             <img
               src="/svg/eatt2024blancohorizontal.svg"
               alt="Logo Gobierno Tucumán"
-              className="w-40 mx-auto py-auto md:m-5 ms:m-2"
+              className="w-60 mx-auto py-auto md:m-5 ms:m-2"
             />
             <img
               src="/svg/logo-tuctur-w.svg"
               alt="Logo Tucumán Turismo"
-              className="w-40 mx-auto py-auto md:m-5 ms:m-2"
+              className="w-50 mx-auto py-auto md:m-5 ms:m-2"
             />
-          </div>
+          </div>          
         </div>
+        
       </div>
+      <div className="w-full text-center p-1">
+         <hr className="bg-white text-center"></hr>
+         <p className="text-center text-xs text-white p-2">
+            <strong>Ente Autárquico Tucumán Turismo - 2024 |</strong>
+            <a href="https://www.google.com/maps/place/Ente+Tucum%C3%A1n+Turismo/@-26.8311125,-65.2109502,16z/data=!4m10!1m2!2m1!1stucuman+turismo!3m6!1s0x94225c10470c56c9:0x7016910ca98c12c1!8m2!3d-26.8311131!4d-65.2045773!15sCg90dWN1bWFuIHR1cmlzbW9aESIPdHVjdW1hbiB0dXJpc21vkgEadG91cmlzdF9pbmZvcm1hdGlvbl9jZW50ZXKaASRDaGREU1VoTk1HOW5TMFZKUTBGblNVUlBhV1l0VW1wUlJSQULgAQA!16s%2Fg%2F1tzvxnh6?entry=ttu" className="text-white">24 de Septiembre 484</a> | C.P. 4000
+             San Miguel de Tucumán - Argentina | Tel:
+            <a href="tel:+543814303644" className="">+54 (0381)4303644</a>
+             -
+            <a href="tel:+543814222199" className="">+54 (0381)4222199</a>
+            | Email:
+            <a href="mailto:informes@tucumanturismo.gob.ar" className="text-decoration-none" >informes@tucumanturismo.gob.ar </a>
+          </p>
+        </div>
     </div>
   );
 };
