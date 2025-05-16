@@ -32,22 +32,22 @@ const Footer = () => {
           <div className="col-span-2 sm:col-span-1 sm:justify-center md:mt-5 md:p-4">
             <strong>Enlaces útles</strong>
             <ul className="list-none md:list-disc mt-2">
-              <li>
+              <li className="mt-2">
                 <a href="" className="text-white hover:text-gray-300">
                   Rutas temáticas
                 </a>
               </li>
-              <li>
+              <li className="mt-1">
                 <a href="" className="text-white hover:text-gray-300">
                   Tafí del Valle
                 </a>
               </li>
-              <li>
+              <li className="mt-1">
                 <a href="" className="text-white hover:text-gray-300">
                   Áreas protegidas
                 </a>
               </li>
-              <li>
+              <li className="mt-1">
                 <a href="" className="text-white hover:text-gray-300">
                   Museo Casa Histórica
                 </a>
@@ -56,22 +56,22 @@ const Footer = () => {
           </div>
           <div className="col-span-2 sm:col-span-1 sm:justify-center md:mt-5 md:p-4">
             <ul className="list-none md:list-disc mt-5">
-              <li>
+             <li className="mt-2">
                 <a href="" className="text-white hover:text-gray-300">
                   Circuitos Turísticos
                 </a>
               </li>
-              <li>
+            <li className="mt-1">
                 <a href="" className="text-white hover:text-gray-300">
                   Transporte urbano
                 </a>
               </li>
-              <li>
+              <li className="mt-1">
                 <a href="" className="text-white hover:text-gray-300">
                   Sabores tucumanos
                 </a>
               </li>
-              <li>
+             <li className="mt-1">
                 <a href="" className="text-white hover:text-gray-300">
                   Política de Privacidad
                 </a>
@@ -79,7 +79,7 @@ const Footer = () => {
             </ul>
           </div>
           <div className="col-span-3 sm:col-span-1 sm:justify-center md:mt-5 md:p-4">
-            <strong className="text-9 font-semibold">
+            <strong className="text-xs font-semibold">
               Casa de Tucumán
               <br />
               en Buenos Aires
@@ -93,7 +93,7 @@ const Footer = () => {
             </ul>
           </div>
           <div className="col-span-3 sm:col-span-1 sm:justify-center md:mt-5 md:p-4">
-            <strong className="text-9 font-semibold">
+            <strong className="text-xs font-semibold">
               Anexo Ente Tucumán turismo
             </strong>
             <ul>
@@ -121,7 +121,7 @@ const Footer = () => {
       </div>
       <div className="w-full text-center p-1">
          <hr className="bg-white text-center"></hr>
-         <p className="text-center text-xs text-white p-2">
+         <p className="text-center text-sm text-white p-2">
             <strong>Ente Autárquico Tucumán Turismo - 2024 |</strong>
             <a href="https://www.google.com/maps/place/Ente+Tucum%C3%A1n+Turismo/@-26.8311125,-65.2109502,16z/data=!4m10!1m2!2m1!1stucuman+turismo!3m6!1s0x94225c10470c56c9:0x7016910ca98c12c1!8m2!3d-26.8311131!4d-65.2045773!15sCg90dWN1bWFuIHR1cmlzbW9aESIPdHVjdW1hbiB0dXJpc21vkgEadG91cmlzdF9pbmZvcm1hdGlvbl9jZW50ZXKaASRDaGREU1VoTk1HOW5TMFZKUTBGblNVUlBhV1l0VW1wUlJSQULgAQA!16s%2Fg%2F1tzvxnh6?entry=ttu" className="text-white">24 de Septiembre 484</a> | C.P. 4000
              San Miguel de Tucumán - Argentina | Tel:
@@ -131,6 +131,10 @@ const Footer = () => {
             | Email:
             <a href="mailto:informes@tucumanturismo.gob.ar" className="text-decoration-none" >informes@tucumanturismo.gob.ar </a>
           </p>
+          
+          <div className="text-center text-white text-xs p-2">
+          <p>Desarrollado por Dpto. Informatica EATT 2024</p>
+        </div>
         </div>
     </div>
   );
