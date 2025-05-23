@@ -56,11 +56,11 @@ export default function CardGuias({ prestador, isLoading = false }) {
 
     // Si no está cargando, mostrar el contenido real
     const {
-        titulo,
+        nombre,
         responsable,
         direccion,
-        localidad,
-        telefono,
+        localidad_nombre,
+        telefonos,
         email,
         web,
         facebook,
@@ -74,7 +74,7 @@ export default function CardGuias({ prestador, isLoading = false }) {
         <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
             {/* Encabezado verde */}
             <div className="bg-secondary p-4 text-white font-medium">
-                <h3 className="text-lg">{titulo}</h3>
+                <h3 className="text-lg font-bold">{nombre}</h3>
             </div>
 
             {/* Contenido */}
@@ -85,17 +85,17 @@ export default function CardGuias({ prestador, isLoading = false }) {
                     <p className="text-gray-700 uppercase font-medium">{direccion}</p>
                     <p className="text-gray-700 flex items-center">
                         <MapPin className="h-5 w-5 mr-2 text-gray-500"></MapPin>
-                        {localidad}
+                        {localidad_nombre}
                     </p>
                 </div>
 
 
                 {/* Contactos */}
                 <div className="flex flex-col gap-4 mb-4">
-                    {telefono && (
+                    {telefonos && (
                         <p className="flex items-center text-gray-700">
                             <Phone className="h-5 w-5 mr-2 text-gray-500" />
-                            {telefono}
+                            {telefonos}
                         </p>
                     )}
 

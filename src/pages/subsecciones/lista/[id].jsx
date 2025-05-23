@@ -24,7 +24,7 @@ export async function getStaticPaths() {
   let subsecciones = [];
   try {
     // Llama a tu endpoint que devuelve la lista (necesitas al menos id)
-    const res = await fetch(`${apiBaseUrl}/subseccion`);
+    const res = await fetch(`${apiBaseUrl}/subseccion_all`);
     if (!res.ok) throw new Error(`API Error fetching list: ${res.status}`);
     const data = await res.json();
     subsecciones = data.result || [];
@@ -53,7 +53,7 @@ export async function getStaticProps(context) {
 
   try {
     // Llama al endpoint para obtener los detalles (o uno más ligero que solo devuelva el nombre)
-    const res = await fetch(`${apiBaseUrl}subseccion_id/${id}`);
+    const res = await fetch(`${apiBaseUrl}subseccion/${id}`);
     if (!res.ok) {
       if (res.status === 404) return { notFound: true }; // Si el ID no existe, 404
       throw new Error(`API Error Articulo ${id}: ${res.status}`);
@@ -87,9 +87,13 @@ export default function SubseccionLoades({ id, slug, idioma }) {
 
    useEffect(() => {
     if (id && slug) {
+      const idiomaCode = {
+        1: 'ES',
+        2: 'EN'
+    }
       let targetUrl = `/subsecciones/lista/${id}/${slug}`;
       if (parseInt(idioma) !== 1) {
-        targetUrl += `?lang=${idioma}`
+        targetUrl += `?lang=${idiomaCode[parseInt(idioma)] || idioma}`
       }
       console.log(`Redirecting from /subsecciones/lista/${id} to ${targetUrl}`);
       router.replace(targetUrl);

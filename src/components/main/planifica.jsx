@@ -15,7 +15,7 @@ export default function Planifica() {
       icon: <Home size={30} />,
       title: 'Alojamiento',
       description: '¿Buscas dónde hospedarte durante tu viaje? Encuentra las mejores opciones de hoteles, hostales y apartamentos.',
-      image: '/images/main/activos.jpg',
+      image: '/images/main/hotel.jpg',
       link: '/alojamientos'
     },
     {

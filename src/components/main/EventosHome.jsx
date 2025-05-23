@@ -1,8 +1,33 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import Carousel from '../common/Carousel'
 import CardEventoHome from './CardEventoHome'
+import { useGetEventoDestacadosQuery } from '@/redux/services/eventosService'
 
 export default function EventosHome() {
+    const { data: eventos, isLoading, isFetching, error } = useGetEventoDestacadosQuery();
+    const eventosDestacados = useMemo(() => {
+        // Si está cargando, obteniendo datos nuevos, o hubo un error, retorna array vacío
+        if (isLoading || isFetching || error || !eventos) {
+            console.log('isLoading, isFetching, error, eventos:', isLoading, isFetching, error, eventos);
+            // Podrías diferenciar entre loading y error si quieres mostrar mensajes distintos
+            return [];
+        }
+        // Ordenar eventos por array de arrays de 3 elementos
+        const sliceItems = window.innerWidth >= 1024 ? 3 : 1;
+        const groupedEventos = eventos.result.reduce((acc, item) => {
+            const lastGroup = acc[acc.length - 1];
+            console.log(lastGroup);
+            if (lastGroup && lastGroup.length < sliceItems) {
+                lastGroup.push(item);
+            } else {
+                acc.push([item]);
+            }
+            return acc;
+        }, []);
+        return groupedEventos;
+
+    }, [eventos, isLoading, isFetching, error]);
+    console.log(eventosDestacados);
     return (
         <div className='mb-40'>
             <Carousel
@@ -11,25 +36,17 @@ export default function EventosHome() {
                 showArrows={true}
                 interval={6000}
             >
-                <div className="h-full w-full flex">
-                    <div className='flex justify-around w-full'>
-                        <div className="w-3/13 relative">
-                            <CardEventoHome></CardEventoHome>
-                        </div>
-                        <div className="w-3/13 relative">
-                            <CardEventoHome></CardEventoHome>
-
-                        </div>
-                        <div className="w-3/13 relative">
-                            <CardEventoHome></CardEventoHome>
-
+                {eventosDestacados.map((group, indexGroup) => (
+                    <div key={indexGroup} className="h-full w-full flex">
+                        <div className='flex justify-around w-full'>
+                            {group.map((evento, index) => (
+                                <div className="md:w-4/15 w-13/16 relative" key={index}>
+                                    <CardEventoHome evento={evento}></CardEventoHome>
+                                </div>
+                            ))}
                         </div>
                     </div>
-                </div>
-                <div className="h-full w-full flex">
-                </div>
-                <div className="h-full w-full flex">
-                </div>
+                ))}
             </Carousel>
         </div>
     )

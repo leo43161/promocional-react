@@ -4,8 +4,8 @@ export const headerService = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: process.env.URL_SERVER }), // Cambia a la URL base de tu API
   endpoints: (builder) => ({
     getSecciones: builder.query({
-      query: (idioma = 1) => ({
-        url: `secciones`,
+      query: (idioma = "ES") => ({
+        url: `navbar`,
         params: { idioma },
       }),
     }),

@@ -24,11 +24,12 @@ export default function Autos() {
                     speed={0.2}
                     minHeight="h-96 md:h-[58vh]"
                     className=""
+                    imageUrl='https://www.tucumanturismo.gob.ar/public/img/planviaje/alquilerautos.webp'
                 >
                     <div className="container mx-auto h-full text-white flex flex-col justify-end">
                         <div className='w-11/12 mx-auto pt-5'>
                             <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                                Segunda Sección
+                                Autos
                             </h2>
                         </div>
                     </div>

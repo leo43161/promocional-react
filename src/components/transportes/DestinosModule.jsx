@@ -1,93 +1,7 @@
 import { useState, useEffect } from 'react';
 import { DollarSign, MapPin, Clock, ChevronDown, ChevronUp } from 'lucide-react';
 import { useLenis } from 'lenis/react'
-
-// Datos de ejemplo (placeholder)
-const CIRCUITOS = [
-    { id: 'choromoro', nombre: 'Circuito Choromoro', color: "#EA5B1C" },
-    { id: 'sur', nombre: 'Circuito Sur', color: "#4F7B58" },
-    { id: 'valles', nombre: 'Circuito Valles Calchaquíes', color: "#9D2C2C" },
-    { id: 'yungas', nombre: 'Circuito Yungas', color: "#F18900" }
-];
-
-const DESTINOS = {
-    choromoro: ['San Pedro de Colalao', 'Trancas'],
-    sur: ['Simoca', 'La cocha', 'Lules', 'Famaillá', 'Monteros', 'Concepcion', 'Alberdi', 'Bella vista', 'Rio Colorado', 'Atahona', 'Monteagudo', 'Lamadrid', 'Taco Ralo', 'Samay Cochuna'],
-    valles: ['El Mollar', 'Tafi del Valle', 'Amaicha del Valle', 'Colalao del Valle', 'Cafayate'],
-    yungas: ['Yerba Buena', 'Tafi Viejo', 'Primera Confiteria', 'Horco Molle', 'San Javier', 'Raco y El Siambón', 'El Cadillal y Rio Loro']
-};
-
-// Estructura de datos mejorada para manejar diferentes tipos de horarios
-const LINEAS = {
-    'La cocha': {
-        nombre: 'EXPREBUS',
-        precio: 4850,
-        boleteria: 'Boletería N° 63/64',
-        telefono: '+543814285010',
-        horarios: [
-            {
-                titulo: 'Lunes a viernes',
-                ida: ['05:30', '08:30', '12:30', '14:30', '17:00', '18:30', '20:45'],
-                vuelta: ['04:30', '05:45', '06:25', '09:25', '12:10', '15:50', '19:25', '21:10', '22:00']
-            },
-            {
-                titulo: 'Sábados y domingos',
-                ida: ['05:30', '08:30', '12:30', '14:30', '17:00', '18:30', '20:45'],
-                vuelta: ['05:45', '06:25', '09:25', '12:10', '15:50', '19:25', '21:10', '22:00']
-            }
-        ]
-    },
-    'Simoca': {
-        nombre: 'EXPREBUS',
-        precio: 3900,
-        boleteria: 'Boletería N° 63/64',
-        telefono: '+543814285010',
-        horarios: [
-            {
-                titulo: 'Lunes a viernes',
-                ida: ['06:30', '09:30', '13:30', '16:30', '18:00'],
-                vuelta: ['05:30', '08:45', '11:25', '14:10', '17:50']
-            },
-            {
-                titulo: 'Sábados y domingos',
-                ida: ['07:30', '11:30', '15:30', '18:00'],
-                vuelta: ['06:45', '10:25', '14:10', '19:00']
-            }
-        ]
-    },
-    'Lules': {
-        nombre: 'EXPREBUS',
-        precio: 3500,
-        boleteria: 'Boletería N° 65',
-        telefono: '+543814285011',
-        horarios: [
-            {
-                titulo: 'Lunes a sábados',
-                ida: ['07:30', '10:30', '14:30', '17:30', '19:00'],
-                vuelta: ['06:30', '09:45', '13:25', '16:10', '18:50']
-            },
-            {
-                titulo: 'Domingos',
-                ida: ['08:30', '12:30', '16:30'],
-                vuelta: ['07:45', '11:25', '17:10']
-            }
-        ]
-    },
-    'Monteros': {
-        nombre: 'EXPREBUS',
-        precio: 4200,
-        boleteria: 'Boletería N° 67',
-        telefono: '+543814285012',
-        horarios: [
-            {
-                titulo: 'Todos los días',
-                ida: ['06:00', '08:00', '10:00', '12:00', '14:00', '16:00', '18:00'],
-                vuelta: ['07:00', '09:00', '11:00', '13:00', '15:00', '17:00', '19:00']
-            }
-        ]
-    },
-    // Datos para los demás destinos serían similares
-};
+import { DESTINOS, CIRCUITOS, LINEAS } from '@/data/transporte';
 
 export default function BuscadorTransporte() {
     const lenis = useLenis();
@@ -208,7 +122,7 @@ export default function BuscadorTransporte() {
                                 <DollarSign style={{ color: circuitoColor }} size={20} />
                             </div>
                             <div>
-                                <span className="font-medium text-gray-700">Precio:</span> ${infoDestino.precio.toLocaleString()}
+                                <span className="font-medium text-gray-700">Precio:</span> ${infoDestino?.precio?.toLocaleString()}
                             </div>
                         </div>
 
@@ -218,71 +132,83 @@ export default function BuscadorTransporte() {
                                 <MapPin style={{ color: circuitoColor }} size={20} />
                             </div>
                             <div>
-                                <span className="font-medium text-gray-700">Donde tomarlo:</span> {infoDestino.boleteria} |
+                                <span className="font-medium text-gray-700">Donde tomarlo:</span> {infoDestino?.boleteria} |
                                 <span className="font-medium text-gray-700"> Teléfono:</span>
                                 <a href={`tel:${infoDestino.telefono}`} className="ml-1" style={{ color: circuitoColor }}>
-                                    {infoDestino.telefono}
+                                    {infoDestino?.telefono}
                                 </a>
                             </div>
                         </div>
 
                         {/* Horarios colapsable */}
-                        <div className="border rounded-md">
-                            <button
-                                className="w-full flex items-center justify-between p-4 text-left"
-                                onClick={() => setMostrarHorarios(!mostrarHorarios)}
-                            >
-                                <div className="flex items-center">
-                                    <div className="p-2 rounded-full mr-3" style={{ backgroundColor: lightColor }}>
-                                        <Clock style={{ color: circuitoColor }} size={20} />
+                        {typeof infoDestino?.horarios !== 'string' ? (
+                            <div className="border rounded-md">
+                                <button
+                                    className="w-full flex items-center justify-between p-4 text-left"
+                                    onClick={() => setMostrarHorarios(!mostrarHorarios)}
+                                >
+                                    <div className="flex items-center">
+                                        <div className="p-2 rounded-full mr-3" style={{ backgroundColor: lightColor }}>
+                                            <Clock style={{ color: circuitoColor }} size={20} />
+                                        </div>
+                                        <span className="font-medium text-gray-700">Horario:</span>
                                     </div>
-                                    <span className="font-medium text-gray-700">Horario:</span>
-                                </div>
-                                {mostrarHorarios ? (
-                                    <ChevronUp className="text-gray-500" size={20} />
-                                ) : (
-                                    <ChevronDown className="text-gray-500" size={20} />
-                                )}
-                            </button>
+                                    {mostrarHorarios ? (
+                                        <ChevronUp className="text-gray-500" size={20} />
+                                    ) : (
+                                        <ChevronDown className="text-gray-500" size={20} />
+                                    )}
+                                </button>
 
-                            {mostrarHorarios && (
-                                <div className="p-4 border-t">
-                                    <div className="flex flex-col md:flex-row gap-4">
-                                        {/* Horarios Dinámicos */}
-                                        {infoDestino.horarios.map((horario, index) => (
-                                            <div key={`horario-${index}`} className={`w-full ${infoDestino.horarios.length > 1 ? 'md:w-1/2' : ''}`}>
-                                                <h4 className="text-center font-medium mb-2" style={{ color: circuitoColor }}>
-                                                    {horario.titulo}
-                                                </h4>
-                                                <div className="border rounded-md overflow-hidden" style={{ borderColor: `${circuitoColor}30` }}>
-                                                    <div className="grid grid-cols-2 font-medium" style={{ backgroundColor: `${circuitoColor}10` }}>
-                                                        <div className="p-2 text-center border-r" style={{ borderColor: `${circuitoColor}30` }}>Ida</div>
-                                                        <div className="p-2 text-center">Vuelta</div>
-                                                    </div>
-                                                    {/* Usar el array más largo para determinar el número de filas */}
-                                                    {Array.from({ length: Math.max(horario.ida.length, horario.vuelta.length) }).map((_, rowIndex) => (
-                                                        <div
-                                                            key={`row-${horario.titulo}-${rowIndex}`}
-                                                            className="grid grid-cols-2"
-                                                            style={{
-                                                                backgroundColor: rowIndex % 2 === 0 ? `${circuitoColor}05` : 'white'
-                                                            }}
-                                                        >
-                                                            <div className="p-2 text-center border-r" style={{ borderColor: `${circuitoColor}30` }}>
-                                                                {rowIndex < horario.ida.length ? horario.ida[rowIndex] : '-'}
-                                                            </div>
-                                                            <div className="p-2 text-center">
-                                                                {rowIndex < horario.vuelta.length ? horario.vuelta[rowIndex] : '-'}
-                                                            </div>
+                                {mostrarHorarios && (
+                                    <div className="p-4 border-t">
+                                        <div className="flex flex-col md:flex-row gap-4">
+                                            {/* Horarios Dinámicos */}
+                                            {infoDestino.horarios.map((horario, index) => (
+                                                <div key={`horario-${index}`} className={`w-full ${infoDestino.horarios.length > 1 ? 'md:w-1/2' : ''}`}>
+                                                    <h4 className="text-center font-medium mb-2" style={{ color: circuitoColor }}>
+                                                        {horario.titulo}
+                                                    </h4>
+                                                    <div className="border rounded-md overflow-hidden" style={{ borderColor: `${circuitoColor}30` }}>
+                                                        <div className="grid grid-cols-2 font-medium" style={{ backgroundColor: `${circuitoColor}10` }}>
+                                                            <div className="p-2 text-center border-r" style={{ borderColor: `${circuitoColor}30` }}>Ida</div>
+                                                            <div className="p-2 text-center">Vuelta</div>
                                                         </div>
-                                                    ))}
+                                                        {/* Usar el array más largo para determinar el número de filas */}
+                                                        {Array.from({ length: Math.max(horario.ida.length, horario.vuelta.length) }).map((_, rowIndex) => (
+                                                            <div
+                                                                key={`row-${horario.titulo}-${rowIndex}`}
+                                                                className="grid grid-cols-2"
+                                                                style={{
+                                                                    backgroundColor: rowIndex % 2 === 0 ? `${circuitoColor}05` : 'white'
+                                                                }}
+                                                            >
+                                                                <div className="p-2 text-center border-r" style={{ borderColor: `${circuitoColor}30` }}>
+                                                                    {rowIndex < horario.ida.length ? horario.ida[rowIndex] : '-'}
+                                                                </div>
+                                                                <div className="p-2 text-center">
+                                                                    {rowIndex < horario.vuelta.length ? horario.vuelta[rowIndex] : '-'}
+                                                                </div>
+                                                            </div>
+                                                        ))}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        ))}
+                                            ))}
+                                        </div>
                                     </div>
+                                )}
+                            </div>
+                        ) : (
+                            <div className="flex items-center mb-4">
+                                <div className="p-2 rounded-full mr-3" style={{ backgroundColor: lightColor }}>
+                                    <Clock style={{ color: circuitoColor }} size={20} />
                                 </div>
-                            )}
-                        </div>
+                                <div>
+                                    <span className="font-medium text-gray-700">Donde tomarlo:</span> <span className="underline">{infoDestino.horarios}</span>
+                                </div>
+                            </div>
+                        )}
+
                     </div>
                 )}
             </div>

@@ -62,7 +62,7 @@ export async function getStaticProps(context) {
 
     try {
         const [articuloRes, galeriaRes, pdfsRes] = await Promise.all([
-            fetch(`${apiBaseUrl}articulos_id/${id}`),
+            fetch(`${apiBaseUrl}articulo/${id}`),
             fetch(`${apiBaseUrl}galeria_art/${id}`),
             fetch(`${apiBaseUrl}pdfs_art/${id}`)
         ]);
@@ -124,7 +124,7 @@ export async function getStaticProps(context) {
 // --- Componente Principal (Basado en el segundo bloque, adaptado para usar props) ---
 // Renombramos a ArticuloPage para claridad
 export default function ArticuloPage({ articulo, galleryItems, pdfItems, parallaxImageUrl, id, slug }) {
-
+console.log(articulo);
     if (!articulo) {
         return <div className="container mx-auto p-5 text-center">Artículo no disponible.</div>;
     }
@@ -136,7 +136,7 @@ export default function ArticuloPage({ articulo, galleryItems, pdfItems, paralla
 
     const breadcrumbItems = [
         // Muestra la subsección si existe en el objeto 'articulo'
-        ...(articulo?.nomSubseccion ? [{ label: articulo.nomSubseccion, href: `/seccion/${articulo.idSubseccion}` }] : []), // Ajusta el href según tu routing real
+        ...(articulo?.nomSubseccion ? [{ label: articulo.nomSubseccion, href: `/subsecciones/lista/${articulo.idSubseccion}/${generateSlug(articulo.nomSubseccion)}` }] : []), // Ajusta el href según tu routing real
         // Muestra el nombre del artículo actual (usando el slug y el id pasados como props)
         { label: articulo.nombre || "Detalle", href: `/articulos/articulo/${id}/${slug}` }
     ];

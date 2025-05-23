@@ -22,7 +22,7 @@ export default function Transportes() {
             <div className='w-11/12 mx-auto pt-5 mb-10'>
                 <div className='mb-5'>
                     <Breadcrumb items={
-                        [{ label: "Prestadores activos", href: '/prestadores' }]
+                        [{ label: "Transportes", href: '/transportes' }]
                     }></Breadcrumb>
                 </div>
             </div>

@@ -1,29 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import ParallaxContainer from '@/components/common/ParallaxContainer';
-import CardPrestadores from '@/components/prestadores/CardPrestadores';
 import Breadcrumb from '@/components/common/Breadcrumb';
+import Filters from '@/components/eventos/Filters';
+import { useGetEventosQuery } from '@/redux/services/eventosService';
+import CardEvento from '@/components/eventos/CardEvento';
 import Paginado from '@/components/common/Paginado';
-import Filters from '@/components/alojamientos/Filters';
-import { useGetAlojamientosQuery } from '@/redux/services/alojamientosService';
-import CardAlojamiento from '@/components/alojamientos/CardAlojamiento';
 
-export default function Alojamientos() {
+export default function Eventos() {
     // Estado para controlar la paginación y búsqueda
-    const [filter, setFilter] = useState({ search: '', categoria: "", estrellas: "", localidad: "" });
+    const [filter, setFilter] = useState({ search: '', dia: "", fechaIni: "", fechaFin: "" });
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 1;
+    const itemsPerPage = 12;
 
     // Calcular el offset basado en la página actual
     const offset = (currentPage - 1) * itemsPerPage;
 
     // Consulta con RTK Query
-    const { data: alojamientos, error, isLoading, refetch, isFetching } = useGetAlojamientosQuery({
+    const { data: eventos, error, isLoading, refetch, isFetching } = useGetEventosQuery({
         limit: itemsPerPage,
         offset: offset,
         search: filter.search,
-        categoria: filter.categoria,
-        estrellas: filter.estrellas,
-        localidad: filter.localidad
+        dia: filter.dia,
+        fechaIni: filter.fechaIni,
+        fechaFin: filter.fechaFin
     });
 
     // Manejar cambio de página
@@ -34,15 +33,12 @@ export default function Alojamientos() {
 
     // Resetear la página cuando cambia el término de búsqueda
     useEffect(() => {
-        console.log("filter:", filter);
         setCurrentPage(1);
     }, [filter]);
 
-    console.log(alojamientos);
-    console.log(error);
-    if (error) return <p>Hubo un error al cargar los alojamientos</p>;
-
-    const totalItems = alojamientos?.result[0]?.total ? parseInt(alojamientos?.result[0]?.total) : 0;
+    if (error) return <p>Hubo un error al cargar los eventos</p>;
+    const totalItems = parseInt(eventos?.total) || 0;
+    console.log(eventos);
     // Determinar si estamos en un estado de carga (inicial o actualización)
     const loading = isLoading || isFetching;
     return (
@@ -57,7 +53,7 @@ export default function Alojamientos() {
                     <div className="container mx-auto h-full text-white flex flex-col justify-end">
                         <div className='w-11/12 mx-auto pt-5'>
                             <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                                Alojamientos
+                                Eventos
                             </h2>
                         </div>
                     </div>
@@ -66,7 +62,7 @@ export default function Alojamientos() {
             <div className='w-11/12 mx-auto pt-5'>
                 <div className='mb-5'>
                     <Breadcrumb items={
-                        [{ label: "Alojamientos", href: '/alojamientos' }]
+                        [{ label: "Alojamientos", href: '/eventos' }]
                     }></Breadcrumb>
                 </div>
                 <h2 className="text-2xl font-bold mb-4">Buscá aquí donde hospedarte</h2>
@@ -76,32 +72,29 @@ export default function Alojamientos() {
                         <Filters filter={filter} setFilter={setFilter} />
                     </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-7 pb-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-12 mb-5 w-10/11 mx-auto">
                     {loading ? (
                         // Mostrar skeletons mientras se están cargando datos
                         Array(itemsPerPage).fill(0).map((_, index) => (
                             <div key={`skeleton-${index}`}>
-                                <CardPrestadores isLoading={true} />
+                                <CardEvento isLoading={true} />
                             </div>
                         ))
                     ) : (
                         // Mostrar datos reales cuando no está cargando
-                        alojamientos.result?.map((alojamiento) => (
-                            <div key={alojamiento.id}>
-                                <CardAlojamiento alojamiento={alojamiento} />
-                            </div>
+                        eventos.result?.map((evento) => (
+                            <a href={`/eventos/evento?id=${evento.id}`} key={evento.id}>
+                                <CardEvento evento={evento} />
+                            </a>
                         ))
                     )}
                 </div>
-
-                {/* Componente de paginación */}
-                    <Paginado
-                        currentPage={currentPage}
-                        totalItems={totalItems}
-                        itemsPerPage={itemsPerPage}
-                        onPageChange={handlePageChange}
-                        className={'pb-5'}
-                    />
+                <Paginado
+                    currentPage={currentPage}
+                    totalItems={totalItems}
+                    itemsPerPage={itemsPerPage}
+                    onPageChange={handlePageChange}
+                ></Paginado>
             </div>
         </div>
     );

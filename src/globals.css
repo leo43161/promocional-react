@@ -38,7 +38,7 @@
 @layer utilities {
   :root {
     --text: #444242;
-    --background: #ffffff;
+    --background: #ededed;
     --foreground: #171717;
     --primary: #e9721f;
     --secondary: #006e66;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { useRouter } from 'next/router';
 import ParallaxContainer from '@/components/common/ParallaxContainer';
 import Breadcrumb from '@/components/common/Breadcrumb';
@@ -11,7 +11,7 @@ export async function getStaticPaths() {
     const apiBaseUrl = process.env.URL_SERVER || 'URL_POR_DEFECTO_DE_TU_API';
     let subsecciones = [];
     try {
-        const res = await fetch(`${apiBaseUrl}/subseccion`); // Ajusta el endpoint si es necesario
+        const res = await fetch(`${apiBaseUrl}/subseccion_all`); // Ajusta el endpoint si es necesario
         if (!res.ok) throw new Error(`API Error fetching list: ${res.status}`);
         const data = await res.json();
         // --- NOTA: La línea de slice era para pruebas, quítala para producción ---
@@ -54,7 +54,7 @@ export async function getStaticProps(context) {
 
     try {
         const [seccionRes] = await Promise.all([
-            fetch(`${apiBaseUrl}subseccion_id/${id}`),
+            fetch(`${apiBaseUrl}subseccion/${id}`),
         ]);
 
         if (!seccionRes.ok) {
@@ -90,7 +90,7 @@ export async function getStaticProps(context) {
                 id,
                 slug,
             },
-        }; 
+        };
 
     } catch (error) {
         console.error(`Error fetching data for article ID ${id} (slug: ${slug}):`, error);
@@ -99,6 +99,7 @@ export async function getStaticProps(context) {
 }
 
 export default function SubseccionPage({ subseccion, articulos, parallaxImageUrl, id, slug }) {
+    console.log(subseccion);
     return (
         <div>
             <ParallaxContainer
@@ -118,14 +119,16 @@ export default function SubseccionPage({ subseccion, articulos, parallaxImageUrl
             <div className='w-11/12 mx-auto pt-5 mb-10'>
                 <div className='mb-5'>
                     <Breadcrumb items={
-                        [{ label: "Prestadores activos", href: '/prestadores' }]
+                        [{ label: subseccion?.nombre, href: '/subsecciones/lista/' + id + '/' + slug }]
                     }></Breadcrumb>
                 </div>
             </div>
 
             <div className='mb-10 md:w-11/14 w-full mx-auto flex flex-col gap-15 px-5'>
                 {articulos.map((articulo, index) => (
-                    <ItemLista articulo={articulo} key={articulo.index} right={!(index % 2 === 0)}></ItemLista>
+                    <Fragment key={index}>
+                        <ItemLista articulo={articulo} key={articulo.index} right={!(index % 2 === 0)}></ItemLista>
+                    </Fragment>
                 ))}
             </div>
 

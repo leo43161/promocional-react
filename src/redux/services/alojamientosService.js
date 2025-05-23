@@ -12,7 +12,7 @@ export const alojamientosService = createApi({
                 estrellas,
                 localidad
             }) => ({
-                url: `alojamientos`,
+                url: `hoteles`,
                 params: { limit, offset, search, categoria, estrellas, localidad },
             }),
         }),

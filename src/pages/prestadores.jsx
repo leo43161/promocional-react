@@ -42,8 +42,9 @@ export default function Prestadores() {
 
     console.log("isLoading:", isLoading, "isFetching:", isFetching);
     if (error) return <p>Hubo un error al cargar los prestadores</p>;
-
-    const totalItems = parseInt(prestadores?.all) || 0;
+    console.log(prestadores?.result[0]);
+    const totalItems = prestadores?.result[0]?.total ? parseInt(prestadores?.result[0]?.total) : 0;
+    console.log("totalItems:", totalItems);
     // Determinar si estamos en un estado de carga (inicial o actualización)
     const loading = isLoading || isFetching;
     return (
@@ -64,7 +65,7 @@ export default function Prestadores() {
                     </div>
                 </ParallaxContainer>
             </section>
-            <div className='w-11/12 mx-auto pt-5 mb-7'>
+            <div className='w-11/12 mx-auto pt-5'>
                 <div className='mb-5'>
                     <Breadcrumb items={
                         [{ label: "Prestadores activos", href: '/prestadores' }]
@@ -78,7 +79,7 @@ export default function Prestadores() {
                         <Buscador onSearch={handleSearch} />
                     </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-5">
                     {loading ? (
                         // Mostrar skeletons mientras se están cargando datos
                         Array(itemsPerPage).fill(0).map((_, index) => (
@@ -97,12 +98,14 @@ export default function Prestadores() {
                 </div>
 
                 {/* Componente de paginación */}
-                <Paginado
-                    currentPage={currentPage}
-                    totalItems={totalItems}
-                    itemsPerPage={itemsPerPage}
-                    onPageChange={handlePageChange}
-                />
+                <div className='pb-2'>
+                    <Paginado
+                        currentPage={currentPage}
+                        totalItems={totalItems}
+                        itemsPerPage={itemsPerPage}
+                        onPageChange={handlePageChange}
+                    />
+                </div>
             </div>
         </div>
     );

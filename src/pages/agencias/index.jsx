@@ -1,7 +1,7 @@
 import React from 'react';
-import { useGetGuiasQuery } from '@/redux/services/prestadoresService';
+import { useGetAgenciasQuery } from '@/redux/services/prestadoresService';
 import ParallaxContainer from '@/components/common/ParallaxContainer';
-import CardGuias from '@/components/prestadores/CardGuias';
+import CardAgencias from '@/components/prestadores/CardAgencias';
 import Breadcrumb from '@/components/common/Breadcrumb';
 import Buscador from '@/components/SearchPrest';
 
@@ -10,7 +10,7 @@ export default function Prestadores() {
     const itemsPerPage = 12;
 
     // Consulta con RTK Query
-    const { data: guias, error, isLoading, isFetching } = useGetGuiasQuery();
+    const { data: guias, error, isLoading, isFetching } = useGetAgenciasQuery();
 
     console.log("isLoading:", isLoading, "isFetching:", isFetching);
     if (error) return <p>Hubo un error al cargar los guias</p>;
@@ -24,11 +24,12 @@ export default function Prestadores() {
                     speed={0.2}
                     minHeight="h-96 md:h-[58vh]"
                     className=""
+                    imageUrl='https://www.tucumanturismo.gob.ar/public/img/planviaje/agencias.webp'
                 >
                     <div className="container mx-auto h-full text-white flex flex-col justify-end">
                         <div className='w-11/12 mx-auto pt-5'>
                             <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                                Segunda Sección
+                                Agencias de viaje
                             </h2>
                         </div>
                     </div>
@@ -49,14 +50,14 @@ export default function Prestadores() {
                         // Mostrar skeletons mientras se están cargando datos
                         Array(itemsPerPage).fill(0).map((_, index) => (
                             <div key={`skeleton-${index}`}>
-                                <CardGuias isLoading={true} />
+                                <CardAgencias isLoading={true} />
                             </div>
                         ))
                     ) : (
                         // Mostrar datos reales cuando no está cargando
                         guias.result?.map((prestador) => (
                             <div key={prestador.id}>
-                                <CardGuias isLoading={false} prestador={prestador} />
+                                <CardAgencias isLoading={false} prestador={prestador} />
                             </div>
                         ))
                     )}

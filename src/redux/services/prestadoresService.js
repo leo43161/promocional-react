@@ -6,19 +6,23 @@ export const prestadoresService = createApi({
     getPrestadores: builder.query({
       query: ({ limit, offset, search }) => ({
         url: `prestadores`,
-        params: { limit, offset, search, tipo: 0 },
+        params: { limit, offset, busqueda: search, /* localidad: null, actividad: null */ },
+      }),
+    }),
+    getAgencias: builder.query({
+      query: () => ({
+        url: `agencias`,
       }),
     }),
     getGuias: builder.query({
       query: () => ({
-        url: `prestadores`,
-        params: { limit: 100, offset: 0, search: "", tipo: 2 },
+        url: `guias`,
+        params: { limit: 100, offset: 0, search: ""},
       }),
     }),
     getAutos: builder.query({
       query: () => ({
-        url: `prestadores`,
-        params: { limit: 100, offset: 0, search: "", tipo: 3 },
+        url: `autos`,
       }),
     }),
   }),
@@ -26,6 +30,7 @@ export const prestadoresService = createApi({
 
 export const {
   useGetPrestadoresQuery,
+  useGetAgenciasQuery,
   useGetGuiasQuery,
   useGetAutosQuery
 } = prestadoresService;

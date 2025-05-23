@@ -3,14 +3,28 @@ import { MessageCircle, Facebook, Instagram, Twitter, Youtube, Menu, X, ChevronD
 // Asegúrate que la ruta sea correcta para tu proyecto
 import { useGetSeccionesQuery } from '@/redux/services/headerService';
 import { useRouter } from 'next/router';
+import { generateSlug, languages } from '@/utils';
 
 // --- Opciones de Idioma (AHORA CON ID) ---
 // AJUSTA los 'id' según los valores que espera tu API para cada idioma
-const languages = [
-    { id: 1, code: 'ES', label: 'Español', flag: (process.env.URL_IMG_LOCAL || '') + '/svg/arg.svg', alt: 'Bandera Argentina' },
-    { id: 2, code: 'EN', label: 'English', flag: (process.env.URL_IMG_LOCAL || '') + '/svg/eng.svg', alt: 'Bandera Reino Unido' } // Asumiendo ID 2 para inglés
-];
 
+const redirectSubsecc = [
+    { idSubseccion: 5, articulo: "alojamientos" },
+    { idSubseccion: 6, articulo: "transporte" },
+    { idSubseccion: 41, articulo: "autos" },
+    { idSubseccion: 20, articulo: "eventos" },
+    { idSubseccion: 42, articulo: "prestadores" },
+    { idSubseccion: 43, articulo: "agencias" },
+    { idSubseccion: 44, articulo: "guias" },
+    { idSubseccion: 62, articulo: "alojamientos" },
+    { idSubseccion: 64, articulo: "prestadores" },
+    { idSubseccion: 83, articulo: "autos" },
+    { idSubseccion: 66, articulo: "guias" },
+    { idSubseccion: 65, articulo: "agencias" },
+    { idSubseccion: 63, articulo: "transporte" },
+    { idSubseccion: 201, articulo: "eventos" },
+    { idSubseccion: 40, articulo: "gastronomia" },
+];
 
 // --- Componente Header ---
 export default function Header() {
@@ -19,7 +33,7 @@ export default function Header() {
     const [openAccordionItem, setOpenAccordionItem] = useState(null);
     const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
     // Estado para el ID del idioma seleccionado, inicia con el ID del primer idioma (Español)
-    const [selectedLangId, setSelectedLangId] = useState(languages[0].id);
+    const [selectedLangId, setSelectedLangId] = useState(languages[0].code);
     // Estado para el objeto completo del idioma seleccionado (para mostrar bandera/código)
     const [selectedLang, setSelectedLang] = useState(languages[0]);
 
@@ -31,10 +45,9 @@ export default function Header() {
         if (!router.isReady) return;
         const { lang } = router.query;
         if (lang) {
-            const id = parseInt(lang, 10);
-            const found = languages.find(l => l.id === id);
+            const found = languages.find(l => l.code === lang);
             if (found) {
-                setSelectedLangId(id);
+                setSelectedLangId(found.code);
                 setSelectedLang(found);
             }
         }
@@ -45,33 +58,61 @@ export default function Header() {
     const dynamicMenuItems = useMemo(() => {
         // Si está cargando, obteniendo datos nuevos, o hubo un error, retorna array vacío
         if (isLoading || isFetching || error || !seccionesApi) {
+            console.log('isLoading, isFetching, error, seccionesApi:', isLoading, isFetching, error, seccionesApi);
             // Podrías diferenciar entre loading y error si quieres mostrar mensajes distintos
             return [];
         }
         // Filtrar secciones activas y visibles, luego ordenar
         const visibleSections = seccionesApi
             .result
-            .filter(s => s.visible === "1" && s.activa === "1")
+            .filter(s => s.seccionVisible === "1" && s.seccionActiva === "1")
             .sort((a, b) => parseInt(a.orden || '999') - parseInt(b.orden || '999'));
 
-        return visibleSections.map(seccion => {
+        console.log(visibleSections);
+
+        const groupedSubcategories = visibleSections.reduce((acc, item) => {
+            const key = item.nombreSeccion.trim();
+            const exist = acc.length > 0 && acc.find(s => s.nombre.trim() === key);
+            if (!exist) {
+                acc.push({
+                    nombre: key,
+                    subsecciones: []
+                });
+            }
+            const subseccion = {
+                idSubseccion: item.idSubseccion,
+                nombre: item.nombreSubseccion,
+                visible: item.subsecVisible,
+                activa: item.subsecActiva,
+                orden: item.orden,
+                primerArt: item.primerArticuloSubseccion,
+                primerArtNombre: item.primerArticuloNombre,
+                articulos: item.cantidadArticulos,
+                idioma: parseInt(item.idiomaSubseccion),
+            };
+            // si el key coincide con algunos de los existentes, agrega el item a subsecciones
+            acc.find(s => s.nombre.trim() === key).subsecciones.push(subseccion);
+            return acc;
+        }, []);
+        return groupedSubcategories.map(seccion => {
             // Filtrar subsecciones activas y visibles, luego ordenar
             const visibleSubsections = (seccion.subsecciones || [])
                 .filter(sub => sub.visible === "1" && sub.activa === "1")
                 .sort((a, b) => parseInt(a.orden || '999') - parseInt(b.orden || '999'));
-
             // Mapear subsecciones al formato { label, href }
             const children = visibleSubsections
                 .map(sub => {
                     let href = '#'; // Default href
                     // **AJUSTA ESTA LÓGICA DE RUTAS SEGÚN TU APLICACIÓN**
-                    if (sub.primerArt && parseInt(sub.articulos) === 1) {
-                        href = `/articulos/articulo/${sub.primerArt}`; // Link to first article
+                    // Generar el enlace basado en la sección, subsección y si existe en redirectSubsecc
+                    const redirectSubseccion = redirectSubsecc.find(redirec => redirec.idSubseccion === parseInt(sub.idSubseccion)); 
+                    if (sub.primerArt && parseInt(sub.articulos) === 1 && !redirectSubseccion) {
+                        href = `/articulos/articulo/${sub.primerArt}/${generateSlug(sub.primerArtNombre)}`; // Link to first article
                     } else if (sub.idSubseccion) {
-                        href = `/subsecciones/lista/${sub.idSubseccion}`;
+                        href = redirectSubseccion ? `/${redirectSubseccion.articulo}` : `/subsecciones/lista/${sub.idSubseccion}/${generateSlug(sub.nombre)}`;
                     }
                     if (parseInt(sub.idioma) !== 1) {
-                        href += `?lang=${sub.idioma}`
+                        href += `?lang=${languages.find(l => l.id === sub.idioma).code}`
                     }
 
                     // Only return if a valid href was generated
@@ -121,13 +162,13 @@ export default function Header() {
     // --- Function to change language ---
     const handleLanguageChange = (lang) => {
         setSelectedLang(lang); // Update the displayed language info (flag, code)
-        setSelectedLangId(lang.id); // Update the language ID state -> THIS TRIGGERS useGetSeccionesQuery
+        setSelectedLangId(lang.code); // Update the language ID state -> THIS TRIGGERS useGetSeccionesQuery
         setIsLangDropdownOpen(false); // Close dropdown
         setIsMobileMenuOpen(false); // Close mobile menu if open
         setOpenAccordionItem(null); // Reset mobile accordion
         // No need to manually call refetch, RTK Query handles it when selectedLangId changes
         router.push(
-            { pathname: router.pathname, query: { ...router.query, lang: lang.id } },
+            { pathname: router.pathname, query: { ...router.query, lang: lang.code } },
             undefined,
             { shallow: true }
         );
@@ -137,8 +178,6 @@ export default function Header() {
     const toggleAccordion = (label) => {
         setOpenAccordionItem(openAccordionItem === label ? null : label);
     };
-
-
     // --- Render ---
     return (
         <div className="w-full sticky top-0 z-50">
