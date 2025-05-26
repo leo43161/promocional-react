@@ -38,7 +38,6 @@ export default function Eventos() {
 
     if (error) return <p>Hubo un error al cargar los eventos</p>;
     const totalItems = parseInt(eventos?.total) || 0;
-    console.log(eventos);
     // Determinar si estamos en un estado de carga (inicial o actualización)
     const loading = isLoading || isFetching;
     return (
@@ -83,7 +82,7 @@ export default function Eventos() {
                     ) : (
                         // Mostrar datos reales cuando no está cargando
                         eventos.result?.map((evento) => (
-                            <a href={`/eventos/evento?id=${evento.id}`} key={evento.id}>
+                            <a href={`${process.env.URL_LOCAL}/eventos/evento?id=${evento.id}`} key={evento.id}>
                                 <CardEvento evento={evento} />
                             </a>
                         ))

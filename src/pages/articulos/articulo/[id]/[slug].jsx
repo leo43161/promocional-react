@@ -124,9 +124,8 @@ export async function getStaticProps(context) {
 // --- Componente Principal (Basado en el segundo bloque, adaptado para usar props) ---
 // Renombramos a ArticuloPage para claridad
 export default function ArticuloPage({ articulo, galleryItems, pdfItems, parallaxImageUrl, id, slug }) {
-console.log(articulo);
     if (!articulo) {
-        return <div className="container mx-auto p-5 text-center">Artículo no disponible.</div>;
+        return <div className="container mx-auto p-5 text-center">{/* Artículo no disponible. */}</div>;
     }
 
     // --- Construcción del Breadcrumb usando los props ---
@@ -136,9 +135,9 @@ console.log(articulo);
 
     const breadcrumbItems = [
         // Muestra la subsección si existe en el objeto 'articulo'
-        ...(articulo?.nomSubseccion ? [{ label: articulo.nomSubseccion, href: `/subsecciones/lista/${articulo.idSubseccion}/${generateSlug(articulo.nomSubseccion)}` }] : []), // Ajusta el href según tu routing real
+        ...(articulo?.nomSubseccion ? [{ label: articulo.nomSubseccion, href: `${process.env.URL_LOCAL}/subsecciones/lista/${articulo.idSubseccion}/${generateSlug(articulo.nomSubseccion)}` }] : []), // Ajusta el href según tu routing real
         // Muestra el nombre del artículo actual (usando el slug y el id pasados como props)
-        { label: articulo.nombre || "Detalle", href: `/articulos/articulo/${id}/${slug}` }
+        { label: articulo.nombre || "Detalle", href: `${process.env.URL_LOCAL}/articulos/articulo/${id}/${slug}` }
     ];
 
 

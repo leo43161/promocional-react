@@ -14,9 +14,9 @@ export default function EventosHome() {
         }
         // Ordenar eventos por array de arrays de 3 elementos
         const sliceItems = window.innerWidth >= 1024 ? 3 : 1;
+        console.log('eventos:', eventos);
         const groupedEventos = eventos.result.reduce((acc, item) => {
             const lastGroup = acc[acc.length - 1];
-            console.log(lastGroup);
             if (lastGroup && lastGroup.length < sliceItems) {
                 lastGroup.push(item);
             } else {
@@ -27,7 +27,6 @@ export default function EventosHome() {
         return groupedEventos;
 
     }, [eventos, isLoading, isFetching, error]);
-    console.log(eventosDestacados);
     return (
         <div className='mb-40'>
             <Carousel
@@ -41,7 +40,9 @@ export default function EventosHome() {
                         <div className='flex justify-around w-full'>
                             {group.map((evento, index) => (
                                 <div className="md:w-4/15 w-13/16 relative" key={index}>
-                                    <CardEventoHome evento={evento}></CardEventoHome>
+                                    <a href={`${process.env.URL_LOCAL}/eventos/evento?id=${evento.id}`} key={evento.id}>
+                                        <CardEventoHome evento={evento}></CardEventoHome>
+                                    </a>
                                 </div>
                             ))}
                         </div>

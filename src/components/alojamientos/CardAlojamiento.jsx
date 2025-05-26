@@ -29,8 +29,8 @@ const CardAlojamiento = ({ alojamiento, isLoading = false }) => {
 
     const renderStars = (count) => {
         return [...Array(Number(count))].map((_, i) => (
-            <img className='w-5 h-5' key={i} src='/svg/star.svg'></img>
-            
+            <img className='w-5 h-5' key={i} src={process.env.URL_IMG_LOCAL + '/svg/star.svg'}></img>
+
         ));
     };
 
@@ -70,7 +70,7 @@ const CardAlojamiento = ({ alojamiento, isLoading = false }) => {
                         href={`https://www.google.com/maps/search/${alojamiento.latitud},+${alojamiento.longitud}`}
                         className="text-sm text-secondary hover:underline truncate font-semibold"
                     >
-                        
+
                         <span className="text-sm">
                             {alojamiento.domicilio}<br />
                             {alojamiento.localidad}

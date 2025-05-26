@@ -34,12 +34,9 @@ export default function Alojamientos() {
 
     // Resetear la página cuando cambia el término de búsqueda
     useEffect(() => {
-        console.log("filter:", filter);
         setCurrentPage(1);
     }, [filter]);
 
-    console.log(alojamientos);
-    console.log(error);
     if (error) return <p>Hubo un error al cargar los alojamientos</p>;
 
     const totalItems = alojamientos?.result[0]?.total ? parseInt(alojamientos?.result[0]?.total) : 0;

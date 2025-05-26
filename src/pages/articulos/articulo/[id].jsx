@@ -104,7 +104,7 @@ export default function ArticuloRedirectPage({ id, slug, idioma }) {
                 1: 'ES',
                 2: 'EN'
             }
-            let targetUrl = `/articulos/articulo/${id}/${slug}`;
+            let targetUrl = `${process.env.URL_LOCAL}/articulos/articulo/${id}/${slug}`;
             if (parseInt(idioma) !== 1) {
                 targetUrl += `?lang=${idiomaCode[parseInt(idioma)] || idioma}`
             }

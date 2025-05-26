@@ -42,9 +42,7 @@ export default function Guias() {
 
     console.log("isLoading:", isLoading, "isFetching:", isFetching);
     if (error) return <p>Hubo un error al cargar los prestadores</p>;
-    console.log(prestadores?.result[0]);
     const totalItems = prestadores?.result[0]?.total ? parseInt(prestadores?.result[0]?.total) : 0;
-    console.log("totalItems:", totalItems);
     // Determinar si estamos en un estado de carga (inicial o actualización)
     const loading = isLoading || isFetching;
     return (

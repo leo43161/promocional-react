@@ -5,7 +5,6 @@ import { useGetAlojamientosFiltersQuery } from '@/redux/services/alojamientosSer
 export default function Filters({ filter, setFilter }) {
   // Consulta con RTK Query
   const { data: filters, error, isLoading, isFetching } = useGetAlojamientosFiltersQuery();
-  console.log(filters)
   const [searchInput, setSearchInput] = useState(filter.search || '');
   const [_categorias, setCategorias] = useState([]);
   const [_localidades, setLocalidades] = useState([]);

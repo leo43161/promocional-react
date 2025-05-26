@@ -6,6 +6,16 @@ RewriteEngine On
 
 RewriteBase /reactdev/
 
+# Al principio de tu .htaccess, después de RewriteEngine On y RewriteBase
+ErrorDocument 404 /reactdev/404.html
+
+# REGLA PARA /eventos -> servir eventos.html
+# Si la solicitud es exactamente /eventos o /eventos/
+RewriteCond %{REQUEST_URI} ^/reactdev/eventos/?$
+# Y el archivo /reactdev/eventos.html existe
+RewriteCond %{DOCUMENT_ROOT}/reactdev/eventos.html -f [NC]
+# Sirve internamente eventos.html
+RewriteRule ^eventos/?$ eventos.html [L]
 
 
 # --- REGLAS ESPECÍFICAS PRIMERO DE ARTICULOS ---

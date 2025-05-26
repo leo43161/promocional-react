@@ -68,8 +68,6 @@ export default function Header() {
             .filter(s => s.seccionVisible === "1" && s.seccionActiva === "1")
             .sort((a, b) => parseInt(a.orden || '999') - parseInt(b.orden || '999'));
 
-        console.log(visibleSections);
-
         const groupedSubcategories = visibleSections.reduce((acc, item) => {
             const key = item.nombreSeccion.trim();
             const exist = acc.length > 0 && acc.find(s => s.nombre.trim() === key);
@@ -107,9 +105,9 @@ export default function Header() {
                     // Generar el enlace basado en la sección, subsección y si existe en redirectSubsecc
                     const redirectSubseccion = redirectSubsecc.find(redirec => redirec.idSubseccion === parseInt(sub.idSubseccion)); 
                     if (sub.primerArt && parseInt(sub.articulos) === 1 && !redirectSubseccion) {
-                        href = `/articulos/articulo/${sub.primerArt}/${generateSlug(sub.primerArtNombre)}`; // Link to first article
+                        href = `${process.env.URL_LOCAL}/articulos/articulo/${sub.primerArt}/${generateSlug(sub.primerArtNombre)}`; // Link to first article
                     } else if (sub.idSubseccion) {
-                        href = redirectSubseccion ? `/${redirectSubseccion.articulo}` : `/subsecciones/lista/${sub.idSubseccion}/${generateSlug(sub.nombre)}`;
+                        href = redirectSubseccion ? `${process.env.URL_LOCAL}/${redirectSubseccion.articulo}` : `${process.env.URL_LOCAL}/subsecciones/lista/${sub.idSubseccion}/${generateSlug(sub.nombre)}`;
                     }
                     if (parseInt(sub.idioma) !== 1) {
                         href += `?lang=${languages.find(l => l.id === sub.idioma).code}`

@@ -66,7 +66,6 @@ export default function CardGuias({ prestador, isLoading = false }) {
         instagram,
     } = prestador;
 
-    console.log(prestador);
 
     return (
         <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">

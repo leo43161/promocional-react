@@ -34,7 +34,6 @@ export default function Imperdible() {
         }
         // Ordenar imperdibles por array de arrays de 3 elementos
         const sliceItems = window.innerWidth >= 1024 ? 3 : 1;
-        console.log(sliceItems);
         const groupedImperdibles = imperdibles.result.reduce((acc, item) => {
             const lastGroup = acc[acc.length - 1];
             if (lastGroup && lastGroup.length < sliceItems) {
@@ -48,7 +47,6 @@ export default function Imperdible() {
 
     }, [imperdibles, isLoading, isFetching, error]);
 
-    console.log('orderedImperdibles:', orderedImperdibles);
     return (
         <div className="w-full">
             <Carousel className='md:h-135' showIndicators={true} showArrows={true} autoPlay={false} interval={6000}>

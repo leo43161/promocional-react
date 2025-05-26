@@ -91,7 +91,7 @@ export default function SubseccionLoades({ id, slug, idioma }) {
         1: 'ES',
         2: 'EN'
     }
-      let targetUrl = `/subsecciones/lista/${id}/${slug}`;
+      let targetUrl = `${process.env.URL_LOCAL}/subsecciones/lista/${id}/${slug}`;
       if (parseInt(idioma) !== 1) {
         targetUrl += `?lang=${idiomaCode[parseInt(idioma)] || idioma}`
       }

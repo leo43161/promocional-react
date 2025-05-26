@@ -64,7 +64,7 @@ export default function Planifica() {
       title: 'Itinerarios',
       description: 'Descubre rutas prediseñadas para aprovechar al máximo tu tiempo y visitar los lugares más destacados.',
       image: '/images/main/itinerarios.jpg',
-      link: '/subsecciones/lista/45'
+      link: process.env.URL_LOCAL + '/subsecciones/lista/45'
     },
     {
       id: 'mapas',
@@ -72,7 +72,7 @@ export default function Planifica() {
       title: 'Mapas y Folletos',
       description: 'Accede a mapas detallados y folletos informativos para orientarte durante tu visita.',
       image: '/images/main/mapas.jpg',
-      link: '/subsecciones/lista/46'
+      link: process.env.URL_LOCAL + '/subsecciones/lista/46'
     }
   ];
 

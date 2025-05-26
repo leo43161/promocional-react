@@ -49,7 +49,6 @@ export default function Evento() {
 
     // Usamos optional chaining ?. para acceder de forma segura a 'result'
     const evento = eventoData?.result[0];
-    console.log(evento);
 
     if (isErrorEvento) {
         console.error("Error fetching event data:", errorEvento);

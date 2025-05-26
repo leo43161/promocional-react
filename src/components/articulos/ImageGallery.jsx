@@ -40,7 +40,6 @@ const GallerySkeleton = () => (
 // Añadimos isLoading a las props, con valor por defecto false
 export default function ImageGallery({ items = [], isLoading = false }) {
     const limitedImages = items.slice(0, 5);
-    // console.log(limitedImages); // Puedes mantener o quitar el console.log
 
     const [activeImageIndex, setActiveImageIndex] = useState(0);
     const [imageErrors, setImageErrors] = useState(() => Array(limitedImages.length).fill(false));

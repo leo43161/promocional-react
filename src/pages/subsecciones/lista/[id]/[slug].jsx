@@ -99,7 +99,6 @@ export async function getStaticProps(context) {
 }
 
 export default function SubseccionPage({ subseccion, articulos, parallaxImageUrl, id, slug }) {
-    console.log(subseccion);
     return (
         <div>
             <ParallaxContainer
@@ -119,7 +118,7 @@ export default function SubseccionPage({ subseccion, articulos, parallaxImageUrl
             <div className='w-11/12 mx-auto pt-5 mb-10'>
                 <div className='mb-5'>
                     <Breadcrumb items={
-                        [{ label: subseccion?.nombre, href: '/subsecciones/lista/' + id + '/' + slug }]
+                        [{ label: subseccion?.nombre, href: process.env.URL_LOCAL + '/subsecciones/lista/' + id + '/' + slug }]
                     }></Breadcrumb>
                 </div>
             </div>
