@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 255 255">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+      }
+
+      .cls-2 {
+        fill: #006e66;
+      }
+    </style>
+  </defs>
+  <!-- Generator: Adobe Illustrator 28.6.0, SVG Export Plug-In . SVG Version: 1.2.0 Build 709)  -->
+  <g>
+    <g id="Capa_1">
+      <rect class="cls-2" width="255" height="255"/>
+      <g>
+        <polygon class="cls-1" points="168.46 89.58 168.46 69.86 86.54 69.86 86.54 89.58 31.91 89.58 31.91 121.43 95.64 121.43 95.64 101.72 159.37 101.72 159.37 121.43 223.09 121.43 223.09 89.58 168.46 89.58"/>
+        <rect class="cls-1" x="31.91" y="153.28" width="191.18" height="31.86"/>
+        <polygon class="cls-2" points="159.37 121.43 159.37 101.72 95.64 101.72 95.64 121.43 31.91 121.43 31.91 153.28 223.09 153.28 223.09 121.43 159.37 121.43"/>
+      </g>
+    </g>
+  </g>
+</svg>

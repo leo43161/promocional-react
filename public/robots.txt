@@ -1,0 +1,16 @@
+User-agent: *
+Allow: /
+
+# Disallow carpetas internas de Next.js si se llegaran a exponer (aunque con 'export' es menos probable)
+Disallow: /_next/
+Disallow: /api/ # Si tienes funciones API que no deben ser públicas o indexadas
+
+# Ejemplo: Si tuvieras una carpeta de administración que no quieres indexar
+# Disallow: /admin/
+# Disallow: /.github
+
+# Ejemplo: Bloquear URLs con ciertos parámetros de query si generan duplicados
+# Disallow: /*?sessionid=
+# Disallow: /*&utm_source=
+
+Sitemap: https://tucumanturismo.gob.ar/reactdev/sitemap.xml

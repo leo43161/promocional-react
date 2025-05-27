@@ -1,13 +1,23 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const ResponsiveVideo = ({
     desktopSrc = "video/Tucuman_Tiene_Todo.mp4",
     mobileSrc = "video/Tucuman_Tiene_Todo_M.mp4",
-    posterSrc = "/images/banner-video.jpg",
+    posterSrc = "/images/banner-video.webp",
+    mobilePosterSrc = "/images/banner-video.webp",
     isBackgroundVideo = true,
     className = "",
 }) => {
     const videoRef = useRef(null);
+    const [posterResponsive, setPosterResponsive] = useState(posterSrc);
+
+    useEffect(() => {
+        // Solo se ejecuta en cliente
+        if (typeof window !== "undefined") {
+            const isDesktop = window.innerWidth >= 552;
+            setPosterResponsive(isDesktop ? posterSrc : mobilePosterSrc);
+        }
+    }, [posterSrc, mobilePosterSrc]);
 
     useEffect(() => {
         // Intentar reproducir el video automaticamente cuando sea visible
@@ -45,7 +55,7 @@ const ResponsiveVideo = ({
         <video
             ref={videoRef}
             className={combinedClasses}
-            poster={posterSrc}
+            poster={posterResponsive}
             loading="lazy"
             muted
             playsInline
@@ -53,6 +63,7 @@ const ResponsiveVideo = ({
                 ? { autoPlay: true, loop: true }
                 : { controls: true }
             )}
+            Workspacepriority="high"
         >
             {/* El navegador seleccionará automáticamente la fuente adecuada basada en media query */}
             <source
