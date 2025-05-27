@@ -11,7 +11,7 @@ export default function Layout({ children, className, pageProps }) {
     const router = useRouter();
     const { lang } = router.query; // Obtener el idioma actual de la URL
 
-    const siteBaseUrl = process.env.URL_LOCAL || 'https://www.tucumanturismo.gob.ar/reactdev';
+    const siteBaseUrl = 'https://www.tucumanturismo.gob.ar' + process.env.URL_LOCAL;
     console.log(process.env.URL_LOCAL);
     const defaultOgImage = `${process.env.URL_IMG_LOCAL || siteBaseUrl}/images/main/og-image-tucuman.png`;
     const defaultFaviconBase = `${process.env.URL_IMG_LOCAL || siteBaseUrl}/icons/main/`;
