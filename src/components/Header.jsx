@@ -229,7 +229,7 @@ export default function Header() {
                 <div className="flex justify-between items-center px-2 py-4 w-11/12 gap-7">
                     {/* Logo */}
                     <div className="flex items-center w-3/6 md:w-3/18">
-                        <a href="/" className="flex items-center w-full">
+                        <a href={"/" + process.env.URL_LOCAL} className="flex items-center w-full">
                             {/* Ensure process.env.URL_IMG_LOCAL is set or replace */}
                             <img src={(process.env.URL_IMG_LOCAL || '') + "/images/logo.png"} className='w-full h-auto' alt="Logo Tucumán Turismo" />
                         </a>
