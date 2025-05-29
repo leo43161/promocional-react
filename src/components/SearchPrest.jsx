@@ -25,7 +25,6 @@ const Buscador = ({ onSearch }) => {
           </div>
         </div>
         <div>
-
           <button
             type="submit"
             className="py-2 px-4 bg-secondary/90 text-white font-medium rounded-r-md hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 h-full"

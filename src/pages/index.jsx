@@ -4,6 +4,7 @@ import Entumesa from '@/components/main/Entumesa'
 import EventosHome from '@/components/main/EventosHome'
 import Imperdible from '@/components/main/Imperdible'
 import Planifica from '@/components/main/planifica'
+
 import React from 'react'
 
 export default function index() {
@@ -23,11 +24,12 @@ export default function index() {
         <Imperdible></Imperdible>
       </div>
       <div className='md:w-11/13 w-full mx-auto'>
-        <h1 className="text-4xl mb-7 text-center text-gray-500/70">EVENTOS DESTACADOS</h1>
+      <h1 className="text-4xl mb-7 text-center text-gray-500/70">EVENTOS DESTACADOS</h1>
         <div>
           <EventosHome></EventosHome>
         </div>
       </div>
+      
     </div>
   )
 }
