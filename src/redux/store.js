@@ -4,6 +4,7 @@ import { articulosService } from './services/articulosService';
 import { alojamientosService } from './services/alojamientosService';
 import { eventosService } from './services/eventosService';
 import { headerService } from './services/headerService';
+import { blogService } from './services/blogService';
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     [articulosService.reducerPath]: articulosService.reducer,
     [alojamientosService.reducerPath]: alojamientosService.reducer,
     [headerService.reducerPath]: headerService.reducer,
+    [blogService.reducerPath]: blogService.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
@@ -20,6 +22,7 @@ export const store = configureStore({
       alojamientosService.middleware,
       articulosService.middleware,
       headerService.middleware,
+      blogService.middleware,
     ),
 });
 

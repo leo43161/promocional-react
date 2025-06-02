@@ -9,7 +9,8 @@ export default function Carousel({
   showArrows = true,
   interval = 5000,
   autoPlay = true,
-  className = ""
+  className = "",
+  colorArrow = "#006E66",
 }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
@@ -82,14 +83,14 @@ export default function Carousel({
             className="absolute top-1/2 -left-3 -translate-y-1/2 p-2 rounded-full"
             aria-label="Anterior"
           >
-            <ChevronLeft className='text-[#006E66bf] hover:text-[#006E66] transition-colors duration-400' size={40} />
+            <ChevronLeft className={`opacity-60 hover:opacity-100 transition-opacity duration-400`} size={40} style={{ color: colorArrow }} />
           </button>
           <button
             onClick={nextSlide}
             className="absolute top-1/2 -right-3 -translate-y-1/2 p-2 rounded-full"
             aria-label="Siguiente"
           >
-            <ChevronRight className='text-[#006E66bf] hover:text-[#006E66] transition-colors duration-400' size={40} />
+            <ChevronRight className={`opacity-60 hover:opacity-100 transition-colors duration-400`} size={40} style={{ color: colorArrow }} />
           </button>
         </>
       )}

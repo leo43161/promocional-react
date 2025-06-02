@@ -3,14 +3,25 @@ Allow: /
 
 # Disallow carpetas internas de Next.js si se llegaran a exponer (aunque con 'export' es menos probable)
 Disallow: /_next/
-Disallow: /api/ # Si tienes funciones API que no deben ser públicas o indexadas
+
+# Si tienes funciones API que no deben ser públicas o indexadas
+# (Con 'output: "export"', las APIs de Next.js no se sirven de la misma manera,
+# pero esto es una buena práctica si hubiera otras APIs en el mismo dominio/subdirectorio)
+Disallow: /api/
 
 # Ejemplo: Si tuvieras una carpeta de administración que no quieres indexar
 # Disallow: /admin/
-# Disallow: /.github
 
-# Ejemplo: Bloquear URLs con ciertos parámetros de query si generan duplicados
+# Bloquear la carpeta .github si por alguna razón fuera accesible públicamente
+# (Generalmente no lo es en un despliegue web estático, pero no hace daño tenerlo)
+Disallow: /.github/
+
+# Ejemplo: Bloquear URLs con ciertos parámetros de query si generan duplicados y no usas canonicals para ellos
 # Disallow: /*?sessionid=
 # Disallow: /*&utm_source=
+# Considera si tienes parámetros de URL específicos que generan contenido duplicado y
+# que no estás manejando adecuadamente con etiquetas <link rel="canonical">.
+# Si usas canonicals correctamente, no siempre es necesario bloquear parámetros aquí.
+# Por ejemplo, tu parámetro `?lang=EN` es importante y NO deberías bloquearlo.
 
 Sitemap: https://tucumanturismo.gob.ar/reactdev/sitemap.xml

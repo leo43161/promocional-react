@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Search } from 'lucide-react';
+import { cn } from '@/utils';
 
-const Buscador = ({ onSearch }) => {
+const Buscador = ({ onSearch, placeholder = "Buscar actividades, prestadores...", className }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const handleSubmit = (e) => {
@@ -10,13 +11,13 @@ const Buscador = ({ onSearch }) => {
   };
 
   return (
-    <div className="w-5/12 mx-auto mb-6">
+    <div className={cn("md:w-5/12 mx-auto mb-6", className )}>
       <form onSubmit={handleSubmit} className="flex items-stretch">
         <div className="relative flex-grow">
           <input
             type="text"
             className="w-full py-2 pl-3 pr-10 text-sm border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent h-10"
-            placeholder="Buscar actividades, prestadores..."
+            placeholder={placeholder}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
