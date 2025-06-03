@@ -6,6 +6,7 @@ const nextConfig = {
         URL_IMG_LOCAL: process.env.NODE_ENV === 'production' ? "/reactdev" : "",
         URL_SERVER: "https://www.tucumanturismo.gob.ar/api/v1/api/",
         URL_LOCAL: process.env.NODE_ENV === 'production' ? "/reactdev" : "",
+        URL_LOCAL_SERVER: process.env.NODE_ENV === 'production' ? "https://www.tucumanturismo.gob.ar" : "http://localhost:3000",
     },
     output: 'export',
     images: {

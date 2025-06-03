@@ -63,7 +63,7 @@ const ResponsiveVideo = ({
                 ? { autoPlay: true, loop: true }
                 : { controls: true }
             )}
-            Workspacepriority="high"
+            workspacepriority="high"
         >
             {/* El navegador seleccionará automáticamente la fuente adecuada basada en media query */}
             <source

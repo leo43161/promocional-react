@@ -11,8 +11,8 @@ export default function Layout({ children, className, pageProps }) {
     const router = useRouter();
     const { lang } = router.query; // Obtener el idioma actual de la URL
 
-    const siteBaseUrl = process.env.URL_LOCAL + process.env.URL_LOCAL;
-    console.log(process.env.URL_LOCAL);
+    const siteBaseUrl = process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL;
+    console.log(siteBaseUrl);
     const defaultOgImage = `${process.env.URL_IMG_LOCAL || siteBaseUrl}/images/main/og-image-tucuman.png`;
     const defaultFaviconBase = `${process.env.URL_IMG_LOCAL || siteBaseUrl}/icons/main/`;
 
@@ -38,6 +38,7 @@ export default function Layout({ children, className, pageProps }) {
     // Construir URL canónica y URLs para hreflang
     const pathWithoutQuery = router.asPath.split('?')[0];
     const canonicalUrl = `${siteBaseUrl}${pathWithoutQuery}`;
+    console.log(canonicalUrl);
 
     const currentLangCode = (lang || languages[0].code).toUpperCase();
     const alternativeLangCode = currentLangCode === 'ES' ? 'EN' : 'ES';

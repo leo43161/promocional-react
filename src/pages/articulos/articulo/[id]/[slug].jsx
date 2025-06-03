@@ -4,12 +4,13 @@ import Head from 'next/head';
 import { useRouter } from 'next/router'; // Importa useRouter
 
 // Importa tu función para generar slugs
-import { generateSlug } from '@/utils'; // Asegúrate que la ruta sea correcta/[slug].jsx]
+import { cn, generateSlug, encode } from '@/utils'; // Asegúrate que la ruta sea correcta/[slug].jsx]
 
 // Importa tus componentes visuales
 import ParallaxContainer from '@/components/common/ParallaxContainer'; ///[slug].jsx]
 import Breadcrumb from '@/components/common/Breadcrumb'; ///[slug].jsx]
 import ImageGallery from '@/components/articulos/ImageGallery'; ///[slug].jsx]
+import { Facebook, MessageCircle, Twitter } from 'lucide-react';
 // import ImperdiblesCard from '@/components/articulos/ImperdiblesCard'; // Comentado si no se usa directamente en esta página
 
 // --- getStaticPaths ---
@@ -56,7 +57,7 @@ export async function getStaticProps(context) {
     const apiBaseUrl = process.env.URL_SERVER || 'URL_POR_DEFECTO_DE_TU_API';
     const imageBaseUrl = process.env.URL_IMG || '';
     const pdfBaseUrl = process.env.URL_PDF || '';
-    const siteBaseUrl = process.env.URL_LOCAL || 'https://www.tucumanturismo.gob.ar'; // Asume un valor por defecto si no está
+    const siteBaseUrl = process.env.URL_LOCAL || 'https://www.tucumanturismo.gob.ar/reactdev'; // Asume un valor por defecto si no está
 
     try {
         const [articuloRes, galeriaRes, pdfsRes] = await Promise.all([
@@ -96,7 +97,8 @@ export async function getStaticProps(context) {
         }));
 
         const parallaxImageUrl = articulo?.imagen ? `${imageBaseUrl}${articulo.imagen}` : undefined;
-        const defaultOgImage = "https://www.tucumanturismo.gob.ar/public/icons/main/logotuc.png"; // Imagen por defecto para OG
+        console.log(parallaxImageUrl);
+        const defaultOgImage = `${process.env.URL_LOCAL_SERVER}${process.env.URL_LOCAL}/public/icons/main/logotuc.png`; // Imagen por defecto para OG
 
         // Construcción del pageMeta
         const pageMeta = {
@@ -111,10 +113,10 @@ export async function getStaticProps(context) {
             twitterCard: "summary_large_image",
             twitterTitle: `${articulo?.nombre || 'Artículo'} - Tucumán Turismo`,
             twitterDescription: articulo?.copete || `Descubre más sobre ${articulo?.nombre || 'este destino'} en Tucumán.`,
-            twitterImage: parallaxImageUrl || "https://www.tucumanturismo.gob.ar/public/icons/tucturwide.png", // Imagen específica para Twitter si es diferente
+            twitterImage: parallaxImageUrl || `${process.env.URL_LOCAL_SERVER}${process.env.URL_LOCAL}/public/icons/tucturwide.png`, // Imagen específica para Twitter si es diferente
         };
-         // Schema.org para Artículo
-         const articleSchema = {
+        // Schema.org para Artículo
+        const articleSchema = {
             "@context": "https://schema.org",
             "@type": "Article",
             "mainEntityOfPage": {
@@ -134,7 +136,7 @@ export async function getStaticProps(context) {
                 "name": "Ente Autárquico Tucumán Turismo",
                 "logo": {
                     "@type": "ImageObject",
-                    "url": "https://www.tucumanturismo.gob.ar/public/icons/main/logotuc.png"
+                    "url": `${process.env.URL_LOCAL_SERVER}${process.env.URL_LOCAL}/public/icons/main/logotuc.png`
                 }
             },
             "description": articulo?.copete || `Descubre más sobre ${articulo?.nombre || 'este destino'} en Tucumán.`,
@@ -161,6 +163,54 @@ export async function getStaticProps(context) {
     }
 }
 
+const SocialIcons = ({ url, title, className = '' }) => {
+    if (!url || !title) {
+        return null; // No mostrar si no hay URL o título
+    }
+
+    const encodedUrl = encode(url);
+    const encodedTitle = encode(title);
+
+    const shareLinks = {
+        facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+        twitter: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
+        // WhatsApp: usa el protocolo wa.me y necesita un texto que incluya la URL
+        // Las previsualizaciones en WhatsApp se generan automáticamente si la URL tiene las meta OG correctas.
+        whatsapp: `https://api.whatsapp.com/send?text=${encodedTitle}%0A${encodedUrl}`, // %0A es un salto de línea codificado
+    };
+    return (
+        <div className={cn("flex items-center gap-5", className)}>
+            <a
+                className="text-secondary/90 hover:text-secondary"
+                aria-label="Compartir en Facebook"
+                href={shareLinks.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                <Facebook size={24} />
+            </a>
+            <a
+                href={shareLinks.twitter}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Compartir en X (Twitter)"
+                className="text-secondary/90 hover:text-secondary"
+            >
+                <Twitter size={24} />
+            </a>
+            <a
+                href={shareLinks.whatsapp}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Compartir en WhatsApp"
+                className="text-secondary/90 hover:text-secondary"
+            >
+                <MessageCircle size={24} /> {/* Usando MessageCircle como placeholder para WhatsApp */}
+            </a>
+        </div>
+    );
+};
+
 // --- Componente Principal ---
 export default function ArticuloPage({ articulo, galleryItems, pdfItems, parallaxImageUrl, id, slug, pageMeta, articleSchema }) {
     const router = useRouter(); // Necesario para la URL canónica y hreflang si se implementa aquí
@@ -171,16 +221,18 @@ export default function ArticuloPage({ articulo, galleryItems, pdfItems, paralla
     }
 
     const imageBaseUrl = process.env.URL_IMG || '';
-    const siteBaseUrl = process.env.URL_LOCAL || 'https://www.tucumanturismo.gob.ar';
+    const siteBaseUrl = process.env.URL_LOCAL || 'https://www.tucumanturismo.gob.ar/reactdev';
 
     const breadcrumbItems = [
         ...(articulo?.nomSubseccion ? [{ label: articulo.nomSubseccion, href: `${siteBaseUrl}/subsecciones/lista/${articulo.idSubseccion}/${generateSlug(articulo.nomSubseccion)}` }] : []), ///[slug].jsx]
         { label: articulo.nombre || "Detalle", href: `${siteBaseUrl}/articulos/articulo/${id}/${slug}` } ///[slug].jsx]
     ];
-    
+
     // Definir la URL canónica completa
     const canonicalUrl = `${siteBaseUrl}${router.asPath.split("?")[0]}`;
 
+    const shareUrl = pageMeta?.ogUrl || canonicalUrl; // Usa la ogUrl si está definida, sino la canónica
+    const shareTitle = pageMeta?.ogTitle || articulo?.nombre || 'Artículo de Tucumán Turismo';
 
     return (
         <div>
@@ -196,16 +248,16 @@ export default function ArticuloPage({ articulo, galleryItems, pdfItems, paralla
                 <meta property="og:title" content={pageMeta?.ogTitle || pageMeta?.title} />
                 <meta property="og:description" content={pageMeta?.ogDescription || pageMeta?.description} />
                 <meta property="og:url" content={pageMeta?.ogUrl || canonicalUrl} />
-                <meta property="og:image" content={pageMeta?.ogImage || (parallaxImageUrl || "https://www.tucumanturismo.gob.ar/public/icons/main/logotuc.png")} />
+                <meta property="og:image" content={pageMeta?.ogImage || (parallaxImageUrl || `${process.env.URL_LOCAL_SERVER}${process.env.URL_LOCAL}public/icons/main/logotuc.png`)} />
                 <meta property="og:site_name" content={pageMeta?.ogSiteName || "Tucumán Turismo"} />
-                
+
                 {/* Twitter Card */}
                 <meta name="twitter:card" content={pageMeta?.twitterCard || "summary_large_image"} />
                 <meta name="twitter:site" content="@TucumanTurismo" />
                 <meta name="twitter:creator" content="@TucumanTurismo" />
                 <meta name="twitter:title" content={pageMeta?.twitterTitle || pageMeta?.title} />
                 <meta name="twitter:description" content={pageMeta?.twitterDescription || pageMeta?.description} />
-                <meta name="twitter:image" content={pageMeta?.twitterImage || (parallaxImageUrl || "https://www.tucumanturismo.gob.ar/public/icons/tucturwide.png")} />
+                <meta name="twitter:image" content={pageMeta?.twitterImage || (parallaxImageUrl || `${process.env.URL_LOCAL_SERVER}${process.env.URL_LOCAL}public/icons/tucturwide.png`)} />
 
                 {/* Hreflang tags (Ejemplo básico, ajustar según tu estructura de idiomas) */}
                 {/* Asumiendo que 'articulo.idioma' te da el código de idioma (ej: 'es', 'en')
@@ -217,7 +269,7 @@ export default function ArticuloPage({ articulo, galleryItems, pdfItems, paralla
                         <link rel="alternate" hrefLang="x-default" href={`${siteBaseUrl}/articulos/articulo/${id}/${slug}`} />
                     </>
                 )}
-                 {articulo?.idioma === 2 && ( // Inglés
+                {articulo?.idioma === 2 && ( // Inglés
                     <>
                         <link rel="alternate" hrefLang="en" href={`${siteBaseUrl}/articulos/articulo/${id}/${slug}?lang=EN`} />
                         <link rel="alternate" hrefLang="es" href={`${siteBaseUrl}/articulos/articulo/${id}/${slug}`} /> {/* O tu estructura para español */}
@@ -250,7 +302,7 @@ export default function ArticuloPage({ articulo, galleryItems, pdfItems, paralla
                 </div>
             </ParallaxContainer>
 
-            <div className='w-11/12 mx-auto pt-5 lg:mb-10'>
+            <div className='w-11/12 mx-auto pt-5 lg:mb-5'>
                 <div className='mb-5'>
                     <Breadcrumb items={breadcrumbItems} />
                 </div>
@@ -267,7 +319,14 @@ export default function ArticuloPage({ articulo, galleryItems, pdfItems, paralla
                     <ImageGallery
                         isLoading={false}
                         items={galleryItems}
+                        className='md:p-0 md:mb-4 mb-2 md:h-[85vh]'
                     />
+                    <div className='order-1 lg:order-2 mb-6 md:ps-1 px-3'>
+                        <div className='flex justify-between md:w-3/14 w-full border shadow px-4 py-2 md:px-3 md:py-1 rounded-md'>
+                            <h2 className='text-lg font-semibold'>Compartir</h2>
+                            <SocialIcons url={shareUrl} title={shareTitle} />
+                        </div>
+                    </div>
                     <div className={`prose prose-slate max-w-none w-full px-4 mt-3 mb-4 ${pdfItems?.length === 0 ? 'md:w-8/11 md:mt-3' : ''}`}>
                         {articulo?.cuerpo ? (
                             <div dangerouslySetInnerHTML={{ __html: articulo.cuerpo }} />
@@ -317,6 +376,7 @@ export default function ArticuloPage({ articulo, galleryItems, pdfItems, paralla
                         {/* Aquí podrías añadir la sección de "Imperdibles" si fuera dinámica y pasada por props */}
                     </div>
                 )}
+
             </div>
         </div>
     );

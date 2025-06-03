@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ImageOff, AlertCircle } from 'lucide-react';
+import { cn } from '@/utils';
 
 // Helper component for image placeholders/error states (sin cambios)
 const ImagePlaceholder = ({ size = 48, message = null }) => (
@@ -16,10 +17,10 @@ const GallerySkeleton = () => (
             {/* Main Image Skeleton */}
             <div className="flex-grow md:w-6/7 aspect-w-16 aspect-h-9">
                 <div className="relative md:min-h-[70vh] h-[360px] bg-gray-300 rounded-lg">
-                     {/* Skeleton para el texto overlay */}
-                     <div className='absolute bottom-0 bg-gray-400/50 w-full rounded-b-md pb-3 px-3 h-12'>
-                         <div className="h-4 bg-gray-500 rounded w-3/4 mt-4"></div>
-                     </div>
+                    {/* Skeleton para el texto overlay */}
+                    <div className='absolute bottom-0 bg-gray-400/50 w-full rounded-b-md pb-3 px-3 h-12'>
+                        <div className="h-4 bg-gray-500 rounded w-3/4 mt-4"></div>
+                    </div>
                 </div>
             </div>
             {/* Thumbnails Skeleton */}
@@ -38,7 +39,7 @@ const GallerySkeleton = () => (
 // --- FIN Skeleton ---
 
 // Añadimos isLoading a las props, con valor por defecto false
-export default function ImageGallery({ items = [], isLoading = false }) {
+export default function ImageGallery({ items = [], isLoading = false, className }) {
     const limitedImages = items.slice(0, 5);
 
     const [activeImageIndex, setActiveImageIndex] = useState(0);
@@ -90,12 +91,11 @@ export default function ImageGallery({ items = [], isLoading = false }) {
 
     // El JSX original de la galería se mantiene aquí sin cambios
     return (
-        <div className="w-full p-2 ">
-            <div className="flex flex-col md:flex-row gap-4 md:gap-6 md:items-center">
-
+        <div className={cn("w-full p-2 md:h-[90vh]", className)}>
+            <div className="flex flex-col md:flex-row gap-4 md:gap-6 md:items-stretch h-full">
                 {/* Main Image Display Area */}
-                <div className="flex-grow md:w-6/7 aspect-w-16 aspect-h-9">
-                    <div className="relative overflow-hidden md:min-h-[70vh] h-[360px] shadow">
+                <div className="md:w-6/7 flex-1">
+                    <div className="relative overflow-hidden md:min-h-full h-[360px] shadow">
                         {hasCurrentError ? (
                             <ImagePlaceholder message="No se pudo cargar la imagen" />
                         ) : (
@@ -110,7 +110,7 @@ export default function ImageGallery({ items = [], isLoading = false }) {
                         )}
                         {/* Overlay de texto, añadido optional chaining */}
                         {currentImageUrl?.text && (
-                           <div
+                            <div
                                 className='absolute bottom-0 z-20 bg-gradient-to-t from-black/80 via-black/60 via-70% to-transparent w-full rounded-b-md pb-3 px-3'
                             >
                                 <h1 className='text-xl text-white font-semibold'>{currentImageUrl.text}</h1>
@@ -120,8 +120,8 @@ export default function ImageGallery({ items = [], isLoading = false }) {
                 </div>
 
                 {/* Thumbnails */}
-                <div className="flex flex-row md:flex-col gap-3 md:gap-4 overflow-x-auto md:overflow-x-hidden md:overflow-y-auto md:w-1/7 pb-2 md:pb-0 scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-transparent md:pr-1">
-                    {limitedImages.map((imgUrl, index) => {
+                <div className="flex flex-row md:flex-col gap-3 md:gap-4 overflow-x-auto md:overflow-x-hidden md:overflow-y-auto md:w-1/7 pb-2 md:pb-0 scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-transparent md:pr-1 h-full">
+                    {[...limitedImages].map((imgUrl, index) => {
                         const hasError = imageErrors[index];
                         const isActive = activeImageIndex === index;
 
@@ -132,12 +132,11 @@ export default function ImageGallery({ items = [], isLoading = false }) {
                                 onKeyDown={(e) => handleKeyDown(e, index)}
                                 tabIndex={hasError ? -1 : 0}
                                 className={`
-                                    relative h-20 md:w-full md:h-auto md:aspect-square flex-1
-                                    rounded-md overflow-hidden group
-                                    transition-all duration-200 ease-in-out
+                                    relative h-20 md:w-full md:h-30 aspect-3/2 flex-1 group
+                                    transition-all duration-200 ease-in-out p-1
                                     ${hasError ? 'cursor-not-allowed' : 'cursor-pointer'}
                                     ${isActive && !hasError
-                                        ? 'border-2 border-primary opacity-100'
+                                        ? 'opacity-100'
                                         : hasError
                                             ? 'opacity-50'
                                             : 'opacity-60 hover:opacity-100'}
@@ -156,7 +155,7 @@ export default function ImageGallery({ items = [], isLoading = false }) {
                                         <img
                                             src={imgUrl.img} // Aquí no necesita optional chaining porque limitedImages ya está filtrado
                                             alt={`Miniatura ${index + 1}`}
-                                            className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-105"
+                                            className={"w-full h-full object-cover transition-transform duration-200 group-hover:scale-105 rounded-md" + (isActive ? " border-2 border-primary scale-105" : "")}
                                             onError={() => handleImageError(index)}
                                             loading="lazy"
                                         />

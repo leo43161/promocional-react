@@ -2,18 +2,50 @@ import React from 'react'
 // components/SocialIcons.tsx
 import { Facebook, Twitter, MessageCircle } from 'lucide-react';
 import Image from 'next/image';
-import { cn } from '@/utils';
+import { cn, encode, generateSlug } from '@/utils';
 
-const SocialIcons = () => {
+const SocialIcons = ({ url, title, className = '' }) => {
+    if (!url || !title) {
+        return null; // No mostrar si no hay URL o título
+    }
+
+    const encodedUrl = encode(url);
+    const encodedTitle = encode(title);
+
+    const shareLinks = {
+        facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+        twitter: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
+        // WhatsApp: usa el protocolo wa.me y necesita un texto que incluya la URL
+        // Las previsualizaciones en WhatsApp se generan automáticamente si la URL tiene las meta OG correctas.
+        whatsapp: `https://api.whatsapp.com/send?text=${encodedTitle}%0A${encodedUrl}`, // %0A es un salto de línea codificado
+    };
     return (
-        <div className="flex items-center space-x-2">
-            <a href="#" aria-label="Compartir en Facebook" className="text-gray-600 hover:text-blue-600">
+        <div className={cn("flex items-center space-x-2", className)}>
+            <a
+                aria-label="Compartir en Facebook"
+                href={shareLinks.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-600 hover:text-blue-600"
+            >
                 <Facebook size={18} />
             </a>
-            <a href="#" aria-label="Compartir en X" className="text-gray-600 hover:text-black">
+            <a
+                href={shareLinks.twitter}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Compartir en X (Twitter)"
+                className="text-gray-600 hover:text-black"
+            >
                 <Twitter size={18} />
             </a>
-            <a href="#" aria-label="Compartir en WhatsApp" className="text-gray-600 hover:text-green-500">
+            <a
+                href={shareLinks.whatsapp}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Compartir en WhatsApp"
+                className="text-gray-600 hover:text-green-500"
+            >
                 <MessageCircle size={18} /> {/* Usando MessageCircle como placeholder para WhatsApp */}
             </a>
         </div>
@@ -24,7 +56,7 @@ export default function CardBlog({
     loading,
     className = ""
 }) {
-    const {idArticulo, nombre, imagen, imagenMovil, copete } = blog
+    const { idArticulo, nombre, imagen, imagenMovil, copete } = blog
     return (
         <div className={cn("bg-white shadow-lg rounded-lg overflow-hidden flex flex-col h-full", className)}>
             <div className="relative w-full md:h-full h-50"> {/* Altura aumentada para la tarjeta grande */}
@@ -44,7 +76,10 @@ export default function CardBlog({
                     >
                         Conocé más aquí
                     </a>
-                    <SocialIcons />
+                    <SocialIcons
+                        url={`${process.env.URL_LOCAL_SERVER}${process.env.URL_LOCAL}/articulos/articulo/${idArticulo}/${generateSlug(nombre)}`}
+                        title={nombre}
+                    />
                 </div>
             </div>
         </div>
