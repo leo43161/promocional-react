@@ -30,7 +30,7 @@ export default function BlogHome() {
                 <div className='w-full flex justify-center'>
                     <a className='text-3xl md:text-4xl font-bold mb-12 underline hover:text-primary' href={`${process.env.URL_LOCAL}/blog`}>Conocé Tucumán</a>
                 </div>
-                <div className="md:w-13/14 w-full mx-auto mb-10">
+                <div className="md:w-13/14 xl:w-11/14 w-full mx-auto mb-10">
                     <div className="flex flex-col md:flex-row md:justify-between gap-6 md:gap-7">
                         {/* Columna Izquierda - Tarjeta Grande */}
                         {loadingDestacados ? (

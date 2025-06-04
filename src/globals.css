@@ -9,6 +9,7 @@
   --color-primary: var(--primary);
   --color-secondary: var(--secondary);
   --color-tertiary: var(--tertiary);
+  --breakpoint-xl: 87rem;
 }
 
 

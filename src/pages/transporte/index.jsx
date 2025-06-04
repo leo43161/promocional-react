@@ -97,7 +97,7 @@ export default function Transportes() {
 
             <ParallaxContainer
                 speed={0.2}
-                minHeight="h-96 md:h-[58vh]" //
+                minHeight="h-96 md:h-[58vh] xl:h-[45vh]" //
                 className="" //
                 imageUrl={imageUrl} //
             >
@@ -109,7 +109,7 @@ export default function Transportes() {
                     </div>
                 </div>
             </ParallaxContainer>
-            <div className='w-11/12 mx-auto pt-5 mb-10'>
+            <div className='w-11/12 xl:w-11/16 mx-auto pt-5 mb-10 xl:mb-3'>
                 <div className='mb-5'>
                     <Breadcrumb items={ //
                         [{ label: "Transportes", href: '/transportes' }]

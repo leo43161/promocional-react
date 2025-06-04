@@ -9,7 +9,7 @@ export default function ItemLista({ articulo, right = false }) {
     const idiomaCode = parseInt(idioma) !== 1 && languages.find(lang => lang.id === parseInt(idioma))?.code;
     return (
         <div key={idArticulo} className={`flex flex-col md:flex-row items-stretch md:gap-12 gap-7 ${right && "md:flex-row-reverse"}`}>
-            <div className="md:w-3/6 md:h-[60vh] h-[45vh] w-full">
+            <div className="md:w-3/6 md:h-100 h-[45vh] w-full">
                 <img src={`${imageBaseUrl}${imagen}`} className='object-cover h-full shadow hidden md:block' alt="" />
 
                 <img src={`${imageBaseUrl}${imagenMovil ? imagenMovil : imagen}`} className='object-cover h-full shadow md:hidden' alt="" />

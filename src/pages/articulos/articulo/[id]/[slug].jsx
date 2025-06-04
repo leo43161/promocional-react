@@ -289,7 +289,7 @@ export default function ArticuloPage({ articulo, galleryItems, pdfItems, paralla
 
             <ParallaxContainer
                 speed={0.2}
-                minHeight="h-96 md:h-[58vh]"
+                minHeight="h-96 md:h-[58vh] xl:h-[45vh]"
                 className="bg-gray-400"
                 imageUrl={parallaxImageUrl}
             >
@@ -302,13 +302,13 @@ export default function ArticuloPage({ articulo, galleryItems, pdfItems, paralla
                 </div>
             </ParallaxContainer>
 
-            <div className='w-11/12 mx-auto pt-5 lg:mb-5'>
+            <div className='w-11/12 xl:w-11/16 mx-auto pt-5 lg:mb-5'>
                 <div className='mb-5'>
                     <Breadcrumb items={breadcrumbItems} />
                 </div>
             </div>
 
-            <div className='lg:mb-10 lg:w-12/14 w-full mx-auto flex px-2 flex-wrap flex-col lg:flex-row'>
+            <div className='lg:mb-10 lg:w-12/14 xl:w-11/16 w-full mx-auto flex px-2 flex-wrap flex-col lg:flex-row'>
                 <div className={`${pdfItems?.length > 0 ? 'lg:w-8/11' : 'w-full'} w-full mb-6 lg:mb-4 lg:pr-4 order-2 lg:order-1`}>
                     <h1 className='text-3xl font-bold mb-6'>{articulo?.nombre || 'Artículo sin título'}</h1>
                     {articulo?.copete && (
@@ -322,7 +322,7 @@ export default function ArticuloPage({ articulo, galleryItems, pdfItems, paralla
                         className='md:p-0 md:mb-4 mb-2 md:h-[85vh]'
                     />
                     <div className='order-1 lg:order-2 mb-6 md:ps-1 px-3'>
-                        <div className='flex justify-between md:w-3/14 w-full border shadow px-4 py-2 md:px-3 md:py-1 rounded-md'>
+                        <div className='flex justify-between md:w-4/14 xl:w-5/14 2xl:w-3/14 w-full border shadow px-4 py-2 md:px-3 md:py-1 rounded-md'>
                             <h2 className='text-lg font-semibold'>Compartir</h2>
                             <SocialIcons url={shareUrl} title={shareTitle} />
                         </div>
@@ -335,7 +335,7 @@ export default function ArticuloPage({ articulo, galleryItems, pdfItems, paralla
                         )}
                     </div>
                     {articulo?.imagenTexto && (
-                        <div className={`w-full mb-6 p-3 md:p-5 md:h-[100vh] ${pdfItems?.length === 0 ? 'md:w-8/11' : ''}`}>
+                        <div className={`w-full mb-6 p-3 md:p-5 ${pdfItems?.length === 0 ? 'md:w-8/11' : ''}`}>
                             <img
                                 src={imageBaseUrl + articulo.imagenTexto} ///[slug].jsx]
                                 alt={articulo.pieImagen || articulo.nombre}

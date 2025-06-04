@@ -22,7 +22,7 @@ export default function Autos() {
             <section>
                 <ParallaxContainer
                     speed={0.2}
-                    minHeight="h-96 md:h-[58vh]"
+                    minHeight="h-96 md:h-[58vh] xl:h-[45vh]"
                     className=""
                     imageUrl='https://www.tucumanturismo.gob.ar/public/img/planviaje/alquilerautos.webp'
                 >

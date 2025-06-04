@@ -114,7 +114,7 @@ export default function Evento() {
                 {/* Banner con Parallax */}
                 <ParallaxContainer
                     speed={0.2}
-                    minHeight="h-96 md:h-[58vh]"
+                    minHeight="h-96 md:h-[58vh] xl:h-[45vh]"
                     className=""
                     imageUrl={process.env.URL_IMG + (evento?.imagen || '') || "https://www.tucumanturismo.gob.ar/public/img/eventos/banner-eventos.jpg"}
                 >

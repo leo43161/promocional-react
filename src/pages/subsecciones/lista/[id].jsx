@@ -113,7 +113,7 @@ export default function SubseccionLoades({ id, slug, idioma }) {
       <div className='mb-16'>
         <ParallaxContainer
           speed={0.2}
-          minHeight="h-96 md:h-[58vh]"
+          minHeight="h-96 md:h-[58vh] xl:h-[45vh]"
           className="bg-gray-400" // Color de fondo mientras carga o si no hay imagen
         // Aplica la imagen de fondo dinámicamente
         >

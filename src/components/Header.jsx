@@ -228,8 +228,8 @@ export default function Header() {
             <div className='flex justify-center bg-white shadow-md'>
                 <div className="flex justify-between items-center px-2 py-4 w-11/12 gap-7">
                     {/* Logo */}
-                    <div className="flex items-center w-3/6 md:w-3/18">
-                        <a href={"/" + process.env.URL_LOCAL} className="flex items-center w-full">
+                    <div className="flex items-center w-3/6 md:w-3/18 xl:w-3/19">
+                        <a href={process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL} className="flex items-center w-full">
                             {/* Ensure process.env.URL_IMG_LOCAL is set or replace */}
                             <img src={(process.env.URL_IMG_LOCAL || '') + "/images/logo.png"} className='w-full h-auto' alt="Logo Tucumán Turismo" />
                         </a>
@@ -256,11 +256,11 @@ export default function Header() {
                                 <div key={item.label} className="relative group">
                                     {/* Direct link if item has href and no children */}
                                     {item.href && !item.children ? (
-                                        <a href={item.href} className="hover:text-primary py-2 flex items-center font-semibold text-xs cursor-pointer">
+                                        <a href={item.href} className="hover:text-primary py-2 flex items-center font-semibold text-xs xl:text-sm cursor-pointer">
                                             {item.label}
                                         </a>
                                     ) : (
-                                        <div className={`py-2 flex items-center font-semibold text-xs ${item.children ? 'cursor-default hover:text-primary' : 'cursor-default'}`}>
+                                        <div className={`py-2 flex items-center font-semibold text-xs xl:text-sm ${item.children ? 'cursor-default hover:text-primary text-nowrap' : 'cursor-default'}`}>
                                             {item.label}
                                         </div>
                                     )}
@@ -271,7 +271,7 @@ export default function Header() {
                                             opacity-0 max-h-0 group-hover:max-h-96 group-hover:opacity-100 overflow-hidden
                                             transition-all duration-300 ease-in-out z-20">
                                             {item.children.map((child) => (
-                                                <a key={child.label} href={child.href} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-secondary/70">
+                                                <a key={child.label} href={child.href} className="block px-4 py-2 text-sm xl:text-base text-gray-700 hover:bg-gray-100 hover:text-secondary/70">
                                                     {child.label}
                                                 </a>
                                             ))}
@@ -290,12 +290,12 @@ export default function Header() {
                         <div className="relative z-30"> {/* High z-index for dropdown */}
                             <button
                                 onClick={() => setIsLangDropdownOpen(!isLangDropdownOpen)}
-                                className="flex items-center text-gray-700 text-xs font-semibold hover:text-secondary/70 py-2"
+                                className="flex items-center text-gray-700 text-xs xl:text-base font-semibold hover:text-secondary/70 py-2"
                                 aria-label="Seleccionar idioma"
                                 aria-haspopup="true"
                                 aria-expanded={isLangDropdownOpen}
                             >
-                                <img src={selectedLang.flag} alt={selectedLang.alt} className="w-5 h-auto mr-2 rounded-sm" />
+                                <img src={selectedLang.flag} alt={selectedLang.alt} className="w-5 xl:w-7 h-auto mr-2 rounded-sm" />
                                 <span>{selectedLang.code}</span>
                                 <ChevronDown size={16} className={`ml-1 transition-transform duration-200 ${isLangDropdownOpen ? 'rotate-180' : ''}`} />
                             </button>

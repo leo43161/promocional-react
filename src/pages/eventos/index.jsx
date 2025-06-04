@@ -45,7 +45,7 @@ export default function Eventos() {
             <section>
                 <ParallaxContainer
                     speed={0.2}
-                    minHeight="h-96 md:h-[58vh]"
+                    minHeight="h-96 md:h-[58vh] xl:h-[45vh]"
                     className=""
                     imageUrl='https://www.tucumanturismo.gob.ar/public/img/planviaje/1920x650-HOTEL-Desktop.jpg'
                 >

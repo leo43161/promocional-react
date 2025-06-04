@@ -201,7 +201,7 @@ export default function SubseccionPage({ subseccion, articulos, parallaxImageUrl
 
             <ParallaxContainer
                 speed={0.2}
-                minHeight="h-96 md:h-[58vh]"
+                minHeight="h-96 md:h-[58vh] xl:h-[45vh]"
                 className="bg-gray-400"
                 imageUrl={parallaxImageUrl}
             >
@@ -213,7 +213,7 @@ export default function SubseccionPage({ subseccion, articulos, parallaxImageUrl
                     </div>
                 </div>
             </ParallaxContainer>
-            <div className='w-11/12 mx-auto pt-5 mb-10'>
+            <div className='w-11/12 mx-auto pt-5 mb-10 md:w-11/14 xl:w-11/16'>
                 <div className='mb-5'>
                     <Breadcrumb items={
                         [{ label: subseccion?.nombre, href: `${siteBaseUrl}/subsecciones/lista/${id}/${slug}` }]
@@ -221,7 +221,7 @@ export default function SubseccionPage({ subseccion, articulos, parallaxImageUrl
                 </div>
             </div>
 
-            <div className='mb-10 md:w-11/14 w-full mx-auto flex flex-col gap-15 px-5'>
+            <div className='mb-10 md:w-11/14 xl:w-11/16 w-full mx-auto flex flex-col gap-15 px-5'>
                 {articulos && articulos.length > 0 ? (
                     articulos.map((articulo, index) => (
                         <Fragment key={articulo.idArticulo || index}> {/* Usa un ID único del artículo si está disponible */}

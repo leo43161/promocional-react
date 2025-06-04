@@ -33,7 +33,7 @@ export default function Planifica() {
       title: 'Transporte',
       description: '¿Quieres conocer todo lo que Tucumán tiene para ofrecerte y no sabes cómo moverte? Encontrá los horarios y valores de los viajes en micro hacia todos los puntos turísticos de la provincia.',
       image: process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL + '/images/main/transporte.jpg',
-      link: process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL + '/transportes'
+      link: process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL + '/transporte'
     },
     {
       id: 'alquiler-autos',
@@ -73,15 +73,15 @@ export default function Planifica() {
       title: 'Itinerarios',
       description: 'Descubre rutas prediseñadas para aprovechar al máximo tu tiempo y visitar los lugares más destacados.',
       image: process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL + '/images/main/itinerarios.jpg',
-      link: process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL + process.env.URL_LOCAL + '/subsecciones/lista/45'
+      link: process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL + '/subsecciones/lista/45'
     },
     {
       id: 'mapas',
       icon: <Map size={30} />,
       title: 'Mapas y Folletos',
       description: 'Accede a mapas detallados y folletos informativos para orientarte durante tu visita.',
-      image: process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL + '//images/main/mapas.jpg',
-      link: process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL + process.env.URL_LOCAL + '/subsecciones/lista/46'
+      image: process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL + '/images/main/mapas.jpg',
+      link: process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL + '/subsecciones/lista/46'
     }
   ];
   const travelOptionsENG = [
@@ -99,7 +99,7 @@ export default function Planifica() {
       title: 'Urban Transport',
       description: "Do you want to know everything that Tucumán has to offer and you don't have your vehicle? Find out the schedules and prices of bus trips to all the tourist spots in the province.",
       image: process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL + '/images/main/transporte.jpg',
-      link: process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL + '/transportes'
+      link: process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL + '/transporte'
     },
     {
       id: 'car-rentals',
@@ -209,9 +209,9 @@ export default function Planifica() {
 
           {/* Imagen - responsive */}
           <img
-            src={process.env.URL_IMG_LOCAL + activeOption.image}
+            src={activeOption.image}
             alt={activeOption.title}
-            className="w-full md:w-6/8 object-cover mt-0 md:mt-0 md:h-[65vh] ms-auto"
+            className="w-full md:w-6/8 object-cover mt-0 md:mt-0 md:h-[65vh] xl:h-[47vh] ms-auto"
           />
         </div>
       )}

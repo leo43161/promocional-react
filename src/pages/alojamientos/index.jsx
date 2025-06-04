@@ -47,7 +47,7 @@ export default function Alojamientos() {
             <section>
                 <ParallaxContainer
                     speed={0.2}
-                    minHeight="h-96 md:h-[58vh]"
+                    minHeight="h-96 md:h-[58vh] xl:h-[45vh]"
                     className=""
                     imageUrl='https://www.tucumanturismo.gob.ar/public/img/planviaje/1920x650-HOTEL-Desktop.jpg'
                 >
@@ -60,7 +60,7 @@ export default function Alojamientos() {
                     </div>
                 </ParallaxContainer>
             </section>
-            <div className='w-11/12 mx-auto pt-5'>
+            <div className='w-11/12 xl:w-11/16 mx-auto pt-5'>
                 <div className='mb-5'>
                     <Breadcrumb items={
                         [{ label: "Alojamientos", href: '/alojamientos' }]

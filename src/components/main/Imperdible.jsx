@@ -1,6 +1,6 @@
 import Carousel from '@/components/common/Carousel'
 import { useGetImperdiblesQuery } from '@/redux/services/articulosService';
-import { languages } from '@/utils';
+import { languages, generateSlug } from '@/utils';
 import { useRouter } from 'next/router';
 import React, { useEffect, useMemo, useState } from 'react'
 
@@ -46,7 +46,7 @@ export default function Imperdible() {
         return groupedImperdibles;
 
     }, [imperdibles, isLoading, isFetching, error]);
-
+    console.log(orderedImperdibles);
     return (
         <div className="w-full">
             <Carousel className='md:h-135' showIndicators={true} showArrows={true} autoPlay={false} interval={6000}>
@@ -66,10 +66,12 @@ export default function Imperdible() {
                             <div className='flex justify-around w-full'>
                                 {item.map((imperdible, indexImperdible) => (
                                     <div className="md:w-3/11 w-13/16 relative" key={indexImperdible}>
-                                        <img src={process.env.URL_IMG + (imperdible.imagenDestacado || imperdible.imagen)} className='object-cover h-full object-center' alt="" />
-                                        <div className='absolute top-0 pt-4 ps-4 max-w-full'>
-                                            <h3 className='md:text-[2.9em] text-[2.4em] text-sm/15 font-bold text-white text-shadow-lg line-clamp-4'>{imperdible.nombre}</h3>
-                                        </div>
+                                        <a href={`/articulos/articulo/${imperdible.idArticulo}/${generateSlug(imperdible.nombre)}`}>
+                                            <img src={process.env.URL_IMG + (imperdible.imagenDestacado || imperdible.imagen)} className='object-cover h-full object-center' alt="" />
+                                            <div className='absolute top-0 pt-4 ps-4 max-w-full'>
+                                                <h3 className='md:text-[2.9em] text-[2.4em] text-sm/15 font-bold text-white text-shadow-lg line-clamp-4'>{imperdible.nombre}</h3>
+                                            </div>
+                                        </a>
                                     </div>
                                 ))}
                             </div>

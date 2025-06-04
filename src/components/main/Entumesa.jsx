@@ -46,7 +46,7 @@ export default function Entumesa() {
 
     return (
         <div
-            className='md:h-[58vh] bg-cover bg-fixed transition-all duration-300 ease-in bg-center'
+            className='md:h-[58vh] xl:h-[48vh] bg-cover bg-fixed transition-all duration-300 ease-in bg-center'
             style={{ backgroundImage: `url(${currentItem.img})` }}
         >
             <div className='w-full flex h-full flex-col md:flex-row py-5 gap-5 md:gap-0'>
