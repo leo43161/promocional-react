@@ -40,9 +40,8 @@ export default function Rutas() {
         <div className='w-12/13 xl:w-full mx-auto mb-30'>
             <Carousel className='md:h-96' showIndicators={false} showArrows={false} autoPlay={true} interval={3000}>
                 {RutasBanners.map((banner) => (
-                    <a href={process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL + '/articulos/articulo/' + banner.articulo}>
+                    <a key={banner.id} href={process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL + '/articulos/articulo/' + banner.articulo}>
                         <section
-                            key={banner.id}
                             className="w-full parallax flex flex-col md:flex-row items-stretch gap-8 cursor-pointer h-full px-4 xl:px-20"
                         >
                             {/* Primera columna: Icono, título y botón */}

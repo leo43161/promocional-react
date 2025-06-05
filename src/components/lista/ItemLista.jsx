@@ -10,9 +10,9 @@ export default function ItemLista({ articulo, right = false }) {
     return (
         <div key={idArticulo} className={`flex flex-col md:flex-row items-stretch md:gap-12 gap-7 ${right && "md:flex-row-reverse"}`}>
             <div className="md:w-3/6 md:h-100 h-[45vh] w-full">
-                <img src={`${imageBaseUrl}${imagen}`} className='object-cover h-full shadow hidden md:block' alt="" />
+                <img src={`${imageBaseUrl}${imagen}`} className='object-cover h-full shadow hidden md:block w-full object-center' alt="" />
 
-                <img src={`${imageBaseUrl}${imagenMovil ? imagenMovil : imagen}`} className='object-cover h-full shadow md:hidden' alt="" />
+                <img src={`${imageBaseUrl}${imagenMovil ? imagenMovil : imagen}`} className='object-cover h-full shadow md:hidden w-full object-center' alt="" />
             </div>
             <div className={`md:w-3/6 flex flex-col justify-center md:gap-8 gap-7 ${right ? "md:items-end" : "md:items-start"}`}>
                 <h2 className={`text-3xl font-bold ${right && "md:text-right"}`}>{nombre}</h2>

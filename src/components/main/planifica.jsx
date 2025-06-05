@@ -24,64 +24,64 @@ export default function Planifica() {
       icon: <Home size={30} />,
       title: 'Alojamiento',
       description: '¿Buscas dónde hospedarte durante tu viaje? Encuentra las mejores opciones de hoteles, hostales y apartamentos.',
-      image: process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL + '/images/main/hotel.jpg',
-      link: process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL + '/alojamientos'
+      image: 'images/main/hotel.jpg',
+      link: 'alojamientos'
     },
     {
       id: 'transporte',
       icon: <Bus size={30} />,
       title: 'Transporte',
       description: '¿Quieres conocer todo lo que Tucumán tiene para ofrecerte y no sabes cómo moverte? Encontrá los horarios y valores de los viajes en micro hacia todos los puntos turísticos de la provincia.',
-      image: process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL + '/images/main/transporte.jpg',
-      link: process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL + '/transporte'
+      image: 'images/main/transporte.jpg',
+      link: 'transporte'
     },
     {
       id: 'alquiler-autos',
       icon: <Car size={30} />,
       title: 'Alquiler de Autos',
       description: 'Alquila un auto y disfruta de la libertad de moverte a tu propio ritmo durante tus vacaciones.',
-      image: process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL + '/images/main/alquiler.jpg',
-      link: process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL + '/autos'
+      image: 'images/main/alquiler.jpg',
+      link: 'autos'
     },
     {
       id: 'prestadores',
       icon: <Users size={30} />,
       title: 'Prestadores activos',
       description: 'Conoce a todos los prestadores de servicios turísticos disponibles para hacer de tu viaje una experiencia inolvidable.',
-      image: process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL + '/images/main/activos.jpg',
-      link: process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL + '/prestadores'
+      image: 'images/main/activos.jpg',
+      link: 'prestadores'
     },
     {
       id: 'agencias',
       icon: <Building size={30} />,
       title: 'Agencias',
       description: 'Contacta con agencias de viajes locales que te ayudarán a organizar tu estadía y tours por la región.',
-      image: process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL + '/images/main/agencias.jpg',
-      link: process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL + '/agencias'
+      image: 'images/main/agencias.jpg',
+      link: 'agencias'
     },
     {
       id: 'guias',
       icon: <MapPin size={30} />,
       title: 'Guías de Turismo',
       description: 'Contrata guías profesionales que te mostrarán los mejores lugares y te contarán la historia y cultura local.',
-      image: process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL + '/images/main/guia.jpg',
-      link: process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL + '/guias'
+      image: 'images/main/guia.jpg',
+      link: 'guias'
     },
     {
       id: 'itinerarios',
       icon: <Calendar size={30} />,
       title: 'Itinerarios',
       description: 'Descubre rutas prediseñadas para aprovechar al máximo tu tiempo y visitar los lugares más destacados.',
-      image: process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL + '/images/main/itinerarios.jpg',
-      link: process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL + '/subsecciones/lista/45'
+      image: 'images/main/itinerarios.jpg',
+      link: 'subsecciones/lista/45'
     },
     {
       id: 'mapas',
       icon: <Map size={30} />,
       title: 'Mapas y Folletos',
       description: 'Accede a mapas detallados y folletos informativos para orientarte durante tu visita.',
-      image: process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL + '/images/main/mapas.jpg',
-      link: process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL + '/subsecciones/lista/46'
+      image: 'images/main/mapas.jpg',
+      link: 'subsecciones/lista/46'
     }
   ];
   const travelOptionsENG = [
@@ -90,64 +90,64 @@ export default function Planifica() {
       icon: <Home size={30} />,
       title: 'Accommodations',
       description: 'Tucumán offers a wide variety of Hotels, Cabins, Rural Estates, and more, providing a range of options to suit your budget and preferences. You can check the list of accommodations here.',
-      image: process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL + '/images/main/hotel.jpg',
-      link: process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL + '/alojamientos'
+      image: 'images/main/hotel.jpg',
+      link: 'alojamientos'
     },
     {
       id: 'urban-transport',
       icon: <Bus size={30} />,
       title: 'Urban Transport',
       description: "Do you want to know everything that Tucumán has to offer and you don't have your vehicle? Find out the schedules and prices of bus trips to all the tourist spots in the province.",
-      image: process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL + '/images/main/transporte.jpg',
-      link: process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL + '/transporte'
+      image: 'images/main/transporte.jpg',
+      link: 'transporte'
     },
     {
       id: 'car-rentals',
       icon: <Car size={30} />,
       title: 'Car Rentals',
       description: 'Meet all the car rental agencies to assemble your itinerary in the province.',
-      image: process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL + '/images/main/alquiler.jpg',
-      link: process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL + '/autos'
+      image: 'images/main/alquiler.jpg',
+      link: 'autos'
     },
     {
       id: 'providers',
       icon: <Users size={30} />,
       title: 'Active Tourism Providers',
       description: 'Meet our authorized active tourism providers and venture into our landscapes safely.',
-      image: process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL + '/images/main/activos.jpg',
-      link: process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL + '/prestadores'
+      image: 'images/main/activos.jpg',
+      link: 'prestadores'
     },
     {
       id: 'agencies',
       icon: <Building size={30} />,
       title: 'Agencies',
       description: 'Meet all the incoming travel agencies to embark on a trip through the province.',
-      image: process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL + '/images/main/agencias.jpg',
-      link: process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL + '/agencias'
+      image: 'images/main/agencias.jpg',
+      link: 'agencias'
     },
     {
       id: 'guides',
       icon: <MapPin size={30} />,
       title: 'Tourist Guides',
       description: 'Meet our qualified tour guides and live an unforgettable and safe experience.',
-      image: process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL + '/images/main/guia.jpg',
-      link: process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL + '/guias'
+      image: 'images/main/guia.jpg',
+      link: 'guias'
     },
     {
       id: 'itineraries',
       icon: <Calendar size={30} />,
       title: 'Itineraries',
       description: "Are you planning to visit Tucumán and still don't know how to organize your trip? Please get to know the different itineraries we propose to make the most of your stay.",
-      image: process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL + '/images/main/itinerarios.jpg',
-      link: process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL + '/subsecciones/lista/67'
+      image: 'images/main/itinerarios.jpg',
+      link: 'subsecciones/lista/67'
     },
     {
       id: 'maps',
       icon: <Map size={30} />,
       title: 'Maps and Brochures',
       description: 'Download here the brochures and maps of the different tourist circuits in the province of Tucumán.',
-      image: process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL + '/images/main/mapas.jpg',
-      link: process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL + '/subsecciones/lista/68'
+      image: 'images/main/mapas.jpg',
+      link: 'subsecciones/lista/68'
     }
   ];
   const lenguageOptions = { "ES": travelOptions, "EN": travelOptionsENG };
