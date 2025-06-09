@@ -62,9 +62,7 @@ export default function blog() {
   useEffect(() => {
     setCurrentPage(1);
   }, [searchTerm]);
-
-  console.log("isLoading:", isLoading, "isFetching:", isFetching);
-  console.log(destacados);
+  
   if (error) return <p>Hubo un error al cargar los blogs</p>;
   const totalItems = blogs?.total ? blogs?.total : 0;
   // Determinar si estamos en un estado de carga (inicial o actualización)
@@ -105,7 +103,7 @@ export default function blog() {
               >
                 <div className="md:container w-11/12 mx-auto h-full text-white flex flex-col justify-end">
                   <div className='w-17/18 mx-auto mb-10'>
-                    <h2 className="text-4xl md:text-5xl font-bold mb-4 text-shadow-md line-clamp-3">
+                    <h2 className="text-5xl md:text-6xl font-bold mb-4 text-shadow-md line-clamp-3">
                       {blogDestacado.nombre}
                     </h2>
                     <p className='font-bold text-shadow-md line-clamp-3'>{blogDestacado.copete}</p>
@@ -123,7 +121,7 @@ export default function blog() {
           }></Breadcrumb>
         </div>
         <div>
-          <h1 className='text-center text-4xl font-semibold mb-9'>Conocé Tucumán</h1>
+          <h1 className='text-center text-5xl font-semibold mb-9'>Conocé Tucumán</h1>
           <div className='w-11/12 mx-auto'>
             {/* Componente de búsqueda */}
             <Buscador placeholder='Ej. Senderismo, Peñas, Vino, Pachamama...' onSearch={handleSearch} />

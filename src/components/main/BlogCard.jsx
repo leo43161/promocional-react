@@ -65,16 +65,16 @@ export default function BlogCard({
                     <Image src={process.env.URL_IMG + (imagenMovil ? imagenMovil : imagen)} alt={nombre} style={{ objectFit: 'cover', objectPosition: 'top' }} fill className="object-cover" />
                 </div>
                 <div className="md:p-6 p-4 flex flex-col flex-grow justify-between">
-                    <h3 className="text-xl md:text-3xl font-semibold text-gray-800 mb-3 leading-tight line-clamp-3">
+                    <h3 className="text-2xl md:text-4xl font-semibold text-gray-800 mb-3 leading-tight line-clamp-3">
                         {nombre}
                     </h3>
-                    <p className="text-gray-600 text-sm mb-4 flex-grow">
+                    <p className="text-gray-600 text-[1.1em] mb-4 flex-grow">
                         {copete}
                     </p>
                     <div className="flex justify-between items-center">
                         <a
                             href={idArticulo}
-                            className="inline-block bg-primary hover:bg-primary/85 text-white text-sm font-medium py-2 px-4 rounded-md transition-colors"
+                            className="inline-block bg-primary hover:bg-primary/85 text-white text-[1.1em] font-medium py-2 px-4 rounded-md transition-colors"
                         >
                             Conocé más aquí
                         </a>
@@ -95,16 +95,16 @@ export default function BlogCard({
                 <Image src={process.env.URL_IMG + (imagenMovil ? imagenMovil : imagen)} alt={nombre} style={{ objectFit: 'cover' }} fill className="object-cover" />
             </div>
             <div className="p-4 flex flex-col flex-grow w-2/3 md:w-3/5 justify-between">
-                <h3 className="text-xl font-semibold text-gray-800 mb-2 leading-tight line-clamp-3">
+                <h3 className="text-2xl font-semibold text-gray-800 mb-2 leading-tight line-clamp-3">
                     {nombre}
                 </h3>
-                <p className="text-gray-600 text-xs mb-3 overflow-hidden text-ellipsis line-clamp-3 md:line-clamp-4">
+                <p className="text-gray-600 text-[1.1em] mb-3 overflow-hidden text-ellipsis line-clamp-3 md:line-clamp-4">
                     {copete}
                 </p>
                 <div className="flex justify-between items-center">
                     <a
                         href={idArticulo}
-                        className="inline-block bg-primary hover:bg-primary/85 text-white text-xs font-medium py-1.5 px-3 rounded-md transition-colors"
+                        className="inline-block bg-primary hover:bg-primary/85 text-white text-[1.1em] font-medium py-1.5 px-3 rounded-md transition-colors"
                     >
                         Conocé más aquí
                     </a>

@@ -36,11 +36,11 @@ export default function CardEvento({ evento, isLoading = false }) {
                             alt=""
                         />
                         <div className='rounded-b-md absolute top-0 left-8 shadow-lg bg-white py-1 px-1 flex justify-center'>
-                            <h4 className='font-bold text-sm'>{formatearFecha(evento.fechaInicio)} - {formatearFecha(evento.fechaFin)}</h4>
+                            <h4 className='font-bold text-[1.1em]'>{formatearFecha(evento.fechaInicio)} - {formatearFecha(evento.fechaFin)}</h4>
                         </div>
                     </div>
                     <div className='flex-col flex gap-5 mb-6 pt-1 justify-between flex-1'>
-                        <h3 className='font-bold text-left text-xl'>{evento.nombre}</h3>
+                        <h3 className='font-bold text-left text-2xl'>{evento.nombre}</h3>
                         <div className='flex items-center gap-2'>
                             <div>
                                 <Clock className='font-bold text-lg' size={17} />
@@ -51,7 +51,7 @@ export default function CardEvento({ evento, isLoading = false }) {
                             <div>
                                 <MapPin className='font-bold text-lg' size={17} />
                             </div>
-                            <span className='text-sm'>{evento.direccion}</span>
+                            <span className='text-[1.1em]'>{evento.direccion}</span>
                         </div>
                     </div>
                 </div>

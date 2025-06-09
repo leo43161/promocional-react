@@ -56,7 +56,7 @@ export default function Rutas() {
                                 </div>
                                 <h1
                                     id="bannerRutaTitle"
-                                    className="text-gray-800 italic text-3xl lg:text-3xl mb-0 pl-2"
+                                    className="text-gray-800 italic text-4xl lg:text-4xl mb-0 pl-2"
                                 >
                                     {banner.descripcion}
                                 </h1>

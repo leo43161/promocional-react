@@ -26,7 +26,7 @@ const Footer = () => {
       }}
     >
       <div className="max-w-7xl mx-auto flex justify-center pt-30">
-        <div className="grid grid-cols-1 sm:grid-cols-1  md:grid-cols-5 lg:grid-cols-5 sm:text-center md:text-start gap-6 text-white text-xs mt-5">
+        <div className="grid grid-cols-1 sm:grid-cols-1  md:grid-cols-5 lg:grid-cols-5 sm:text-center md:text-start gap-6 text-white text-[1.1em] mt-5">
           {/* Contenido del footer */}
 
           <div className="col-span-2 sm:col-span-1 sm:justify-center md:mt-5 md:p-4">
@@ -79,7 +79,7 @@ const Footer = () => {
             </ul>
           </div>
           <div className="col-span-3 sm:col-span-1 sm:justify-center md:mt-5 md:p-4">
-            <strong className="text-xs font-semibold">
+            <strong className="text-[1.1em] font-semibold">
               Casa de Tucumán
               <br />
               en Buenos Aires
@@ -93,7 +93,7 @@ const Footer = () => {
             </ul>
           </div>
           <div className="col-span-3 sm:col-span-1 sm:justify-center md:mt-5 md:p-4">
-            <strong className="text-xs font-semibold">
+            <strong className="text-[1.1em] font-semibold">
               Anexo Ente Tucumán turismo
             </strong>
             <ul>
@@ -121,7 +121,7 @@ const Footer = () => {
       </div>
       <div className="w-full text-center p-1">
         <hr className="bg-white text-center"></hr>
-        <p className="text-center text-sm text-white p-2">
+        <p className="text-center text-[1.1em] text-white p-2">
           <strong>Ente Autárquico Tucumán Turismo - 2024 | </strong>
           <a href="https://www.google.com/maps/place/Ente+Tucum%C3%A1n+Turismo/@-26.8311125,-65.2109502,16z/data=!4m10!1m2!2m1!1stucuman+turismo!3m6!1s0x94225c10470c56c9:0x7016910ca98c12c1!8m2!3d-26.8311131!4d-65.2045773!15sCg90dWN1bWFuIHR1cmlzbW9aESIPdHVjdW1hbiB0dXJpc21vkgEadG91cmlzdF9pbmZvcm1hdGlvbl9jZW50ZXKaASRDaGREU1VoTk1HOW5TMFZKUTBGblNVUlBhV1l0VW1wUlJSQULgAQA!16s%2Fg%2F1tzvxnh6?entry=ttu" className="text-white">24 de Septiembre 484</a> | C.P. 4000
           San Miguel de Tucumán - Argentina | Tel:
@@ -132,21 +132,21 @@ const Footer = () => {
           <a href="mailto:informes@tucumanturismo.gob.ar" className="text-decoration-none" >informes@tucumanturismo.gob.ar </a>
         </p>
 
-        <div className="text-center text-white text-xs p-2">
+        <div className="text-center text-white text-[1.1em] p-2">
           <p>Desarrollado por Dpto. Informatica EATT 2024</p>
         </div>
       </div>
       {/* <div className="fixed bottom-0 left-0 right-0 bg-gray-100 p-4 flex flex-col md:flex-row justify-between items-center border-t border-gray-400 z-50 w-screen">
-        <div className="text-center text-black mb-2 md:mb-0 text-sm">
+        <div className="text-center text-black mb-2 md:mb-0 text-[1.1em]">
           <p className="m-0">
             Para ofrecerte una mejor experiencia, este sitio utiliza cookies. Al continuar navegando, aceptas nuestra{' '}
             <a href="/privacidad" className="text-blue-600 underline">política de privacidad</a>.
           </p>
         </div>
         <div className="flex gap-3">
-          <button className="bg-primary text-white px-4 py-2 rounded-lg text-sm"
+          <button className="bg-primary text-white px-4 py-2 rounded-lg text-[1.1em]"
           >Aceptar</button>
-          <button className="bg-primary text-white px-4 py-2 rounded-lg text-sm"
+          <button className="bg-primary text-white px-4 py-2 rounded-lg text-[1.1em]"
           >Rechazar</button>
         </div>
       </div> */}

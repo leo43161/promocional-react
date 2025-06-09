@@ -12,7 +12,6 @@ export default function Layout({ children, className, pageProps }) {
     const { lang } = router.query; // Obtener el idioma actual de la URL
 
     const siteBaseUrl = process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL;
-    console.log(siteBaseUrl);
     const defaultOgImage = `${process.env.URL_IMG_LOCAL || siteBaseUrl}/images/main/og-image-tucuman.png`;
     const defaultFaviconBase = `${process.env.URL_IMG_LOCAL || siteBaseUrl}/icons/main/`;
 
@@ -30,15 +29,12 @@ export default function Layout({ children, className, pageProps }) {
         twitterImage: `${process.env.URL_IMG_LOCAL || siteBaseUrl}/icons/tucturwide.png`, // Imagen para Twitter
         themeColor: '#006E66', // Un color de tu marca, ej: secundario
     };
-    /* console.log("pageProps");
-    console.log(pageProps); */
     // Fusionar metadatos por defecto con los específicos de la página (si existen en pageProps)
     const meta = { ...defaultMeta, ...(pageProps?.pageMeta || {}) };
 
     // Construir URL canónica y URLs para hreflang
     const pathWithoutQuery = router.asPath.split('?')[0];
     const canonicalUrl = `${siteBaseUrl}${pathWithoutQuery}`;
-    console.log(canonicalUrl);
 
     const currentLangCode = (lang || languages[0].code).toUpperCase();
     const alternativeLangCode = currentLangCode === 'ES' ? 'EN' : 'ES';

@@ -108,7 +108,6 @@ export default function ArticuloRedirectPage({ id, slug, idioma }) {
             if (parseInt(idioma) !== 1) {
                 targetUrl += `?lang=${idiomaCode[parseInt(idioma)] || idioma}`
             }
-            console.log(`Redirecting from /articulos/articulo/${id} to ${targetUrl}`);
             router.replace(targetUrl);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -159,7 +158,7 @@ export default function ArticuloRedirectPage({ id, slug, idioma }) {
                     {/* Sección "Para Descargar": Usa datos de getPdfs */}
                     {/* Mostramos solo si está cargando O si hay PDFs después de cargar */}
                     <div className='mb-6'>
-                        <h2 className='text-xl font-bold mb-3'>Para Descargar</h2>
+                        <h2 className='text-2xl font-bold mb-3'>Para Descargar</h2>
                         <div className='flex flex-col gap-3'>
                             <>
                                 <SkeletonListItem />

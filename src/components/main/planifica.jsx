@@ -176,7 +176,7 @@ export default function Planifica() {
 
   return (
     <div className="w-full mx-auto px-4 md:px-0 flex flex-col items-center mb-6">
-      <h2 className="text-3xl text-gray-500 mb-6 text-center">PLANIFICA TU VIAJE</h2>
+      <h2 className="text-5xl text-gray-500 mb-6 text-center">PLANIFICA TU VIAJE</h2>
 
       {/* Contenedor de tabs - responsive */}
       <div className="overflow-x-auto no-scrollbar mb-4 w-full flex justify-center">
@@ -189,7 +189,7 @@ export default function Planifica() {
                 }`}
             >
               <div className="mb-2">{option.icon}</div>
-              <span className="text-center font-semibold md:text-sm">{option.title}</span>
+              <span className="text-center font-semibold md:text-[1.2em] md:text-[1.2em]/6">{option.title}</span>
             </button>
           ))}
         </div>
@@ -202,7 +202,7 @@ export default function Planifica() {
           <div className="bg-gray-100 p-6 md:absolute md:left-0 md:top-6 md:z-10 md:bg-gray-100/80 md:w-4/11">
             <h3 className="text-2xl text-gray-700 font-medium mb-3">{activeOption.title}</h3>
             <p className="text-gray-600 mb-4">{activeOption.description}</p>
-            <Link href={activeOption.link} className="bg-orange-500 text-white text-sm py-1 px-4 rounded hover:bg-orange-600 inline-block">
+            <Link href={activeOption.link} className="bg-orange-500 text-white text-[1.1em] py-1 px-4 rounded hover:bg-orange-600 inline-block">
               Conocé más aquí
             </Link>
           </div>

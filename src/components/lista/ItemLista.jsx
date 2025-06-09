@@ -15,8 +15,8 @@ export default function ItemLista({ articulo, right = false }) {
                 <img src={`${imageBaseUrl}${imagenMovil ? imagenMovil : imagen}`} className='object-cover h-full shadow md:hidden w-full object-center' alt="" />
             </div>
             <div className={`md:w-3/6 flex flex-col justify-center md:gap-8 gap-7 ${right ? "md:items-end" : "md:items-start"}`}>
-                <h2 className={`text-3xl font-bold ${right && "md:text-right"}`}>{nombre}</h2>
-                <p className={`${right && "md:text-right"}`}>{copete}</p>
+                <h2 className={`text-4xl font-bold ${right && "md:text-right"}`}>{nombre}</h2>
+                <p className={`${right ? "md:text-right" : ""} text-2xl`}>{copete}</p>
                 <a className='cursor-pointer' href={`${process.env.URL_LOCAL}/articulos/articulo/${idArticulo}/${generateSlug(nombre)}${idiomaCode ? `?lang=${idiomaCode}` : ''}`}>
                     <Button className='shadow-lg cursor-pointer'>
                         Haz click aqui

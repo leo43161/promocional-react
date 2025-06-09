@@ -69,7 +69,7 @@ export default function Imperdible() {
                                         <a href={`/articulos/articulo/${imperdible.idArticulo}/${generateSlug(imperdible.nombre)}`}>
                                             <img src={process.env.URL_IMG + (imperdible.imagenDestacado || imperdible.imagen)} className='object-cover h-full object-center' alt="" />
                                             <div className='absolute top-0 pt-4 ps-4 max-w-full'>
-                                                <h3 className='md:text-[2.9em] text-[2.4em] text-sm/15 font-bold text-white text-shadow-lg line-clamp-4'>{imperdible.nombre}</h3>
+                                                <h3 className='md:text-[2.9em] text-[2.4em] text-[1.1em]/15 font-bold text-white text-shadow-lg line-clamp-4'>{imperdible.nombre}</h3>
                                             </div>
                                         </a>
                                     </div>

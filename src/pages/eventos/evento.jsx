@@ -120,13 +120,13 @@ export default function Evento() {
                 >
                     <div className="container mx-auto h-full text-white flex flex-col justify-end">
                         <div className='w-11/12 mx-auto pt-5 pb-10'>
-                            <div className="inline-block bg-secondary px-3 py-1 text-sm font-medium rounded mb-3">
+                            <div className="inline-block bg-secondary px-3 py-1 text-[1.1em] font-medium rounded mb-3">
                                 {isLoadingEvento ?
                                     <SkeletonBlock width='w-24' height='h-4'></SkeletonBlock> :
                                     evento?.nombreCategoria || 'Evento'
                                 }
                             </div>
-                            <h1 className="text-4xl md:text-5xl font-bold mb-3 drop-shadow-lg">
+                            <h1 className="text-5xl md:text-6xl font-bold mb-3 drop-shadow-lg">
                                 {isLoadingEvento ?
                                     <SkeletonBlock width='w-4/8' height='h-8'></SkeletonBlock> :
                                     evento?.nombre || 'Detalle del evento'
@@ -165,14 +165,14 @@ export default function Evento() {
                     <div className='w-full mb-6 lg:mb-4 lg:pr-4 order-2 lg:order-1 lg:w-7/11'>
                         {/* Título en el contenido si es necesario (puede duplicar el del banner o ser más pequeño) */}
                         <div className='mb-5 hidden lg:block'> {/* Ocultar en desktop si el banner ya tiene el título */}
-                            <h2 className="text-3xl md:text-4xl font-bold">
+                            <h2 className="text-4xl md:text-6xl font-bold">
                                 {isLoading ? <SkeletonBlock width='w-full' height='h-8'></SkeletonBlock> : (evento?.nombre || 'Detalle')}
                             </h2>
                         </div>
 
                         {/* Información del Evento */}
                         <div className='mb-6'>
-                            {/* <h3 className='text-xl font-bold mb-3'>Información del Evento</h3> */}
+                            {/* <h3 className='text-2xl font-bold mb-3'>Información del Evento</h3> */}
                             {isLoading ? (
                                 <div className='space-y-3'>
                                     <SkeletonBlock width='w-3/4' height='h-5' />
@@ -242,7 +242,7 @@ export default function Evento() {
 
                         {/* Descripción del Evento */}
                         <div className='mb-6'>
-                            <h3 className='text-xl font-bold mb-3'>Descripción</h3>
+                            <h3 className='text-2xl font-bold mb-3'>Descripción</h3>
                             {isLoading ? (
                                 <SkeletonText lines={5} />
                             ) : (
@@ -256,7 +256,7 @@ export default function Evento() {
                         {/* Mapa de Ubicación (Placeholder) */}
                         {(evento?.latitud && evento?.longitud) ? (
                             <div className='mb-6'>
-                                <h3 className='text-xl font-bold mb-3'>Ubicación en el Mapa</h3>
+                                <h3 className='text-2xl font-bold mb-3'>Ubicación en el Mapa</h3>
                                 {/* Placeholder para el mapa. Aquí integrarías tu componente de mapa (ej: Google Maps, Leaflet) */}
                                 {isLoading ? (
                                     <SkeletonImage className='w-full h-64' />
@@ -283,7 +283,7 @@ export default function Evento() {
                     {/* Columna Derecha: Imagen Principal */}
                     <div className='lg:w-4/11 w-full lg:ps-4 order-1 lg:order-2 mb-6 lg:mb-4'>
                         <div className='mb-6'>
-                            <h3 className='text-xl font-bold mb-3 sr-only'>Imagen del Evento</h3> {/* Ocultar visualmente si el banner ya la muestra */}
+                            <h3 className='text-2xl font-bold mb-3 sr-only'>Imagen del Evento</h3> {/* Ocultar visualmente si el banner ya la muestra */}
                             {isLoading ? (
                                 <SkeletonImage className='w-full h-64 lg:h-96 object-cover rounded-lg shadow-md' />
                             ) : (

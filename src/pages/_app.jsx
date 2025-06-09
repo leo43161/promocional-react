@@ -2,10 +2,10 @@ import { Provider } from 'react-redux';
 import { store } from '@/redux/store';
 import '@/globals.css';
 import Layout from '@/components/Layout';
-import { Montserrat } from 'next/font/google';
+import { Montserrat, Sofia_Sans_Condensed } from 'next/font/google';
 import { GoogleTagManager, GoogleAnalytics } from '@next/third-parties/google'
 
-const monserrat = Montserrat({
+const monserrat = Sofia_Sans_Condensed({
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
   style: ['normal', 'italic'],
   subsets: ['latin'],

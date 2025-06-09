@@ -6,7 +6,7 @@ import { cn } from '@/utils';
 const ImagePlaceholder = ({ size = 48, message = null }) => (
     <div className="w-full h-full flex flex-col items-center justify-center bg-slate-100 text-slate-400 rounded-lg">
         <ImageOff size={size} />
-        {message && <p className="mt-2 text-xs text-center">{message}</p>}
+        {message && <p className="mt-2 text-[1.1em] text-center">{message}</p>}
     </div>
 );
 
@@ -113,7 +113,7 @@ export default function ImageGallery({ items = [], isLoading = false, className 
                             <div
                                 className='absolute bottom-0 z-20 bg-gradient-to-t from-black/80 via-black/60 via-70% to-transparent w-full rounded-b-md pb-3 px-3'
                             >
-                                <h1 className='text-xl text-white font-semibold'>{currentImageUrl.text}</h1>
+                                <h1 className='text-2xl text-white font-semibold'>{currentImageUrl.text}</h1>
                             </div>
                         )}
                     </div>
@@ -149,7 +149,7 @@ export default function ImageGallery({ items = [], isLoading = false, className 
                                     {hasError ? (
                                         <div className="w-full h-full flex flex-col items-center justify-center bg-slate-200 text-red-500 p-1">
                                             <AlertCircle size={20} />
-                                            <span className="text-xs mt-1 text-center">Error</span>
+                                            <span className="text-[1.1em] mt-1 text-center">Error</span>
                                         </div>
                                     ) : (
                                         <img

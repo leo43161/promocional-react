@@ -51,7 +51,7 @@ export default function Eventos() {
                 >
                     <div className="container mx-auto h-full text-white flex flex-col justify-end">
                         <div className='w-11/12 mx-auto pt-5'>
-                            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+                            <h2 className="text-5xl md:text-6xl font-bold mb-6">
                                 Eventos
                             </h2>
                         </div>

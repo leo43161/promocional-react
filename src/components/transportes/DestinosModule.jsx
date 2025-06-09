@@ -141,7 +141,7 @@ export default function BuscadorTransporte() {
 
             {destinoSeleccionado && infoDestino && (
                 <div className="text-center mb-4">
-                    <p className="text-gray-600 uppercase text-sm font-semibold">
+                    <p className="text-gray-600 uppercase text-[1.1em] font-semibold">
                         INFORMACIÓN PARA VIAJAR A {destinoSeleccionado}
                     </p>
                 </div>
@@ -257,14 +257,14 @@ export default function BuscadorTransporte() {
                                                         {horario.titulo}
                                                     </h4>
                                                     <div className="border rounded-lg overflow-hidden shadow" style={{ borderColor: `${circuitoColor}30` }}>
-                                                        <div className="grid grid-cols-2 font-semibold text-sm" style={{ backgroundColor: `${circuitoColor}10` }}>
+                                                        <div className="grid grid-cols-2 font-semibold text-[1.1em]" style={{ backgroundColor: `${circuitoColor}10` }}>
                                                             <div className="p-2 text-center border-r" style={{ borderColor: `${circuitoColor}30` }}>Ida</div>
                                                             <div className="p-2 text-center">Vuelta</div>
                                                         </div>
                                                         {Array.from({ length: Math.max(horario.ida?.length || 0, horario.vuelta?.length || 0) }).map((_, rowIndex) => (
                                                             <div
                                                                 key={`row-${horario.titulo}-${rowIndex}`}
-                                                                className="grid grid-cols-2 text-sm"
+                                                                className="grid grid-cols-2 text-[1.1em]"
                                                                 style={{
                                                                     backgroundColor: rowIndex % 2 === 0 ? `${circuitoColor}0A` : 'white',
                                                                     borderTop: rowIndex > 0 ? `1px solid ${circuitoColor}20` : 'none'

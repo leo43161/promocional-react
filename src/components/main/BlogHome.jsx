@@ -28,7 +28,7 @@ export default function BlogHome() {
         <section className=" p-4 md:p-8 flex items-center">
             <div>
                 <div className='w-full flex justify-center'>
-                    <a className='text-3xl md:text-4xl font-bold mb-12 underline hover:text-primary' href={`${process.env.URL_LOCAL}/blog`}>Conocé Tucumán</a>
+                    <a className='text-4xl md:text-6xl font-bold mb-12 underline hover:text-primary' href={`${process.env.URL_LOCAL}/blog`}>Conocé Tucumán</a>
                 </div>
                 <div className="md:w-13/14 xl:w-11/14 w-full mx-auto mb-10">
                     <div className="flex flex-col md:flex-row md:justify-between gap-6 md:gap-7">
@@ -40,7 +40,7 @@ export default function BlogHome() {
                                         <div className="absolute inset-0 bg-gray-200 animate-pulse"></div>
                                     </div>
                                     <div className="md:p-6 p-4 flex flex-col h-135 justify-between">
-                                        <h3 className="text-xl md:text-2xl font-semibold text-gray-800 mb-3 leading-tight line-clamp-3">
+                                        <h3 className="text-2xl md:text-2xl font-semibold text-gray-800 mb-3 leading-tight line-clamp-3">
                                             <div className="h-4 bg-gray-200 animate-pulse"></div>
                                         </h3>
                                         {/* <p className="text-gray-600 text-md mb-4 line-clamp-3">
@@ -79,7 +79,7 @@ export default function BlogHome() {
                     </div>
                 </div>
                 <div className='w-full flex justify-center'>
-                    <a className='text-xl md:text-xl underline hover:text-primary' href={`${process.env.URL_LOCAL}/blog`}>Ver mas</a>
+                    <a className='text-2xl md:text-2xl underline hover:text-primary' href={`${process.env.URL_LOCAL}/blog`}>Ver mas</a>
                 </div>
             </div>
         </section>

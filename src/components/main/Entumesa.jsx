@@ -54,7 +54,7 @@ export default function Entumesa() {
                     <div
                         className='md:w-9/12 w-11/12 md:ms-auto md:pe-10 flex justify-end md:items-end items-center flex-col'
                     >
-                        <h1 className='md:text-[2.5rem] text-3xl font-semibold italic md:text-right text-center text-white text-shadow-lg/30 md:mb-4 mb-7 md:text-sm/12' style={{ transition: 'opacity 0.3s ease-in' }}>
+                        <h1 className='md:text-[2.9rem] text-4xl font-bold italic md:text-right text-center text-white text-shadow-lg/30 md:mb-4 mb-7 md:text-[1.1em]/12' style={{ transition: 'opacity 0.3s ease-in' }}>
                             {currentItem.description}
                         </h1>
                         <a className='md:w-4/10 cursor-pointer' href={process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL + "/subsecciones/lista/37/tradicion-regional"}>

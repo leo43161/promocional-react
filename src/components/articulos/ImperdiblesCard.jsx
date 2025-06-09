@@ -11,7 +11,7 @@ export default function ImperdiblesCard({ titulo, img }) {
             <div
                 className='absolute bottom-0 z-20 bg-gradient-to-t from-black/60 via-black/40 to-transparent w-full'
             >
-                <h1 className='text-3xl text-white mb-3 ms-3 font-semibold'>{titulo}</h1>
+                <h1 className='text-4xl text-white mb-3 ms-3 font-semibold'>{titulo}</h1>
             </div>
         </div>
     )

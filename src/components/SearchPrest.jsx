@@ -16,7 +16,7 @@ const Buscador = ({ onSearch, placeholder = "Buscar actividades, prestadores..."
         <div className="relative flex-grow">
           <input
             type="text"
-            className="w-full py-2 pl-3 pr-10 text-sm border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent h-10"
+            className="w-full py-2 pl-3 pr-10 text-[1.1em] border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent h-10"
             placeholder={placeholder}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}

@@ -39,8 +39,6 @@ export default function Prestadores() {
     useEffect(() => {
         setCurrentPage(1);
     }, [searchTerm]);
-
-    console.log("isLoading:", isLoading, "isFetching:", isFetching);
     if (error) return <p>Hubo un error al cargar los prestadores</p>;
     const totalItems = prestadores?.result[0]?.total ? parseInt(prestadores?.result[0]?.total) : 0;
     // Determinar si estamos en un estado de carga (inicial o actualización)
@@ -56,7 +54,7 @@ export default function Prestadores() {
                 >
                     <div className="container mx-auto h-full text-white flex flex-col justify-end">
                         <div className='w-11/12 mx-auto pt-5'>
-                            <h2 className="text-4xl md:text-5xl font-bold mb-6">
+                            <h2 className="text-5xl md:text-6xl font-bold mb-6">
                                 Servicios Turismo Aventura
                             </h2>
                         </div>
@@ -71,7 +69,7 @@ export default function Prestadores() {
                 </div>
                 <h2 className="text-2xl font-bold mb-4">Prestadores de Turismo Aventura Habilitados</h2>
                 <div>
-                    <h1 className='text-center text-3xl font-bold mb-6'>Buscá aquí que actividad querés hacer</h1>
+                    <h1 className='text-center text-4xl font-bold mb-6'>Buscá aquí que actividad querés hacer</h1>
                     <div>
                         {/* Componente de búsqueda */}
                         <Buscador onSearch={handleSearch} />

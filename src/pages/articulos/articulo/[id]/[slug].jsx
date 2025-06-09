@@ -97,7 +97,6 @@ export async function getStaticProps(context) {
         }));
 
         const parallaxImageUrl = articulo?.imagen ? `${imageBaseUrl}${articulo.imagen}` : undefined;
-        console.log(parallaxImageUrl);
         const defaultOgImage = `${process.env.URL_LOCAL_SERVER}${process.env.URL_LOCAL}/public/icons/main/logotuc.png`; // Imagen por defecto para OG
 
         // Construcción del pageMeta
@@ -295,7 +294,7 @@ export default function ArticuloPage({ articulo, galleryItems, pdfItems, paralla
             >
                 <div className="container mx-auto h-full text-white flex flex-col justify-end">
                     <div className='w-11/12 mx-auto pt-5 py-4'>
-                        <h2 className="text-4xl md:text-5xl font-bold mb-6">
+                        <h2 className="text-5xl md:text-6xl font-bold mb-6">
                             {articulo?.nombre || 'Título no disponible'}
                         </h2>
                     </div>
@@ -310,7 +309,7 @@ export default function ArticuloPage({ articulo, galleryItems, pdfItems, paralla
 
             <div className='lg:mb-10 lg:w-12/14 xl:w-11/16 w-full mx-auto flex px-2 flex-wrap flex-col lg:flex-row'>
                 <div className={`${pdfItems?.length > 0 ? 'lg:w-8/11' : 'w-full'} w-full mb-6 lg:mb-4 lg:pr-4 order-2 lg:order-1`}>
-                    <h1 className='text-3xl font-bold mb-6'>{articulo?.nombre || 'Artículo sin título'}</h1>
+                    <h1 className='text-4xl font-bold mb-6'>{articulo?.nombre || 'Artículo sin título'}</h1>
                     {articulo?.copete && (
                         <div className='w-full px-2 mb-3'>
                             <p className='text-lg font-semibold'>{articulo.copete}</p>
@@ -343,7 +342,7 @@ export default function ArticuloPage({ articulo, galleryItems, pdfItems, paralla
                                 loading="lazy"
                             />
                             {articulo.pieImagen && (
-                                <p className='text-sm text-gray-600 mt-2 italic'>{articulo.pieImagen}</p>
+                                <p className='text-[1.1em] text-gray-600 mt-2 italic'>{articulo.pieImagen}</p>
                             )}
                         </div>
                     )}
@@ -352,7 +351,7 @@ export default function ArticuloPage({ articulo, galleryItems, pdfItems, paralla
                 {pdfItems && pdfItems.length > 0 && (
                     <div className='lg:w-3/11 w-full lg:ps-4 order-1 lg:order-2'>
                         <div className='mb-6'>
-                            <h2 className='text-xl font-bold mb-3'>Para Descargar</h2>
+                            <h2 className='text-2xl font-bold mb-3'>Para Descargar</h2>
                             <div className='flex flex-col gap-3 px-2 md:px-0'>
                                 {pdfItems.map((file, index) => (
                                     <a key={index}
@@ -366,8 +365,8 @@ export default function ArticuloPage({ articulo, galleryItems, pdfItems, paralla
                                             <img src={`${process.env.URL_IMG_LOCAL || ''}/icons/pdf-1.svg`} className="w-full h-auto" alt="Icono de archivo PDF" />
                                         </div>
                                         <div className="flex-1 overflow-hidden">
-                                            <p className="m-0 text-sm text-gray-600">Hacé click para descargar</p>
-                                            <p className="m-0 font-bold text-base truncate" title={file.nombre}>{file.nombre}</p>
+                                            <p className="m-0 text-[1.1em] text-gray-600">Hacé click para descargar</p>
+                                            <p className="m-0 font-bold text-[1.1em] truncate" title={file.nombre}>{file.nombre}</p>
                                         </div>
                                     </a>
                                 ))}

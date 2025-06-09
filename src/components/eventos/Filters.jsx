@@ -60,7 +60,7 @@ export default function Filters({ filter, setFilter }) {
         {/* Search Input */}
         <div className="flex-grow w-full md:w-auto">
           {/* Label can be visually hidden or use placeholder as label */}
-          {/* <label htmlFor="search-event" className="block text-xs font-medium text-gray-500 mb-1 uppercase">Buscar Evento</label> */}
+          {/* <label htmlFor="search-event" className="block text-[1.1em] font-medium text-gray-500 mb-1 uppercase">Buscar Evento</label> */}
           <div className="relative">
             <input
               id="search-event"
@@ -78,7 +78,7 @@ export default function Filters({ filter, setFilter }) {
 
         {/* Dia Dropdown */}
         <div className="w-full md:w-56"> {/* Adjusted width */}
-          <label htmlFor="filter-dia" className="block text-xs font-medium text-gray-500 mb-1 uppercase">
+          <label htmlFor="filter-dia" className="block text-[1.1em] font-medium text-gray-500 mb-1 uppercase">
             Filtrar por:
           </label>
           <div className="relative">
@@ -106,7 +106,7 @@ export default function Filters({ filter, setFilter }) {
 
         {/* FechaIni Input */}
         <div className="w-full md:w-52"> {/* Adjusted width */}
-          <label htmlFor="filter-fechaIni" className="block text-xs font-medium text-gray-500 mb-1 uppercase">
+          <label htmlFor="filter-fechaIni" className="block text-[1.1em] font-medium text-gray-500 mb-1 uppercase">
             Busca por fecha:
           </label>
           <div className="relative">
@@ -125,7 +125,7 @@ export default function Filters({ filter, setFilter }) {
 
         {/* FechaFin Input */}
         <div className="w-full md:w-52"> {/* Adjusted width */}
-          <label htmlFor="filter-fechaFin" className="block text-xs font-medium text-gray-500 mb-1 uppercase">
+          <label htmlFor="filter-fechaFin" className="block text-[1.1em] font-medium text-gray-500 mb-1 uppercase">
             Hasta:
           </label>
           <div className="relative">

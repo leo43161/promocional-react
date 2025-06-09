@@ -48,7 +48,7 @@ export default function CardEventoHome({ evento }) {
                         alt={nombre || "Imagen del evento"} // Es bueno tener un alt descriptivo
                     />
                     <div className='rounded-b-md absolute top-0 left-8 shadow-lg bg-white w-auto py-1 px-2 flex justify-center'> 
-                        <h4 className='font-bold text-sm'>{displayDate}</h4>
+                        <h4 className='font-bold text-[1.1em]'>{displayDate}</h4>
                     </div>
                 </div>
                 <div className='flex-col flex gap-5 mb-6 pt-1'>
@@ -63,7 +63,7 @@ export default function CardEventoHome({ evento }) {
                         <div>
                             <MapPin className='font-bold text-lg' size={17} />
                         </div>
-                        <span className='text-sm'>{direccion} - {nombreLocalidad}</span>
+                        <span className='text-[1.1em]'>{direccion} - {nombreLocalidad}</span>
                     </div>
                 </div>
                 <div>

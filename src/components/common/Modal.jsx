@@ -169,7 +169,7 @@ const Modal = ({
 
                 {/* Pie de página (opcional) */}
                 {/* <div className="p-4 border-t">
-                    <p className="text-sm text-gray-500">Pie de página del modal</p>
+                    <p className="text-[1.1em] text-gray-500">Pie de página del modal</p>
                 </div> */}
             </div>
         </div>,

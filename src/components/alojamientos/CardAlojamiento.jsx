@@ -55,7 +55,7 @@ const CardAlojamiento = ({ alojamiento, isLoading = false }) => {
                 )}
             </div>
 
-            <h3 className="text-xl font-bold text-center mb-2">{alojamiento.nombre}</h3>
+            <h3 className="text-2xl font-bold text-center mb-2">{alojamiento.nombre}</h3>
 
             <div className="flex justify-center mb-3">
                 <div className="flex space-x-1">
@@ -68,29 +68,29 @@ const CardAlojamiento = ({ alojamiento, isLoading = false }) => {
                 {alojamiento.latitud && alojamiento.longitud ? (
                     <a
                         href={`https://www.google.com/maps/search/${alojamiento.latitud},+${alojamiento.longitud}`}
-                        className="text-sm text-secondary hover:underline truncate font-semibold"
+                        className="text-[1.1em] text-secondary hover:underline truncate font-semibold"
                     >
 
-                        <span className="text-sm">
+                        <span className="text-[1.1em]">
                             {alojamiento.domicilio}<br />
                             {alojamiento.localidad}
                         </span>
                     </a>
-                ) : (<span className="text-sm text-gray-700">{alojamiento.domicilio} - {alojamiento.localidad}</span>)}
+                ) : (<span className="text-[1.1em] text-gray-700">{alojamiento.domicilio} - {alojamiento.localidad}</span>)}
             </div>
 
             <div className="flex items-center mb-2">
                 <Phone className="min-w-5 h-5 text-gray-500 mr-2" />
                 {/* <a
                     href={`tel:${alojamiento.telefono}`}
-                    className="text-sm text-secondary hover:underline truncate"
+                    className="text-[1.1em] text-secondary hover:underline truncate"
                 > */}
                 {alojamiento.telefono_final.split(',').map((telefono, index) => (
-                    <a href={`tel:${telefono}`} key={index} className="text-sm text-secondary hover:underline truncate font-semibold">
+                    <a href={`tel:${telefono}`} key={index} className="text-[1.1em] text-secondary hover:underline truncate font-semibold">
                         {telefono}<br />
                     </a>
                 ))}
-                <span className="text-sm text-gray-700">{alojamiento.telefono}</span>
+                <span className="text-[1.1em] text-gray-700">{alojamiento.telefono}</span>
                 {/* </a> */}
             </div>
 
@@ -99,7 +99,7 @@ const CardAlojamiento = ({ alojamiento, isLoading = false }) => {
                     <Mail className="min-w-5 h-5 text-gray-500 mr-2" />
                     <a
                         href={`mailto:${alojamiento.email}`}
-                        className="text-sm text-secondary hover:underline truncate font-semibold"
+                        className="text-[1.1em] text-secondary hover:underline truncate font-semibold"
                     >
                         {alojamiento.email}
                     </a>
@@ -113,7 +113,7 @@ const CardAlojamiento = ({ alojamiento, isLoading = false }) => {
                         href={alojamiento.web}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-sm text-secondary hover:underline truncate font-semibold"
+                        className="text-[1.1em] text-secondary hover:underline truncate font-semibold"
                     >
                         {alojamiento.web}
                     </a>

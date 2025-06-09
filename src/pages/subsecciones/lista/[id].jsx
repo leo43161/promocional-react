@@ -95,7 +95,6 @@ export default function SubseccionLoades({ id, slug, idioma }) {
       if (parseInt(idioma) !== 1) {
         targetUrl += `?lang=${idiomaCode[parseInt(idioma)] || idioma}`
       }
-      console.log(`Redirecting from /subsecciones/lista/${id} to ${targetUrl}`);
       router.replace(targetUrl);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -58,7 +58,6 @@ export default function Header() {
     const dynamicMenuItems = useMemo(() => {
         // Si está cargando, obteniendo datos nuevos, o hubo un error, retorna array vacío
         if (isLoading || isFetching || error || !seccionesApi) {
-            console.log('isLoading, isFetching, error, seccionesApi:', isLoading, isFetching, error, seccionesApi);
             // Podrías diferenciar entre loading y error si quieres mostrar mensajes distintos
             return [];
         }
@@ -183,12 +182,12 @@ export default function Header() {
             <div className='w-full bg-[#D6D3D1] flex justify-center'>
                 <div className="px-4 pt-1 flex justify-between w-11/12 flex-wrap">
                     {/* Date/Weather */}
-                    <div className="bg-white px-3 py-1 rounded-t-md text-sm mb-0">
+                    <div className="bg-white px-3 py-1 rounded-t-md text-[1.1em] mb-0">
                         {new Date().toLocaleDateString(selectedLang.code === 'ES' ? 'es-AR' : 'en-US', { day: 'numeric', month: 'long', year: 'numeric' })}°
                         <span className="ml-1 text-yellow-500">☀️</span> {/* Placeholder */}
                     </div>
                     {/* Contact/Social Links */}
-                    <div className="lg:flex items-center space-x-2 text-sm pb-1 text-black flex-wrap justify-center hidden">
+                    <div className="lg:flex items-center space-x-2 text-[1.1em] pb-1 text-black flex-wrap justify-center hidden">
                         {/* Static text - consider internationalization (i18n) library for this */}
                         <span className='hidden sm:inline'>Comunicate y conocé Tucumán: </span>
                         <a href="tel:+54-0381-4303644" className="hover:underline whitespace-nowrap">+54-0381-4303644</a>
@@ -216,7 +215,7 @@ export default function Header() {
                         </div>
                         {/* Institutional Link */}
                         <a href="https://www.institucionalturismotuc.gob.ar/"
-                            className="bg-[#006E66] text-white px-2 py-0.5 rounded-sm text-xs sm:text-sm ml-2 hover:bg-[#006e67ec] whitespace-nowrap"
+                            className="bg-[#006E66] text-white px-2 py-0.5 rounded-sm text-[1.1em] sm:text-[1.1em] ml-2 hover:bg-[#006e67ec] whitespace-nowrap"
                             target="_blank" rel="noopener noreferrer">
                             Institucional
                         </a>
@@ -256,11 +255,11 @@ export default function Header() {
                                 <div key={item.label} className="relative group">
                                     {/* Direct link if item has href and no children */}
                                     {item.href && !item.children ? (
-                                        <a href={item.href} className="hover:text-primary py-2 flex items-center font-semibold text-xs xl:text-sm cursor-pointer">
+                                        <a href={item.href} className="hover:text-primary py-2 flex items-center font-semibold text-[1.1em] xl:text-[1.1em] cursor-pointer">
                                             {item.label}
                                         </a>
                                     ) : (
-                                        <div className={`py-2 flex items-center font-semibold text-xs xl:text-sm ${item.children ? 'cursor-default hover:text-primary text-nowrap' : 'cursor-default'}`}>
+                                        <div className={`py-2 flex items-center font-semibold text-[1.1em] xl:text-[1.1em] ${item.children ? 'cursor-default hover:text-primary text-nowrap' : 'cursor-default'}`}>
                                             {item.label}
                                         </div>
                                     )}
@@ -271,7 +270,7 @@ export default function Header() {
                                             opacity-0 max-h-0 group-hover:max-h-96 group-hover:opacity-100 overflow-hidden
                                             transition-all duration-300 ease-in-out z-20">
                                             {item.children.map((child) => (
-                                                <a key={child.label} href={child.href} className="block px-4 py-2 text-sm xl:text-base text-gray-700 hover:bg-gray-100 hover:text-secondary/70">
+                                                <a key={child.label} href={child.href} className="block px-4 py-2 text-[1.1em] xl:text-[1.1em] text-gray-700 hover:bg-gray-100 hover:text-secondary/70">
                                                     {child.label}
                                                 </a>
                                             ))}
@@ -290,7 +289,7 @@ export default function Header() {
                         <div className="relative z-30"> {/* High z-index for dropdown */}
                             <button
                                 onClick={() => setIsLangDropdownOpen(!isLangDropdownOpen)}
-                                className="flex items-center text-gray-700 text-xs xl:text-base font-semibold hover:text-secondary/70 py-2"
+                                className="flex items-center text-gray-700 text-[1.1em] xl:text-[1.1em] font-semibold hover:text-secondary/70 py-2"
                                 aria-label="Seleccionar idioma"
                                 aria-haspopup="true"
                                 aria-expanded={isLangDropdownOpen}
@@ -305,13 +304,13 @@ export default function Header() {
                                         <button
                                             key={lang.id} // Use ID as key
                                             onClick={() => handleLanguageChange(lang)}
-                                            className="w-full flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-secondary/70 text-left" // Align text left
+                                            className="w-full flex items-center px-4 py-2 text-[1.1em] text-gray-700 hover:bg-gray-100 hover:text-secondary/70 text-left" // Align text left
                                             role="menuitem"
                                             disabled={isLoading || isFetching} // Disable while loading new language data
                                         >
                                             <img src={lang.flag} alt={lang.alt} className="w-5 h-auto mr-2 rounded-sm" />
                                             <span>{lang.code}</span>
-                                            <span className="text-xs text-gray-500 ml-2">({lang.label})</span>
+                                            <span className="text-[1.1em] text-gray-500 ml-2">({lang.label})</span>
                                         </button>
                                     ))}
                                 </div>
@@ -365,7 +364,7 @@ export default function Header() {
                                         </a>
                                         /* Span if it has children or no direct href */
                                     ) : (
-                                        <span className="text-gray-700 font-medium flex-grow">
+                                        <span className="text-gray-700 font-medium flex-grow text-2xl">
                                             {item.label}
                                         </span>
                                     )}
@@ -389,7 +388,7 @@ export default function Header() {
                                                 <a
                                                     key={child.label}
                                                     href={child.href}
-                                                    className="block py-2 text-sm text-gray-600 hover:text-secondary/70"
+                                                    className="block py-2 text-[1.1em] text-gray-600 hover:text-secondary/70"
                                                     onClick={() => setIsMobileMenuOpen(false)} // Close menu on click
                                                 >
                                                     {child.label}

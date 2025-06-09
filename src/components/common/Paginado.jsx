@@ -89,11 +89,11 @@ const Paginado = ({
       {getPageNumbers().map((page, index) => (
         <React.Fragment key={index}>
           {page === '...' ? (
-            <span className="px-2 py-1 text-sm text-gray-500">...</span>
+            <span className="px-2 py-1 text-[1.1em] text-gray-500">...</span>
           ) : (
             <button
               onClick={() => onPageChange(page)}
-              className={`px-3 py-1 text-sm rounded-md ${currentPage === page
+              className={`px-3 py-1 text-[1.1em] rounded-md ${currentPage === page
                 ? 'bg-primary text-white'
                 : 'text-gray-700 hover:bg-gray-100'
                 }`}
