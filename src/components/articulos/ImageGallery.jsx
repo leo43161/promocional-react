@@ -39,7 +39,18 @@ const GallerySkeleton = () => (
 // --- FIN Skeleton ---
 
 // Añadimos isLoading a las props, con valor por defecto false
-export default function ImageGallery({ items = [], isLoading = false, className }) {
+export default function ImageGallery({
+    items = [],
+    isLoading = false,
+    className,
+    classContain,
+    classThumbnails,
+    classThumbnailActive,
+    classImgContain,
+    classImg,
+    classOverlayText
+}) {
+    console.log(items);
     const limitedImages = items.slice(0, 5);
 
     const [activeImageIndex, setActiveImageIndex] = useState(0);
@@ -92,9 +103,9 @@ export default function ImageGallery({ items = [], isLoading = false, className 
     // El JSX original de la galería se mantiene aquí sin cambios
     return (
         <div className={cn("w-full p-2 md:h-[90vh] xl:h-[55vh]", className)}>
-            <div className="flex flex-col md:flex-row gap-4 md:gap-6 md:items-stretch h-full">
+            <div className={cn("flex flex-col md:flex-row gap-4 md:gap-6 md:items-stretch h-full", classContain)}>
                 {/* Main Image Display Area */}
-                <div className="md:w-6/7 flex-1">
+                <div className="flex-1">
                     <div className="relative overflow-hidden md:min-h-full h-[360px] shadow">
                         {hasCurrentError ? (
                             <ImagePlaceholder message="No se pudo cargar la imagen" />
@@ -120,7 +131,7 @@ export default function ImageGallery({ items = [], isLoading = false, className 
                 </div>
 
                 {/* Thumbnails */}
-                <div className="flex flex-row md:flex-col gap-3 md:gap-4 overflow-x-auto md:overflow-x-hidden md:overflow-y-auto md:w-1/7 pb-2 md:pb-0 scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-transparent md:pr-1 h-full">
+                <div className={cn("flex flex-row md:flex-col gap-1 md:gap-4 overflow-x-auto md:overflow-x-hidden md:overflow-y-auto md:w-1/7 pb-2 md:pb-0 scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-transparent md:pr-1 h-full", classThumbnails)}>
                     {limitedImages.length > 1 && [...limitedImages].map((imgUrl, index) => {
                         const hasError = imageErrors[index];
                         const isActive = activeImageIndex === index;

@@ -12,6 +12,7 @@ export default function circuitos() {
                 "color": "#66ac7c",
                 "destinos": [
                     {
+                        "id": 1,
                         "nombre": "Yerba Buena",
                         "color": "#66ac7c",
                         "productos": [
@@ -22,7 +23,7 @@ export default function circuitos() {
                                 "ubicacion": "null",
                                 "duracion": "2 h",
                                 "link": "null",
-                                "imagen": "/images/portal-solar-del-cerro.jpg"
+                                "imagen": "cristo.jpg"
                             },
                             {
                                 "nombre": "Parque Percy Hill",
@@ -31,7 +32,7 @@ export default function circuitos() {
                                 "ubicacion": "null",
                                 "duracion": "2 h",
                                 "link": "null",
-                                "imagen": "/images/percyhill.jpg"
+                                "imagen": "sanjavier2.jpg"
                             },
                             {
                                 "nombre": "Mountainbike/cicloturismo",
@@ -40,7 +41,7 @@ export default function circuitos() {
                                 "ubicacion": "null",
                                 "duracion": "40 min a 3 h",
                                 "link": "null",
-                                "imagen": "/images/mountainbike.jpg"
+                                "imagen": "sanjaviergaleria_tx10xt9j_26-07-2024.jpg"
                             },
                             {
                                 "nombre": "Sendero 33 viviendas",
@@ -49,7 +50,7 @@ export default function circuitos() {
                                 "ubicacion": "null",
                                 "duracion": "1.30 h",
                                 "link": "null",
-                                "imagen": "/images/sendero33.jpg"
+                                "imagen": "parapentegaleria1_eah65crg_26-07-2024.jpg"
                             },
                             {
                                 "nombre": "Sendero La Sala - Potrero de las tablas",
@@ -58,11 +59,12 @@ export default function circuitos() {
                                 "ubicacion": "null",
                                 "duracion": "7 h",
                                 "link": "null",
-                                "imagen": "/images/potrero.jpg"
+                                "imagen": "circuitosurgaleria3_fg0n9765_13-06-2024.jpg"
                             }
                         ]
                     },
                     {
+                        "id": 1,
                         "nombre": "San Javier",
                         "color": "#66ac7c",
                         "productos": [
@@ -73,7 +75,7 @@ export default function circuitos() {
                                 "ubicacion": "Ruta Provincial N 338 km 29",
                                 "duracion": "1 h",
                                 "link": "null",
-                                "imagen": "/images/sanjavier.jpg"
+                                "imagen": "circuitosurgaleria4_z1ru4jpe_13-06-2024.jpg"
                             },
                             {
                                 "nombre": "Sendero El Funicular",
@@ -82,7 +84,7 @@ export default function circuitos() {
                                 "ubicacion": "Partida: Centro asistencial prima",
                                 "duracion": "45 minutos",
                                 "link": "https://www.tucumanturismo.gob.ar/articulos/articulo/97/Ecosendas",
-                                "imagen": "/images/senderofunicular.jpg"
+                                "imagen": "circuitosurgaleria1_qekq6odi_13-06-2024_2ku0fv82_19-06-2024.jpg"
                             },
                             {
                                 "nombre": "RAKI",
@@ -91,7 +93,7 @@ export default function circuitos() {
                                 "ubicacion": "Avenida Aconquija 3210, al pie del cerro San Javier, en pleno pedemonte, pasando 300 metros la rotonda del Corte",
                                 "duracion": "3 h",
                                 "link": "https://www.rakitucuman.com/",
-                                "imagen": "/images/raki.jpg"
+                                "imagen": "circuitosurgaleria4_z1ru4jpe_13-06-2024.jpg"
                             },
                             {
                                 "nombre": "Reserva de Horcomolle",
@@ -100,7 +102,7 @@ export default function circuitos() {
                                 "ubicacion": "null",
                                 "duracion": "3 h",
                                 "link": "https://www.reservahorcomolle.com.ar/",
-                                "imagen": "/images/horcomolle.jpg"
+                                "imagen": "circuitosurgaleria4_z1ru4jpe_13-06-2024.jpg"
                             },
                             {
                                 "nombre": "Polo gastronómico y comercial Av. Presidente Perón",
@@ -109,7 +111,7 @@ export default function circuitos() {
                                 "ubicacion": "null",
                                 "duracion": "2 h",
                                 "link": "null",
-                                "imagen": "/images/peron.jpg"
+                                "imagen": "parapentegaleria1_eah65crg_26-07-2024.jpg"
                             },
                             {
                                 "nombre": "Senda Cuesta Vieja",
@@ -118,7 +120,7 @@ export default function circuitos() {
                                 "ubicacion": "null",
                                 "duracion": "2 h",
                                 "link": "null",
-                                "imagen": "/images/portal-solar-del-cerro.jpg"
+                                "imagen": "parapentegaleria1_eah65crg_26-07-2024.jpg"
                             },
                             {
                                 "nombre": "Cascada del Río Noque",
@@ -127,7 +129,7 @@ export default function circuitos() {
                                 "ubicacion": "Ruta Provincial Nº 340-km 10",
                                 "duracion": "1.20 h",
                                 "link": "null",
-                                "imagen": "/images/portal-solar-del-cerro.jpg"
+                                "imagen": "parapentegaleria1_eah65crg_26-07-2024.jpg"
                             },
                             {
                                 "nombre": "Mirador con las mejores vistas de la ciudad",
@@ -136,7 +138,7 @@ export default function circuitos() {
                                 "ubicacion": "null",
                                 "duracion": "null",
                                 "link": "null",
-                                "imagen": "/images/portal-solar-del-cerro.jpg"
+                                "imagen": "parapentegaleria1_eah65crg_26-07-2024.jpg"
                             },
                             {
                                 "nombre": "Espectáculo de luz y sonido",
@@ -145,7 +147,7 @@ export default function circuitos() {
                                 "ubicacion": "null",
                                 "duracion": "null",
                                 "link": "null",
-                                "imagen": "/images/portal-solar-del-cerro.jpg"
+                                "imagen": "parapentegaleria1_eah65crg_26-07-2024.jpg"
                             },
                             {
                                 "nombre": "Tirolesa más larga del país",
@@ -154,7 +156,7 @@ export default function circuitos() {
                                 "ubicacion": "null",
                                 "duracion": "null",
                                 "link": "https://www.tucumanturismo.gob.ar/articulos/articulo/103/Tirolesa",
-                                "imagen": "/images/portal-solar-del-cerro.jpg"
+                                "imagen": "parapentegaleria1_eah65crg_26-07-2024.jpg"
                             },
                             {
                                 "nombre": "Cristo Bendicente",
@@ -163,7 +165,7 @@ export default function circuitos() {
                                 "ubicacion": "Ruta Provincial Nº 340",
                                 "duracion": "8 h",
                                 "link": "null",
-                                "imagen": "/images/portal-solar-del-cerro.jpg"
+                                "imagen": "parapentegaleria1_eah65crg_26-07-2024.jpg"
                             },
                             {
                                 "nombre": "Mirador Mercedes Sosa",
@@ -172,7 +174,7 @@ export default function circuitos() {
                                 "ubicacion": "Ruta Provincial Nº 341",
                                 "duracion": "null",
                                 "link": "null",
-                                "imagen": "/images/portal-solar-del-cerro.jpg"
+                                "imagen": "parapentegaleria1_eah65crg_26-07-2024.jpg"
                             },
                             {
                                 "nombre": "Bosque de la Memoria",
@@ -181,11 +183,12 @@ export default function circuitos() {
                                 "ubicacion": "null",
                                 "duracion": "1 h",
                                 "link": "null",
-                                "imagen": "/images/portal-solar-del-cerro.jpg"
+                                "imagen": "parapentegaleria1_eah65crg_26-07-2024.jpg"
                             }
                         ]
                     },
                     {
+                        "id": 1,
                         "nombre": "Loma Bola",
                         "color": "#66ac7c",
                         "productos": [
@@ -197,11 +200,12 @@ export default function circuitos() {
                                 "ubicacion": "Ruta Provincial N 338 km 29",
                                 "duracion": "3 h",
                                 "link": "null",
-                                "imagen": "/images/portal-solar-del-cerro.jpg"
+                                "imagen": "parapentegaleria1_eah65crg_26-07-2024.jpg"
                             }
                         ]
                     },
                     {
+                        "id": 1,
                         "nombre": "Raco",
                         "color": "#66ac7c",
                         "productos": [
@@ -212,7 +216,7 @@ export default function circuitos() {
                                 "ubicacion": "Ruta Provincial N 338 km 29",
                                 "duracion": "40 min a 2 h",
                                 "link": "null",
-                                "imagen": "/images/portal-solar-del-cerro.jpg"
+                                "imagen": "parapentegaleria1_eah65crg_26-07-2024.jpg"
                               },
                         ]
                     }
@@ -227,6 +231,7 @@ export default function circuitos() {
                 "color": "#01415C",
                 "destinos": [
                     {
+                        "id": 1,
                         "nombre": "San Miguel de Tucumán",
                         "color": "#01415C",
                         "productos": [
@@ -237,7 +242,7 @@ export default function circuitos() {
                                 "ubicacion": "null",
                                 "duracion": "2 h",
                                 "link": "null",
-                                "imagen": "/images/casahistorica.jpg"
+                                "imagen": "circuitosurgaleria2_d1bnhz0k_13-06-2024.jpg"
                             },
                             {
                                 "nombre": "Casa de Gobierno",
@@ -246,7 +251,7 @@ export default function circuitos() {
                                 "ubicacion": "null",
                                 "duracion": "2 h",
                                 "link": "null",
-                                "imagen": "/images/casadegobierno.jpg"
+                                "imagen": "circuitosurgaleria3_fg0n9765_13-06-2024.jpg"
                             },
                             {
                                 "nombre": "Museo Histórico Provincial Presidente Nicolás Avellaneda",
@@ -255,7 +260,7 @@ export default function circuitos() {
                                 "ubicacion": "null",
                                 "duracion": "2 h",
                                 "link": "null",
-                                "imagen": "/images/museoavellaneda.jpg"
+                                "imagen": "circuitosurgaleria4_z1ru4jpe_13-06-2024.jpg"
                             },
                             {
                                 "nombre": "Museo de la Industria Azucarera Obispo Colombres",
@@ -264,7 +269,7 @@ export default function circuitos() {
                                 "ubicacion": "null",
                                 "duracion": "2 h",
                                 "link": "null",
-                                "imagen": "/images/museoazucarero.jpg"
+                                "imagen": "oficinasinformesgaleria5_msccfjc2_13-06-2024.jpg"
                             },
                             {
                                 "nombre": "Parque 9 de Julio",
@@ -273,7 +278,7 @@ export default function circuitos() {
                                 "ubicacion": "null",
                                 "duracion": "2 h",
                                 "link": "null",
-                                "imagen": "/images/portal-solar-del-cerro.jpg"
+                                "imagen": "parapentegaleria1_eah65crg_26-07-2024.jpg"
                             },
                             {
                                 "nombre": "Museo Casa Padilla",
@@ -282,7 +287,7 @@ export default function circuitos() {
                                 "ubicacion": "null",
                                 "duracion": "2 h",
                                 "link": "null",
-                                "imagen": "/images/museopadilla.jpg"
+                                "imagen": "oficinasinformesgaleria5_msccfjc2_13-06-2024.jpg"
                             },
                             {
                                 "nombre": "Museo Folklórico Provincial General Manuel Belgrano",
@@ -291,7 +296,7 @@ export default function circuitos() {
                                 "ubicacion": "null",
                                 "duracion": "2 h",
                                 "link": "null",
-                                "imagen": "/images/museofolclorico.jpg"
+                                "imagen": "oficinasinformesgaleria3_zmlo327y_13-06-2024.jpg"
                             },
                             {
                                 "nombre": "Museo Casa de la Ciudad",
@@ -300,7 +305,7 @@ export default function circuitos() {
                                 "ubicacion": "null",
                                 "duracion": "2 h",
                                 "link": "null",
-                                "imagen": "/images/museociudad.jpg"
+                                "imagen": "circuitosurgaleria1_qekq6odi_13-06-2024_2ku0fv82_19-06-2024.jpg"
                             },
                             {
                                 "nombre": "Museo Juan Carlos Iramain",
@@ -324,6 +329,7 @@ export default function circuitos() {
                 "color": "#508E6D",
                 "destinos": [
                     {
+                        "id": 1,
                         "nombre": "Famaillá",
                         "color": "#508E6D",
                         "productos": [
@@ -334,11 +340,12 @@ export default function circuitos() {
                                 "ubicacion": "null",
                                 "duracion": "2 h",
                                 "link": "null",
-                                "imagen": "/images/portal-solar-del-cerro.jpg"
+                                "imagen": "parapentegaleria1_eah65crg_26-07-2024.jpg"
                             },
                         ]
                     },
                     {
+                        "id": 1,
                         "nombre": "Lules",
                         "color": "#508E6D",
                         "productos": [
@@ -349,11 +356,12 @@ export default function circuitos() {
                                 "ubicacion": "null",
                                 "duracion": "2 h",
                                 "link": "null",
-                                "imagen": "/images/portal-solar-del-cerro.jpg"
+                                "imagen": "parapentegaleria1_eah65crg_26-07-2024.jpg"
                             },
                         ]
                     },
                     {
+                        "id": 1,
                         "nombre": "Monteros",
                         "color": "#508E6D",
                         "productos": [
@@ -364,11 +372,12 @@ export default function circuitos() {
                                 "ubicacion": "null",
                                 "duracion": "2 h",
                                 "link": "null",
-                                "imagen": "/images/portal-solar-del-cerro.jpg"
+                                "imagen": "parapentegaleria1_eah65crg_26-07-2024.jpg"
                             },
                         ]
                     },
                     {
+                        "id": 1,
                         "nombre": "Concepción",
                         "color": "#508E6D",
                         "productos": [
@@ -379,11 +388,12 @@ export default function circuitos() {
                                 "ubicacion": "null",
                                 "duracion": "2 h",
                                 "link": "null",
-                                "imagen": "/images/portal-solar-del-cerro.jpg"
+                                "imagen": "parapentegaleria1_eah65crg_26-07-2024.jpg"
                             },
                         ]
                     },
                     {
+                        "id": 1,
                         "nombre": "Simoca",
                         "color": "#508E6D",
                         "productos": [
@@ -394,7 +404,23 @@ export default function circuitos() {
                                 "ubicacion": "null",
                                 "duracion": "2 h",
                                 "link": "null",
-                                "imagen": "/images/portal-solar-del-cerro.jpg"
+                                "imagen": "parapentegaleria1_eah65crg_26-07-2024.jpg"
+                            },
+                        ]
+                    },
+                    {
+                        "id": 1,
+                        "nombre": "La cocha",
+                        "color": "#508E6D",
+                        "productos": [
+                            {
+                                "nombre": "Portal Solar del Cerro",
+                                "detalle": "Shoppings y galerías comercial. Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum, soluta! Velit, culpa nihil consequatur voluptatibus consectetur, id fugiat, quae maxime rerum quaerat iste?",
+                                "categorias": ["Aventura", "Naturaleza"],
+                                "ubicacion": "null",
+                                "duracion": "2 h",
+                                "link": "null",
+                                "imagen": "parapentegaleria1_eah65crg_26-07-2024.jpg"
                             },
                         ]
                     },
@@ -409,6 +435,7 @@ export default function circuitos() {
                 "color": "#FD5901",
                 "destinos": [
                     {
+                        "id": 1,
                         "nombre": "San Pedro de Colalao",
                         "color": "#FD5901",
                         "productos": [
@@ -419,10 +446,26 @@ export default function circuitos() {
                                 "ubicacion": "null",
                                 "duracion": "2 h",
                                 "link": "null",
-                                "imagen": "/images/portal-solar-del-cerro.jpg"
+                                "imagen": "parapentegaleria1_eah65crg_26-07-2024.jpg"
                             },
                         ]
-                    }
+                    },
+                    {
+                        "id": 1,
+                        "nombre": "Tranca",
+                        "color": "#FD5901",
+                        "productos": [
+                            {
+                                "nombre": "Portal Solar del Cerro",
+                                "detalle": "Shoppings y galerías comercial. Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum, soluta! Velit, culpa nihil consequatur voluptatibus consectetur, id fugiat, quae maxime rerum quaerat iste?",
+                                "categorias": ["Aventura", "Naturaleza"],
+                                "ubicacion": "null",
+                                "duracion": "2 h",
+                                "link": "null",
+                                "imagen": "parapentegaleria1_eah65crg_26-07-2024.jpg"
+                            },
+                        ]
+                    },
                 ]
             },
             {
@@ -434,6 +477,7 @@ export default function circuitos() {
                 "color": "#9E2D2C",
                 "destinos": [
                     {
+                        "id": 1,
                         "nombre": "El Mollar",
                         "color": "#9E2D2C",
                         "productos": [
@@ -444,10 +488,10 @@ export default function circuitos() {
                                 "ubicacion": "null",
                                 "duracion": "2 h",
                                 "link": "null",
-                                "imagen": "/images/portal-solar-del-cerro.jpg"
+                                "imagen": "parapentegaleria1_eah65crg_26-07-2024.jpg"
                             },
                         ]
-                    }
+                    },
                 ]
             },
         ]

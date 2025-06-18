@@ -1,74 +1,86 @@
-import Image from "next/image";
-import { Heart } from "lucide-react";
-import icons from "@/utils/icons";
-const { Prestadores, Transporte, Alojamiento, Mapa } = icons;
+import { setActiveComponent } from "@/redux/features/itinerarioSlice";
+import { MapPin, BedDouble, Bike, Milestone, Check, Plus, UserRound } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
 
-const BotonesPlanifica = ({ circuito, favoritos }) => {
+// No changes needed here
+const ButtonsSecciones = [
+  {
+    id: "destinos",
+    name: "Destinos",
+    icon: MapPin,
+    color: "#206C60",
+  },
+  {
+    id: "alojamientos",
+    name: "Alojamientos",
+    icon: BedDouble,
+    color: "#d42727",
+  },
+  {
+    id: "prestadores",
+    name: "Actividades",
+    icon: Bike,
+    color: "#ff9f31",
+  },
+  {
+    id: "guias",
+    name: "Guias",
+    icon: UserRound,
+    color: "#6d6b63",
+  },
+];
+
+const BotonesPlanifica = () => {
+  const {
+    activeComponent,
+    circuitoSelected,
+    favoritos
+  } = useSelector(state => state.itinerarioReducer.value);
+  const dispatch = useDispatch();
+  const handleSelect = (id) => dispatch(setActiveComponent(id));
   return (
     <div className="flex justify-center items-center gap-2 lg:gap-4">
-      <button className="bg-[#9b988d] hover:bg-[#d42727] h-12 w-12 xl:h-14 xl:w-14 lg:h-11 lg:w-11 rounded-full items-center justify-center flex relative group">
-        <Image
-          src={Alojamiento}
-          width={32}
-          height={32}
-          alt="alojamientos"
-          className="w-6 h-6 xl:w-8 xl:h-8"
-        />
-        <span className="hidden lg:block absolute -bottom-[36px] left-1/2 bg-[#d42727] transform p-1 px-2 rounded-lg -translate-x-1/2 text-s text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          Alojamientos
-        </span>
-      </button>
-      <button className="bg-[#9b988d] hover:bg-[#ff9f31] h-12 w-12 xl:h-14 xl:w-14 lg:h-11 lg:w-11 rounded-full items-center justify-center flex relative group">
-        <Image
-          src={Transporte}
-          width={32}
-          height={32}
-          alt="transporte"
-          className="w-6 h-6 xl:w-8 xl:h-8"
-        />
-        <span className="hidden lg:block absolute -bottom-[36px] left-1/2 bg-[#ff9f31] transform p-1 px-2 rounded-lg -translate-x-1/2 text-s text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          Transportes
-        </span>
-      </button>
-      <button className="bg-[#9b988d] hover:bg-[#248b46] h-12 w-12 xl:h-14 xl:w-14 lg:h-11 lg:w-11 rounded-full items-center justify-center flex relative group">
-        <Image
-          src={Prestadores}
-          width={32}
-          height={32}
-          alt="prestadores"
-          className="w-6 h-6 xl:w-8 xl:h-8"
-        />
-        <span className="hidden lg:block absolute -bottom-[36px] left-1/2 bg-[#248b46] transform p-1 px-2 rounded-lg -translate-x-1/2 text-s text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          Prestadores
-        </span>
-      </button>
-      <button className="bg-[#9b988d] hover:bg-[#6d6b63] h-12 w-12 xl:h-14 xl:w-14 lg:h-11 lg:w-11 rounded-full items-center justify-center flex relative group">
-        <Image 
-        src={Mapa}
-        width={32} 
-        height={32} 
-        alt="planifica" 
-        className="w-6 h-6 xl:w-8 xl:h-8" 
-        />
-        <span className="hidden lg:block absolute -bottom-[36px] left-1/2 bg-[#6d6b63] transform p-1 px-2 rounded-lg -translate-x-1/2 text-s text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          Mapas
-        </span>
-      </button>
+      {ButtonsSecciones.map((ButtonS, index) => {
+        const isSelected = ButtonS.id === activeComponent;
+        return (
+          <button
+            className={`bg-[#73716a] hover:bg-[${ButtonS.color}] h-12 w-12 xl:h-14 xl:w-14 lg:h-11 lg:w-11 rounded-full items-center justify-center flex relative group`}
+            key={index}
+            id={index}
+            style={{ backgroundColor: isSelected && ButtonS.color,  }}
+            onClick={() => handleSelect(ButtonS.id)}
+          >
+            <ButtonS.icon
+              alt="Destinos"
+              className="w-6 h-6 xl:w-8 xl:h-8 text-white "
+            />
+            <span
+              className={`hidden lg:block absolute -bottom-[36px] left-1/2 bg-[${ButtonS.color}] transform p-1 px-2 rounded-lg -translate-x-1/2 text-s text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
+              style={{ opacity: isSelected && 1, backgroundColor: ButtonS.color }}
+            >
+              {ButtonS.name}
+            </span>
+          </button>
+        )
+      })}
       <div className="relative">
         {favoritos.length !== 0 ? (
           <div>
-            <Heart
-              className={`text-${circuito.color} rounded-full bg-white border border-neutral-200 p-2  h-12 w-12 xl:h-14 xl:w-14 lg:h-11 lg:w-11  shadow-lg`}
+            <Check
+              className={`text-${circuitoSelected.color} rounded-full bg-white border border-neutral-200 p-2  h-12 w-12 xl:h-14 xl:w-14 lg:h-11 lg:w-11  shadow-lg`}
+              color={circuitoSelected.color}
             />
             <p
-              className={` absolute h-4 w-4 lg:h-6 lg:w-6 rounded-full font-700 right-0 top-9 lg:top-12 pt-[2px] text-white text-[10px] lg:text-[15px] text-center bg-${circuito.color}`}
+              className={`absolute h-4 w-4 lg:h-6 lg:w-6 rounded-full font-[700] right-0 top-9 lg:top-10 xl:top-12 pt-[2px] text-[10px] lg:text-[18px] text-center bg-${circuitoSelected.color}`}
+              style={{ color: circuitoSelected.color }}
             >
               {favoritos.length}
             </p>
           </div>
         ) : (
-          <Heart
-            className={`text-${circuito.color} rounded-full bg-white border border-neutral-200 p-2 t h-12 w-12 xl:h-14 xl:w-14 lg:h-11 lg:w-11 shadow-lg`}
+          <Plus
+            className={`text-${circuitoSelected.color} rounded-full bg-white border border-neutral-200 p-2 t h-12 w-12 xl:h-14 xl:w-14 lg:h-11 lg:w-11 shadow-lg`}
+            color={circuitoSelected.color}
           />
         )}
       </div>

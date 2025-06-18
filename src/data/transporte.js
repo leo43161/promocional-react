@@ -1,8 +1,8 @@
 export const CIRCUITOS = [
-    { id: 'choromoro', nombre: 'Circuito Choromoro', color: "#CA8235" },
-    { id: 'sur', nombre: 'Circuito Sur', color: "#800077" },
-    { id: 'valles', nombre: 'Circuito Valles Calchaquies', color: "#A83413" }, // Kept full id from PHP, adjust if 'valles' is strictly needed
-    { id: 'yungas', nombre: 'Circuito Yungas', color: "#0f477c" }
+    { id: 'choromoro', nombre: 'Circuito Choromoro', color: "#FD5901" },
+    { id: 'sur', nombre: 'Circuito Sur', color: "#508E6D" },
+    { id: 'valles', nombre: 'Circuito Valles Calchaquies', color: "#9E2D2C" }, // Kept full id from PHP, adjust if 'valles' is strictly needed
+    { id: 'yungas', nombre: 'Circuito Yungas', color: "#66ac7c" }
 ];
 
 export const DESTINOS = {

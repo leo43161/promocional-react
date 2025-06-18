@@ -3,7 +3,9 @@ import React from 'react'
 import Button from '../common/Button'
 
 export default function CardEvento({ evento, isLoading = false }) {
+    console.log(evento);
     function formatearFecha(fechaStr) {
+        if (!fechaStr) return '';
         const [año, mes, día] = fechaStr.split('-').map(Number);
         const fecha = new Date(año, mes - 1, día); // ¡Mes va de 0 a 11!
         const dia = fecha.getDate(); // día sin cero a la izquierda
