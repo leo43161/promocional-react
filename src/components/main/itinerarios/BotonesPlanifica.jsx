@@ -63,7 +63,7 @@ const BotonesPlanifica = () => {
           </button>
         )
       })}
-      <div className="relative">
+      {/* <div className="relative">
         {favoritos.length !== 0 ? (
           <div>
             <Check
@@ -83,7 +83,7 @@ const BotonesPlanifica = () => {
             color={circuitoSelected.color}
           />
         )}
-      </div>
+      </div> */}
     </div>
   );
 };

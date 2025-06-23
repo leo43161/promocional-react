@@ -3,6 +3,12 @@ export const itinerariosService = createApi({
     reducerPath: 'itinerariosService',
     baseQuery: fetchBaseQuery({ baseUrl: process.env.URL_SERVER }), // Cambia a la URL base de tu API
     endpoints: (builder) => ({
+        getLocalidades: builder.query({
+            query: ({ id }) => ({
+                url: `subseccion_circuito`,
+                params: { circuito: id },
+            }),
+        }),
         getItinerarios: builder.query({
             query: ({ id }) => ({
                 url: `subseccion`,
@@ -25,5 +31,6 @@ export const itinerariosService = createApi({
 export const {
     useGetDestinosQuery,
     useGetItinerariosQuery,
-    useGetGaleryDestinoQuery
+    useGetGaleryDestinoQuery,
+    useGetLocalidadesQuery
 } = itinerariosService;

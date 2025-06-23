@@ -6,93 +6,37 @@ import Link from 'next/link';
 import Modal from "@/components/common/Modal";
 import circuitos from "@/data/circuitos";
 import CircuitoSec from "./CircuitoSec";
+import { useSelector, useDispatch } from "react-redux";
+import { setCircuitoSelected } from "@/redux/features/itinerarioSlice";
 
 const circuitosData = circuitos();
 
 const { LogoGobtuc, TucumanLogo, HistoricaLogo, HistoricaLogoMb, YungasLogo, YungasLogoMb, ChoromoroLogo, ChoromoroLogoMb, CalchaquiLogo, CalchaquiLogoMb, SurLogoMb, SurLogo } = icons;
 
 export default function Itinerarios() {
+    const dispatch = useDispatch();
+    const {
+        progress,
+        circuitoSelected,
+        circuitos
+    } = useSelector(state => state.itinerarioReducer.value);
     const [isOpen, setIsOpen] = useState(false);
-    const [selectCircuit, setSelectCircuit] = useState(1);
-    const [favoritos, setFavoritos] = useState([]);
-    const [itinerarioProgress, setItinerarioProgress] = useState(0);
-    const dias = Math.ceil(itinerarioProgress / 100);
+    const dias = Math.ceil(progress / 100);
     const progressText = `${dias} día${dias > 1 ? "s" : ""}`;
-    const progressWidth = itinerarioProgress > 100 ? 100 : itinerarioProgress;
-
-    const circuitosB = [{
-        id: 1,
-        nombre: "Historica",
-        logo: HistoricaLogo,
-        img: "casah",
-        color: "historica",
-        bg: "#01415C",
-        mb: HistoricaLogoMb
-    }, {
-        id: 4,
-        nombre: "Yungas",
-        logo: YungasLogo,
-        mb: YungasLogoMb,
-        img: "quetipi-inicio",
-        color: "yungas",
-        bg: "#66ac7c",
-    }, {
-        id: 2,
-        nombre: "Choromoro",
-        logo: ChoromoroLogo,
-        mb: ChoromoroLogoMb,
-        img: "pozoindio-inicio",
-        color: "choromoro",
-        bg: "#FD5901",
-    }, {
-        id: 3,
-        nombre: "Calchaqui",
-        logo: CalchaquiLogo,
-        mb: CalchaquiLogoMb,
-        img: "menhires-inicio",
-        color: "calchaqui",
-        bg: "#9E2D2C",
-    }, {
-        id: 5,
-        nombre: "Sur",
-        logo: SurLogo,
-        mb: SurLogoMb,
-        img: "sur",
-        color: "sur",
-        bg: "#508E6D",
-    },
-    ];
-
-    const selectedCircuit = circuitosB.find((c) => c.id === selectCircuit);
-    const actualizarFavoritos = useCallback(
-        (nombre) => {
-            const nuevosFavoritos = [...favoritos];
-            const existe = nuevosFavoritos.includes(nombre);
-            if (existe) {
-                nuevosFavoritos.splice(nuevosFavoritos.indexOf(nombre), 1);
-            } else {
-                nuevosFavoritos.push(nombre);
-            }
-            setFavoritos(nuevosFavoritos);
-            const progress =
-                (nuevosFavoritos.length / 3) * 100;
-            setItinerarioProgress(progress);
-        },
-        [favoritos]
-    );
+    const progressWidth = progress > 100 ? 100 : progress;
 
     const handleDownloadClick = () => {
         setIsOpen(true);
     };
-
 
     const handleCloseModal = () => {
         setIsOpen(false);
     };
 
     // Función para manejar la selección de un nuevo circuito
-    const handleSelectCircuit = (key) => {
-        setSelectCircuit(key); // Actualiza el circuito seleccionado
+    const handleSelectCircuit = (id) => {
+        console.log(id)
+        dispatch(setCircuitoSelected(id));
         setIsOpen(false);   // Cierra el menú desplegable
     };
     return (
@@ -124,18 +68,19 @@ export default function Itinerarios() {
                     </div>
 
                     <div className="hidden lg:col-span-5 xl:col-span-5 lg:flex lg:flex-row overflow-hidden">
-                        {circuitosB.map((logo, index) => {
-                            const isActive = logo.nombre === selectedCircuit?.nombre;
+                        {circuitos.map((circuito, index) => {
+                            console.log(circuitoSelected)
+                            const isActive = circuito.id === circuitoSelected?.id;
                             return (
                                 <button
                                     key={index}
-                                    onClick={() => handleSelectCircuit(logo.id)}
-                                    className={`w-full h-full p-4 mb-4 flex items-center justify-center bg-stone-400 hover:bg-${logo.color} shadow-xl`}
-                                    style={{ backgroundColor: isActive ? logo.bg : "" }}
+                                    onClick={() => handleSelectCircuit(circuito.id)}
+                                    className={`w-full h-full p-4 mb-4 flex items-center justify-center bg-stone-400 hover:bg-${circuito.color} shadow-xl`}
+                                    style={{ backgroundColor: isActive ? circuito.bg : "" }}
                                 >
                                     <Image
-                                        src={logo.logo}
-                                        alt={`Logo ${index}`}
+                                        src={circuito.logo}
+                                        alt={`Logo ${circuito.nombre}`}
                                         className="h-[60px]"
                                     />
                                 </button>
@@ -150,14 +95,14 @@ export default function Itinerarios() {
                             {/* Botón que muestra la opción seleccionada y abre/cierra el menú */}
                             <button
                                 onClick={() => setIsOpen(!isOpen)}
-                                style={{ backgroundColor: selectedCircuit?.bg }}
+                                style={{ backgroundColor: circuitoSelected?.bg }}
                                 className="w-full flex items-center justify-center p-4 transition-colors duration-300"
                             >
                                 {/* Usamos Next Image para mostrar el logo del circuito seleccionado */}
-                                {selectedCircuit?.mb &&
+                                {circuitoSelected?.mb &&
                                     <Image
-                                        src={selectedCircuit?.mb}
-                                        alt={`Logo ${selectedCircuit?.nombre}`}
+                                        src={circuitoSelected?.mb}
+                                        alt={`Logo ${circuitoSelected?.nombre}`}
                                         className="h-[45px] w-auto"
                                     />
                                 }
@@ -170,14 +115,14 @@ export default function Itinerarios() {
                             {/* Menú desplegable que se muestra solo si 'isOpen' es true */}
                             {isOpen && (
                                 <div className="absolute top-full left-0 right-0 bg-neutral-100 z-20000 shadow-lg border-t border-neutral-300">
-                                    {/* Mapeamos el objeto 'circuitosB' para crear cada una de las opciones */}
-                                    {circuitosB.map((circuit) => (
+                                    {/* Mapeamos el objeto 'circuitos' para crear cada una de las opciones */}
+                                    {circuitos.map((circuit) => (
                                         <button
                                             key={circuit.nombre}
                                             onClick={() => handleSelectCircuit(circuit.id)}
                                             // Cambiamos el color de fondo para la opción seleccionada
                                             className={`w-full flex items-center justify-center p-4 transition-colors duration-200`}
-                                            style={{ backgroundColor: selectCircuit === circuit.id ? circuit.bg : '#A3A3A3' }}
+                                            style={{ backgroundColor: circuitoSelected?.id === circuit.id ? circuit.bg : '#A3A3A3' }}
                                         >
                                             {/* Logo de la opción */}
                                             {circuit.mb &&
@@ -188,7 +133,7 @@ export default function Itinerarios() {
                                                 />
                                             }
                                             {/* Ícono de check que aparece solo en la opción seleccionada */}
-                                            {selectCircuit === circuit.id && (
+                                            {circuitoSelected?.id === circuit.id && (
                                                 <Check className="absolute right-6 text-gray-100 h-8 w-8" />
                                             )}
                                         </button>
@@ -202,29 +147,27 @@ export default function Itinerarios() {
             <div className="mb-3">
                 <CircuitoSec
                     circuitosData={circuitosData}
-                    favoritos={favoritos}
-                    actualizarFavoritos={actualizarFavoritos}
-                    circuitoSeleccionado={selectedCircuit?.nombre}
+                    circuitoSeleccionado={circuitoSelected?.nombre}
                 />
             </div>
             {/* barra de itinerario */}
-            <div className="flex items-center w-full h-[45px] bg-neutral-500 sticky rounded-t-lg bottom-0 right-0" style={{ backgroundColor: selectedCircuit.bg }}>
+            <div className="flex items-center justify-between w-full h-[45px] bg-neutral-500 sticky rounded-t-lg bottom-0 right-0" style={{ backgroundColor: circuitoSelected.bg }}>
                 <p className="font-700 uppercase text-2xl text-white shrink-0 pl-6">
                     Tu itinerario
                 </p>
-                <div className="w-full h-[30px] bg-neutral-200 rounded-full mx-2 flex items-center ">
+                <div className="w-full h-[30px] bg-neutral-200 rounded-full mx-2 md:flex hidden items-center">
                     {progressWidth > 0 && (
                         <div
                             style={{
                                 width: `${progressWidth}%`,
-                                backgroundColor: `${selectedCircuit?.bg}`
+                                backgroundColor: `${circuitoSelected?.bg}`
                             }}
                             className={`h-full rounded-full bg-[#206C60] border-4 border-neutral-200`}
 
                         ></div>
                     )}
                 </div>
-                <p className="font-700 uppercase text-2xl text-white shrink-0 mr-4">
+                <p className="font-700 uppercase text-2xl text-white shrink-0 md:mr-4">
                     {progressText}
                 </p>
 

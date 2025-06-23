@@ -19,9 +19,9 @@ export default function index() {
       <div className='mb-10'>
         <Itinerarios></Itinerarios>
       </div>
-      <div className='md:w-11/13 lg:w-11/13 w-full mx-auto md:mb-30 mb-15'>
+      {/* <div className='md:w-11/13 lg:w-11/13 w-full mx-auto md:mb-30 mb-15'>
         <Planifica></Planifica>
-      </div>
+      </div> */}
       <div className='mb-20'>
         <Entumesa></Entumesa>
       </div>
