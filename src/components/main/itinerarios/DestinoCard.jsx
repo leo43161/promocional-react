@@ -54,7 +54,7 @@ export default function DestinoCard({ }) {
   }, [circuitoSelected, destinos]);
 
   const actualizarFavoritos = (item) => {
-    dispatch(setFavorito({ type: 'destino', item }));
+    dispatch(setFavorito({ type: 'destinos', item }));
   };
   const loading = isLoading || isFetching;
   const loadingDestinos = isLoadingDest || isFetchingDest;
@@ -80,7 +80,7 @@ export default function DestinoCard({ }) {
           {loading ? Array(5).fill(0).map((_, index) => (
             <div
               key={index}
-              className={`rounded-lg relative flex flex-col bg-white flex-1 shadow animate-pulse`}
+              className={`rounded-lg relative flex flex-col bg-white flex-1 animate-pulse md:flex-1 shadow min-w-[72vw] max-w-[72vw] md:min-w-auto md:max-w-auto`}
             >
               <div className="relative">
                 <button
@@ -117,11 +117,11 @@ export default function DestinoCard({ }) {
           ))
             : error ? <div>Error al cargar los productos</div> :
               productos.result.articulos.map((producto, index) => {
-                const isFavorite = favoritos.destino.find((item) => item.id === producto.idArticulo);
+                const isFavorite = favoritos.destinos.find((item) => item.id === producto.idArticulo);
                 return (
                   <div
                     key={index}
-                    className={`rounded-lg relative flex flex-col bg-white flex-1 shadow `}
+                    className={`rounded-lg relative flex flex-col bg-white md:flex-1 shadow min-w-[72vw] max-w-[72vw] md:min-w-auto md:max-w-auto`}
                   >
                     <div className="relative">
                       <button
@@ -201,7 +201,7 @@ export default function DestinoCard({ }) {
                           actualizarFavoritos({ ...productoSeleccionado, id: productoSeleccionado.idArticulo })
                         }
                       >
-                        {!!favoritos.destino.find((item) => item.id === productoSeleccionado.idArticulo) ? (
+                        {!!favoritos.destinos.find((item) => item.id === productoSeleccionado.idArticulo) ? (
                           <Check className="text-[#206c60]" />
                         ) : (
                           <Plus className="text-[#206c60]" />
@@ -239,7 +239,7 @@ export default function DestinoCard({ }) {
                         actualizarFavoritos({ ...productoSeleccionado, id: productoSeleccionado.idArticulo })
                       }
                     >
-                      {!!favoritos.destino.find((item) => item.id === productoSeleccionado.idArticulo) ? (
+                      {!!favoritos.destinos.find((item) => item.id === productoSeleccionado.idArticulo) ? (
                         <Check className="text-[#206c60]" />
                       ) : (
                         <Plus className="text-[#206c60]" />

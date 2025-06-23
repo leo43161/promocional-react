@@ -9,14 +9,14 @@ import { generateSlug, languages } from '@/utils';
 // AJUSTA los 'id' según los valores que espera tu API para cada idioma
 
 const redirectSubsecc = [
-    { idSubseccion: 5, articulo: "alojamientos" },
+    /* { idSubseccion: 5, articulo: "alojamientos" }, */
     { idSubseccion: 6, articulo: "transporte" },
     { idSubseccion: 41, articulo: "autos" },
     { idSubseccion: 20, articulo: "eventos" },
     { idSubseccion: 42, articulo: "prestadores" },
     { idSubseccion: 43, articulo: "agencias" },
     { idSubseccion: 44, articulo: "guias" },
-    { idSubseccion: 62, articulo: "alojamientos" },
+    /* { idSubseccion: 62, articulo: "alojamientos" }, */
     { idSubseccion: 64, articulo: "prestadores" },
     { idSubseccion: 83, articulo: "autos" },
     { idSubseccion: 66, articulo: "guias" },

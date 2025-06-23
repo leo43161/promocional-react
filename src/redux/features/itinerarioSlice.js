@@ -57,10 +57,10 @@ const initialState = {
         circuitoSelected: circuitos[0],
         activeComponent: componentTypes[0],
         favoritos: {
-            destino: [],
-            alojamiento: [],
-            prestador: [],
-            guia: [],
+            destinos: [],
+            alojamientos: [],
+            prestadores: [],
+            guias: [],
         },
         total: 0,
         progress: 0,
@@ -88,7 +88,7 @@ const itinerariosSlice = createSlice({
                 state.value.favoritos[type].push(item);
                 state.value.total = state.value.total + 1;
             }
-            const newProgress = (state.value.favoritos.destino.length / 3) * 100;
+            const newProgress = (state.value.favoritos.destinos.length / 3) * 100;
             state.value.progress = newProgress;
             console.log(state.value.progress);
         },

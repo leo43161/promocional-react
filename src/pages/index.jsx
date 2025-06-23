@@ -16,7 +16,7 @@ export default function index() {
       <div className='mb-0'>
         <ResponsiveVideo />
       </div>
-      <div className='mb-10'>
+      <div className='mb-0'>
         <Itinerarios></Itinerarios>
       </div>
       {/* <div className='md:w-11/13 lg:w-11/13 w-full mx-auto md:mb-30 mb-15'>

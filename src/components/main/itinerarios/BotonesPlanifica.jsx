@@ -40,6 +40,12 @@ const BotonesPlanifica = () => {
   const handleSelect = (id) => dispatch(setActiveComponent(id));
   return (
     <div className="flex justify-center items-center gap-2 lg:gap-4">
+      <div className="relative">
+        <Plus
+          className={`text-${circuitoSelected.color} rounded-full bg-white border border-neutral-200 p-2 t h-12 w-12 xl:h-14 xl:w-14 lg:h-11 lg:w-11 shadow-lg`}
+          color={circuitoSelected.color}
+        />
+      </div>
       {ButtonsSecciones.map((ButtonS, index) => {
         const isSelected = ButtonS.id === activeComponent;
         return (
@@ -47,7 +53,7 @@ const BotonesPlanifica = () => {
             className={`bg-[#73716a] hover:bg-[${ButtonS.color}] h-12 w-12 xl:h-14 xl:w-14 lg:h-11 lg:w-11 rounded-full items-center justify-center flex relative group`}
             key={index}
             id={index}
-            style={{ backgroundColor: isSelected && ButtonS.color,  }}
+            style={{ backgroundColor: isSelected && ButtonS.color, }}
             onClick={() => handleSelect(ButtonS.id)}
           >
             <ButtonS.icon
@@ -60,30 +66,16 @@ const BotonesPlanifica = () => {
             >
               {ButtonS.name}
             </span>
+            <p
+              className={`absolute h-4 w-4 lg:h-5 lg:w-5 rounded-full font-[700] -right-1 top-9 lg:top-6 xl:top-12 text-[10px] lg:text-[15px] text-center bg-white flex justify-center items-center border`}
+              style={{ color: ButtonS.color }}
+            >
+              {favoritos[ButtonS.id].length}
+            </p>
           </button>
         )
       })}
-      {/* <div className="relative">
-        {favoritos.length !== 0 ? (
-          <div>
-            <Check
-              className={`text-${circuitoSelected.color} rounded-full bg-white border border-neutral-200 p-2  h-12 w-12 xl:h-14 xl:w-14 lg:h-11 lg:w-11  shadow-lg`}
-              color={circuitoSelected.color}
-            />
-            <p
-              className={`absolute h-4 w-4 lg:h-6 lg:w-6 rounded-full font-[700] right-0 top-9 lg:top-10 xl:top-12 pt-[2px] text-[10px] lg:text-[18px] text-center bg-${circuitoSelected.color}`}
-              style={{ color: circuitoSelected.color }}
-            >
-              {favoritos.length}
-            </p>
-          </div>
-        ) : (
-          <Plus
-            className={`text-${circuitoSelected.color} rounded-full bg-white border border-neutral-200 p-2 t h-12 w-12 xl:h-14 xl:w-14 lg:h-11 lg:w-11 shadow-lg`}
-            color={circuitoSelected.color}
-          />
-        )}
-      </div> */}
+
     </div>
   );
 };
