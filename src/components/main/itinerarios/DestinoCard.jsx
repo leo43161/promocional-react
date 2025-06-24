@@ -32,7 +32,7 @@ export default function DestinoCard({ }) {
   });
   /*  */
   /* GALERIA DE MODAL */
-  const { data: galery, errorGalery, isLoadingGalery, refetchGalery, isFetchingGalery } = useGetGaleryDestinoQuery({
+  const { data: galery, errorGalery, isLoadingGalery, isFetchingGalery } = useGetGaleryDestinoQuery({
     id: parseInt(productoSeleccionado?.idArticulo)
   }, {
     refetchOnMountOrArgChange: true
@@ -58,6 +58,7 @@ export default function DestinoCard({ }) {
   };
   const loading = isLoading || isFetching;
   const loadingDestinos = isLoadingDest || isFetchingDest;
+  const loadingGalery = isLoadingGalery || isFetchingGalery;
   return (
     <div>
       <div className="mb-0">
@@ -125,13 +126,13 @@ export default function DestinoCard({ }) {
                   >
                     <div className="relative">
                       <button
-                        className={`rounded-full bg-white p-1 text-[32px] absolute top-2 right-2`}
+                        className={`rounded-full bg-white p-1 text-[32px] absolute top-2 right-2 border shadow`}
                         onClick={() => actualizarFavoritos({ ...producto, id: producto.idArticulo })}
                       >
                         {!!isFavorite ? (
-                          <Check className="text-[#206c60] size-8 md:size-7" />
+                          <Check style={{ color: circuitoSelected.color }} className="size-8 md:size-7" />
                         ) : (
-                          <Plus className="text-[#206c60] size-8 md:size-7" />
+                          <Plus style={{ color: circuitoSelected.color }} className="size-8 md:size-7" />
                         )}
                       </button>
                       <Image
@@ -162,7 +163,7 @@ export default function DestinoCard({ }) {
                         </p>
                       </div>
                       <button
-                        className="border rounded-lg hover:bg-[#206C60] hover:text-white w-full"
+                        className={`border rounded-lg hover:bg-[#206C60] hover:text-white w-full`}
                         onClick={() => handleOpenModal(producto)}
                       >
                         <div className="flex items-center gap-2 px-3 justify-between">

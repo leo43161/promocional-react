@@ -4,9 +4,9 @@ export const itinerariosService = createApi({
     baseQuery: fetchBaseQuery({ baseUrl: process.env.URL_SERVER }), // Cambia a la URL base de tu API
     endpoints: (builder) => ({
         getHoteles: builder.query({
-            query: ({ id }) => ({
+            query: ({ id,limit, offset }) => ({
                 url: `hoteles_it`,
-                params: { circuito: id },
+                params: { circuito: id, limit, offset },
             }),
         }),
         getLocalidades: builder.query({

@@ -71,7 +71,7 @@ export default function CardGuias({ prestador, isLoading = false }) {
         <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
             {/* Encabezado verde */}
             <div className="bg-secondary p-4 text-white font-medium">
-                <h3 className="text-lg">{nombre}</h3>
+                <h3 className="md:text-3xl text-xl">{nombre}</h3>
             </div>
 
             {/* Contenido */}
