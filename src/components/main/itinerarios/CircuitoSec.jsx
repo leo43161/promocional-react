@@ -3,6 +3,7 @@ import BotonesPlanifica from './BotonesPlanifica'
 import { useSelector } from 'react-redux';
 import { Plus } from 'lucide-react';
 import Alojamientos from './Alojamientos';
+import Actividades from './Actividades';
 
 
 export default function CircuitoSec() {
@@ -19,9 +20,9 @@ export default function CircuitoSec() {
             case 'alojamientos':
                 // En un caso real, aquí iría el componente <Alojamientos />
                 return <Alojamientos />;
-            case 'autos':
+            case 'prestadores':
                 // Placeholder, crea tu componente <Autos />
-                return <div className="p-4 text-center">Componente de Autos</div>;
+                return <Actividades></Actividades>;
             case 'mapas':
                 // Placeholder, crea tu componente <Mapas />
                 return <div className="p-4 text-center">Componente de Mapas</div>;

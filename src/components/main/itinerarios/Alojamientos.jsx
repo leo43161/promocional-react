@@ -34,6 +34,16 @@ export default function Alojamientos() {
   const loading = isLoading || isFetching;
   return (
     <div>
+      <div className="flex gap-3">
+        <Paginado
+          currentPage={currentPage}
+          totalItems={totalItems}
+          itemsPerPage={itemsPerPage}
+          onPageChange={handlePageChange}
+          className={'pb-5 justify-start'}
+          accentColor={circuitoSelected.color}
+        />
+      </div>
       <div className="flex overflow-x-auto gap-4 xl:gap-6 py-3 md:flex-wrap md:grid md:grid-cols-4 xl:grid-cols-5 mb-3">
         {loading ? (
           Array(10).fill(0).map((_, index) => {
@@ -45,15 +55,6 @@ export default function Alojamientos() {
             return (<HotelCard key={hotel.id} hotel={hotel} isFavorite={isFavorite}></HotelCard>)
           })
         )}
-      </div>
-      <div>
-        <Paginado
-          currentPage={currentPage}
-          totalItems={totalItems}
-          itemsPerPage={itemsPerPage}
-          onPageChange={handlePageChange}
-          className={'pb-5'}
-        />
       </div>
     </div>
   )

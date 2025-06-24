@@ -73,7 +73,7 @@ export default function BlogCard({
                     </p>
                     <div className="flex justify-between items-center">
                         <a
-                            href={idArticulo}
+                            href={`${process.env.URL_LOCAL_SERVER}${process.env.URL_LOCAL}/articulos/articulo/${idArticulo}/${generateSlug(nombre)}`}
                             className="inline-block bg-primary hover:bg-primary/85 text-white text-[1.1em] font-medium py-2 px-4 rounded-md transition-colors"
                         >
                             Conocé más aquí
@@ -103,7 +103,7 @@ export default function BlogCard({
                 </p>
                 <div className="flex justify-between items-center">
                     <a
-                        href={idArticulo}
+                        href={`${process.env.URL_LOCAL_SERVER}${process.env.URL_LOCAL}/articulos/articulo/${idArticulo}/${generateSlug(nombre)}`}
                         className="inline-block bg-primary hover:bg-primary/85 text-white text-[1.1em] font-medium py-1.5 px-3 rounded-md transition-colors"
                     >
                         Conocé más aquí

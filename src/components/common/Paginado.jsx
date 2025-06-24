@@ -7,7 +7,8 @@ const Paginado = ({
   totalItems,
   itemsPerPage,
   onPageChange,
-  className
+  className, 
+  accentColor = 'var(--primary)',
 }) => {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
@@ -93,6 +94,7 @@ const Paginado = ({
           ) : (
             <button
               onClick={() => onPageChange(page)}
+              style={{ backgroundColor: currentPage === page && accentColor }}
               className={`px-3 py-1 text-[1.1em] rounded-md ${currentPage === page
                 ? 'bg-primary text-white'
                 : 'text-gray-700 hover:bg-gray-100'

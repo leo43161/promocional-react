@@ -133,7 +133,7 @@ const Footer = () => {
         </p>
 
         <div className="text-center text-white text-[1.1em] p-2">
-          <p>Desarrollado por Dpto. Informatica EATT 2024</p>
+          <p className="text-base">Desarrollado por Dpto. Informatica EATT 2024</p>
         </div>
       </div>
       {/* <div className="fixed bottom-0 left-0 right-0 bg-gray-100 p-4 flex flex-col md:flex-row justify-between items-center border-t border-gray-400 z-50 w-screen">

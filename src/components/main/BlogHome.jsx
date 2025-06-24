@@ -79,7 +79,7 @@ export default function BlogHome() {
                     </div>
                 </div>
                 <div className='w-full flex justify-center'>
-                    <a className='text-2xl md:text-2xl underline hover:text-primary' href={`${process.env.URL_LOCAL}/blog`}>Ver mas</a>
+                    <a className='text-2xl md:text-2xl underline hover:text-primary' href={`${process.env.URL_LOCAL}/blog`}>Conoce mas de tucuman aquí</a>
                 </div>
             </div>
         </section>
