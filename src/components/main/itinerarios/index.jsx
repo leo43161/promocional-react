@@ -18,9 +18,8 @@ const { LogoGobtuc } = icons;
 const PDFDownload = dynamic(
     () => import('./PDFDownload'),
     {
-        ssr: false, // La clave para evitar el error en el servidor
+        ssr: false,
         loading: () => (
-            // Un placeholder para mostrar mientras el componente del botón se carga por primera vez
             <div className="flex items-center px-4 text-white h-full">
                 <p className="font-700 uppercase text-2xl ml-2">Cargando...</p>
             </div>

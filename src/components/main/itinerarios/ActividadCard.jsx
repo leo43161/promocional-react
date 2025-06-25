@@ -81,7 +81,7 @@ const ActividadCard = ({ actividad, isFavorite, isLoading = false }) => {
         <div key={actividad.id} className="bg-white rounded-lg duration-300 overflow-hidden border border-gray-200 md:flex-1 shadow min-w-[72vw] max-w-[72vw] md:min-w-auto md:max-w-auto">
             {/* Header with Title and Favorite Button */}
             <div className="flex items-center justify-between gap-4 px-4 py-3">
-                <h3 className="text-2xl xl:text-3xl font-bold text-gray-900 leading-tight">
+                <h3 className="text-2xl xl:text-3xl font-bold text-gray-900 leading-tight line-clamp-3">
                     {actividad.titulo} -
                 </h3>
                 <button

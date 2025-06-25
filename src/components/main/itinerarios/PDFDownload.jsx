@@ -1,4 +1,4 @@
-import { usePDF } from '@react-pdf/renderer';
+import { usePDF, Document, Page, Text } from '@react-pdf/renderer';
 import { ArrowDownToLine } from 'lucide-react';
 import PlanificaDoc from '@/utils/PlanificaDoc'; // Importa tu documento
 import { useSelector } from 'react-redux';
@@ -6,14 +6,18 @@ import { useEffect } from 'react';
 
 // Este componente ahora contiene toda la lógica de generación de PDF.
 export default function PDFGeneratorButton() {
-  // Obtenemos los datos necesarios para el PDF desde Redux,
-  // así el PDF se actualiza cuando los datos cambian.
   const favoritos = useSelector(state => state.itinerarioReducer.value.favoritos);
+  const MyDoc = (
+    <Document>
+      <Page>
+        <Text>{JSON.stringify(favoritos.alojamientos)}</Text>
+      </Page>
+    </Document>
+  );
 
-  // El hook usePDF es la clave. Genera el PDF en segundo plano.
-  // Le pasamos el componente del documento y los datos que necesita.
   const [instance, updateInstance] = usePDF({
-    document: <PlanificaDoc data={favoritos} />,
+    document: MyDoc,
+    /* document: <PlanificaDoc data={favoritos} />, */
   });
 
   // Si los datos del itinerario cambian, le decimos al hook que regenere el PDF.
@@ -22,9 +26,11 @@ export default function PDFGeneratorButton() {
   }, [favoritos, updateInstance]);
 
 
-  const handleOpenPdf = () => {
+  const handleOpenPdf = async () => {
+    console.log(instance);
+    await updateInstance();
     // Si la instancia se está generando o hay un error, no hacemos nada.
-    if (instance.loading || !instance.url) return;
+    if (instance.loading || !instance.url) return
 
     // Si ya tenemos la URL del Blob, la abrimos en una nueva pestaña.
     window.open(instance.url, '_blank');

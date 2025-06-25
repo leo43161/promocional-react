@@ -219,7 +219,7 @@ export default function DestinoCard({ }) {
                           )}
                         </button>
                       </div>
-                      <div className="flex flex-row gap-2 mb-4">
+                      <div className="flex flex-row gap-2 mb-4 flex-wrap">
                         {productoSeleccionado.tags.split(",").map((categoria, index) => (
                           <p
                             key={index}

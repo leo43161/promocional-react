@@ -100,7 +100,7 @@ const GuiaCard = ({ guia, isFavorite, isLoading = false }) => {
             {/* --- CABECERA: Nombre del Guía y Botón de Favoritos --- */}
             <div className="flex items-start justify-between gap-4 px-4 py-3">
                 <div className='flex-1'>
-                    <h3 className="text-2xl xl:text-3xl font-bold text-gray-900 leading-tight capitalize">
+                    <h3 className="text-2xl xl:text-3xl font-bold text-gray-900 leading-tight capitalize line-clamp-3">
                         {guia.nombre.toLowerCase()}
                     </h3>
                     {/* <p className="text-md font-semibold text-gray-600">
