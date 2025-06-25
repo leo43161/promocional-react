@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { Plus } from 'lucide-react';
 import Alojamientos from './Alojamientos';
 import Actividades from './Actividades';
+import Guias from './Guias';
 
 
 export default function CircuitoSec() {
@@ -23,9 +24,9 @@ export default function CircuitoSec() {
             case 'prestadores':
                 // Placeholder, crea tu componente <Autos />
                 return <Actividades></Actividades>;
-            case 'mapas':
+            case 'guias':
                 // Placeholder, crea tu componente <Mapas />
-                return <div className="p-4 text-center">Componente de Mapas</div>;
+                return <Guias></Guias>;
             default:
                 return null;
         }

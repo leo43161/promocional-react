@@ -10,6 +10,7 @@ const { HistoricaLogo, HistoricaLogoMb, YungasLogo, YungasLogoMb, ChoromoroLogo,
 
 const circuitos = [{
     id: 5,
+    name: "historica",
     nombre: "Ciudad Histórica",
     logo: HistoricaLogo,
     img: "casah",
@@ -18,6 +19,7 @@ const circuitos = [{
     mb: HistoricaLogoMb
 }, {
     id: 4,
+    name: "yungas",
     nombre: "Yungas Tucumanas",
     logo: YungasLogo,
     mb: YungasLogoMb,
@@ -26,6 +28,7 @@ const circuitos = [{
     bg: "#66ac7c",
 }, {
     id: 2,
+    name: "choromoro",
     nombre: "Valle De Choromoro",
     logo: ChoromoroLogo,
     mb: ChoromoroLogoMb,
@@ -34,6 +37,7 @@ const circuitos = [{
     bg: "#FD5901",
 }, {
     id: 3,
+    name: "calchaqui",
     nombre: "Valle Calchaqui",
     logo: CalchaquiLogo,
     mb: CalchaquiLogoMb,
@@ -42,6 +46,7 @@ const circuitos = [{
     bg: "#9E2D2C",
 }, {
     id: 1,
+    name: "sur",
     nombre: "Sur Tucumano",
     logo: SurLogo,
     mb: SurLogoMb,

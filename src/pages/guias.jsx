@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useGetPrestadoresQuery } from '@/redux/services/prestadoresService';
+import { useGetGuiasQuery } from '@/redux/services/prestadoresService';
 import ParallaxContainer from '@/components/common/ParallaxContainer';
 import CardPrestadores from '@/components/prestadores/CardPrestadores';
 import Breadcrumb from '@/components/common/Breadcrumb';
 import Buscador from '@/components/SearchPrest';
 import Paginado from '@/components/common/Paginado';
+import CardGuia from '@/components/prestadores/CardGuia';
 
 export default function Guias() {
     // Estado para controlar la paginación y búsqueda
@@ -16,11 +17,12 @@ export default function Guias() {
     const offset = (currentPage - 1) * itemsPerPage;
 
     // Consulta con RTK Query
-    const { data: prestadores, error, isLoading, refetch, isFetching } = useGetPrestadoresQuery({
+    const { data: guias, error, isLoading, refetch, isFetching } = useGetGuiasQuery({
         limit: itemsPerPage,
         offset: offset,
         search: searchTerm
     });
+    console.log(guias)
 
     // Manejar cambio de página
     const handlePageChange = (pageNumber) => {
@@ -39,9 +41,8 @@ export default function Guias() {
     useEffect(() => {
         setCurrentPage(1);
     }, [searchTerm]);
-
-    if (error) return <p>Hubo un error al cargar los prestadores</p>;
-    const totalItems = prestadores?.result[0]?.total ? parseInt(prestadores?.result[0]?.total) : 0;
+    if (error) return <p>Hubo un error al cargar los guias</p>;
+    const totalItems = guias?.result[0]?.total ? parseInt(guias?.result[0]?.total) : 0;
     // Determinar si estamos en un estado de carga (inicial o actualización)
     const loading = isLoading || isFetching;
     return (
@@ -65,7 +66,7 @@ export default function Guias() {
             <div className='w-11/12 mx-auto pt-5'>
                 <div className='mb-5'>
                     <Breadcrumb items={
-                        [{ label: "Prestadores activos", href: '/prestadores' }]
+                        [{ label: "Prestadores activos", href: '/guias' }]
                     }></Breadcrumb>
                 </div>
                 <h2 className="text-2xl font-bold mb-4">Prestadores de Turismo Aventura Habilitados</h2>
@@ -85,10 +86,9 @@ export default function Guias() {
                             </div>
                         ))
                     ) : (
-                        // Mostrar datos reales cuando no está cargando
-                        prestadores.result?.map((prestador) => (
-                            <div key={prestador.id}>
-                                <CardPrestadores isLoading={false} prestador={prestador} />
+                        guias.result?.map((guia) => (
+                            <div key={guia.id}>
+                                <CardGuia isLoading={false} guia={guia} />
                             </div>
                         ))
                     )}

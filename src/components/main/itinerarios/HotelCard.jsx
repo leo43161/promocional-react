@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { BedDouble, Star, MapPin, Phone, Mail, Globe, CircleCheck, CirclePlus } from 'lucide-react';
+import { BedDouble, Star, MapPin, Phone, Mail, Globe, CircleCheck, CirclePlus, Check } from 'lucide-react';
 import { useDispatch, useSelector } from "react-redux";
 import { setFavorito } from '@/redux/features/itinerarioSlice';
 
@@ -104,7 +104,9 @@ const HotelCard = ({ hotel, isFavorite, isLoading = false }) => {
                     aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
                 >
                     {isFavorite ? (
-                        <CircleCheck className="w-7 h-7" />
+                        <div className='rounded-full w-7 h-7 flex justify-center items-center' style={{ backgroundColor: circuitoSelected.color }}>
+                            <Check strokeWidth={3} color="#fff" className="w-4.5 h-4.5" />
+                        </div>
                     ) : (
                         <CirclePlus className="w-7 h-7" />
                     )}
