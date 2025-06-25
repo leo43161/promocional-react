@@ -1,5 +1,6 @@
 import { useState, useCallback } from "react";
 import icons from '@/utils/icons'
+import dynamic from 'next/dynamic';
 import Image from "next/image";
 import { CircleArrowRight, ArrowDownToLine, CircleX, ChevronDown, Check } from 'lucide-react';
 import Link from 'next/link';
@@ -8,10 +9,24 @@ import circuitos from "@/data/circuitos";
 import CircuitoSec from "./CircuitoSec";
 import { useSelector, useDispatch } from "react-redux";
 import { setCircuitoSelected } from "@/redux/features/itinerarioSlice";
+import PlanificaDoc from "@/utils/PlanificaDoc";
 
 const circuitosData = circuitos();
 
-const { LogoGobtuc, TucumanLogo, HistoricaLogo, HistoricaLogoMb, YungasLogo, YungasLogoMb, ChoromoroLogo, ChoromoroLogoMb, CalchaquiLogo, CalchaquiLogoMb, SurLogoMb, SurLogo } = icons;
+const { LogoGobtuc } = icons;
+
+const PDFDownload = dynamic(
+    () => import('./PDFDownload'),
+    {
+        ssr: false, // La clave para evitar el error en el servidor
+        loading: () => (
+            // Un placeholder para mostrar mientras el componente del botón se carga por primera vez
+            <div className="flex items-center px-4 text-white h-full">
+                <p className="font-700 uppercase text-2xl ml-2">Cargando...</p>
+            </div>
+        )
+    }
+);
 
 export default function Itinerarios() {
     const dispatch = useDispatch();
@@ -25,7 +40,8 @@ export default function Itinerarios() {
     const progressText = `${dias} día${dias > 1 ? "s" : ""}`;
     const progressWidth = progress > 100 ? 100 : progress;
 
-    const handleDownloadClick = () => {
+    const handleDownloadClick = async () => {
+        const stream = await renderToStream(<PlanificaDoc />);
         setIsOpen(true);
     };
 
@@ -171,13 +187,7 @@ export default function Itinerarios() {
                     {progressText}
                 </p>
 
-                <button
-                    className="flex items-center px-4 text-white cursor-pointer h-full hover:bg-white hover:text-black transition-all duration-300"
-                    onClick={handleDownloadClick}
-                >
-                    <ArrowDownToLine className="text-[26px]" />{" "}
-                    <p className="font-700 uppercase text-2xl  ml-2">Descargar</p>
-                </button>
+                <PDFDownload></PDFDownload>
             </div>
 
 

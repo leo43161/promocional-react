@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { X, Download } from 'lucide-react';
 import { ReactLenis, useLenis } from 'lenis/react';
+import { cn } from '@/utils';
 
 const Modal = ({
     isOpen,
@@ -15,7 +16,8 @@ const Modal = ({
     imageUrl,
     imageAlt = 'Imagen',
     enableMouseZoom = true,
-    header = true
+    header = true,
+    className = ""
 }) => {
     // ... (Todos tus hooks: useState, useEffect, etc. se mantienen igual)
     const [mounted, setMounted] = useState(false);
@@ -108,7 +110,7 @@ const Modal = ({
 
     return createPortal(
         <div
-            className={`fixed inset-0 z-50 flex items-center justify-center p-[env(safe-area-inset-top)_env(safe-area-inset-right)_env(safe-area-inset-bottom)_env(safe-area-inset-left)] md:p-5 pt-6`}
+            className={cn(`fixed inset-0 z-50 flex items-center justify-center p-[env(safe-area-inset-top)_env(safe-area-inset-right)_env(safe-area-inset-bottom)_env(safe-area-inset-left)] md:p-5 pt-6`, className)}
             style={{ backgroundColor: overlayColor }}
             onClick={onClose}
         >

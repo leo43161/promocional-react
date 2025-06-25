@@ -187,11 +187,59 @@ export default function DestinoCard({ }) {
           header={false}
         >
           {productoSeleccionado && (
-            <div className="grid grid-cols-8 gap-3 md:py-6 py-4">
-              <div className="lg:col-span-3 col-span-8 order-2 md:order-1 px-3">
-                <div className="sticky top-0">
-                  {/* /////////// HEADER DESKTOP /////////// */}
-                  <div className="hidden md:block">
+            <div className="">
+              <div>
+                <Image
+                  src={process.env.URL_IMG + productoSeleccionado.imagen}
+                  alt="imagen"
+                  width={250}
+                  height={400}
+                  className="w-full rounded-md h-[400px] object-cover"
+                />
+              </div>
+              <div className="grid grid-cols-8 gap-3 md:py-6 py-4">
+                <div className="lg:col-span-3 col-span-8 order-2 md:order-1 px-3">
+                  <div className="sticky top-0">
+                    {/* /////////// HEADER DESKTOP /////////// */}
+                    <div className="hidden md:block">
+                      <div className="flex items-start mb-3">
+                        <p className="text-[30px] font-bold leading-[32px] uppercase text-neutral-700">
+                          {productoSeleccionado.nombre}
+                        </p>
+                        <button
+                          className={`rounded-full bg-white p-1 text-[32px] border`}
+                          onClick={() =>
+                            actualizarFavoritos({ ...productoSeleccionado, id: productoSeleccionado.idArticulo })
+                          }
+                        >
+                          {!!favoritos.destinos.find((item) => item.id === productoSeleccionado.idArticulo) ? (
+                            <Check className="text-[#206c60]" />
+                          ) : (
+                            <Plus className="text-[#206c60]" />
+                          )}
+                        </button>
+                      </div>
+                      <div className="flex flex-row gap-2 mb-4">
+                        {productoSeleccionado.tags.split(",").map((categoria, index) => (
+                          <p
+                            key={index}
+                            className="rounded-md px-2 py-1 bg-neutral-400 text-white text-[14px] font-400"
+                          >
+                            {categoria}
+                          </p>
+                        ))}
+                      </div>
+                      <p className="font-medium text-neutral-500 text-[18px] mb-3">
+                        {productoSeleccionado.copete}
+                      </p>
+                    </div>
+                    {/* /////////// HEADER DESKTOP /////////// */}
+                    <div className="text-[10px] font-medium text-neutral-400" dangerouslySetInnerHTML={{ __html: productoSeleccionado.cuerpo }}></div>
+                  </div>
+                </div>
+                <div className="col-span-8 md:col-span-5 order-1 md:order-2 px-2">
+                  {/* /////////// HEADER MOBILE /////////// */}
+                  <div className="block md:hidden">
                     <div className="flex items-start mb-3">
                       <p className="text-[30px] font-bold leading-[32px] uppercase text-neutral-700">
                         {productoSeleccionado.nombre}
@@ -223,59 +271,22 @@ export default function DestinoCard({ }) {
                       {productoSeleccionado.copete}
                     </p>
                   </div>
-                  {/* /////////// HEADER DESKTOP /////////// */}
-                  <div className="text-[10px] font-medium text-neutral-400" dangerouslySetInnerHTML={{ __html: productoSeleccionado.cuerpo }}></div>
-                </div>
-              </div>
-              <div className="col-span-8 md:col-span-5 order-1 md:order-2 px-2">
-                {/* /////////// HEADER MOBILE /////////// */}
-                <div className="block md:hidden">
-                  <div className="flex items-start mb-3">
-                    <p className="text-[30px] font-bold leading-[32px] uppercase text-neutral-700">
-                      {productoSeleccionado.nombre}
-                    </p>
-                    <button
-                      className={`rounded-full bg-white p-1 text-[32px] border`}
-                      onClick={() =>
-                        actualizarFavoritos({ ...productoSeleccionado, id: productoSeleccionado.idArticulo })
-                      }
-                    >
-                      {!!favoritos.destinos.find((item) => item.id === productoSeleccionado.idArticulo) ? (
-                        <Check className="text-[#206c60]" />
-                      ) : (
-                        <Plus className="text-[#206c60]" />
-                      )}
-                    </button>
+                  {/* /////////// HEADER MOBILE /////////// */}
+                  <div className="object-cover">
+                    <ImageGallery
+                      isLoading={!(galery?.result?.length > 0)}
+                      items={galery?.result?.length > 0 ? galery?.result.map(item => ({
+                        img: process.env.URL_IMG + item.archivo,
+                        text: item.texto
+                      })) : []}
+                      className='md:p-0 md:mb-4 mb-0 md:h-[63vh] px-0'
+                      classContain='md:gap-3 gap-2'
+                      classThumbnails={'md:w-2/10'}
+                    />
                   </div>
-                  <div className="flex flex-row gap-2 mb-4">
-                    {productoSeleccionado.tags.split(",").map((categoria, index) => (
-                      <p
-                        key={index}
-                        className="rounded-md px-2 py-1 bg-neutral-400 text-white text-[14px] font-400"
-                      >
-                        {categoria}
-                      </p>
-                    ))}
-                  </div>
-                  <p className="font-medium text-neutral-500 text-[18px] mb-3">
-                    {productoSeleccionado.copete}
-                  </p>
-                </div>
-                {/* /////////// HEADER MOBILE /////////// */}
-                <div className="object-cover">
-                  <ImageGallery
-                    isLoading={!(galery?.result?.length > 0)}
-                    items={galery?.result?.length > 0 ? galery?.result.map(item => ({
-                      img: process.env.URL_IMG + item.archivo,
-                      text: item.texto
-                    })) : []}
-                    className='md:p-0 md:mb-4 mb-0 md:h-[63vh] px-0'
-                    classContain='md:gap-3 gap-2'
-                    classThumbnails={'md:w-2/10'}
-                  />
-                </div>
-                <div>
+                  <div>
 
+                  </div>
                 </div>
               </div>
             </div>

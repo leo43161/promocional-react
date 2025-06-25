@@ -8,6 +8,8 @@ const componentTypes = ['destinos', 'alojamientos', 'prestadores', 'guias'];
 
 const { HistoricaLogo, HistoricaLogoMb, YungasLogo, YungasLogoMb, ChoromoroLogo, ChoromoroLogoMb, CalchaquiLogo, CalchaquiLogoMb, SurLogoMb, SurLogo } = icons;
 
+console.log(icons);
+
 const circuitos = [{
     id: 5,
     name: "historica",
@@ -93,9 +95,9 @@ const itinerariosSlice = createSlice({
                 state.value.favoritos[type].push(item);
                 state.value.total = state.value.total + 1;
             }
+            console.log(state.value.favoritos);
             const newProgress = (state.value.favoritos.destinos.length / 3) * 100;
             state.value.progress = newProgress;
-            console.log(state.value.progress);
         },
         setCircuitoSelected: (state, action) => {
             const selectedCircuit = circuitos.find((c) => c.id === action.payload)

@@ -5,15 +5,19 @@ import { Plus } from 'lucide-react';
 import Alojamientos from './Alojamientos';
 import Actividades from './Actividades';
 import Guias from './Guias';
+import { useEffect } from 'react';
 
 
 export default function CircuitoSec() {
     const {
         activeComponent,
         circuitoSelected,
-        total
+        favoritos
     } = useSelector(state => state.itinerarioReducer.value);
 
+    useEffect(() => {
+        console.log(favoritos);
+    }, [favoritos]);
     const renderActiveComponent = () => {
         switch (activeComponent) {
             case 'destinos':
