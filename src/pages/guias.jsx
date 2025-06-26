@@ -22,7 +22,6 @@ export default function Guias() {
         offset: offset,
         search: searchTerm
     });
-    console.log(guias)
 
     // Manejar cambio de página
     const handlePageChange = (pageNumber) => {

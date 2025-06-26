@@ -28,7 +28,6 @@ export default function Guias() {
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
-    console.log(guias);
     if (error) return <p className="text-red-500 text-4xl">Hubo un error al cargar los alojamientos</p>;
     const totalItems = guias?.result[0]?.total ? parseInt(guias?.result[0]?.total) : 0;
     const loading = isLoading || isFetching;
@@ -51,7 +50,7 @@ export default function Guias() {
                     })
                 ) : (
                     guias?.result.map((guia) => {
-                        const isFavorite = favoritos.guias.find((item) => item.id === guia.id);
+                        const isFavorite = favoritos[circuitoSelected.name].guias.find((item) => item.id === guia.id);
                         return (<GuiasCard key={guia.id} guia={guia} isFavorite={isFavorite}></GuiasCard>)
                     })
                 )}

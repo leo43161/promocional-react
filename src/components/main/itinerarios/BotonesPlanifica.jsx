@@ -70,7 +70,7 @@ const BotonesPlanifica = () => {
               className={`absolute h-4 w-4 lg:h-5 lg:w-5 rounded-full font-[700] -right-1 top-9 lg:top-6 xl:top-12 text-[10px] lg:text-[15px] text-center bg-white flex justify-center items-center border`}
               style={{ color: ButtonS.color }}
             >
-              {favoritos[ButtonS.id].length}
+              {favoritos[circuitoSelected.name][ButtonS.id].length}
             </p>
           </button>
         )

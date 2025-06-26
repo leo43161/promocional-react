@@ -1,11 +1,9 @@
 import DestinoCard from './DestinoCard'
 import BotonesPlanifica from './BotonesPlanifica'
 import { useSelector } from 'react-redux';
-import { Plus } from 'lucide-react';
 import Alojamientos from './Alojamientos';
 import Actividades from './Actividades';
 import Guias from './Guias';
-import { useEffect } from 'react';
 
 
 export default function CircuitoSec() {
@@ -15,9 +13,6 @@ export default function CircuitoSec() {
         favoritos
     } = useSelector(state => state.itinerarioReducer.value);
 
-    useEffect(() => {
-        console.log(favoritos);
-    }, [favoritos]);
     const renderActiveComponent = () => {
         switch (activeComponent) {
             case 'destinos':

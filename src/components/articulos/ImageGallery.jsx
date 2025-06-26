@@ -50,7 +50,6 @@ export default function ImageGallery({
     classImg,
     classOverlayText
 }) {
-    console.log(items);
     const limitedImages = items.slice(0, 5);
 
     const [activeImageIndex, setActiveImageIndex] = useState(0);

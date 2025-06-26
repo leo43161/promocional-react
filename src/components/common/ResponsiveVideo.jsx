@@ -28,7 +28,7 @@ const ResponsiveVideo = ({
                         if (entry.isIntersecting) {
                             videoRef.current.play().catch((error) => {
                                 // Si falla la reproducción automática, no es crítico para videos decorativos
-                                console.log("Autoplay prevented:", error);
+                                /* console.log("Autoplay prevented:", error); */
                             });
                         }
                     });

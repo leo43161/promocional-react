@@ -28,7 +28,7 @@ export default function Imperdible() {
     const orderedImperdibles = useMemo(() => {
         // Si está cargando, obteniendo datos nuevos, o hubo un error, retorna array vacío
         if (isLoading || isFetching || error || !imperdibles) {
-            console.log('isLoading, isFetching, error, imperdibles:', isLoading, isFetching, error, imperdibles);
+           /*  console.log('isLoading, isFetching, error, imperdibles:', isLoading, isFetching, error, imperdibles); */
             // Podrías diferenciar entre loading y error si quieres mostrar mensajes distintos
             return [];
         }
@@ -46,7 +46,6 @@ export default function Imperdible() {
         return groupedImperdibles;
 
     }, [imperdibles, isLoading, isFetching, error]);
-    console.log(orderedImperdibles);
     return (
         <div className="w-full">
             <Carousel className='md:h-135' showIndicators={true} showArrows={true} autoPlay={false} interval={6000}>

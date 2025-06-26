@@ -28,7 +28,6 @@ export default function Actividades() {
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
     };
-    console.log(actividades);
     if (error) return <p className="text-red-500 text-4xl">Hubo un error al cargar los alojamientos</p>;
     const totalItems = actividades?.result[0]?.total ? parseInt(actividades?.result[0]?.total) : 0;
     const loading = isLoading || isFetching;
@@ -51,7 +50,7 @@ export default function Actividades() {
                     })
                 ) : (
                     actividades?.result.map((actividad) => {
-                        const isFavorite = favoritos.prestadores.find((item) => item.id === actividad.id);
+                        const isFavorite = favoritos[circuitoSelected.name].prestadores.find((item) => item.id === actividad.id);
                         return (<ActividadCard key={actividad.id} actividad={actividad} isFavorite={isFavorite}></ActividadCard>)
                     })
                 )}

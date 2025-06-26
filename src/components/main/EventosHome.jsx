@@ -8,13 +8,11 @@ export default function EventosHome() {
     const eventosDestacados = useMemo(() => {
         // Si está cargando, obteniendo datos nuevos, o hubo un error, retorna array vacío
         if (isLoading || isFetching || error || !eventos) {
-            console.log('isLoading, isFetching, error, eventos:', isLoading, isFetching, error, eventos);
             // Podrías diferenciar entre loading y error si quieres mostrar mensajes distintos
             return [];
         }
         // Ordenar eventos por array de arrays de 3 elementos
         const sliceItems = window.innerWidth >= 1024 ? 3 : 1;
-        console.log('eventos:', eventos);
         const groupedEventos = eventos.result.reduce((acc, item) => {
             const lastGroup = acc[acc.length - 1];
             if (lastGroup && lastGroup.length < sliceItems) {

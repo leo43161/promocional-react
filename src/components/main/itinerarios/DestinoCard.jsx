@@ -118,7 +118,7 @@ export default function DestinoCard({ }) {
           ))
             : error ? <div>Error al cargar los productos</div> :
               productos.result.articulos.map((producto, index) => {
-                const isFavorite = favoritos.destinos.find((item) => item.id === producto.idArticulo);
+                const isFavorite = favoritos[circuitoSelected.name].destinos.find((item) => item.id === producto.idArticulo);
                 return (
                   <div
                     key={index}
@@ -212,7 +212,7 @@ export default function DestinoCard({ }) {
                             actualizarFavoritos({ ...productoSeleccionado, id: productoSeleccionado.idArticulo })
                           }
                         >
-                          {!!favoritos.destinos.find((item) => item.id === productoSeleccionado.idArticulo) ? (
+                          {!!favoritos[circuitoSelected.name].destinos.find((item) => item.id === productoSeleccionado.idArticulo) ? (
                             <Check className="text-[#206c60]" />
                           ) : (
                             <Plus className="text-[#206c60]" />
@@ -250,7 +250,7 @@ export default function DestinoCard({ }) {
                           actualizarFavoritos({ ...productoSeleccionado, id: productoSeleccionado.idArticulo })
                         }
                       >
-                        {!!favoritos.destinos.find((item) => item.id === productoSeleccionado.idArticulo) ? (
+                        {!!favoritos[circuitoSelected.name].destinos.find((item) => item.id === productoSeleccionado.idArticulo) ? (
                           <Check className="text-[#206c60]" />
                         ) : (
                           <Plus className="text-[#206c60]" />

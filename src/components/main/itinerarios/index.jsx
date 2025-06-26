@@ -9,7 +9,7 @@ import circuitos from "@/data/circuitos";
 import CircuitoSec from "./CircuitoSec";
 import { useSelector, useDispatch } from "react-redux";
 import { setCircuitoSelected } from "@/redux/features/itinerarioSlice";
-import PlanificaDoc from "@/utils/PlanificaDoc";
+import PlanificaDoc from "@/utils/ItinerarioDoc";
 
 const circuitosData = circuitos();
 
@@ -50,7 +50,6 @@ export default function Itinerarios() {
 
     // Función para manejar la selección de un nuevo circuito
     const handleSelectCircuit = (id) => {
-        console.log(id)
         dispatch(setCircuitoSelected(id));
         setIsOpen(false);   // Cierra el menú desplegable
     };
@@ -84,7 +83,6 @@ export default function Itinerarios() {
 
                     <div className="hidden lg:col-span-5 xl:col-span-5 lg:flex lg:flex-row overflow-hidden">
                         {circuitos.map((circuito, index) => {
-                            console.log(circuitoSelected)
                             const isActive = circuito.id === circuitoSelected?.id;
                             return (
                                 <button

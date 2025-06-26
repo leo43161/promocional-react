@@ -28,7 +28,6 @@ export default function Alojamientos() {
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-  console.log(hoteles);
   if (error) return <p className="text-red-500 text-4xl">Hubo un error al cargar los alojamientos</p>;
   const totalItems = hoteles?.result[0]?.total ? parseInt(hoteles?.result[0]?.total) : 0;
   const loading = isLoading || isFetching;
@@ -49,7 +48,7 @@ export default function Alojamientos() {
           })
         ) : (
           hoteles?.result.map((hotel) => {
-            const isFavorite = favoritos.alojamientos.find((item) => item.id === hotel.id);
+            const isFavorite = favoritos[circuitoSelected.name].alojamientos.find((item) => item.id === hotel.id);
             return (<HotelCard key={hotel.id} hotel={hotel} isFavorite={isFavorite}></HotelCard>)
           })
         )}
