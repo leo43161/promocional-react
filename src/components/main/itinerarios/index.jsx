@@ -1,19 +1,19 @@
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import icons from '@/utils/icons'
 import dynamic from 'next/dynamic';
 import Image from "next/image";
-import { CircleArrowRight, ArrowDownToLine, CircleX, ChevronDown, Check } from 'lucide-react';
-import Link from 'next/link';
-import Modal from "@/components/common/Modal";
+import { CircleArrowRight, ChevronDown, Check } from 'lucide-react';
 import circuitos from "@/data/circuitos";
 import CircuitoSec from "./CircuitoSec";
 import { useSelector, useDispatch } from "react-redux";
-import { setCircuitoSelected } from "@/redux/features/itinerarioSlice";
-import PlanificaDoc from "@/utils/ItinerarioDoc";
+import { setActiveComponent, setCircuitoSelected } from "@/redux/features/itinerarioSlice";
+import PlanificaDoc from "@/components/ItinerarioDoc";
 
 const circuitosData = circuitos();
 
 const { LogoGobtuc } = icons;
+
+console.log(LogoGobtuc);
 
 const PDFDownload = dynamic(
     () => import('./PDFDownload'),
@@ -39,17 +39,9 @@ export default function Itinerarios() {
     const progressText = `${dias} día${dias > 1 ? "s" : ""}`;
     const progressWidth = progress > 100 ? 100 : progress;
 
-    const handleDownloadClick = async () => {
-        const stream = await renderToStream(<PlanificaDoc />);
-        setIsOpen(true);
-    };
-
-    const handleCloseModal = () => {
-        setIsOpen(false);
-    };
-
     // Función para manejar la selección de un nuevo circuito
     const handleSelectCircuit = (id) => {
+        dispatch(setActiveComponent("destinos"));
         dispatch(setCircuitoSelected(id));
         setIsOpen(false);   // Cierra el menú desplegable
     };
@@ -58,7 +50,6 @@ export default function Itinerarios() {
             {/* Header que ya tenías */}
             <div className="md:py-3 flex flex-row items-center justify-between md:shadow-md mb-0 lg:gap-5 px-6 lg:mb-0 border">
                 <div>
-
                     <p className="hidden lg:block text-neutral-400 text-[42px] font-semibold text-center">
                         Planificá tu viaje al Corazón del Norte Argentino
                     </p>
@@ -186,8 +177,6 @@ export default function Itinerarios() {
 
                 <PDFDownload></PDFDownload>
             </div>
-
-
         </div>
     )
 }

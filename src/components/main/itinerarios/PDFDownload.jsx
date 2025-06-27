@@ -1,13 +1,8 @@
 import {
-  usePDF,
-  Document,
-  Page,
-  PDFViewer,
-  PDFDownloadLink,
-  Text,
+  usePDF
 } from '@react-pdf/renderer';
 import { ArrowDownToLine } from 'lucide-react';
-import ItinerarioDoc from '@/utils/ItinerarioDoc'; // Importa tu documento
+import ItinerarioDoc from '@/components/ItinerarioDoc'; // Importa tu documento
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 

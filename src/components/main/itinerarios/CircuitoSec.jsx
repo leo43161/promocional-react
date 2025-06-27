@@ -27,7 +27,7 @@ export default function CircuitoSec() {
                 // Placeholder, crea tu componente <Mapas />
                 return <Guias></Guias>;
             default:
-                return null;
+                return <p>No se ha seleccionado ninguna sección</p>;
         }
     };
     return (
@@ -36,15 +36,15 @@ export default function CircuitoSec() {
                 <div className="items-center col-span-7 grid grid-cols-2 xl:grid-cols-3 lg:grid-cols-5 mx-4 lg:mx-12 mt-4 lg:mt-8 mb-2">
 
                     <h2 className={`hidden lg:block uppercase font-bold md:text-5xl xl:text-7xl xl:leading-[70px] text-${circuitoSelected.color}`} style={{ color: circuitoSelected.color }}>{circuitoSelected.nombre}</h2>
-                    <div className='lg:leading-[35px] col-span-7 lg:col-span-2 xl:col-span-1 flex items-center gap-3 mb-3 py-2'>
+                    <div className='lg:leading-[35px] col-span-7 lg:col-span-2 xl:col-span-1 flex items-center gap-3 mb-3 py-2 md:py-0 md:mb-0'>
                         <span className={`text-[29px] md:text-4xl text-center xl:text-[45px] xl:text-center font-semibold text-neutral-500 leading-[34px]`}>
                             Aumentá tus pulsaciones en una aventura rodeado de naturaleza
                         </span>
                     </div>
 
-                    <div className="lg:flex lg:flex-row gap-6 lg:justify-end items-center col-span-7 lg:col-span-2 xl:col-span-1 mb-2">
+                    <div className="lg:flex lg:flex-row gap-6 lg:justify-end items-center col-span-7 lg:col-span-2 xl:col-span-1 mb-2 md:mb-0">
                         <div className='flex justify-center mb-3'>
-                            <p className={`bg-neutral-400 rounded-md my-2 text-white w-fit py-2 px-4 lg:bg-transparent lg:text-neutral-400 font-semibold lg:pt-0 italic text-2xl xl:text-3xl text-center lg:text-right leading-6`}>Armá tu itinerario <br className='hidden lg:block' /> y descargalo</p>
+                            <p className={`bg-neutral-400 rounded-md my-2 text-white w-fit py-2 px-4 lg:bg-transparent lg:text-neutral-400 font-semibold lg:pt-0 italic text-2xl xl:text-3xl text-center lg:text-right leading-6 md:my-0 md:py-0`}>Armá tu itinerario <br className='hidden lg:block' /> y descargalo</p>
                         </div>
                         <BotonesPlanifica />
                     </div>

@@ -3,28 +3,53 @@ import { Page, Text, View, Document, StyleSheet, Font, Image } from '@react-pdf/
 
 // --- Paleta de Colores por Circuito (Extraído del Manual de Marca) ---
 // Se han seleccionado los colores primario y secundario más representativos.
-const circuitColors = {
+const circuitosData = {
   historica: {
+    id: 5,
+    name: "historica",
+    nombre: "Ciudad Histórica",
+    logo: "HistoricaLogo",
+    img: "casah",
     primary: '#004065',   // Azul oscuro [cite: 169]
     secondary: '#D15E00', // Naranja [cite: 169]
     background: '#F0F4F8', // Un color claro para el fondo de la página
   },
   yungas: {
+    id: 4,
+    name: "yungas",
+    nombre: "Yungas Tucumanas",
+    logo: "YungasLogo",
+    img: "quetipi-inicio",
     primary: '#00926A',   // Verde oscuro [cite: 166]
     secondary: '#E89020', // Naranja [cite: 166]
     background: '#F2F9F2',
   },
   choromoro: {
+    id: 2,
+    name: "choromoro",
+    nombre: "Valle De Choromoro",
+    logo: "ChoromoroLogo",
+    img: "pozoindio-inicio",
     primary: '#D15E00',   // Naranja [cite: 168]
     secondary: '#007773', // Verde azulado [cite: 168]
     background: '#FFF5E8',
   },
   calchaqui: {
+    id: 3,
+    name: "calchaqui",
+    nombre: "Valle Calchaqui",
+    logo: "CalchaquiLogo",
+    img: "menhires-inicio",
     primary: '#8A142D',   // Rojo oscuro [cite: 167]
     secondary: '#E89029', // Naranja [cite: 167]
     background: '#FAF3E8',
   },
   sur: {
+    id: 1,
+    name: "sur",
+    nombre: "Sur Tucumano",
+    logo: "SurLogo",
+    img: "sur",
     primary: '#366E59',   // Verde oscuro [cite: 170]
     secondary: '#BB3130', // Rojo [cite: 170]
     background: '#EFF5F1',
@@ -125,26 +150,26 @@ const ItinerarioDoc = ({ data }) => {
     <Document>
       {circuitsWithFavorites.map((circuitKey, index) => {
         const circuitData = data[circuitKey];
-        const colors = circuitColors[circuitKey] || circuitColors.default;
+        const circuito = circuitosData[circuitKey] || circuitosData.default;
 
         return (
           // Usamos `break` para asegurar que cada circuito empiece en una nueva página
-          <Page key={circuitKey} size="A4" style={{ ...styles.page, backgroundColor: colors.background }} break={index > 0}>
+          <Page key={circuitKey} size="A4" style={{ ...styles.page, backgroundColor: circuito.background }} break={index > 0}>
 
             {/* --- CABECERA DEL CIRCUITO --- */}
             <View style={styles.section}>
-              <Text style={{ ...styles.h1, color: colors.primary }}>
-                {circuitKey}
+              <Text style={{ ...styles.h1, color: circuito.primary }}>
+                {circuito.nombre}
               </Text>
             </View>
 
             {/* --- SECCIÓN DESTINOS --- */}
             {circuitData.destinos.length > 0 && (
               <View style={styles.section}>
-                <Text style={{ ...styles.h2, borderColor: colors.secondary, color: colors.primary }}>Destinos</Text>
+                <Text style={{ ...styles.h2, borderColor: circuito.secondary, color: circuito.primary }}>Destinos</Text>
                 {circuitData.destinos.map(destino => (
                   <View key={destino.idArticulo} style={styles.itemContainer}>
-                    <Text style={{ ...styles.itemTitle, color: colors.primary }}>{destino.nombre}</Text>
+                    <Text style={{ ...styles.itemTitle, color: circuito.primary }}>{destino.nombre}</Text>
                     <Text style={styles.itemText}>{destino.copete}</Text>
                     <Text style={styles.itemText}><Text style={styles.itemLabel}>Tags: </Text>{destino.tags}</Text>
                   </View>
@@ -155,31 +180,31 @@ const ItinerarioDoc = ({ data }) => {
             {/* --- SECCIÓN ALOJAMIENTOS --- */}
             {circuitData.alojamientos.length > 0 && (
               <View style={styles.section}>
-                <Text style={{ ...styles.h2, borderColor: colors.secondary, color: colors.primary }}>Alojamientos</Text>
+                <Text style={{ ...styles.h2, borderColor: circuito.secondary, color: circuito.primary }}>Alojamientos</Text>
                 {circuitData.alojamientos.map(alojamiento => (
-                   <View key={alojamiento.id} style={styles.itemContainer}>
-                    <Text style={{...styles.itemTitle, color: colors.primary}}>{alojamiento.nombre} [{alojamiento.estrellas} Estrellas]</Text>
-                     <View style={styles.row}>
-                       <View style={styles.column}>
-                          <Text style={styles.itemText}><Text style={styles.itemLabel}>Localidad: </Text>{alojamiento.nombreLocalidad}</Text>
-                          <Text style={styles.itemText}><Text style={styles.itemLabel}>Dirección: </Text>{alojamiento.direccion}</Text>
-                       </View>
-                       <View style={styles.column}>
-                          <Text style={styles.itemText}><Text style={styles.itemLabel}>Teléfono: </Text>{alojamiento.telefono}</Text>
-                       </View>
-                     </View>
+                  <View key={alojamiento.id} style={styles.itemContainer}>
+                    <Text style={{ ...styles.itemTitle, color: circuito.primary }}>{alojamiento.nombre} [{alojamiento.estrellas} Estrellas]</Text>
+                    <View style={styles.row}>
+                      <View style={styles.column}>
+                        <Text style={styles.itemText}><Text style={styles.itemLabel}>Localidad: </Text>{alojamiento.nombreLocalidad}</Text>
+                        <Text style={styles.itemText}><Text style={styles.itemLabel}>Dirección: </Text>{alojamiento.direccion}</Text>
+                      </View>
+                      <View style={styles.column}>
+                        <Text style={styles.itemText}><Text style={styles.itemLabel}>Teléfono: </Text>{alojamiento.telefono}</Text>
+                      </View>
+                    </View>
                   </View>
                 ))}
               </View>
             )}
-            
+
             {/* --- SECCIÓN ACTIVIDADES (PRESTADORES) --- */}
             {circuitData.prestadores.length > 0 && (
               <View style={styles.section}>
-                <Text style={{...styles.h2, borderColor: colors.secondary, color: colors.primary}}>Actividades</Text>
+                <Text style={{ ...styles.h2, borderColor: circuito.secondary, color: circuito.primary }}>Actividades</Text>
                 {circuitData.prestadores.map(prestador => (
                   <View key={prestador.id} style={styles.itemContainer}>
-                    <Text style={{...styles.itemTitle, color: colors.primary}}>{prestador.titulo}</Text>
+                    <Text style={{ ...styles.itemTitle, color: circuito.primary }}>{prestador.titulo}</Text>
                     <Text style={styles.itemText}><Text style={styles.itemLabel}>Actividades: </Text>{prestador.actividades}</Text>
                     <Text style={styles.itemText}><Text style={styles.itemLabel}>Contacto: </Text>{prestador.telefono} / {prestador.email}</Text>
                   </View>
@@ -190,10 +215,10 @@ const ItinerarioDoc = ({ data }) => {
             {/* --- SECCIÓN GUÍAS --- */}
             {circuitData.guias.length > 0 && (
               <View style={styles.section}>
-                <Text style={{...styles.h2, borderColor: colors.secondary, color: colors.primary}}>Guías</Text>
+                <Text style={{ ...styles.h2, borderColor: circuito.secondary, color: circuito.primary }}>Guías</Text>
                 {circuitData.guias.map(guia => (
-                   <View key={guia.id} style={styles.itemContainer}>
-                    <Text style={{...styles.itemTitle, color: colors.primary}}>{guia.nombre} - {guia.tipo_registro}</Text>
+                  <View key={guia.id} style={styles.itemContainer}>
+                    <Text style={{ ...styles.itemTitle, color: circuito.primary }}>{guia.nombre} - {guia.tipo_registro}</Text>
                     <Text style={styles.itemText}><Text style={styles.itemLabel}>Zonas: </Text>{guia.zona_operacion}</Text>
                   </View>
                 ))}

@@ -8,9 +8,21 @@ import Itinerarios from '@/components/main/itinerarios'
 import Planifica from '@/components/main/planifica'
 import Rutas from '@/components/main/Rutas'
 import axios from 'axios'
+import dynamic from 'next/dynamic'
 import React, { useEffect, useState } from 'react'
 
 export default function index() {
+  /* const PDFItinerario = dynamic(
+    () => import('@/pages/PDFItinerario'),
+    {
+      ssr: false,
+      loading: () => (
+        <div className="flex items-center px-4 text-white h-full">
+          <p className="font-700 uppercase text-2xl ml-2">Cargando...</p>
+        </div>
+      )
+    }
+  ); */
   /* const [sessionData, setSessionData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -50,6 +62,9 @@ export default function index() {
       <div className='mb-0'>
         <Itinerarios></Itinerarios>
       </div>
+      {/* <div className='border'>
+        <PDFItinerario></PDFItinerario>
+      </div> */}
       {/* <div className='md:w-11/13 lg:w-11/13 w-full mx-auto md:mb-30 mb-15'>
         <Planifica></Planifica>
       </div> */}
