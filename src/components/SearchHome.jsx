@@ -1,86 +1,40 @@
-import React from 'react';
-import { ChevronDown,Search} from 'lucide-react';
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 
+const SearchHome = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const router = useRouter();
 
-export default function SearchHome({ categorias = [], localidades = [] }) {
-  const [searchHome, setSearchHome] = useState('')
-  const [categoria, setCategoria] = useState('')
-  const [localidad, setLocalidad] = useState('')
+  const handleSearch = (e) => {
+    e.preventDefault();
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    // Aquí puedes usar el router para redirigir o hacer fetch
-    console.log({ searchHome, categoria, localidad })
-  }
+    if (!searchTerm.trim()) return;
 
-  const handleClear = () => {
-    setSearchHome('')
-    setCategoria('')
-    setLocalidad('')
-  }
+    const encodedSearch = encodeURIComponent(searchTerm.trim());
+    const nextPath = `/BusquedaArticulos/?search=${encodedSearch}`;
+
+    // Evitar navegar si ya estamos en la misma URL
+    if (router.asPath !== nextPath) {
+      router.push(nextPath);
+    }
+  };
+
   return (
-    <div className="absolute w-full">
-      <div className="bg-white w-full lg:w-11/12 xl:w-11/12 2xl:w-9/12 mx-auto">
-        <form onSubmit={handleSubmit} className="mx-2">
-          <div className="flex flex-col md:flex-row items-center justify-center gap-4 py-4">
-            
-            {/* Campo de búsqueda */}
-            <div className="w-full md:w-1/2 flex items-center gap-2 border-b border-gray-300">
-              <i className="bi bi-search text-xl text-gray-600"><Search></Search></i>
-              <input
-                type="search" id="searchHome" name="searchhome"placeholder="Ej: Tafí del Valle" className="w-full outline-none"
-                value={searchHome}
-                onChange={(e) => setSearchHome(e.target.value)}
-              />
-            </div>
-
-            {/* Selects */}
-            <div className="flex flex-col md:flex-row items-stretch gap-2 w-full md:w-auto">
-              <select
-                name="categoria"
-                id="categoria"
-                className="border rounded px-3 py-2"
-                value="Categoria"
-                onChange={(e) => setCategoria(e.target.value)}
-              >
-                <option value="">Categoría</option>
-                <option value="">Todas</option>
-                {categorias.map((cat) => (
-                  <option key={cat.id} value={cat.id}>
-                    {cat.nombre}
-                  </option>
-                ))}
-              </select>
-              <select
-                name="localidad"
-                id="localidad"
-                className="border rounded px-3 py-2"
-                value="Localidad"
-                onChange={(e) => setLocalidad(e.target.value)}
-              >
-                <option value="">Localidad</option>
-                <option value="">Todas</option>
-                {localidades.map((loc) => (
-                  <option key={loc.id} value={loc.id}>
-                    {loc.nombre}
-                  </option>
-                ))}
-              </select>
-
-              {/* Botón Buscar */}
-              <button
-                type="submit"
-                className="bg-secondary text-white rounded px-4 py-2 flex items-center gap-1"
-              >
-                <i className="bi bi-search text-sm"></i>
-                Buscar
-              </button>             
-            
-            </div>
-          </div>
-        </form>
-        </div>
+    <div  className="max-w-6xl mx-auto px-4 py-8">
+    <form onSubmit={handleSearch} className="flex flex-col md:flex-row items-center justify-center gap-2">
+      <input
+        type="text"
+        placeholder="Buscar artículos..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className="border border-gray-300 px-4 py-2 rounded w-full md:w-96"
+      />
+      <button type="submit" className="bg-secondary text-white px-4 py-2 rounded">
+          Buscar
+        </button>
+    </form>
     </div>
-  )
-}
+  );
+};
+
+export default SearchHome;
