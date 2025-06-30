@@ -26,17 +26,6 @@ const Modal = ({
     const scrollContentRef = useRef();
 
     useEffect(() => {
-        if (isOpen) {
-            scrollContentRef.current?.start();
-        } else {
-            scrollContentRef.current?.stop();
-        }
-        return () => {
-            scrollContentRef.current?.stop();
-        };
-    }, [isOpen, scrollContentRef]);
-
-    useEffect(() => {
         setMounted(true);
         return () => setMounted(false);
     }, []);
@@ -134,7 +123,7 @@ const Modal = ({
                         )}
                     </div>
                 )}
-                <ReactLenis ref={scrollContentRef} options={{ lerp: 0.08, duration: 2 }} className="overflow-auto">
+                <ReactLenis options={{ lerp: 0.08, duration: 2 }} className="overflow-auto">
                     <div
                         className={`flex-grow overflow-auto ${imageUrl ? 'flex justify-center items-center' : 'md:p-4 p-2'}`}
                         style={{ cursor: imageUrl && imageScale > 100 ? 'grab' : 'default' }}

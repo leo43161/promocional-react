@@ -6,6 +6,7 @@ import { eventosService } from './services/eventosService';
 import { headerService } from './services/headerService';
 import { blogService } from './services/blogService';
 import { itinerariosService } from './services/itinerariosService';
+import { itinerarioService } from './services/itinerarioService';
 import itinerarioReducer from './features/itinerarioSlice';
 
 export const store = configureStore({
@@ -18,6 +19,7 @@ export const store = configureStore({
     [headerService.reducerPath]: headerService.reducer,
     [blogService.reducerPath]: blogService.reducer,
     [itinerariosService.reducerPath]: itinerariosService.reducer,
+    [itinerarioService.reducerPath]: itinerarioService.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
@@ -28,6 +30,7 @@ export const store = configureStore({
       headerService.middleware,
       blogService.middleware,
       itinerariosService.middleware,
+      itinerarioService.middleware,
     ),
 });
 
