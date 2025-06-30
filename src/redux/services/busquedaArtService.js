@@ -5,8 +5,8 @@ export const busquedaArtService = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: process.env.URL_SERVER }),
   endpoints: (builder) => ({
     getArticulos: builder.query({
-      // 🔧 CORREGIDO: endpoint correcto para búsqueda
-      query: ({ limit = 50, offset = 0, search = "", idioma = "ES", localidad = "" }) => ({
+      // CORREGIDO: endpoint correcto para búsqueda
+      query: ({ limit = 9999, offset = 0, search = "", idioma = "ES", localidad = "" }) => ({
         url: `buscador`,
         params: {
           busqueda: search,   // ← nombre esperado por el backend
@@ -44,14 +44,14 @@ export const busquedaArtService = createApi({
     }),
 
     getImperdibles: builder.query({
-      query: ({ idioma = "ES", limit = 50, offset = 0, search = "" }) => ({
+      query: ({ idioma = "ES", limit = 9999, offset = 0, search = "" }) => ({
         url: `imperdibles`,
         params: { idioma, limit, offset, search },
       }),
     }),
 
     getBlogs: builder.query({
-      query: ({ idioma = "ES", limit = 50, offset = 0, search = "" }) => ({
+      query: ({ idioma = "ES", limit = 9999, offset = 0, search = "" }) => ({
         url: `blog`,
         params: { idioma, limit, offset, search },
       }),

@@ -3,21 +3,26 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "sitemap": "node ./scripts/generate-sitemap.js",
+    "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "build:static": "npm run sitemap && npm run build"
   },
   "dependencies": {
+    "@next/third-parties": "^15.4.0-canary.51",
     "@reduxjs/toolkit": "^2.6.1",
     "axios": "^1.8.4",
+    "clsx": "^2.1.1",
     "lenis": "^1.2.3",
     "lucide-react": "^0.487.0",
-    "next": "14.2.13",
+    "next": "^15.3.2",
     "react": "^18",
     "react-dom": "^18",
     "react-redux": "^9.2.0",
-    "redux": "^5.0.1"
+    "redux": "^5.0.1",
+    "tailwind-merge": "^3.3.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.3",

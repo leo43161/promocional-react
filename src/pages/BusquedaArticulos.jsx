@@ -7,11 +7,8 @@ import Paginado from "@/components/common/Paginado";
 const BusquedaArticulos = () => {
   const router = useRouter();
   const searchQuery = router.query.search || "";
-  const pageQuery = parseInt(router.query.page) || 1;
-
-  const [currentPage, setCurrentPage] = useState(pageQuery);
+  const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-  const offset = (currentPage - 1) * itemsPerPage;
 
   const {
     data: articulosResponse,
@@ -20,32 +17,29 @@ const BusquedaArticulos = () => {
     refetch,
   } = useGetArticulosQuery({
     search: searchQuery,
-    limit: itemsPerPage,
-    offset,
+    //limit: maxTitems,
+    offset:0,
     idioma: "ES",
     localidad: "",
   });
-
+console.log("Artículos obtenidos:", articulosResponse?.data?.length || 0);
   useEffect(() => {
   if (searchQuery) {
     setCurrentPage(1);
-    router.push({
-      pathname: router.pathname,
-      query: { ...router.query, page: 1 },
-    });
+    refetch();
   }
 }, [searchQuery]);
 
-  const articulos = articulosResponse?.data || [];
-  const total = articulosResponse?.total || 0;
-  const totalPages = Math.ceil(total / itemsPerPage);
+const articulos = articulosResponse?.data || [];
+const total = articulos.length;
+
+const startIndex = (currentPage - 1) * itemsPerPage;
+const endIndex = startIndex + itemsPerPage;
+const currentArticulos = articulos.slice(startIndex, endIndex);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
-    router.push({
-      pathname: router.pathname,
-      query: { ...router.query, page },
-    });
+   
   };
 
   return (
@@ -64,7 +58,7 @@ const BusquedaArticulos = () => {
       )}
 
       <div className="col max-w-6xl">
-        {articulos.map((articulo) => (
+        {currentArticulos.map((articulo) => (
           <CardArticulosBusqueda key={articulo.id} articulo={articulo} />
         ))}
       </div>
