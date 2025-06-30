@@ -1,13 +1,14 @@
 import Carousel from '@/components/common/Carousel'
 import ResponsiveVideo from '@/components/common/ResponsiveVideo'
+import BlogHome from '@/components/main/BlogHome'
 import Entumesa from '@/components/main/Entumesa'
 import EventosHome from '@/components/main/EventosHome'
 import Imperdible from '@/components/main/Imperdible'
 import Planifica from '@/components/main/planifica'
-
 import React from 'react'
 
 export default function index() {
+  
   return (
     <div>
       <div className='mb-10'>
@@ -17,6 +18,9 @@ export default function index() {
         <Planifica></Planifica>
       </div>
       <div className='mb-10'>
+        <BlogHome></BlogHome>
+      </div>
+      <div className='mb-10'>
         <Entumesa></Entumesa>
       </div>
       <div className='md:w-11/13 w-full mx-auto mb-10'>
@@ -24,12 +28,11 @@ export default function index() {
         <Imperdible></Imperdible>
       </div>
       <div className='md:w-11/13 w-full mx-auto'>
-      <h1 className="text-4xl mb-7 text-center text-gray-500/70">EVENTOS DESTACADOS</h1>
+        <h1 className="text-4xl mb-7 text-center text-gray-500/70">EVENTOS DESTACADOS</h1>
         <div>
           <EventosHome></EventosHome>
         </div>
       </div>
-      
     </div>
   )
 }

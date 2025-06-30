@@ -56,12 +56,12 @@ const Footer = () => {
           </div>
           <div className="col-span-2 sm:col-span-1 sm:justify-center md:mt-5 md:p-4">
             <ul className="list-none md:list-disc mt-5">
-             <li className="mt-2">
+              <li className="mt-2">
                 <a href="" className="text-white hover:text-gray-300">
                   Circuitos Turísticos
                 </a>
               </li>
-            <li className="mt-1">
+              <li className="mt-1">
                 <a href="" className="text-white hover:text-gray-300">
                   Transporte urbano
                 </a>
@@ -71,7 +71,7 @@ const Footer = () => {
                   Sabores tucumanos
                 </a>
               </li>
-             <li className="mt-1">
+              <li className="mt-1">
                 <a href="" className="text-white hover:text-gray-300">
                   Política de Privacidad
                 </a>
@@ -106,50 +106,50 @@ const Footer = () => {
           </div>
           <div className="col-span-1 sm:col-span-1 sm:justify-center md:mt-5 md:p-2">
             <img
-              src="/svg/eatt2024blancohorizontal.svg"
+              src={process.env.URL_IMG_LOCAL + "/svg/eatt2024blancohorizontal.svg"}
               alt="Logo Gobierno Tucumán"
               className="w-60 mx-auto py-auto md:m-5 ms:m-2"
             />
             <img
-              src="/svg/logo-tuctur-w.svg"
+              src={process.env.URL_IMG_LOCAL + "/svg/logo-tuctur-w.svg"}
               alt="Logo Tucumán Turismo"
               className="w-50 mx-auto py-auto md:m-5 ms:m-2"
             />
-          </div>          
+          </div>
         </div>
-        
+
       </div>
       <div className="w-full text-center p-1">
-         <hr className="bg-white text-center"></hr>
-         <p className="text-center text-sm text-white p-2">
-            <strong>Ente Autárquico Tucumán Turismo - 2024 |</strong>
-            <a href="https://www.google.com/maps/place/Ente+Tucum%C3%A1n+Turismo/@-26.8311125,-65.2109502,16z/data=!4m10!1m2!2m1!1stucuman+turismo!3m6!1s0x94225c10470c56c9:0x7016910ca98c12c1!8m2!3d-26.8311131!4d-65.2045773!15sCg90dWN1bWFuIHR1cmlzbW9aESIPdHVjdW1hbiB0dXJpc21vkgEadG91cmlzdF9pbmZvcm1hdGlvbl9jZW50ZXKaASRDaGREU1VoTk1HOW5TMFZKUTBGblNVUlBhV1l0VW1wUlJSQULgAQA!16s%2Fg%2F1tzvxnh6?entry=ttu" className="text-white">24 de Septiembre 484</a> | C.P. 4000
-             San Miguel de Tucumán - Argentina | Tel:
-            <a href="tel:+543814303644" className="">+54 (0381)4303644</a>
-             -
-            <a href="tel:+543814222199" className="">+54 (0381)4222199</a>
-            | Email:
-            <a href="mailto:informes@tucumanturismo.gob.ar" className="text-decoration-none" >informes@tucumanturismo.gob.ar </a>
-          </p>
-          
-          <div className="text-center text-white text-xs p-2">
+        <hr className="bg-white text-center"></hr>
+        <p className="text-center text-sm text-white p-2">
+          <strong>Ente Autárquico Tucumán Turismo - 2024 | </strong>
+          <a href="https://www.google.com/maps/place/Ente+Tucum%C3%A1n+Turismo/@-26.8311125,-65.2109502,16z/data=!4m10!1m2!2m1!1stucuman+turismo!3m6!1s0x94225c10470c56c9:0x7016910ca98c12c1!8m2!3d-26.8311131!4d-65.2045773!15sCg90dWN1bWFuIHR1cmlzbW9aESIPdHVjdW1hbiB0dXJpc21vkgEadG91cmlzdF9pbmZvcm1hdGlvbl9jZW50ZXKaASRDaGREU1VoTk1HOW5TMFZKUTBGblNVUlBhV1l0VW1wUlJSQULgAQA!16s%2Fg%2F1tzvxnh6?entry=ttu" className="text-white">24 de Septiembre 484</a> | C.P. 4000
+          San Miguel de Tucumán - Argentina | Tel:
+          <a href="tel:+543814303644" className="">+54 (0381)4303644</a>
+          -
+          <a href="tel:+543814222199" className="">+54 (0381)4222199</a>
+          | Email:
+          <a href="mailto:informes@tucumanturismo.gob.ar" className="text-decoration-none" >informes@tucumanturismo.gob.ar </a>
+        </p>
+
+        <div className="text-center text-white text-xs p-2">
           <p>Desarrollado por Dpto. Informatica EATT 2024</p>
         </div>
+      </div>
+      {/* <div className="fixed bottom-0 left-0 right-0 bg-gray-100 p-4 flex flex-col md:flex-row justify-between items-center border-t border-gray-400 z-50 w-screen">
+        <div className="text-center text-black mb-2 md:mb-0 text-sm">
+          <p className="m-0">
+            Para ofrecerte una mejor experiencia, este sitio utiliza cookies. Al continuar navegando, aceptas nuestra{' '}
+            <a href="/privacidad" className="text-blue-600 underline">política de privacidad</a>.
+          </p>
         </div>
-        <div className="fixed bottom-0 left-0 right-0 bg-gray-100 p-4 flex flex-col md:flex-row justify-between items-center border-t border-gray-400 z-50 w-screen">
-      <div className="text-center text-black mb-2 md:mb-0 text-sm">
-        <p className="m-0">
-          Para ofrecerte una mejor experiencia, este sitio utiliza cookies. Al continuar navegando, aceptas nuestra{' '}
-          <a href="/privacidad" className="text-blue-600 underline">política de privacidad</a>.
-        </p>
-      </div>
-      <div className="flex gap-3">
-        <button className="bg-primary text-white px-4 py-2 rounded-lg text-sm"
-        >Aceptar</button>
-        <button className="bg-primary text-white px-4 py-2 rounded-lg text-sm"
-        >Rechazar</button>
-      </div>
-    </div>
+        <div className="flex gap-3">
+          <button className="bg-primary text-white px-4 py-2 rounded-lg text-sm"
+          >Aceptar</button>
+          <button className="bg-primary text-white px-4 py-2 rounded-lg text-sm"
+          >Rechazar</button>
+        </div>
+      </div> */}
 
     </div>
   );

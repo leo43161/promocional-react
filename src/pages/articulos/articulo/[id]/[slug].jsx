@@ -1,32 +1,30 @@
 // pages/articulos/articulo/[id]/[slug].js
-import React from 'react'; // No necesitamos useEffect aquí ahora
-// import { useRouter } from 'next/router'; // Ya no lo necesitamos para el ID inicial, pero puede ser útil DENTRO del componente si necesitas los params
+import React from 'react';
 import Head from 'next/head';
+import { useRouter } from 'next/router'; // Importa useRouter
 
 // Importa tu función para generar slugs
-import { generateSlug } from '@/utils'; // Asegúrate que la ruta sea correcta
+import { generateSlug } from '@/utils'; // Asegúrate que la ruta sea correcta/[slug].jsx]
 
 // Importa tus componentes visuales
-import ParallaxContainer from '@/components/common/ParallaxContainer';
-import Breadcrumb from '@/components/common/Breadcrumb';
-import ImageGallery from '@/components/articulos/ImageGallery';
-import ImperdiblesCard from '@/components/articulos/ImperdiblesCard';
+import ParallaxContainer from '@/components/common/ParallaxContainer'; ///[slug].jsx]
+import Breadcrumb from '@/components/common/Breadcrumb'; ///[slug].jsx]
+import ImageGallery from '@/components/articulos/ImageGallery'; ///[slug].jsx]
+// import ImperdiblesCard from '@/components/articulos/ImperdiblesCard'; // Comentado si no se usa directamente en esta página
 
-// --- getStaticPaths (del primer bloque de código, sin cambios funcionales) ---
+// --- getStaticPaths ---
 export async function getStaticPaths() {
     // 1. Obtener la lista de TODOS los artículos desde tu API
     const apiBaseUrl = process.env.URL_SERVER || 'URL_POR_DEFECTO_DE_TU_API';
     let articles = [];
     try {
-        const res = await fetch(`${apiBaseUrl}/articulos`); // Ajusta el endpoint si es necesario
+        const res = await fetch(`${apiBaseUrl}/articulos`);
         if (!res.ok) throw new Error(`API Error fetching list: ${res.status}`);
         const data = await res.json();
-        // --- NOTA: La línea de slice era para pruebas, quítala para producción ---
-        /* data.result = data.result.slice(0, 5); */
         articles = data.result || [];
     } catch (error) {
         console.error("Error fetching article list for getStaticPaths:", error);
-        return { paths: [], fallback: false };
+        return { paths: [], fallback: false };//
     }
 
     // 2. Generar los 'paths'
@@ -49,20 +47,20 @@ export async function getStaticPaths() {
     })
         .filter(path => path !== null);
 
-    // 3. Devolver los paths
     return { paths, fallback: false };
 }
 
-// --- getStaticProps (del primer bloque de código, sin cambios funcionales) ---
+// --- getStaticProps ---
 export async function getStaticProps(context) {
     const { id, slug } = context.params;
     const apiBaseUrl = process.env.URL_SERVER || 'URL_POR_DEFECTO_DE_TU_API';
     const imageBaseUrl = process.env.URL_IMG || '';
     const pdfBaseUrl = process.env.URL_PDF || '';
+    const siteBaseUrl = process.env.URL_LOCAL || 'https://www.tucumanturismo.gob.ar'; // Asume un valor por defecto si no está
 
     try {
         const [articuloRes, galeriaRes, pdfsRes] = await Promise.all([
-            fetch(`${apiBaseUrl}articulos_id/${id}`),
+            fetch(`${apiBaseUrl}articulo/${id}`),
             fetch(`${apiBaseUrl}galeria_art/${id}`),
             fetch(`${apiBaseUrl}pdfs_art/${id}`)
         ]);
@@ -78,12 +76,10 @@ export async function getStaticProps(context) {
 
         const articulo = articuloData?.result;
 
-        // Validación de Slug
         const expectedSlug = generateSlug(articulo?.nombre || '') || 'sin-titulo';
         if (slug !== expectedSlug) {
             console.warn(`Slug mismatch for ID ${id}. URL slug: "${slug}", Expected slug: "${expectedSlug}". Returning 404.`);
             return { notFound: true };
-            // Considerar redirección si es necesario en el futuro
         }
 
         const galeriaItemsRaw = galeriaData?.result || [];
@@ -100,18 +96,62 @@ export async function getStaticProps(context) {
         }));
 
         const parallaxImageUrl = articulo?.imagen ? `${imageBaseUrl}${articulo.imagen}` : undefined;
+        const defaultOgImage = "https://www.tucumanturismo.gob.ar/public/icons/main/logotuc.png"; // Imagen por defecto para OG
 
-        // Devolver los datos como props
+        // Construcción del pageMeta
+        const pageMeta = {
+            title: `${articulo?.nombre || 'Artículo'} - Tucumán Turismo`,
+            description: articulo?.copete || `Descubre más sobre ${articulo?.nombre || 'este destino'} en Tucumán. Información turística oficial.`,
+            keywords: `Tucumán, turismo, ${articulo?.nombre || ''}, ${articulo?.nomSubseccion || ''}, ${articulo?.localidad || ''}, Argentina`,
+            ogType: 'article',
+            ogTitle: `${articulo?.nombre || 'Artículo'} - Tucumán Turismo`,
+            ogDescription: articulo?.copete || `Descubre más sobre ${articulo?.nombre || 'este destino'} en Tucumán.`,
+            ogImage: parallaxImageUrl || defaultOgImage,
+            ogUrl: `${siteBaseUrl}/articulos/articulo/${id}/${slug}`, // URL Canónica para OG
+            twitterCard: "summary_large_image",
+            twitterTitle: `${articulo?.nombre || 'Artículo'} - Tucumán Turismo`,
+            twitterDescription: articulo?.copete || `Descubre más sobre ${articulo?.nombre || 'este destino'} en Tucumán.`,
+            twitterImage: parallaxImageUrl || "https://www.tucumanturismo.gob.ar/public/icons/tucturwide.png", // Imagen específica para Twitter si es diferente
+        };
+         // Schema.org para Artículo
+         const articleSchema = {
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": `${siteBaseUrl}/articulos/articulo/${id}/${slug}`
+            },
+            "headline": articulo?.nombre || "Artículo sobre Tucumán",
+            "image": parallaxImageUrl || defaultOgImage,
+            "datePublished": articulo?.fecha_alta || new Date().toISOString(), // Asume que tienes una fecha de publicación, sino usa la actual
+            "dateModified": articulo?.fecha_mod || articulo?.fecha_alta || new Date().toISOString(), // Asume fecha de modificación o publicación
+            "author": {
+                "@type": "Organization",
+                "name": "Ente Autárquico Tucumán Turismo"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "Ente Autárquico Tucumán Turismo",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://www.tucumanturismo.gob.ar/public/icons/main/logotuc.png"
+                }
+            },
+            "description": articulo?.copete || `Descubre más sobre ${articulo?.nombre || 'este destino'} en Tucumán.`,
+            "articleBody": articulo?.cuerpo ? articulo.cuerpo.replace(/<[^>]*>?/gm, '').substring(0, 500) + "..." : "Contenido detallado del artículo." // Extrae texto plano para articleBody
+        };
+
+
         return {
             props: {
-                // Pasamos los datos necesarios al componente
-                articulo, // El objeto completo del artículo
+                articulo,
                 galleryItems: galleryItemsForComponent,
                 pdfItems: pdfsForComponent,
                 parallaxImageUrl,
-                // Pasamos id y slug también por si se necesitan directamente en el componente (ej: para links)
                 id,
                 slug,
+                pageMeta, // Pasar pageMeta a la página
+                articleSchema, // Pasar el schema del artículo
             },
         };
 
@@ -121,48 +161,88 @@ export async function getStaticProps(context) {
     }
 }
 
-// --- Componente Principal (Basado en el segundo bloque, adaptado para usar props) ---
-// Renombramos a ArticuloPage para claridad
-export default function ArticuloPage({ articulo, galleryItems, pdfItems, parallaxImageUrl, id, slug }) {
+// --- Componente Principal ---
+export default function ArticuloPage({ articulo, galleryItems, pdfItems, parallaxImageUrl, id, slug, pageMeta, articleSchema }) {
+    const router = useRouter(); // Necesario para la URL canónica y hreflang si se implementa aquí
 
     if (!articulo) {
+        // Esta comprobación es más para robustez, getStaticProps debería devolver notFound: true
         return <div className="container mx-auto p-5 text-center">Artículo no disponible.</div>;
     }
 
-    // --- Construcción del Breadcrumb usando los props ---
-    // Necesitamos la base de la URL de las imágenes y PDFs si no vienen completas
-    const imageBaseUrl = process.env.URL_IMG || ''; // Usa NEXT_PUBLIC_ si la necesitas en el cliente también
-    const pdfBaseUrl = process.env.URL_PDF || '';
+    const imageBaseUrl = process.env.URL_IMG || '';
+    const siteBaseUrl = process.env.URL_LOCAL || 'https://www.tucumanturismo.gob.ar';
 
     const breadcrumbItems = [
-        // Muestra la subsección si existe en el objeto 'articulo'
-        ...(articulo?.nomSubseccion ? [{ label: articulo.nomSubseccion, href: `/seccion/${articulo.idSubseccion}` }] : []), // Ajusta el href según tu routing real
-        // Muestra el nombre del artículo actual (usando el slug y el id pasados como props)
-        { label: articulo.nombre || "Detalle", href: `/articulos/articulo/${id}/${slug}` }
+        ...(articulo?.nomSubseccion ? [{ label: articulo.nomSubseccion, href: `${siteBaseUrl}/subsecciones/lista/${articulo.idSubseccion}/${generateSlug(articulo.nomSubseccion)}` }] : []), ///[slug].jsx]
+        { label: articulo.nombre || "Detalle", href: `${siteBaseUrl}/articulos/articulo/${id}/${slug}` } ///[slug].jsx]
     ];
+    
+    // Definir la URL canónica completa
+    const canonicalUrl = `${siteBaseUrl}${router.asPath.split("?")[0]}`;
 
 
-    // --- Renderizado Principal (Usando directamente las props) ---
     return (
-        <div> {/* Contenedor principal */}
+        <div>
             <Head>
-                {/* Título: Usa 'nombre' del prop articulo */}
-                <title>{articulo?.nombre || 'Detalle del Artículo'}</title>
-                {/* Descripción: Usa 'copete' del prop articulo */}
-                {articulo?.copete && <meta name="description" content={articulo.copete} />}
-                {/* Puedes añadir más meta tags específicos aquí */}
+                <title>{pageMeta?.title || `${articulo?.nombre || 'Detalle del Artículo'} - Tucumán Turismo`}</title>
+                <meta name="description" content={pageMeta?.description || articulo?.copete} />
+                {pageMeta?.keywords && <meta name="keywords" content={pageMeta.keywords} />}
+
+                <link rel="canonical" href={canonicalUrl} />
+
+                {/* Open Graph */}
+                <meta property="og:type" content={pageMeta?.ogType || "article"} />
+                <meta property="og:title" content={pageMeta?.ogTitle || pageMeta?.title} />
+                <meta property="og:description" content={pageMeta?.ogDescription || pageMeta?.description} />
+                <meta property="og:url" content={pageMeta?.ogUrl || canonicalUrl} />
+                <meta property="og:image" content={pageMeta?.ogImage || (parallaxImageUrl || "https://www.tucumanturismo.gob.ar/public/icons/main/logotuc.png")} />
+                <meta property="og:site_name" content={pageMeta?.ogSiteName || "Tucumán Turismo"} />
+                
+                {/* Twitter Card */}
+                <meta name="twitter:card" content={pageMeta?.twitterCard || "summary_large_image"} />
+                <meta name="twitter:site" content="@TucumanTurismo" />
+                <meta name="twitter:creator" content="@TucumanTurismo" />
+                <meta name="twitter:title" content={pageMeta?.twitterTitle || pageMeta?.title} />
+                <meta name="twitter:description" content={pageMeta?.twitterDescription || pageMeta?.description} />
+                <meta name="twitter:image" content={pageMeta?.twitterImage || (parallaxImageUrl || "https://www.tucumanturismo.gob.ar/public/icons/tucturwide.png")} />
+
+                {/* Hreflang tags (Ejemplo básico, ajustar según tu estructura de idiomas) */}
+                {/* Asumiendo que 'articulo.idioma' te da el código de idioma (ej: 'es', 'en')
+                    y que tienes URLs distintas para cada idioma. */}
+                {articulo?.idioma === 1 && ( // Español
+                    <>
+                        <link rel="alternate" hrefLang="es" href={`${siteBaseUrl}/articulos/articulo/${id}/${slug}`} />
+                        <link rel="alternate" hrefLang="en" href={`${siteBaseUrl}/articulos/articulo/${id}/${slug}?lang=EN`} /> {/* O tu estructura para inglés */}
+                        <link rel="alternate" hrefLang="x-default" href={`${siteBaseUrl}/articulos/articulo/${id}/${slug}`} />
+                    </>
+                )}
+                 {articulo?.idioma === 2 && ( // Inglés
+                    <>
+                        <link rel="alternate" hrefLang="en" href={`${siteBaseUrl}/articulos/articulo/${id}/${slug}?lang=EN`} />
+                        <link rel="alternate" hrefLang="es" href={`${siteBaseUrl}/articulos/articulo/${id}/${slug}`} /> {/* O tu estructura para español */}
+                        <link rel="alternate" hrefLang="x-default" href={`${siteBaseUrl}/articulos/articulo/${id}/${slug}?lang=EN`} />
+                    </>
+                )}
+
+
+                {/* Schema.org JSON-LD */}
+                {articleSchema && (
+                    <script
+                        type="application/ld+json"
+                        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+                    />
+                )}
             </Head>
 
-            {/* --- Parallax --- */}
             <ParallaxContainer
                 speed={0.2}
                 minHeight="h-96 md:h-[58vh]"
-                className="bg-gray-400" // Color de fondo si no hay imagen
-                imageUrl={parallaxImageUrl} // Usa el prop directamente
+                className="bg-gray-400"
+                imageUrl={parallaxImageUrl}
             >
                 <div className="container mx-auto h-full text-white flex flex-col justify-end">
                     <div className='w-11/12 mx-auto pt-5 py-4'>
-                        {/* Título dentro del Parallax: Usa 'nombre' del prop articulo */}
                         <h2 className="text-4xl md:text-5xl font-bold mb-6">
                             {articulo?.nombre || 'Título no disponible'}
                         </h2>
@@ -170,56 +250,39 @@ export default function ArticuloPage({ articulo, galleryItems, pdfItems, paralla
                 </div>
             </ParallaxContainer>
 
-            {/* --- Breadcrumb y Contenido Principal --- */}
             <div className='w-11/12 mx-auto pt-5 lg:mb-10'>
                 <div className='mb-5'>
-                    {/* Breadcrumb Dinámico */}
                     <Breadcrumb items={breadcrumbItems} />
                 </div>
             </div>
 
             <div className='lg:mb-10 lg:w-12/14 w-full mx-auto flex px-2 flex-wrap flex-col lg:flex-row'>
-                {/* --- Columna Izquierda (Contenido Principal) --- */}
-                {/* Ajusta el width basado en si hay PDFs (usando pdfItems de props) */}
                 <div className={`${pdfItems?.length > 0 ? 'lg:w-8/11' : 'w-full'} w-full mb-6 lg:mb-4 lg:pr-4 order-2 lg:order-1`}>
-                    {/* Título Principal del Artículo: Usa 'nombre' del prop articulo */}
                     <h1 className='text-3xl font-bold mb-6'>{articulo?.nombre || 'Artículo sin título'}</h1>
-
-                    {/* Copete: Usa 'copete' del prop articulo */}
                     {articulo?.copete && (
                         <div className='w-full px-2 mb-3'>
                             <p className='text-lg font-semibold'>{articulo.copete}</p>
                         </div>
                     )}
-
-                    {/* Galería de Imágenes: Usa 'galleryItems' de props */}
-                    {/* isLoading es siempre false aquí porque la página es estática */}
                     <ImageGallery
                         isLoading={false}
                         items={galleryItems}
                     />
-
-                    {/* Cuerpo del Artículo: Usa 'cuerpo' del prop articulo */}
                     <div className={`prose prose-slate max-w-none w-full px-4 mt-3 mb-4 ${pdfItems?.length === 0 ? 'md:w-8/11 md:mt-3' : ''}`}>
-                        {/* Renderiza el HTML del campo 'cuerpo' */}
                         {articulo?.cuerpo ? (
                             <div dangerouslySetInnerHTML={{ __html: articulo.cuerpo }} />
                         ) : (
                             <p>Contenido no disponible.</p>
                         )}
                     </div>
-
-                    {/* Imagen Texto: Usa 'imagenTexto' del prop articulo */}
                     {articulo?.imagenTexto && (
                         <div className={`w-full mb-6 p-3 md:p-5 md:h-[100vh] ${pdfItems?.length === 0 ? 'md:w-8/11' : ''}`}>
                             <img
-                                // Construye la URL completa si es necesario
-                                src={imageBaseUrl + articulo.imagenTexto}
+                                src={imageBaseUrl + articulo.imagenTexto} ///[slug].jsx]
                                 alt={articulo.pieImagen || articulo.nombre}
                                 className='object-cover md:object-contain rounded'
-                                loading="lazy" // Buena idea añadir lazy loading
+                                loading="lazy"
                             />
-                            {/* Pie de Imagen: Usa 'pieImagen' del prop articulo */}
                             {articulo.pieImagen && (
                                 <p className='text-sm text-gray-600 mt-2 italic'>{articulo.pieImagen}</p>
                             )}
@@ -227,25 +290,21 @@ export default function ArticuloPage({ articulo, galleryItems, pdfItems, paralla
                     )}
                 </div>
 
-                {/* --- Columna Derecha (Descargas, Imperdibles) --- */}
-                {/* Mostramos solo si hay PDFs (usando pdfItems de props) */}
-                {pdfItems.length > 0 && (
+                {pdfItems && pdfItems.length > 0 && (
                     <div className='lg:w-3/11 w-full lg:ps-4 order-1 lg:order-2'>
-                        {/* Sección "Para Descargar": Usa 'pdfItems' de props */}
                         <div className='mb-6'>
                             <h2 className='text-xl font-bold mb-3'>Para Descargar</h2>
-                            <div className='flex flex-col gap-3  px-2 md:px-0'>
+                            <div className='flex flex-col gap-3 px-2 md:px-0'>
                                 {pdfItems.map((file, index) => (
                                     <a key={index}
                                         className="w-full flex items-center gap-3 px-4 py-2 border border-gray-200 rounded hover:bg-gray-100 transition-colors"
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        href={file.url} // Ya viene completa desde getStaticProps
+                                        href={file.url}
                                         aria-label={`Descargar ${file.nombre}`}
                                     >
                                         <div className="w-1/10 flex-shrink-0">
-                                            {/* Considera poner este icono en /public o usar un componente Icon */}
-                                            <img src={process.env.URL_IMG_LOCAL + "/icons/pdf-1.svg"} className="w-full h-auto" alt="Icono de archivo" />
+                                            <img src={`${process.env.URL_IMG_LOCAL || ''}/icons/pdf-1.svg`} className="w-full h-auto" alt="Icono de archivo PDF" />
                                         </div>
                                         <div className="flex-1 overflow-hidden">
                                             <p className="m-0 text-sm text-gray-600">Hacé click para descargar</p>
@@ -255,11 +314,7 @@ export default function ArticuloPage({ articulo, galleryItems, pdfItems, paralla
                                 ))}
                             </div>
                         </div>
-
-                        {/* Sección "Imperdibles" (Mantenida estática como en tu ejemplo) */}
-                        {/* <div className='hidden'> ... </div> */}
-                        {/* Si necesitas que "Imperdibles" sea dinámico, tendrías que pasarlo también desde getStaticProps */}
-
+                        {/* Aquí podrías añadir la sección de "Imperdibles" si fuera dinámica y pasada por props */}
                     </div>
                 )}
             </div>

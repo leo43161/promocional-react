@@ -11,7 +11,7 @@ export default function Alojamientos() {
     // Estado para controlar la paginación y búsqueda
     const [filter, setFilter] = useState({ search: '', categoria: "", estrellas: "", localidad: "" });
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 12;
+    const itemsPerPage = 1;
 
     // Calcular el offset basado en la página actual
     const offset = (currentPage - 1) * itemsPerPage;
@@ -34,16 +34,12 @@ export default function Alojamientos() {
 
     // Resetear la página cuando cambia el término de búsqueda
     useEffect(() => {
-        console.log("filter:", filter);
         setCurrentPage(1);
     }, [filter]);
 
-    console.log("isLoading:", isLoading, "isFetching:", isFetching);
-    console.log(alojamientos)
-    console.log(error)
     if (error) return <p>Hubo un error al cargar los alojamientos</p>;
 
-    const totalItems = parseInt(alojamientos?.all) || 0;
+    const totalItems = alojamientos?.result[0]?.total ? parseInt(alojamientos?.result[0]?.total) : 0;
     // Determinar si estamos en un estado de carga (inicial o actualización)
     const loading = isLoading || isFetching;
     return (
@@ -53,11 +49,12 @@ export default function Alojamientos() {
                     speed={0.2}
                     minHeight="h-96 md:h-[58vh]"
                     className=""
+                    imageUrl='https://www.tucumanturismo.gob.ar/public/img/planviaje/1920x650-HOTEL-Desktop.jpg'
                 >
                     <div className="container mx-auto h-full text-white flex flex-col justify-end">
                         <div className='w-11/12 mx-auto pt-5'>
                             <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                                Segunda Sección
+                                Alojamientos
                             </h2>
                         </div>
                     </div>
@@ -76,7 +73,7 @@ export default function Alojamientos() {
                         <Filters filter={filter} setFilter={setFilter} />
                     </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-7">
+                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-7 pb-6">
                     {loading ? (
                         // Mostrar skeletons mientras se están cargando datos
                         Array(itemsPerPage).fill(0).map((_, index) => (
@@ -95,12 +92,13 @@ export default function Alojamientos() {
                 </div>
 
                 {/* Componente de paginación */}
-                <Paginado
-                    currentPage={currentPage}
-                    totalItems={totalItems}
-                    itemsPerPage={itemsPerPage}
-                    onPageChange={handlePageChange}
-                />
+                    <Paginado
+                        currentPage={currentPage}
+                        totalItems={totalItems}
+                        itemsPerPage={itemsPerPage}
+                        onPageChange={handlePageChange}
+                        className={'pb-5'}
+                    />
             </div>
         </div>
     );

@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useGetPrestadoresQuery } from '@/redux/services/prestadoresService';
 import ParallaxContainer from '@/components/common/ParallaxContainer';
-import CardPrestadores from '@/components/prestadores/CardPrestadores';
 import Breadcrumb from '@/components/common/Breadcrumb';
-import Buscador from '@/components/SearchPrest';
+import Filters from '@/components/eventos/Filters';
+import { useGetEventosQuery } from '@/redux/services/eventosService';
+import CardEvento from '@/components/eventos/CardEvento';
 import Paginado from '@/components/common/Paginado';
 
-export default function Prestadores() {
+export default function Eventos() {
     // Estado para controlar la paginación y búsqueda
-    const [searchTerm, setSearchTerm] = useState('');
+    const [filter, setFilter] = useState({ search: '', dia: "", fechaIni: "", fechaFin: "" });
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 12;
 
@@ -16,10 +16,13 @@ export default function Prestadores() {
     const offset = (currentPage - 1) * itemsPerPage;
 
     // Consulta con RTK Query
-    const { data: prestadores, error, isLoading, refetch, isFetching } = useGetPrestadoresQuery({
+    const { data: eventos, error, isLoading, refetch, isFetching } = useGetEventosQuery({
         limit: itemsPerPage,
         offset: offset,
-        search: searchTerm
+        search: filter.search,
+        dia: filter.dia,
+        fechaIni: filter.fechaIni,
+        fechaFin: filter.fechaFin
     });
 
     // Manejar cambio de página
@@ -28,21 +31,13 @@ export default function Prestadores() {
         refetch();
     };
 
-    // Manejar búsqueda
-    const handleSearch = (term) => {
-        setSearchTerm(term);
-        setCurrentPage(1); // Resetear a la primera página cuando se busca
-        refetch();
-    };
-
     // Resetear la página cuando cambia el término de búsqueda
     useEffect(() => {
         setCurrentPage(1);
-    }, [searchTerm]);
+    }, [filter]);
 
-    console.log("isLoading:", isLoading, "isFetching:", isFetching);
-    if (error) return <p>Hubo un error al cargar los prestadores</p>;
-    const totalItems = prestadores?.result[0]?.total ? parseInt(prestadores?.result[0]?.total) : 0;
+    if (error) return <p>Hubo un error al cargar los eventos</p>;
+    const totalItems = parseInt(eventos?.total) || 0;
     // Determinar si estamos en un estado de carga (inicial o actualización)
     const loading = isLoading || isFetching;
     return (
@@ -52,12 +47,12 @@ export default function Prestadores() {
                     speed={0.2}
                     minHeight="h-96 md:h-[58vh]"
                     className=""
-                    imageUrl='https://www.tucumanturismo.gob.ar/public/img/planviaje/activos.webp'
+                    imageUrl='https://www.tucumanturismo.gob.ar/public/img/planviaje/1920x650-HOTEL-Desktop.jpg'
                 >
                     <div className="container mx-auto h-full text-white flex flex-col justify-end">
                         <div className='w-11/12 mx-auto pt-5'>
                             <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                                Servicios Turismo Aventura
+                                Eventos
                             </h2>
                         </div>
                     </div>
@@ -66,44 +61,39 @@ export default function Prestadores() {
             <div className='w-11/12 mx-auto pt-5'>
                 <div className='mb-5'>
                     <Breadcrumb items={
-                        [{ label: "Prestadores activos", href: '/prestadores' }]
+                        [{ label: "Alojamientos", href: '/eventos' }]
                     }></Breadcrumb>
                 </div>
-                <h2 className="text-2xl font-bold mb-4">Prestadores de Turismo Aventura Habilitados</h2>
+                <h2 className="text-2xl font-bold mb-4">Buscá aquí donde hospedarte</h2>
                 <div>
-                    <h1 className='text-center text-3xl font-bold mb-6'>Buscá aquí que actividad querés hacer</h1>
-                    <div>
+                    <div className='w-10/12 mx-auto'>
                         {/* Componente de búsqueda */}
-                        <Buscador onSearch={handleSearch} />
+                        <Filters filter={filter} setFilter={setFilter} />
                     </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-5">
+                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-12 mb-5 w-10/11 mx-auto">
                     {loading ? (
                         // Mostrar skeletons mientras se están cargando datos
                         Array(itemsPerPage).fill(0).map((_, index) => (
                             <div key={`skeleton-${index}`}>
-                                <CardPrestadores isLoading={true} />
+                                <CardEvento isLoading={true} />
                             </div>
                         ))
                     ) : (
                         // Mostrar datos reales cuando no está cargando
-                        prestadores.result?.map((prestador) => (
-                            <div key={prestador.id}>
-                                <CardPrestadores isLoading={false} prestador={prestador} />
-                            </div>
+                        eventos.result?.map((evento) => (
+                            <a href={`${process.env.URL_LOCAL}/eventos/evento?id=${evento.id}`} key={evento.id}>
+                                <CardEvento evento={evento} />
+                            </a>
                         ))
                     )}
                 </div>
-
-                {/* Componente de paginación */}
-                <div className='pb-2'>
-                    <Paginado
-                        currentPage={currentPage}
-                        totalItems={totalItems}
-                        itemsPerPage={itemsPerPage}
-                        onPageChange={handlePageChange}
-                    />
-                </div>
+                <Paginado
+                    currentPage={currentPage}
+                    totalItems={totalItems}
+                    itemsPerPage={itemsPerPage}
+                    onPageChange={handlePageChange}
+                ></Paginado>
             </div>
         </div>
     );

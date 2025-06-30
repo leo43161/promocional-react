@@ -1,6 +1,9 @@
 @import 'tailwindcss';
+/* @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap'); */
 
 @theme {
+  --font-family: "Montserrat", sans-serif;
+  --font-sans: var(--font-family);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);
@@ -8,7 +11,6 @@
   --color-tertiary: var(--tertiary);
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
 /*
   The default border color has changed to `currentcolor` in Tailwind CSS v4,
@@ -36,7 +38,7 @@
 @layer utilities {
   :root {
     --text: #444242;
-    --background: #ffffff;
+    --background: #ededed;
     --foreground: #171717;
     --primary: #e9721f;
     --secondary: #006e66;
@@ -53,7 +55,6 @@
   body {
     color: var(--text);
     background: var(--background);
-    font-family: Arial, Helvetica, sans-serif;
     font-family: "Montserrat", sans-serif;
     font-optical-sizing: auto;
   }

@@ -60,10 +60,10 @@ export default function Entumesa() {
                     </div>
                 </div>
                 <div className='flex-1 h-full flex items-center justify-center order-1 md:order-2'>
-                    <div 
+                    <div
                         className='w-9/12'
                     >
-                        <img src="/svg/main/entumesa.svg" className='h-auto w-full drop-shadow-xl' alt="" />
+                        <img src={process.env.URL_IMG_LOCAL + "/svg/main/entumesa.svg"} className='h-auto w-full drop-shadow-xl' alt="" />
                     </div>
                 </div>
             </div>

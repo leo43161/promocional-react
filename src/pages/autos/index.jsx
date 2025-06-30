@@ -1,16 +1,16 @@
 import React from 'react';
-import { useGetAgenciasQuery } from '@/redux/services/prestadoresService';
+import { useGetAutosQuery } from '@/redux/services/prestadoresService';
 import ParallaxContainer from '@/components/common/ParallaxContainer';
-import CardAgencias from '@/components/prestadores/CardAgencias';
+import CardAutos from '@/components/prestadores/CardAutos';
 import Breadcrumb from '@/components/common/Breadcrumb';
 import Buscador from '@/components/SearchPrest';
 
-export default function Prestadores() {
+export default function Autos() {
     // Estado para controlar la paginación y búsqueda
     const itemsPerPage = 12;
 
     // Consulta con RTK Query
-    const { data: guias, error, isLoading, isFetching } = useGetAgenciasQuery();
+    const { data: guias, error, isLoading, isFetching } = useGetAutosQuery();
 
     console.log("isLoading:", isLoading, "isFetching:", isFetching);
     if (error) return <p>Hubo un error al cargar los guias</p>;
@@ -24,12 +24,12 @@ export default function Prestadores() {
                     speed={0.2}
                     minHeight="h-96 md:h-[58vh]"
                     className=""
-                    imageUrl='https://www.tucumanturismo.gob.ar/public/img/planviaje/agencias.webp'
+                    imageUrl='https://www.tucumanturismo.gob.ar/public/img/planviaje/alquilerautos.webp'
                 >
                     <div className="container mx-auto h-full text-white flex flex-col justify-end">
                         <div className='w-11/12 mx-auto pt-5'>
                             <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                                Agencias de viaje
+                                Autos
                             </h2>
                         </div>
                     </div>
@@ -41,23 +41,22 @@ export default function Prestadores() {
                         [{ label: "Prestadores activos", href: '/guias' }]
                     }></Breadcrumb>
                 </div>
-                <h2 className="text-2xl font-bold mb-4">Prestadores de Turismo Aventura Habilitados</h2>
                 <div>
-                    <h1 className='text-center text-3xl font-bold mb-6'>Buscá aquí que actividad querés hacer</h1>
+                    <h1 className='text-center text-3xl font-bold mb-8 '>Conocé donde organizar tu viaje a Tucumán</h1>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-10/11 mx-auto mb-4">
                     {loading ? (
                         // Mostrar skeletons mientras se están cargando datos
                         Array(itemsPerPage).fill(0).map((_, index) => (
                             <div key={`skeleton-${index}`}>
-                                <CardAgencias isLoading={true} />
+                                <CardAutos isLoading={true} />
                             </div>
                         ))
                     ) : (
                         // Mostrar datos reales cuando no está cargando
                         guias.result?.map((prestador) => (
                             <div key={prestador.id}>
-                                <CardAgencias isLoading={false} prestador={prestador} />
+                                <CardAutos isLoading={false} prestador={prestador} />
                             </div>
                         ))
                     )}

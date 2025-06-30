@@ -25,7 +25,7 @@ const GallerySkeleton = () => (
             {/* Thumbnails Skeleton */}
             <div className="flex flex-row md:flex-col gap-3 md:gap-4 md:w-1/7 pb-2 md:pb-0">
                 {/* Renderiza 5 skeletons de miniaturas por defecto */}
-                {Array.from({ length: 5 }).map((_, index) => (
+                {Array.from({ length: 4 }).map((_, index) => (
                     <div
                         key={index}
                         className="relative h-20 md:w-full md:h-auto md:aspect-square flex-1 bg-gray-300 rounded-md"
@@ -40,7 +40,6 @@ const GallerySkeleton = () => (
 // Añadimos isLoading a las props, con valor por defecto false
 export default function ImageGallery({ items = [], isLoading = false }) {
     const limitedImages = items.slice(0, 5);
-    // console.log(limitedImages); // Puedes mantener o quitar el console.log
 
     const [activeImageIndex, setActiveImageIndex] = useState(0);
     const [imageErrors, setImageErrors] = useState(() => Array(limitedImages.length).fill(false));
