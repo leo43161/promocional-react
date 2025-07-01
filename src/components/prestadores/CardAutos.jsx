@@ -5,14 +5,14 @@ export default function CardGuias({ prestador, isLoading = false }) {
     // Si está cargando, mostrar el skeleton
     if (isLoading) {
         return (
-            <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm animate-pulse">
+            <div className="overflow-hidden h-full rounded-lg border border-gray-200 bg-white shadow-sm animate-pulse ">
                 {/* Encabezado skeleton */}
                 <div className="bg-gray-200 p-4">
                     <div className="h-6 w-3/4 bg-gray-300 rounded"></div>
                 </div>
 
                 {/* Contenido skeleton */}
-                <div className="p-4 space-y-4">
+                <div className="p-4 space-y-4 items-stretch">
                     {/* Datos del prestador skeleton */}
                     <div className="space-y-2">
                         <div className="h-5 w-2/3 bg-gray-200 rounded"></div>
@@ -56,46 +56,42 @@ export default function CardGuias({ prestador, isLoading = false }) {
 
     // Si no está cargando, mostrar el contenido real
     const {
-        titulo,
-        responsable,
+        nombre,
         direccion,
-        localidad,
-        telefono,
+        localidad_nombre,
+        telefonos,
         email,
         web,
         facebook,
         instagram,
-        legajo
     } = prestador;
 
-    console.log(prestador);
 
     return (
-        <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
+        <div className="overflow-hidden h-full rounded-lg border border-gray-200 bg-white shadow-sm">
             {/* Encabezado verde */}
             <div className="bg-secondary p-4 text-white font-medium">
-                <h3 className="text-lg">{titulo}</h3>
+                <h3 className="md:text-3xl text-xl">{nombre}</h3>
             </div>
 
             {/* Contenido */}
             <div className="p-4">
                 {/* Datos del prestador */}
                 <div className='flex flex-col gap-3 mb-4'>
-                    <p className="text-gray-700 uppercase font-bold">Legajo: {legajo}</p>
-                    <p className="text-gray-700 uppercase font-medium">{direccion}</p>
+                    <p className="text-gray-700 uppercase font-bold">{direccion}</p>
                     <p className="text-gray-700 flex items-center">
                         <MapPin className="h-5 w-5 mr-2 text-gray-500"></MapPin>
-                        {localidad}
+                        {localidad_nombre} {direccion && `- ${direccion}`}
                     </p>
                 </div>
 
 
                 {/* Contactos */}
                 <div className="flex flex-col gap-4 mb-4">
-                    {telefono && (
+                    {telefonos && (
                         <p className="flex items-center text-gray-700">
                             <Phone className="h-5 w-5 mr-2 text-gray-500" />
-                            {telefono}
+                            {telefonos}
                         </p>
                     )}
 
