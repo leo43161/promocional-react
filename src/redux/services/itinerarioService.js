@@ -12,10 +12,9 @@ export const itinerarioService = createApi({
             }),
         }),
         getIdSession: builder.mutation({
-            query: (body) => ({
+            query: () => ({
                 url: 'session',
-                method: 'POST',
-                body: body,
+                params: { direccion: "itinerarios" },
             }),
         }),
     }),

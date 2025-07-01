@@ -62,6 +62,11 @@ export default function index() {
       <div className='mb-0'>
         <Itinerarios></Itinerarios>
       </div>
+      <div>
+        <div>
+          <img src={process.env.URL_IMG_LOCAL + "/images/banners/BannerWeb1900x450Invierno2025-Desktop.jpg"} alt="" />
+        </div>
+      </div>
       {/* <div className='border'>
         <PDFItinerario></PDFItinerario>
       </div> */}

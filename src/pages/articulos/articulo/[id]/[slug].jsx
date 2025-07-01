@@ -315,11 +315,13 @@ export default function ArticuloPage({ articulo, galleryItems, pdfItems, paralla
                             <p className='text-lg font-semibold'>{articulo.copete}</p>
                         </div>
                     )}
-                    <ImageGallery
-                        isLoading={false}
-                        items={galleryItems}
-                        className='md:p-0 md:mb-4 mb-2 md:h-[85vh]'
-                    />
+                    {galleryItems?.length > 0 && (
+                        <ImageGallery
+                            isLoading={false}
+                            items={galleryItems}
+                            className='md:p-0 md:mb-4 mb-2 md:h-[85vh]'
+                        />
+                    )}
                     <div className='order-1 lg:order-2 mb-6 md:ps-1 px-3'>
                         <div className='flex justify-between md:w-4/14 xl:w-5/14 2xl:w-3/14 w-full border shadow px-4 py-2 md:px-3 md:py-1 rounded-md'>
                             <h2 className='text-lg font-semibold'>Compartir</h2>
