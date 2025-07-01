@@ -15,7 +15,7 @@ export const busquedaArtService = createApi({
           localidad,
         },
       }),
-      // CORRECCIÓN CLAVE: Extraemos el 'total' de uno de los objetos en el array 'result'.
+      //Extraemos el 'total' de uno de los objetos en el array 'result'.
       transformResponse: (response) => ({
         data: response.result || [],
         total: parseInt(response.result?.[0]?.total, 10) || 0,

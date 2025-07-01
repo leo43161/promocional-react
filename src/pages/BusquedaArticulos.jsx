@@ -10,10 +10,10 @@ const BusquedaArticulos = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10; // Límite de artículos por página
 
-  // Paso 1: Calculamos el offset para la llamada a la API
+  //Calculamos el offset para la llamada a la API
   const offset = (currentPage - 1) * itemsPerPage;
 
-  // Paso 2: Consulta a la API con limit y offset
+  //Consulta a la API con limit y offset
   // La consulta se ejecuta automáticamente al cambiar `searchQuery` o `offset`.
   const {
     data: articulosResponse,
@@ -27,20 +27,20 @@ const BusquedaArticulos = () => {
     localidad: "",
   });
   
-  // Paso 3: Reiniciamos la página a 1 cuando el término de búsqueda cambia
+  //Reiniciamos la página a 1 cuando el término de búsqueda cambia
   useEffect(() => {
     if (searchQuery) {
       setCurrentPage(1);
     }
   }, [searchQuery]);
 
-  // Paso 4: Obtenemos el array de artículos y el total desde la respuesta de la API.
+  // Obtenemos el array de artículos y el total desde la respuesta de la API.
   // La API solo devuelve los 10 artículos de la página actual.
   const articulos = articulosResponse?.data || [];
-  // ¡CORRECCIÓN CRUCIAL!: Usamos el 'total' que la API nos indica, NO la longitud del array de la página.
+  // Usamos el 'total' que la API nos indica, NO la longitud del array de la página.
   const total = articulosResponse?.total || 0;
 
-  // Paso 5: Esta función actualiza la página actual.
+  // Esta función actualiza la página actual.
   // Al cambiar `currentPage`, la consulta a la API se dispara con el nuevo `offset`.
   const handlePageChange = (page) => {
     setCurrentPage(page);
