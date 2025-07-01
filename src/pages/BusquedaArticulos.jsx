@@ -8,38 +8,42 @@ const BusquedaArticulos = () => {
   const router = useRouter();
   const searchQuery = router.query.search || "";
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const itemsPerPage = 10; // Límite de artículos por página
 
+  // Paso 1: Calculamos el offset para la llamada a la API
+  const offset = (currentPage - 1) * itemsPerPage;
+
+  // Paso 2: Consulta a la API con limit y offset
+  // La consulta se ejecuta automáticamente al cambiar `searchQuery` o `offset`.
   const {
     data: articulosResponse,
     error,
     isLoading,
-    refetch,
   } = useGetArticulosQuery({
     search: searchQuery,
-    //limit: maxTitems,
-    offset:0,
+    limit: itemsPerPage, // Se envía el límite para la paginación
+    offset: offset,      // Se envía el offset para la página actual
     idioma: "ES",
     localidad: "",
   });
-console.log("Artículos obtenidos:", articulosResponse?.data?.length || 0);
+  
+  // Paso 3: Reiniciamos la página a 1 cuando el término de búsqueda cambia
   useEffect(() => {
-  if (searchQuery) {
-    setCurrentPage(1);
-    refetch();
-  }
-}, [searchQuery]);
+    if (searchQuery) {
+      setCurrentPage(1);
+    }
+  }, [searchQuery]);
 
-const articulos = articulosResponse?.data || [];
-const total = articulos.length;
+  // Paso 4: Obtenemos el array de artículos y el total desde la respuesta de la API.
+  // La API solo devuelve los 10 artículos de la página actual.
+  const articulos = articulosResponse?.data || [];
+  // ¡CORRECCIÓN CRUCIAL!: Usamos el 'total' que la API nos indica, NO la longitud del array de la página.
+  const total = articulosResponse?.total || 0;
 
-const startIndex = (currentPage - 1) * itemsPerPage;
-const endIndex = startIndex + itemsPerPage;
-const currentArticulos = articulos.slice(startIndex, endIndex);
-
+  // Paso 5: Esta función actualiza la página actual.
+  // Al cambiar `currentPage`, la consulta a la API se dispara con el nuevo `offset`.
   const handlePageChange = (page) => {
     setCurrentPage(page);
-   
   };
 
   return (
@@ -56,9 +60,9 @@ const currentArticulos = articulos.slice(startIndex, endIndex);
       {!isLoading && articulos.length === 0 && (
         <p className="text-center">No se encontraron artículos.</p>
       )}
-
+      
       <div className="col max-w-6xl">
-        {currentArticulos.map((articulo) => (
+        {articulos.map((articulo) => (
           <CardArticulosBusqueda key={articulo.id} articulo={articulo} />
         ))}
       </div>

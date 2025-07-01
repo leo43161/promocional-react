@@ -5,20 +5,20 @@ export const busquedaArtService = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: process.env.URL_SERVER }),
   endpoints: (builder) => ({
     getArticulos: builder.query({
-      // CORREGIDO: endpoint correcto para búsqueda
-      query: ({ limit = 9999, offset = 0, search = "", idioma = "ES", localidad = "" }) => ({
+      query: ({ limit , offset, search = "", idioma = "ES", localidad = "" }) => ({
         url: `buscador`,
         params: {
-          busqueda: search,   // ← nombre esperado por el backend
+          busqueda: search,
           limite: limit,
           offset,
           idioma,
           localidad,
         },
       }),
+      // CORRECCIÓN CLAVE: Extraemos el 'total' de uno de los objetos en el array 'result'.
       transformResponse: (response) => ({
         data: response.result || [],
-        total: response.total || (response.result?.length ?? 0),
+        total: parseInt(response.result?.[0]?.total, 10) || 0,
       }),
     }),
 
@@ -44,14 +44,14 @@ export const busquedaArtService = createApi({
     }),
 
     getImperdibles: builder.query({
-      query: ({ idioma = "ES", limit = 9999, offset = 0, search = "" }) => ({
+      query: ({ idioma = "ES", limit , offset, search = "" }) => ({
         url: `imperdibles`,
         params: { idioma, limit, offset, search },
       }),
     }),
 
     getBlogs: builder.query({
-      query: ({ idioma = "ES", limit = 9999, offset = 0, search = "" }) => ({
+      query: ({ idioma = "ES", limit , offset , search = "" }) => ({
         url: `blog`,
         params: { idioma, limit, offset, search },
       }),
