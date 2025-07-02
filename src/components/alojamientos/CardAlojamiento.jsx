@@ -6,7 +6,7 @@ import { Star, MapPin, Phone, Mail, Globe, Hotel } from 'lucide-react';
 const CardAlojamiento = ({ alojamiento, isLoading = false }) => {
     if (isLoading) {
         return (
-            <div className="border rounded-lg shadow-md p-4 h-96 w-full animate-pulse">
+            <div className="border rounded-lg shadow-md p-4 h-96 w-full animate-pulse bg-white">
                 <div className="flex justify-center mb-4">
                     <div className="w-24 h-24 bg-gray-200 rounded-full"></div>
                 </div>
@@ -29,17 +29,19 @@ const CardAlojamiento = ({ alojamiento, isLoading = false }) => {
 
     const renderStars = (count) => {
         return [...Array(Number(count))].map((_, i) => (
-            <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+            <img className='w-5 h-5' key={i} src={process.env.URL_IMG_LOCAL + '/svg/star.svg'}></img>
+
         ));
     };
 
+
     return (
-        <div className="border rounded-lg shadow-md p-4 flex flex-col h-full hover:shadow-lg transition-shadow">
+        <div className="border rounded-lg shadow-lg p-4 flex flex-col h-full hover:shadow-lg transition-shadow bg-white">
             <div className="flex justify-center mb-4 h-52 items-center">
-                {alojamiento.archivo ? (
+                {alojamiento.logo ? (
                     <div className="relative overflow-hidden rounded h-full">
                         <img
-                            src={`https://www.tucumanturismo.gob.ar/carga/image/${alojamiento.archivo}`}
+                            src={`${process.env.URL_IMG}${alojamiento.logo}`}
                             alt={alojamiento.nombre}
                             className="w-full h-full object-contain"
                         />
@@ -53,7 +55,7 @@ const CardAlojamiento = ({ alojamiento, isLoading = false }) => {
                 )}
             </div>
 
-            <h3 className="text-xl font-bold text-center mb-2">{alojamiento.nombre}</h3>
+            <h3 className="text-2xl font-bold text-center mb-2">{alojamiento.nombre}</h3>
 
             <div className="flex justify-center mb-3">
                 <div className="flex space-x-1">
@@ -61,32 +63,45 @@ const CardAlojamiento = ({ alojamiento, isLoading = false }) => {
                 </div>
             </div>
 
-            <div className="flex items-start mb-2">
+            <div className="flex items-center mb-2">
                 <MapPin className="min-w-5 h-5 text-gray-500 mr-2" />
-                <span className="text-sm text-gray-700">
-                    {alojamiento.direccion}<br />
-                    {alojamiento.localidad}
-                </span>
+                {alojamiento.latitud && alojamiento.longitud ? (
+                    <a
+                        href={`https://www.google.com/maps/search/${alojamiento.latitud},+${alojamiento.longitud}`}
+                        className="text-[1.1em] text-secondary hover:underline truncate font-semibold"
+                    >
+
+                        <span className="text-[1.1em]">
+                            {alojamiento.domicilio}<br />
+                            {alojamiento.localidad}
+                        </span>
+                    </a>
+                ) : (<span className="text-[1.1em] text-gray-700">{alojamiento.domicilio} - {alojamiento.localidad}</span>)}
             </div>
 
             <div className="flex items-center mb-2">
                 <Phone className="min-w-5 h-5 text-gray-500 mr-2" />
-                <a
+                {/* <a
                     href={`tel:${alojamiento.telefono}`}
-                    className="text-sm text-secondary hover:underline truncate"
-                >
-                    <span className="text-sm text-gray-700">{alojamiento.telefono}</span>
-                </a>
+                    className="text-[1.1em] text-secondary hover:underline truncate"
+                > */}
+                {alojamiento.telefono_final.split(',').map((telefono, index) => (
+                    <a href={`tel:${telefono}`} key={index} className="text-[1.1em] text-secondary hover:underline truncate font-semibold">
+                        {telefono}<br />
+                    </a>
+                ))}
+                <span className="text-[1.1em] text-gray-700">{alojamiento.telefono}</span>
+                {/* </a> */}
             </div>
 
-            {alojamiento.mail && (
+            {alojamiento.email && (
                 <div className="flex items-center mb-2">
                     <Mail className="min-w-5 h-5 text-gray-500 mr-2" />
                     <a
-                        href={`mailto:${alojamiento.mail}`}
-                        className="text-sm text-secondary hover:underline truncate"
+                        href={`mailto:${alojamiento.email}`}
+                        className="text-[1.1em] text-secondary hover:underline truncate font-semibold"
                     >
-                        {alojamiento.mail}
+                        {alojamiento.email}
                     </a>
                 </div>
             )}
@@ -98,21 +113,21 @@ const CardAlojamiento = ({ alojamiento, isLoading = false }) => {
                         href={alojamiento.web}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-sm text-secondary hover:underline truncate"
+                        className="text-[1.1em] text-secondary hover:underline truncate font-semibold"
                     >
                         {alojamiento.web}
                     </a>
                 </div>
             )}
 
-            <div className="mt-auto pt-4">
+            {/* <div className="mt-auto pt-4">
                 <Link
                     href={`/alojamientos/${alojamiento.id}`}
                     className="block text-center bg-orange-500 text-white py-2 rounded hover:bg-orange-600 transition-colors"
                 >
                     Ver Detalles
                 </Link>
-            </div>
+            </div> */}
         </div>
     );
 };

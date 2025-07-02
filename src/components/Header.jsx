@@ -2,27 +2,56 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { MessageCircle, Facebook, Instagram, Twitter, Youtube, Menu, X, ChevronDown } from 'lucide-react';
 // Asegúrate que la ruta sea correcta para tu proyecto
 import { useGetSeccionesQuery } from '@/redux/services/headerService';
+import { useRouter } from 'next/router';
+import { generateSlug, languages } from '@/utils';
 
 // --- Opciones de Idioma (AHORA CON ID) ---
 // AJUSTA los 'id' según los valores que espera tu API para cada idioma
-const languages = [
-    { id: 1, code: 'ES', label: 'Español', flag: '/svg/arg.svg', alt: 'Bandera Argentina' },
-    { id: 2, code: 'EN', label: 'English', flag: '/svg/eng.svg', alt: 'Bandera Reino Unido' } // Asumiendo ID 2 para inglés
-];
 
+const redirectSubsecc = [
+    /* { idSubseccion: 5, articulo: "alojamientos" }, */
+    { idSubseccion: 6, articulo: "transporte" },
+    { idSubseccion: 41, articulo: "autos" },
+    { idSubseccion: 20, articulo: "eventos" },
+    { idSubseccion: 42, articulo: "prestadores" },
+    { idSubseccion: 43, articulo: "agencias" },
+    { idSubseccion: 44, articulo: "guias" },
+    /* { idSubseccion: 62, articulo: "alojamientos" }, */
+    { idSubseccion: 64, articulo: "prestadores" },
+    { idSubseccion: 83, articulo: "autos" },
+    { idSubseccion: 66, articulo: "guias" },
+    { idSubseccion: 65, articulo: "agencias" },
+    { idSubseccion: 63, articulo: "transporte" },
+    { idSubseccion: 201, articulo: "eventos" },
+    { idSubseccion: 40, articulo: "gastronomia" },
+];
 
 // --- Componente Header ---
 export default function Header() {
+    const router = useRouter();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [openAccordionItem, setOpenAccordionItem] = useState(null);
     const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
     // Estado para el ID del idioma seleccionado, inicia con el ID del primer idioma (Español)
-    const [selectedLangId, setSelectedLangId] = useState(languages[0].id);
+    const [selectedLangId, setSelectedLangId] = useState(languages[0].code);
     // Estado para el objeto completo del idioma seleccionado (para mostrar bandera/código)
     const [selectedLang, setSelectedLang] = useState(languages[0]);
 
     // --- Obtener datos de la API usando el ID del idioma seleccionado ---
     const { data: seccionesApi, error, isLoading, isFetching } = useGetSeccionesQuery(selectedLangId);
+
+    // Sincronizo con ?lang=… en la URL
+    useEffect(() => {
+        if (!router.isReady) return;
+        const { lang } = router.query;
+        if (lang) {
+            const found = languages.find(l => l.code === lang);
+            if (found) {
+                setSelectedLangId(found.code);
+                setSelectedLang(found);
+            }
+        }
+    }, [router.isReady, router.query.lang]);
 
     // --- Transformar datos de la API al formato del menú (Memoizado) ---
     // se recalculará automáticamente cuando seccionesApi cambie (debido al cambio de selectedLangId)
@@ -32,31 +61,55 @@ export default function Header() {
             // Podrías diferenciar entre loading y error si quieres mostrar mensajes distintos
             return [];
         }
-        console.log(seccionesApi);
         // Filtrar secciones activas y visibles, luego ordenar
         const visibleSections = seccionesApi
             .result
-            .filter(s => s.visible === "1" && s.activa === "1")
+            .filter(s => s.seccionVisible === "1" && s.seccionActiva === "1")
             .sort((a, b) => parseInt(a.orden || '999') - parseInt(b.orden || '999'));
 
-        return visibleSections.map(seccion => {
+        const groupedSubcategories = visibleSections.reduce((acc, item) => {
+            const key = item.nombreSeccion.trim();
+            const exist = acc.length > 0 && acc.find(s => s.nombre.trim() === key);
+            if (!exist) {
+                acc.push({
+                    nombre: key,
+                    subsecciones: []
+                });
+            }
+            const subseccion = {
+                idSubseccion: item.idSubseccion,
+                nombre: item.nombreSubseccion,
+                visible: item.subsecVisible,
+                activa: item.subsecActiva,
+                orden: item.orden,
+                primerArt: item.primerArticuloSubseccion,
+                primerArtNombre: item.primerArticuloNombre,
+                articulos: item.cantidadArticulos,
+                idioma: parseInt(item.idiomaSubseccion),
+            };
+            // si el key coincide con algunos de los existentes, agrega el item a subsecciones
+            acc.find(s => s.nombre.trim() === key).subsecciones.push(subseccion);
+            return acc;
+        }, []);
+        return groupedSubcategories.map(seccion => {
             // Filtrar subsecciones activas y visibles, luego ordenar
             const visibleSubsections = (seccion.subsecciones || [])
                 .filter(sub => sub.visible === "1" && sub.activa === "1")
                 .sort((a, b) => parseInt(a.orden || '999') - parseInt(b.orden || '999'));
-
             // Mapear subsecciones al formato { label, href }
             const children = visibleSubsections
                 .map(sub => {
                     let href = '#'; // Default href
                     // **AJUSTA ESTA LÓGICA DE RUTAS SEGÚN TU APLICACIÓN**
-                    if (sub.primerArt && parseInt(sub.articulos) === 1) {
-                        href = `/articulos/articulo/${sub.primerArt}`; // Link to first article
+                    // Generar el enlace basado en la sección, subsección y si existe en redirectSubsecc
+                    const redirectSubseccion = redirectSubsecc.find(redirec => redirec.idSubseccion === parseInt(sub.idSubseccion)); 
+                    if (sub.primerArt && parseInt(sub.articulos) === 1 && !redirectSubseccion) {
+                        href = `${process.env.URL_LOCAL}/articulos/articulo/${sub.primerArt}/${generateSlug(sub.primerArtNombre)}`; // Link to first article
                     } else if (sub.idSubseccion) {
-                        href = `/subsecciones/lista?subseccion=${sub.idSubseccion}`;
+                        href = redirectSubseccion ? `${process.env.URL_LOCAL}/${redirectSubseccion.articulo}` : `${process.env.URL_LOCAL}/subsecciones/lista/${sub.idSubseccion}/${generateSlug(sub.nombre)}`;
                     }
                     if (parseInt(sub.idioma) !== 1) {
-                        href += `?lang=${sub.idioma}`
+                        href += `?lang=${languages.find(l => l.id === sub.idioma).code}`
                     }
 
                     // Only return if a valid href was generated
@@ -106,20 +159,22 @@ export default function Header() {
     // --- Function to change language ---
     const handleLanguageChange = (lang) => {
         setSelectedLang(lang); // Update the displayed language info (flag, code)
-        setSelectedLangId(lang.id); // Update the language ID state -> THIS TRIGGERS useGetSeccionesQuery
+        setSelectedLangId(lang.code); // Update the language ID state -> THIS TRIGGERS useGetSeccionesQuery
         setIsLangDropdownOpen(false); // Close dropdown
         setIsMobileMenuOpen(false); // Close mobile menu if open
         setOpenAccordionItem(null); // Reset mobile accordion
-        console.log("Idioma seleccionado (ID):", lang.id);
         // No need to manually call refetch, RTK Query handles it when selectedLangId changes
+        router.push(
+            { pathname: router.pathname, query: { ...router.query, lang: lang.code } },
+            undefined,
+            { shallow: true }
+        );
     };
 
     // --- Function to toggle mobile accordion (no changes needed) ---
     const toggleAccordion = (label) => {
         setOpenAccordionItem(openAccordionItem === label ? null : label);
     };
-
-
     // --- Render ---
     return (
         <div className="w-full sticky top-0 z-50">
@@ -127,12 +182,12 @@ export default function Header() {
             <div className='w-full bg-[#D6D3D1] flex justify-center'>
                 <div className="px-4 pt-1 flex justify-between w-11/12 flex-wrap">
                     {/* Date/Weather */}
-                    <div className="bg-white px-3 py-1 rounded-t-md text-sm mb-0">
+                    <div className="bg-white px-3 py-1 rounded-t-md text-[1.1em] mb-0">
                         {new Date().toLocaleDateString(selectedLang.code === 'ES' ? 'es-AR' : 'en-US', { day: 'numeric', month: 'long', year: 'numeric' })}°
                         <span className="ml-1 text-yellow-500">☀️</span> {/* Placeholder */}
                     </div>
                     {/* Contact/Social Links */}
-                    <div className="lg:flex items-center space-x-2 text-sm pb-1 text-black flex-wrap justify-center hidden">
+                    <div className="lg:flex items-center space-x-2 text-[1.1em] pb-1 text-black flex-wrap justify-center hidden">
                         {/* Static text - consider internationalization (i18n) library for this */}
                         <span className='hidden sm:inline'>Comunicate y conocé Tucumán: </span>
                         <a href="tel:+54-0381-4303644" className="hover:underline whitespace-nowrap">+54-0381-4303644</a>
@@ -160,7 +215,7 @@ export default function Header() {
                         </div>
                         {/* Institutional Link */}
                         <a href="https://www.institucionalturismotuc.gob.ar/"
-                            className="bg-[#006E66] text-white px-2 py-0.5 rounded-sm text-xs sm:text-sm ml-2 hover:bg-[#006e67ec] whitespace-nowrap"
+                            className="bg-[#006E66] text-white px-2 py-0.5 rounded-sm text-[1.1em] sm:text-[1.1em] ml-2 hover:bg-[#006e67ec] whitespace-nowrap"
                             target="_blank" rel="noopener noreferrer">
                             Institucional
                         </a>
@@ -172,8 +227,8 @@ export default function Header() {
             <div className='flex justify-center bg-white shadow-md'>
                 <div className="flex justify-between items-center px-2 py-4 w-11/12 gap-7">
                     {/* Logo */}
-                    <div className="flex items-center w-3/6 md:w-3/18">
-                        <a href="/" className="flex items-center w-full">
+                    <div className="flex items-center w-3/6 md:w-3/18 xl:w-3/19">
+                        <a href={process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL} className="flex items-center w-full">
                             {/* Ensure process.env.URL_IMG_LOCAL is set or replace */}
                             <img src={(process.env.URL_IMG_LOCAL || '') + "/images/logo.png"} className='w-full h-auto' alt="Logo Tucumán Turismo" />
                         </a>
@@ -200,15 +255,12 @@ export default function Header() {
                                 <div key={item.label} className="relative group">
                                     {/* Direct link if item has href and no children */}
                                     {item.href && !item.children ? (
-                                        <a href={item.href} className="hover:text-primary py-2 flex items-center font-semibold text-xs cursor-pointer">
+                                        <a href={item.href} className="hover:text-primary py-2 flex items-center font-semibold text-[1.1em] xl:text-[1.1em] cursor-pointer">
                                             {item.label}
                                         </a>
                                     ) : (
-                                        /* Label (potentially with dropdown) if it has children or no direct href */
-                                        <div className={`py-2 flex items-center font-semibold text-xs ${item.children ? 'cursor-default hover:text-primary' : 'cursor-default'}`}>
+                                        <div className={`py-2 flex items-center font-semibold text-[1.1em] xl:text-[1.1em] ${item.children ? 'cursor-default hover:text-primary text-nowrap' : 'cursor-default'}`}>
                                             {item.label}
-                                            {/* Arrow only if it has children */}
-                                            {/* item.children && <ChevronDown size={14} className="ml-1 opacity-70 group-hover:opacity-100" /> */}
                                         </div>
                                     )}
 
@@ -218,7 +270,7 @@ export default function Header() {
                                             opacity-0 max-h-0 group-hover:max-h-96 group-hover:opacity-100 overflow-hidden
                                             transition-all duration-300 ease-in-out z-20">
                                             {item.children.map((child) => (
-                                                <a key={child.label} href={child.href} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-secondary/70">
+                                                <a key={child.label} href={child.href} className="block px-4 py-2 text-[1.1em] xl:text-[1.1em] text-gray-700 hover:bg-gray-100 hover:text-secondary/70">
                                                     {child.label}
                                                 </a>
                                             ))}
@@ -237,12 +289,12 @@ export default function Header() {
                         <div className="relative z-30"> {/* High z-index for dropdown */}
                             <button
                                 onClick={() => setIsLangDropdownOpen(!isLangDropdownOpen)}
-                                className="flex items-center text-gray-700 text-xs font-semibold hover:text-secondary/70 py-2"
+                                className="flex items-center text-gray-700 text-[1.1em] xl:text-[1.1em] font-semibold hover:text-secondary/70 py-2"
                                 aria-label="Seleccionar idioma"
                                 aria-haspopup="true"
                                 aria-expanded={isLangDropdownOpen}
                             >
-                                <img src={selectedLang.flag} alt={selectedLang.alt} className="w-5 h-auto mr-2 rounded-sm" />
+                                <img src={selectedLang.flag} alt={selectedLang.alt} className="w-5 xl:w-7 h-auto mr-2 rounded-sm" />
                                 <span>{selectedLang.code}</span>
                                 <ChevronDown size={16} className={`ml-1 transition-transform duration-200 ${isLangDropdownOpen ? 'rotate-180' : ''}`} />
                             </button>
@@ -252,13 +304,13 @@ export default function Header() {
                                         <button
                                             key={lang.id} // Use ID as key
                                             onClick={() => handleLanguageChange(lang)}
-                                            className="w-full flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-secondary/70 text-left" // Align text left
+                                            className="w-full flex items-center px-4 py-2 text-[1.1em] text-gray-700 hover:bg-gray-100 hover:text-secondary/70 text-left" // Align text left
                                             role="menuitem"
                                             disabled={isLoading || isFetching} // Disable while loading new language data
                                         >
                                             <img src={lang.flag} alt={lang.alt} className="w-5 h-auto mr-2 rounded-sm" />
                                             <span>{lang.code}</span>
-                                            <span className="text-xs text-gray-500 ml-2">({lang.label})</span>
+                                            <span className="text-[1.1em] text-gray-500 ml-2">({lang.label})</span>
                                         </button>
                                     ))}
                                 </div>
@@ -312,7 +364,7 @@ export default function Header() {
                                         </a>
                                         /* Span if it has children or no direct href */
                                     ) : (
-                                        <span className="text-gray-700 font-medium flex-grow">
+                                        <span className="text-gray-700 font-medium flex-grow text-2xl">
                                             {item.label}
                                         </span>
                                     )}
@@ -336,7 +388,7 @@ export default function Header() {
                                                 <a
                                                     key={child.label}
                                                     href={child.href}
-                                                    className="block py-2 text-sm text-gray-600 hover:text-secondary/70"
+                                                    className="block py-2 text-[1.1em] text-gray-600 hover:text-secondary/70"
                                                     onClick={() => setIsMobileMenuOpen(false)} // Close menu on click
                                                 >
                                                     {child.label}

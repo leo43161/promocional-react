@@ -3,7 +3,7 @@ import { ChevronRight, Home } from 'lucide-react';
 
 const Breadcrumb = ({ items = [], homeLink = "/" }) => {
   return (
-    <nav aria-label="Breadcrumb" className="text-sm">
+    <nav aria-label="Breadcrumb" className="text-[1.1em]">
       <ol className="flex flex-wrap items-center space-x-1">
         {/* Home item */}
         <li className="flex items-center">

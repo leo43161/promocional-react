@@ -1,14 +1,17 @@
 import React from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { cn } from '@/utils';
 
-const Paginado = ({ 
-  currentPage, 
-  totalItems, 
-  itemsPerPage, 
-  onPageChange 
+const Paginado = ({
+  currentPage,
+  totalItems,
+  itemsPerPage,
+  onPageChange,
+  className, 
+  accentColor = 'var(--primary)',
 }) => {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
-  
+
   // No mostrar paginación si solo hay una página
   if (totalPages <= 1) return null;
 
@@ -28,7 +31,7 @@ const Paginado = ({
   const getPageNumbers = () => {
     const pages = [];
     const maxPagesToShow = 5;
-    
+
     if (totalPages <= maxPagesToShow) {
       // Mostrar todas las páginas si son menos que el máximo
       for (let i = 1; i <= totalPages; i++) {
@@ -61,55 +64,56 @@ const Paginado = ({
         pages.push(totalPages);
       }
     }
-    
+
     return pages;
   };
 
   return (
-    <div className="flex items-center justify-center space-x-1 mt-6 mb-4">
+    <div className={cn(
+      "flex items-center justify-center space-x-1",
+      className
+    )}>
       {/* Botón anterior */}
       <button
         onClick={handlePrevious}
         disabled={currentPage === 1}
-        className={`p-1 rounded-md ${
-          currentPage === 1
-            ? 'text-gray-300 cursor-not-allowed'
-            : 'text-gray-700 hover:bg-gray-100'
-        }`}
+        className={`p-1 rounded-md ${currentPage === 1
+          ? 'text-gray-300 cursor-not-allowed'
+          : 'text-gray-700 hover:bg-gray-100'
+          }`}
         aria-label="Página anterior"
       >
         <ChevronLeft size={18} />
       </button>
-      
+
       {/* Números de página */}
       {getPageNumbers().map((page, index) => (
         <React.Fragment key={index}>
           {page === '...' ? (
-            <span className="px-2 py-1 text-sm text-gray-500">...</span>
+            <span className="px-2 py-1 text-[1.1em] text-gray-500">...</span>
           ) : (
             <button
               onClick={() => onPageChange(page)}
-              className={`px-3 py-1 text-sm rounded-md ${
-                currentPage === page
-                  ? 'bg-primary text-white'
-                  : 'text-gray-700 hover:bg-gray-100'
-              }`}
+              style={{ backgroundColor: currentPage === page && accentColor }}
+              className={`px-3 py-1 text-[1.1em] rounded-md ${currentPage === page
+                ? 'bg-primary text-white'
+                : 'text-gray-700 hover:bg-gray-100'
+                }`}
             >
               {page}
             </button>
           )}
         </React.Fragment>
       ))}
-      
+
       {/* Botón siguiente */}
       <button
         onClick={handleNext}
         disabled={currentPage === totalPages}
-        className={`p-1 rounded-md ${
-          currentPage === totalPages
-            ? 'text-gray-300 cursor-not-allowed'
-            : 'text-gray-700 hover:bg-gray-100'
-        }`}
+        className={`p-1 rounded-md ${currentPage === totalPages
+          ? 'text-gray-300 cursor-not-allowed'
+          : 'text-gray-700 hover:bg-gray-100'
+          }`}
         aria-label="Página siguiente"
       >
         <ChevronRight size={18} />

@@ -11,7 +11,7 @@ export default function CardGuia({
     // Si está cargando, mostrar el skeleton (vista esqueleto)
     if (isLoading) {
         return (
-            <div className="overflow-hidden h-full rounded-lg border border-gray-200 bg-white shadow-sm animate-pulse">
+            <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm animate-pulse">
                 <div className="bg-gray-200 p-4">
                     <div className="h-6 w-3/4 bg-gray-300 rounded"></div>
                 </div>
@@ -99,7 +99,7 @@ export default function CardGuia({
                 <div className="space-y-2">
                     {email && (
                         <a href={`mailto:${email}`} className="flex items-center text-gray-700 hover:text-primary">
-                            <Mail className="h-5 w-5 mr-2 text-gray-500" />
+                            <Mail className="h-5 w-5 mr-2 text-gray-500"size={24} />
                             {email}
                         </a>
                     )}
@@ -110,7 +110,7 @@ export default function CardGuia({
                     <div>
                         <p className="text-gray-800 font-medium uppercase mb-2">Encontranos en</p>
                         <div className="flex gap-2">
-                            {web && (<a href={web} target="_blank" rel="noopener noreferrer" className="text-secondary/90 hover:text-secondary"><Globe className="h-6 w-6" /></a>)}
+                            {web && (<a href={web} target="_blank" rel="noopener noreferrer" className="text-secondary/90 hover:text-secondary "><Globe className="h-6 w-6" /></a>)}
                             {facebook && (<a href={facebook} target="_blank" rel="noopener noreferrer" className="text-secondary/90 hover:text-secondary"><Facebook className="h-6 w-6" /></a>)}
                             {instagram && (<a href={instagram} target="_blank" rel="noopener noreferrer" className="text-secondary/90 hover:text-secondary"><Instagram className="h-6 w-6" /></a>)}
                         </div>

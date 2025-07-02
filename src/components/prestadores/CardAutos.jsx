@@ -96,7 +96,7 @@ export default function CardGuias({ prestador, isLoading = false }) {
                     )}
 
                     {email && (
-                        <p className="flex items-center text-gray-700">
+                        <p className="flex items-center font-semibold text-gray-700">
                             <Mail className="h-5 w-5 mr-2 text-gray-500" />
                             {email}
                         </p>

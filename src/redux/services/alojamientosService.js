@@ -12,13 +12,19 @@ export const alojamientosService = createApi({
                 estrellas,
                 localidad
             }) => ({
-                url: `alojamientos`,
+                url: `hoteles`,
                 params: { limit, offset, search, categoria, estrellas, localidad },
             }),
         }),
+        getAlojamientosFilters: builder.query({
+            query: () => ({
+              url: `alojamientos_filters`,
+            }),
+          }),
     }),
 });
 
 export const {
-    useGetAlojamientosQuery
+    useGetAlojamientosQuery,
+    useGetAlojamientosFiltersQuery
 } = alojamientosService;

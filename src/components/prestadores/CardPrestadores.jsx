@@ -1,5 +1,12 @@
-import React from 'react';
-import { Phone, Mail, Globe, Facebook, Instagram, CircleSmall } from 'lucide-react';
+import React from "react";
+import {
+  Phone,
+  Mail,
+  Globe,
+  Facebook,
+  Instagram,
+  CircleSmall,
+} from "lucide-react";
 
 export default function CardPrestadores({ prestador, isLoading = false }) {
   // Si está cargando, mostrar el skeleton
@@ -65,7 +72,7 @@ export default function CardPrestadores({ prestador, isLoading = false }) {
     web,
     facebook,
     instagram,
-    actividades_texto_original
+    actividades_texto_original,
   } = prestador;
 
   return (
@@ -76,24 +83,26 @@ export default function CardPrestadores({ prestador, isLoading = false }) {
       </div>
 
       {/* Contenido */}
-      <div className="p-4 space-y-4">
+      <div className="p-4 space-y-4 ">
         {/* Datos del prestador */}
         <div>
           <p className="text-gray-800 font-medium">{responsable}</p>
-          <p className="text-gray-700 uppercase underline">{direccion}</p>
+          <p className="text-gray-700 uppercase ">{direccion}</p>
           <p className="text-gray-700 font-semibold">{localidad_nombre}</p>
         </div>
 
         {/* Actividades */}
         <div>
-          <p className="text-gray-800 font-bold uppercase">Actividades habilitadas</p>
+          <p className="text-gray-800 font-bold uppercase">
+            Actividades habilitadas
+          </p>
           <ul className="text-gray-700">
             {actividades_texto_original.split(",").map((actividad, index) => (
               <li key={index} className="flex items-center">
                 <span className="text-primary mr-1">
                   <CircleSmall size={16} />
                 </span>
-                <span className='font-semibold'>{actividad}</span>
+                <span className="font-semibold">{actividad}</span>
               </li>
             ))}
           </ul>
@@ -102,38 +111,49 @@ export default function CardPrestadores({ prestador, isLoading = false }) {
         {/* Contactos */}
         <div className="space-y-2">
           {telefono_final && (
-            <p className="flex items-center text-gray-700">
+            <p className="flex items-center text-gray-700 text-xl">
               <Phone className="h-5 w-5 mr-2 text-gray-500" />
               {telefono_final}
             </p>
           )}
 
           {email && (
-            <p className="flex items-center text-gray-700">
-              <Mail className="h-5 w-5 mr-2 text-gray-500" />
+            <a
+              href={`mailto:${email}`}
+              className="flex items-center text-gray-700 hover:text-primary text-xl"
+            >
+              <Mail className="h-5 w-5 mr-2 text-gray-500" size={24} />
               {email}
-            </p>
+            </a>
           )}
         </div>
 
         {/* Redes sociales */}
         <div>
-          <p className="text-gray-800 font-medium uppercase mb-2">Encontranos en</p>
+          <p className="text-gray-800  text-xl font-medium uppercase mb-2">
+            Encontranos en
+          </p>
           <div className="flex gap-2">
-            {web && (
-              <a href={web} target="_blank" rel="noopener noreferrer" className="text-secondary/90 hover:text-secondary">
-                <Globe className="h-6 w-6" />
-              </a>
-            )}
+             {web && (<a href={web} target="_blank" rel="noopener noreferrer" className="text-secondary/90 hover:text-secondary "><Globe className="h-6 w-6" /></a>)}
 
             {facebook && (
-              <a href={facebook} target="_blank" rel="noopener noreferrer" className="text-secondary/90 hover:text-secondary">
+              <a
+                href={facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-secondary/90 hover:text-secondary"
+              >
                 <Facebook className="h-6 w-6" />
               </a>
             )}
 
             {instagram && (
-              <a href={instagram} target="_blank" rel="noopener noreferrer" className="text-secondary/90 hover:text-secondary">
+              <a
+                href={instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-secondary/90 hover:text-secondary"
+              >
                 <Instagram className="h-6 w-6" />
               </a>
             )}

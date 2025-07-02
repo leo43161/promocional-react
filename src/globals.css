@@ -1,5 +1,5 @@
 @import 'tailwindcss';
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap'); */
 
 @theme {
   --font-family: "Montserrat", sans-serif;
@@ -9,6 +9,7 @@
   --color-primary: var(--primary);
   --color-secondary: var(--secondary);
   --color-tertiary: var(--tertiary);
+  --breakpoint-xl: 87rem;
 }
 
 
@@ -38,7 +39,7 @@
 @layer utilities {
   :root {
     --text: #444242;
-    --background: #ffffff;
+    --background: #ededed;
     --foreground: #171717;
     --primary: #e9721f;
     --secondary: #006e66;
@@ -57,5 +58,9 @@
     background: var(--background);
     font-family: "Montserrat", sans-serif;
     font-optical-sizing: auto;
+  }
+
+  p {
+    font-size: 1.5em;
   }
 }

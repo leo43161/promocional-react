@@ -26,6 +26,12 @@ export const articulosService = createApi({
         params: { id },
       }),
     }),
+    getImperdibles: builder.query({
+      query: (idioma) => ({
+        url: `imperdibles`,
+        params: { idioma },
+      }),
+    }),
   }),
 });
 
@@ -33,5 +39,6 @@ export const {
   useGetArticuloIdQuery,
   useGetGaleriaQuery,
   useGetPdfsQuery,
-  useGetArticulosQuery
+  useGetArticulosQuery,
+  useGetImperdiblesQuery,
 } = articulosService;

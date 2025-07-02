@@ -39,11 +39,8 @@ export default function Prestadores() {
     useEffect(() => {
         setCurrentPage(1);
     }, [searchTerm]);
-
-    console.log("isLoading:", isLoading, "isFetching:", isFetching);
     if (error) return <p>Hubo un error al cargar los prestadores</p>;
-
-    const totalItems = parseInt(prestadores?.all) || 0;
+    const totalItems = prestadores?.result[0]?.total ? parseInt(prestadores?.result[0]?.total) : 0;
     // Determinar si estamos en un estado de carga (inicial o actualización)
     const loading = isLoading || isFetching;
     return (
@@ -51,13 +48,14 @@ export default function Prestadores() {
             <section>
                 <ParallaxContainer
                     speed={0.2}
-                    minHeight="h-96 md:h-[58vh]"
+                    minHeight="h-96 md:h-[58vh] xl:h-[45vh]"
                     className=""
+                    imageUrl='https://www.tucumanturismo.gob.ar/public/img/planviaje/activos.webp'
                 >
                     <div className="container mx-auto h-full text-white flex flex-col justify-end">
                         <div className='w-11/12 mx-auto pt-5'>
-                            <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                                Segunda Sección
+                            <h2 className="text-5xl md:text-6xl font-bold mb-6">
+                                Servicios Turismo Aventura
                             </h2>
                         </div>
                     </div>
@@ -71,13 +69,13 @@ export default function Prestadores() {
                 </div>
                 <h2 className="text-2xl font-bold mb-4">Prestadores de Turismo Aventura Habilitados</h2>
                 <div>
-                    <h1 className='text-center text-3xl font-bold mb-6'>Buscá aquí que actividad querés hacer</h1>
+                    <h1 className='text-center text-4xl font-bold mb-6'>Buscá aquí que actividad querés hacer</h1>
                     <div>
                         {/* Componente de búsqueda */}
                         <Buscador onSearch={handleSearch} />
                     </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-5">
                     {loading ? (
                         // Mostrar skeletons mientras se están cargando datos
                         Array(itemsPerPage).fill(0).map((_, index) => (
@@ -96,12 +94,14 @@ export default function Prestadores() {
                 </div>
 
                 {/* Componente de paginación */}
-                <Paginado
-                    currentPage={currentPage}
-                    totalItems={totalItems}
-                    itemsPerPage={itemsPerPage}
-                    onPageChange={handlePageChange}
-                />
+                <div className='pb-2'>
+                    <Paginado
+                        currentPage={currentPage}
+                        totalItems={totalItems}
+                        itemsPerPage={itemsPerPage}
+                        onPageChange={handlePageChange}
+                    />
+                </div>
             </div>
         </div>
     );

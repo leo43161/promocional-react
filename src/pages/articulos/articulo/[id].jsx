@@ -64,13 +64,14 @@ export async function getStaticProps(context) {
 
     try {
         // Llama al endpoint para obtener los detalles (o uno más ligero que solo devuelva el nombre)
-        const res = await fetch(`${apiBaseUrl}articulos_id/${id}`);
+        const res = await fetch(`${apiBaseUrl}articulo/${id}`);
         if (!res.ok) {
             if (res.status === 404) return { notFound: true }; // Si el ID no existe, 404
             throw new Error(`API Error Articulo ${id}: ${res.status}`);
         }
         articleData = await res.json();
     } catch (error) {
+        console.error(error)
         console.error(`Error fetching article name/slug for ID ${id} in [id].jsx getStaticProps:`, error);
         return { notFound: true }; // Si falla el fetch, 404
     }
@@ -99,11 +100,14 @@ export default function ArticuloRedirectPage({ id, slug, idioma }) {
 
     useEffect(() => {
         if (id && slug) {
-            let targetUrl = `/articulos/articulo/${id}/${slug}`;
-            if (parseInt(idioma) !== 1) {
-                targetUrl += `?lang=${idioma}`
+            const idiomaCode = {
+                1: 'ES',
+                2: 'EN'
             }
-            console.log(`Redirecting from /articulos/articulo/${id} to ${targetUrl}`);
+            let targetUrl = `${process.env.URL_LOCAL}/articulos/articulo/${id}/${slug}`;
+            if (parseInt(idioma) !== 1) {
+                targetUrl += `?lang=${idiomaCode[parseInt(idioma)] || idioma}`
+            }
             router.replace(targetUrl);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -121,7 +125,7 @@ export default function ArticuloRedirectPage({ id, slug, idioma }) {
             <div className='mb-10'>
                 <ParallaxContainer
                     speed={0.2}
-                    minHeight="h-96 md:h-[58vh]"
+                    minHeight="h-96 md:h-[58vh] xl:h-[45vh]"
                     className="bg-gray-400" // Color de fondo mientras carga o si no hay imagen
                 // Aplica la imagen de fondo dinámicamente
                 >
@@ -154,7 +158,7 @@ export default function ArticuloRedirectPage({ id, slug, idioma }) {
                     {/* Sección "Para Descargar": Usa datos de getPdfs */}
                     {/* Mostramos solo si está cargando O si hay PDFs después de cargar */}
                     <div className='mb-6'>
-                        <h2 className='text-xl font-bold mb-3'>Para Descargar</h2>
+                        <h2 className='text-2xl font-bold mb-3'>Para Descargar</h2>
                         <div className='flex flex-col gap-3'>
                             <>
                                 <SkeletonListItem />
