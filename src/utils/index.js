@@ -6,8 +6,6 @@ export const languages = [
     { id: 2, code: 'EN', label: 'English', flag: (process.env.URL_IMG_LOCAL || '') + '/svg/eng.svg', alt: 'Bandera Reino Unido' } // Asumiendo ID 2 para inglés
 ];
 
-
-
 export function generateSlug(text) {
     if (!text) return '';
     return text
@@ -61,6 +59,38 @@ export function isAlternateLanguage(query) {
  */
 export function getCurrentLanguageCode(query) {
     return getCurrentLanguage(query).code;
+}
+
+/*
+ * Extrae un enlace de Google Maps de un string de HTML.
+ *
+ * @param {string} htmlString - El string de HTML que puede contener el enlace.
+ * @returns {string|null} La URL completa de Google Maps si se encuentra, de lo contrario, null.
+ */
+export function extractGoogleMapsLink(htmlString) {
+  // Si el string de entrada no es válido, retorna null inmediatamente.
+  if (!htmlString || typeof htmlString !== 'string') {
+    return null;
+  }
+
+  // Expresión regular para encontrar un atributo href que contenga una URL de Google Maps.
+  // Busca específicamente los dominios:
+  // - maps.app.goo.gl
+  // - www.google.com/maps
+  // - google.com/maps
+  const regex = /href="(https?:\/\/(?:www\.)?(?:google\.com\/maps|maps\.app\.goo\.gl)[^"]*)"/;
+
+  // Ejecuta la expresión regular sobre el string de HTML.
+  const match = htmlString.match(regex);
+
+  // Si se encuentra una coincidencia, match será un array.
+  // La URL capturada estará en el índice 1 del array.
+  if (match && match[1]) {
+    return match[1];
+  }
+
+  // Si no se encuentra ninguna coincidencia, retorna null.
+  return null;
 }
 
 export const encode = (str) => encodeURIComponent(str);

@@ -11,6 +11,7 @@ import ParallaxContainer from '@/components/common/ParallaxContainer'; ///[slug]
 import Breadcrumb from '@/components/common/Breadcrumb'; ///[slug].jsx]
 import ImageGallery from '@/components/articulos/ImageGallery'; ///[slug].jsx]
 import { Facebook, MessageCircle, Twitter } from 'lucide-react';
+import { pdf } from '@react-pdf/renderer';
 // import ImperdiblesCard from '@/components/articulos/ImperdiblesCard'; // Comentado si no se usa directamente en esta página
 
 // --- getStaticPaths ---
@@ -213,7 +214,7 @@ const SocialIcons = ({ url, title, className = '' }) => {
 // --- Componente Principal ---
 export default function ArticuloPage({ articulo, galleryItems, pdfItems, parallaxImageUrl, id, slug, pageMeta, articleSchema }) {
     const router = useRouter(); // Necesario para la URL canónica y hreflang si se implementa aquí
-
+    console.log(articulo);
     if (!articulo) {
         // Esta comprobación es más para robustez, getStaticProps debería devolver notFound: true
         return <div className="container mx-auto p-5 text-center">Artículo no disponible.</div>;
@@ -233,6 +234,7 @@ export default function ArticuloPage({ articulo, galleryItems, pdfItems, paralla
     const shareUrl = pageMeta?.ogUrl || canonicalUrl; // Usa la ogUrl si está definida, sino la canónica
     const shareTitle = pageMeta?.ogTitle || articulo?.nombre || 'Artículo de Tucumán Turismo';
 
+    const activeRightSidebar = pdfItems?.length > 0;
     return (
         <div>
             <Head>
@@ -308,7 +310,7 @@ export default function ArticuloPage({ articulo, galleryItems, pdfItems, paralla
             </div>
 
             <div className='lg:mb-10 lg:w-12/14 xl:w-11/16 w-full mx-auto flex px-2 flex-wrap flex-col lg:flex-row'>
-                <div className={`${pdfItems?.length > 0 ? 'lg:w-8/11' : 'w-full'} w-full mb-6 lg:mb-4 lg:pr-4 order-2 lg:order-1`}>
+                <div className={`${activeRightSidebar ? 'lg:w-8/11' : 'w-full'} w-full mb-6 lg:mb-4 lg:pr-4 order-2 lg:order-1`}>
                     <h1 className='text-4xl font-bold mb-6'>{articulo?.nombre || 'Artículo sin título'}</h1>
                     {articulo?.copete && (
                         <div className='w-full px-2 mb-3'>
@@ -328,6 +330,18 @@ export default function ArticuloPage({ articulo, galleryItems, pdfItems, paralla
                             <SocialIcons url={shareUrl} title={shareTitle} />
                         </div>
                     </div>
+
+                    {articulo?.iframe && (
+                        <div className='mb-6'>
+                            <div className='flex flex-col gap-3 px-2 md:px-0'>
+                                {/* div para colocar un Iframe */}
+                                <div dangerouslySetInnerHTML={{ __html: articulo?.iframe }}>
+
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
                     <div className={`prose prose-slate max-w-none w-full px-4 mt-3 mb-4 ${pdfItems?.length === 0 ? 'md:w-8/11 md:mt-3' : ''}`}>
                         {articulo?.cuerpo ? (
                             <div dangerouslySetInnerHTML={{ __html: articulo.cuerpo }} />
@@ -350,7 +364,7 @@ export default function ArticuloPage({ articulo, galleryItems, pdfItems, paralla
                     )}
                 </div>
 
-                {pdfItems && pdfItems.length > 0 && (
+                {activeRightSidebar && (
                     <div className='lg:w-3/11 w-full lg:ps-4 order-1 lg:order-2'>
                         <div className='mb-6'>
                             <h2 className='text-2xl font-bold mb-3'>Para Descargar</h2>
@@ -374,7 +388,7 @@ export default function ArticuloPage({ articulo, galleryItems, pdfItems, paralla
                                 ))}
                             </div>
                         </div>
-                        {/* Aquí podrías añadir la sección de "Imperdibles" si fuera dinámica y pasada por props */}
+
                     </div>
                 )}
 

@@ -13,11 +13,15 @@ const Modal = ({
     size = 'md',
     showCloseButton = true,
     overlayColor = 'rgba(0, 0, 0, 0.75)',
+    backgroundColor = '#FFFFFF',
     imageUrl,
     imageAlt = 'Imagen',
     enableMouseZoom = true,
     header = true,
-    className = ""
+    className = "",
+    fullHeightContain = false,
+    classNameContain = "",
+    classNameHeader = "",
 }) => {
     // ... (Todos tus hooks: useState, useEffect, etc. se mantienen igual)
     const [mounted, setMounted] = useState(false);
@@ -31,6 +35,7 @@ const Modal = ({
     }, []);
 
     useEffect(() => {
+        console.log(ReactLenis);
         if (isOpen) {
             document.body.style.overflow = 'hidden';
         } else {
@@ -104,13 +109,14 @@ const Modal = ({
             onClick={onClose}
         >
             <div
-                className={` bg-white rounded-lg shadow-xl flex flex-col h-full overflow-hidden ${sizeClasses}`}
+                className={cn(`rounded-lg shadow-xl flex flex-col h-full overflow-hidden ${sizeClasses}`, classNameContain)}
                 onClick={(e) => e.stopPropagation()}
+                style={{ backgroundColor }}
             >
                 {/* El resto de tu JSX se mantiene exactamente igual */}
                 {header && (
-                    <div className="flex justify-between items-center p-4 border-b">
-                        <h3 className="text-lg font-semibold text-gray-900 pr-8">{title}</h3>
+                    <div className={cn("flex justify-between items-center p-4 border-b", classNameHeader)}>
+                        <h3 className="text-lg font-semibold pr-8">{title}</h3>
                         {showCloseButton && (
                             <button
                                 type="button"
@@ -123,9 +129,9 @@ const Modal = ({
                         )}
                     </div>
                 )}
-                <ReactLenis options={{ lerp: 0.08, duration: 2 }} className="overflow-auto">
+                <ReactLenis options={{ lerp: 0.08, duration: 2 }} className={"overflow-auto h-full " + (fullHeightContain ? '[&>*:first-child]:h-full' : '')}>
                     <div
-                        className={`flex-grow overflow-auto ${imageUrl ? 'flex justify-center items-center' : 'md:p-4 p-2'}`}
+                        className={`flex-grow overflow-auto h-full ${imageUrl ? 'flex justify-center items-center' : 'md:p-4 p-2'}`}
                         style={{ cursor: imageUrl && imageScale > 100 ? 'grab' : 'default' }}
                     >
                         {imageUrl ? (

@@ -61,7 +61,7 @@ export default function DestinoCard({ }) {
     }
   }, [productoSeleccionado, favoritos, circuitoSelected]);
 
-
+console.log(productoSeleccionado);
   const handleOpenModal = (producto) => {
     setProductoSeleccionado(producto);
     setIsOpen(true);
@@ -100,7 +100,7 @@ export default function DestinoCard({ }) {
   const loading = isLoading || isFetching;
   const loadingDestinos = isLoadingDest || isFetchingDest;
   const loadingGalery = isLoadingGalery || isFetchingGalery;
-
+console.log(productos?.result?.articulos[0]);
   return (
     <div>
       <div className="mb-0">
