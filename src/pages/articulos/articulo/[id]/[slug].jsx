@@ -214,7 +214,9 @@ const SocialIcons = ({ url, title, className = '' }) => {
 // --- Componente Principal ---
 export default function ArticuloPage({ articulo, galleryItems, pdfItems, parallaxImageUrl, id, slug, pageMeta, articleSchema }) {
     const router = useRouter(); // Necesario para la URL canónica y hreflang si se implementa aquí
-    console.log(articulo);
+
+    const { lang } = router.query;
+
     if (!articulo) {
         // Esta comprobación es más para robustez, getStaticProps debería devolver notFound: true
         return <div className="container mx-auto p-5 text-center">Artículo no disponible.</div>;
@@ -326,7 +328,7 @@ export default function ArticuloPage({ articulo, galleryItems, pdfItems, paralla
                     )}
                     <div className='order-1 lg:order-2 mb-6 md:ps-1 px-3'>
                         <div className='flex justify-between md:w-4/14 xl:w-5/14 2xl:w-3/14 w-full border shadow px-4 py-2 md:px-3 md:py-1 rounded-md'>
-                            <h2 className='text-lg font-semibold'>Compartir</h2>
+                            <h2 className='text-lg font-semibold'>{lang === 'EN' ? 'Share' : 'Compartir'}</h2>
                             <SocialIcons url={shareUrl} title={shareTitle} />
                         </div>
                     </div>

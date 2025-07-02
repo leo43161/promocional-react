@@ -157,10 +157,10 @@ export default function ImageGallery({
                             >
                                 <div className="w-full h-full bg-slate-100 flex items-center justify-center">
                                     {hasError ? (
-                                        <div className="w-full h-full flex flex-col items-center justify-center bg-slate-200 text-red-500 p-1">
+                                        { /*<div className="w-full h-full flex flex-col items-center justify-center bg-slate-200 text-red-500 p-1">
                                             <AlertCircle size={20} />
                                             <span className="text-[1.1em] mt-1 text-center">Error</span>
-                                        </div>
+                                        </div> */}
                                     ) : (
                                         <img
                                             src={imgUrl.img} // Aquí no necesita optional chaining porque limitedImages ya está filtrado
