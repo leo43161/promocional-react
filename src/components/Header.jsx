@@ -40,6 +40,9 @@ export default function Header() {
     // --- Obtener datos de la API usando el ID del idioma seleccionado ---
     const { data: seccionesApi, error, isLoading, isFetching } = useGetSeccionesQuery(selectedLangId);
 
+    const { lang } = router.query;
+    const isEnglish = lang === 'EN';
+
     // Sincronizo con ?lang=… en la URL
     useEffect(() => {
         if (!router.isReady) return;
@@ -189,11 +192,13 @@ export default function Header() {
                     {/* Contact/Social Links */}
                     <div className="lg:flex items-center space-x-2 text-[1.1em] pb-1 text-black flex-wrap justify-center hidden">
                         {/* Static text - consider internationalization (i18n) library for this */}
-                        <span className='hidden sm:inline'>Comunicate y conocé Tucumán: </span>
+                        <span className='hidden sm:inline'>
+                          {isEnglish ? 'Contact us and discover Tucumán: ' : 'Comunicate y conocé Tucumán: '}
+                        </span>
                         <a href="tel:+54-0381-4303644" className="hover:underline whitespace-nowrap">+54-0381-4303644</a>
                         <span className='hidden sm:inline'>|</span>
                         <a href="tel:4222199" className="hover:underline whitespace-nowrap">4222199</a>
-                        <a href="/contacto" className="ml-2 font-bold text-gray-700 whitespace-nowrap">CONTACTO</a>
+                        {/* <a href="/contacto" className="ml-2 font-bold text-gray-700 whitespace-nowrap">CONTACTO</a> */}
                         <span className='hidden sm:inline'>|</span>
                         {/* Social Icons */}
                         <div className="flex space-x-2 items-center">
@@ -209,7 +214,7 @@ export default function Header() {
                             <a href="https://twitter.com/TucumanTurismo" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
                                 <Twitter size={16} className="text-gray-700 hover:text-sky-500" />
                             </a>
-                            <a href="https://www.youtube.com/user/turismoTuc" target="_blank" rel="noopener noreferrer" aria-label="YouTube"> {/* Corrected Youtube URL Example */}
+                            <a href="https://www.youtube.com/c/TucumánTurismoOficial" target="_blank" rel="noopener noreferrer" aria-label="YouTube"> {/* Corrected Youtube URL Example */}
                                 <Youtube size={16} className="text-gray-700 hover:text-red-600" />
                             </a>
                         </div>
@@ -228,7 +233,7 @@ export default function Header() {
                 <div className="flex justify-between items-center px-2 py-4 w-11/12 gap-7">
                     {/* Logo */}
                     <div className="flex items-center w-3/6 md:w-3/18 xl:w-3/19">
-                        <a href={process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL} className="flex items-center w-full">
+                        <a href={`${process.env.URL_LOCAL_SERVER || ''}${process.env.URL_LOCAL || ''}${lang === 'EN' ? '?lang=EN' : ''}`} className="flex items-center w-full">
                             {/* Ensure process.env.URL_IMG_LOCAL is set or replace */}
                             <img src={(process.env.URL_IMG_LOCAL || '') + "/images/logo.png"} className='w-full h-auto' alt="Logo Tucumán Turismo" />
                         </a>
