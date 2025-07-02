@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { MessageCircle, Facebook, Instagram, Twitter, Youtube, Menu, X, ChevronDown } from 'lucide-react';
+import { MessageCircle, Facebook, Instagram, Twitter, Youtube, Menu, X, ChevronDown, Search } from 'lucide-react';
 // Asegúrate que la ruta sea correcta para tu proyecto
 import { useGetSeccionesQuery } from '@/redux/services/headerService';
 import { useRouter } from 'next/router';
 import { generateSlug, languages } from '@/utils';
+import HeaderSearch from './HeaderSearch';
 
 // --- Opciones de Idioma (AHORA CON ID) ---
 // AJUSTA los 'id' según los valores que espera tu API para cada idioma
@@ -32,13 +33,29 @@ export default function Header() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [openAccordionItem, setOpenAccordionItem] = useState(null);
     const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
+    const [isSearchOpen, setIsSearchOpen] = useState(false);
     // Estado para el ID del idioma seleccionado, inicia con el ID del primer idioma (Español)
     const [selectedLangId, setSelectedLangId] = useState(languages[0].code);
     // Estado para el objeto completo del idioma seleccionado (para mostrar bandera/código)
     const [selectedLang, setSelectedLang] = useState(languages[0]);
 
+
     // --- Obtener datos de la API usando el ID del idioma seleccionado ---
     const { data: seccionesApi, error, isLoading, isFetching } = useGetSeccionesQuery(selectedLangId);
+
+
+    // Sincronizo con ?lang=… en la URL
+    useEffect(() => {
+        if (!router.isReady) return;
+        const { lang } = router.query;
+        if (lang) {
+            const found = languages.find(l => l.code === lang);
+            if (found) {
+                setSelectedLangId(found.code);
+                setSelectedLang(found);
+            }
+        }
+    }, [router.isReady, router.query.lang]);
 
     // Sincronizo con ?lang=… en la URL
     useEffect(() => {
@@ -58,6 +75,7 @@ export default function Header() {
     const dynamicMenuItems = useMemo(() => {
         // Si está cargando, obteniendo datos nuevos, o hubo un error, retorna array vacío
         if (isLoading || isFetching || error || !seccionesApi) {
+            console.log('isLoading, isFetching, error, seccionesApi:', isLoading, isFetching, error, seccionesApi);
             // Podrías diferenciar entre loading y error si quieres mostrar mensajes distintos
             return [];
         }
@@ -102,7 +120,7 @@ export default function Header() {
                     let href = '#'; // Default href
                     // **AJUSTA ESTA LÓGICA DE RUTAS SEGÚN TU APLICACIÓN**
                     // Generar el enlace basado en la sección, subsección y si existe en redirectSubsecc
-                    const redirectSubseccion = redirectSubsecc.find(redirec => redirec.idSubseccion === parseInt(sub.idSubseccion)); 
+                    const redirectSubseccion = redirectSubsecc.find(redirec => redirec.idSubseccion === parseInt(sub.idSubseccion));
                     if (sub.primerArt && parseInt(sub.articulos) === 1 && !redirectSubseccion) {
                         href = `${process.env.URL_LOCAL}/articulos/articulo/${sub.primerArt}/${generateSlug(sub.primerArtNombre)}`; // Link to first article
                     } else if (sub.idSubseccion) {
@@ -233,58 +251,75 @@ export default function Header() {
                             <img src={(process.env.URL_IMG_LOCAL || '') + "/images/logo.png"} className='w-full h-auto' alt="Logo Tucumán Turismo" />
                         </a>
                     </div>
-
-                    {/* Desktop Navigation (Uses dynamicMenuItems) */}
-                    <nav className="hidden lg:flex text-gray-700 font-medium items-center gap-4 lg:flex-1 justify-around">
-                        {isLoading || isFetching ? (
-                            <div className="animate-pulse w-full">
-                                <div className='flex gap-3 justify-between'>
-                                    <div className="w-1/8 h-3 bg-gray-300 rounded"></div>
-                                    <div className="w-1/8 h-3 bg-gray-300 rounded"></div>
-                                    <div className="w-1/8 h-3 bg-gray-300 rounded"></div>
-                                    <div className="w-1/8 h-3 bg-gray-300 rounded"></div>
-                                    <div className="w-1/8 h-3 bg-gray-300 rounded"></div>
-                                    <div className="w-1/8 h-3 bg-gray-300 rounded"></div>
-                                    <div className="w-1/8 h-3 bg-gray-300 rounded"></div>
-                                </div>
-                            </div> // Loading indicator
-                        ) : error ? (
-                            <p className='text-red-600'>Error al cargar menú</p> // Error message
-                        ) : dynamicMenuItems.length > 0 ? (
-                            dynamicMenuItems.map((item) => (
-                                <div key={item.label} className="relative group">
-                                    {/* Direct link if item has href and no children */}
-                                    {item.href && !item.children ? (
-                                        <a href={item.href} className="hover:text-primary py-2 flex items-center font-semibold text-[1.1em] xl:text-[1.1em] cursor-pointer">
-                                            {item.label}
-                                        </a>
-                                    ) : (
-                                        <div className={`py-2 flex items-center font-semibold text-[1.1em] xl:text-[1.1em] ${item.children ? 'cursor-default hover:text-primary text-nowrap' : 'cursor-default'}`}>
-                                            {item.label}
+                    <div className="hidden lg:flex flex-1 items-center justify-end">
+                        {/* Si la búsqueda está abierta, muestra el componente de búsqueda */}
+                        {isSearchOpen ? (
+                            <div className="w-full max-w-lg animate-fade-in"> {/* Animación sutil */}
+                                <HeaderSearch />
+                            </div>) : (
+                            <nav className="hidden lg:flex text-gray-700 font-medium items-center gap-4 lg:flex-1 justify-around">
+                                {/* Desktop Navigation (Uses dynamicMenuItems) */}
+                                {isLoading || isFetching ? (
+                                    <div className="animate-pulse w-full">
+                                        <div className='flex gap-3 justify-between'>
+                                            <div className="w-1/8 h-3 bg-gray-300 rounded"></div>
+                                            <div className="w-1/8 h-3 bg-gray-300 rounded"></div>
+                                            <div className="w-1/8 h-3 bg-gray-300 rounded"></div>
+                                            <div className="w-1/8 h-3 bg-gray-300 rounded"></div>
+                                            <div className="w-1/8 h-3 bg-gray-300 rounded"></div>
+                                            <div className="w-1/8 h-3 bg-gray-300 rounded"></div>
+                                            <div className="w-1/8 h-3 bg-gray-300 rounded"></div>
                                         </div>
-                                    )}
+                                    </div> // Loading indicator
+                                ) : error ? (
+                                    <p className='text-red-600'>Error al cargar menú</p> // Error message
+                                ) : dynamicMenuItems.length > 0 ? (
+                                    dynamicMenuItems.map((item) => (
+                                        <div key={item.label} className="relative group">
+                                            {/* Direct link if item has href and no children */}
+                                            {item.href && !item.children ? (
+                                                <a href={item.href} className="hover:text-primary py-2 flex items-center font-semibold text-[1.1em] xl:text-[1.1em] cursor-pointer">
+                                                    {item.label}
+                                                </a>
+                                            ) : (
+                                                <div className={`py-2 flex items-center font-semibold text-[1.1em] xl:text-[1.1em] ${item.children ? 'cursor-default hover:text-primary text-nowrap' : 'cursor-default'}`}>
+                                                    {item.label}
+                                                </div>
+                                            )}
 
-                                    {/* Dropdown if children exist */}
-                                    {item.children && (
-                                        <div className="absolute top-full left-0 mt-1 w-48 bg-white shadow-lg rounded-md py-1
+                                            {/* Dropdown if children exist */}
+                                            {item.children && (
+                                                <div className="absolute top-full left-0 mt-1 w-48 bg-white shadow-lg rounded-md py-1
                                             opacity-0 max-h-0 group-hover:max-h-96 group-hover:opacity-100 overflow-hidden
                                             transition-all duration-300 ease-in-out z-20">
-                                            {item.children.map((child) => (
-                                                <a key={child.label} href={child.href} className="block px-4 py-2 text-[1.1em] xl:text-[1.1em] text-gray-700 hover:bg-gray-100 hover:text-secondary/70">
-                                                    {child.label}
-                                                </a>
-                                            ))}
+                                                    {item.children.map((child) => (
+                                                        <a key={child.label} href={child.href} className="block px-4 py-2 text-[1.1em] xl:text-[1.1em] text-gray-700 hover:bg-gray-100 hover:text-secondary/70">
+                                                            {child.label}
+                                                        </a>
+                                                    ))}
+                                                </div>
+                                            )}
                                         </div>
-                                    )}
-                                </div>
-                            ))
-                        ) : (
-                            <p className="text-gray-500">No hay secciones disponibles.</p> // No items message
+                                    ))
+                                ) : (
+                                    <p className="text-gray-500">No hay secciones disponibles.</p> // No items message
+                                )}
+                            </nav>
                         )}
-                    </nav>
+                    </div>
 
                     {/* Language Selector & Hamburger Button */}
                     <div className="flex items-center space-x-4">
+                        {/* Botón de búsqueda para Desktop */}
+                        <div className="hidden lg:flex items-center">
+                            <button
+                                onClick={() => setIsSearchOpen(!isSearchOpen)}
+                                className="p-2 text-gray-700 hover:text-secondary/70 rounded-full hover:bg-gray-100 transition-colors"
+                                aria-label={isSearchOpen ? "Cerrar búsqueda" : "Abrir búsqueda"}
+                            >
+                                {isSearchOpen ? <X size={22} /> : <Search size={22} />}
+                            </button>
+                        </div>
                         {/* Language Dropdown */}
                         <div className="relative z-30"> {/* High z-index for dropdown */}
                             <button
@@ -334,9 +369,11 @@ export default function Header() {
 
             {/* Mobile Menu (Uses dynamicMenuItems) */}
             <div
-                className={`lg:hidden w-full bg-white shadow-md absolute top-full left-0 z-20 overflow-y-auto transition-all duration-300 ease-in-out ${isMobileMenuOpen ? 'max-h-[calc(100vh-150px)] border-t border-gray-200' : 'max-h-0' // Adjust max-h based on header height
-                    }`} style={{ overflowY: isMobileMenuOpen ? 'auto' : 'hidden' }}
+                className={`lg:hidden w-full bg-white shadow-md absolute top-full left-0 z-20 overflow-y-auto transition-all duration-300 ease-in-out ${isMobileMenuOpen ? 'max-h-[calc(100vh-150px)] border-t border-gray-200' : 'max-h-0'}`} style={{ overflowY: isMobileMenuOpen ? 'auto' : 'hidden' }}
             >
+                <div className="p-4 border-b border-gray-200">
+                    <HeaderSearch />
+                </div>
                 <nav className="flex flex-col px-4 py-2">
                     {isLoading || isFetching ? (
                         <div className="animate-pulse w-full">

@@ -42,7 +42,7 @@ export default function CardEvento({ evento, isLoading = false }) {
                         </div>
                     </div>
                     <div className='flex-col flex gap-5 mb-6 pt-1 justify-between flex-1'>
-                        <h3 className='font-bold text-left text-2xl'>{evento.nombre}</h3>
+                        <h3 className='font-bold text-left text-3xl'>{evento.nombre}</h3>
                         <div className='flex items-center gap-2'>
                             <div>
                                 <Clock className='font-bold text-lg' size={17} />

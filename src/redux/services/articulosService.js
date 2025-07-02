@@ -1,11 +1,15 @@
+// articulosService.js
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+
 export const articulosService = createApi({
   reducerPath: 'articulosService',
-  baseQuery: fetchBaseQuery({ baseUrl: process.env.URL_SERVER }), // Cambia a la URL base de tu API
+  baseQuery: fetchBaseQuery({ baseUrl: process.env.URL_SERVER }),
   endpoints: (builder) => ({
     getArticulos: builder.query({
-      query: () => ({
+      // ¡CORRECCIÓN AQUÍ! Ahora la función 'query' desestructura los parámetros esperados.
+      query: ({ limit = 3, offset = 0, search = "", localidad = "", idioma = "ES" }) => ({
         url: `articulos`,
+        params: { limit, offset, search, localidad, idioma }, // Envía todos los parámetros
       }),
     }),
     getArticuloId: builder.query({

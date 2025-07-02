@@ -17,8 +17,8 @@ function MyApp({ Component, pageProps }) {
       {/* Tu estructura existente de la aplicación */}
       <Provider store={store}>
         <Layout className={monserrat.className} pageProps={pageProps}>
-        {/* <GoogleAnalytics gaId="G-XYDWQ2QQ4R" />
-        <GoogleTagManager gtmId="GTM-PKQ3DWZL" /> */}
+        <GoogleAnalytics gaId="G-8DJFJKY7ZG" />
+        {/* <GoogleTagManager gtmId="GTM-PKQ3DWZL" /> */}
           <Component {...pageProps} />
         </Layout>
       </Provider>

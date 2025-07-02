@@ -30,6 +30,15 @@ export function cn(...inputs) {
  * Si no se encuentra 'lang' o no coincide con ningún idioma, devuelve el idioma por defecto (Español).
  * @param {object} query - El objeto `router.query` de Next.js.
  * @returns {object} El objeto de idioma encontrado o el idioma por defecto.
+ * Ejemplo de uso :
+ * const router = useRouter();
+ * useEffect(() => {
+     if (router.isReady) {
+       const currentLangObject = getCurrentLanguage(router.query);
+       setSelectedLang(currentLangObject);
+       setActiveTab(lenguageOptions[currentLangObject.code][0].id);
+     }
+   }, [router.isReady, router.query]);
  */
 export function getCurrentLanguage(query) {
     const defaultLanguage = languages[0]; // Español como default

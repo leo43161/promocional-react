@@ -13,11 +13,8 @@ import { useRouter } from 'next/router';
 export default function Planifica() {
   const router = useRouter();
   const [selectedLang, setSelectedLang] = useState(languages[0]); //
-  // Estado para el tab activo
   const [activeTab, setActiveTab] = useState('transporte');
   const lenis = useLenis();
-
-  // Array de opciones de planificación de viaje
   const travelOptions = [
     {
       id: 'alojamiento',

@@ -6,6 +6,8 @@ import Header from './Header'; //
 import SmoothView from './common/SmoothView'; //
 import Footer from './Footer'; //
 import { languages } from '@/utils'; //
+//import Busqueda from '../pages/busqueda'; // Componente de búsqueda
+import SearchHome from './SearchHome';// Componente de búsqueda
 
 export default function Layout({ children, className, pageProps }) {
     const router = useRouter();

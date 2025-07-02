@@ -239,8 +239,8 @@ const ItinerarioDoc = ({ data }) => {
                       gap: 10
                     }} wrap={false}>
                       <View style={styles.cardImgContain}>
-                        {/* <Image src={{ uri: URLImg + (destino.imagenMovil || destino.imagen)}} style={styles.cardImg} /> */}
-                        <Image src={"images/main/transporte.jpg"} style={styles.cardImg} />
+                        <Image src={{ uri: URLImg + (destino.imagenMovil || destino.imagen) }} style={styles.cardImg} />
+                        {/* <Image src={"images/main/transporte.jpg"} style={styles.cardImg} /> */}
                       </View>
                       <View style={styles.cardBody}>
                         <Text style={{ ...styles.cardTitle, color: circuito.primary }}>{destino.nombre}</Text>

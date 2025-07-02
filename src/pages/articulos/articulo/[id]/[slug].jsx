@@ -26,7 +26,7 @@ export async function getStaticPaths() {
         articles = data.result || [];
     } catch (error) {
         console.error("Error fetching article list for getStaticPaths:", error);
-        return { paths: [], fallback: false };
+        return { paths: [], fallback: false };//
     }
 
     // 2. Generar los 'paths'
@@ -227,7 +227,7 @@ export default function ArticuloPage({ articulo, galleryItems, pdfItems, paralla
         ...(articulo?.nomSubseccion ? [{ label: articulo.nomSubseccion, href: `${siteBaseUrl}/subsecciones/lista/${articulo.idSubseccion}/${generateSlug(articulo.nomSubseccion)}` }] : []), ///[slug].jsx]
         { label: articulo.nombre || "Detalle", href: `${siteBaseUrl}/articulos/articulo/${id}/${slug}` } ///[slug].jsx]
     ];
-
+    
     // Definir la URL canónica completa
     const canonicalUrl = `${siteBaseUrl}${router.asPath.split("?")[0]}`;
 
@@ -388,7 +388,6 @@ export default function ArticuloPage({ articulo, galleryItems, pdfItems, paralla
                                 ))}
                             </div>
                         </div>
-
                     </div>
                 )}
 
