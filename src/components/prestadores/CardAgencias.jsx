@@ -5,7 +5,7 @@ export default function CardGuias({ prestador, isLoading = false }) {
     // Si está cargando, mostrar el skeleton
     if (isLoading) {
         return (
-            <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm animate-pulse">
+            <div className="overflow-hidden h-full rounded-lg border border-gray-200 bg-white shadow-sm animate-pulse">
                 {/* Encabezado skeleton */}
                 <div className="bg-gray-200 p-4">
                     <div className="h-6 w-3/4 bg-gray-300 rounded"></div>
@@ -69,7 +69,7 @@ export default function CardGuias({ prestador, isLoading = false }) {
     } = prestador;
 
     return (
-        <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
+        <div className="overflow-hidden h-full rounded-lg border border-gray-200 bg-white shadow-sm">
             {/* Encabezado verde */}
             <div className="bg-secondary p-4 text-white font-medium">
                 <h3 className="text-lg font-bold">{nombre}</h3>
