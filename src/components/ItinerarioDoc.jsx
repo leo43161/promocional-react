@@ -79,6 +79,9 @@ const styles = StyleSheet.create({
     padding: '30px 40px',
     flexGrow: 1,
   },
+  section: {
+    marginBottom: 20,
+  },
   h2: {
     fontSize: 16,
     fontFamily: 'Helvetica',
@@ -196,13 +199,14 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   tagBadge: {
-    fontSize: 9,
+    fontSize: 10,
     color: '#FFFFFF',
     padding: '3px 6px',
     borderRadius: 4,
     marginRight: 5,
     marginBottom: 5,
     textTransform: 'capitalize',
+    fontWeight: 'bold',
   },
   starRating: {
     fontSize: 11,
@@ -418,63 +422,70 @@ const ItinerarioDoc = ({ data }) => {
                   })}
                 </View>
               )}
+              {circuitData.guias.length > 0 && (
+                <View style={styles.section}>
+                  <Text style={{ ...styles.h2, color: circuito.primary, borderBottomColor: circuito.secondary }}>Guías Expertos</Text>
 
-              {/* SECCIÓN GUÍAS */}
-              {circuitData.guias.map(guia => {
-                const allZones = guia.zona_operacion ? guia.zona_operacion.split(',') : [];
-                const visibleZones = allZones.slice(0, 8); // Mostramos hasta 8 zonas
-                const remainingZones = allZones.length - visibleZones.length;
 
-                return (
-                  <View key={guia.id} style={{ ...styles.card, borderLeftColor: circuito.secondary }} wrap={false}>
-                    {/* Fila para el Nombre y la Localidad */}
-                    <View style={{ marginBottom: 7 }}>
-                      <Text style={{ ...styles.cardTitle, color: circuito.primary, marginBottom: 3 }}>{guia.nombre}</Text>
-                      {guia.nombre_localidad && (
-                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                          <Text style={{
-                            ...styles.tagBadge,
-                            backgroundColor: circuito.primary,
-                            fontSize: 12,
-                            fontWeight: 'bold',
-                          }}>
-                            {guia.nombre_localidad}
+
+                  {/* SECCIÓN GUÍAS */}
+                  {circuitData.guias.map(guia => {
+                    const allZones = guia.zona_operacion ? guia.zona_operacion.split(',') : [];
+                    const visibleZones = allZones.slice(0, 8); // Mostramos hasta 8 zonas
+                    const remainingZones = allZones.length - visibleZones.length;
+
+                    return (
+                      <View key={guia.id} style={{ ...styles.card, borderLeftColor: circuito.secondary }} wrap={false}>
+                        {/* Fila para el Nombre y la Localidad */}
+                        <View style={{ marginBottom: 7 }}>
+                          <Text style={{ ...styles.cardTitle, color: circuito.primary, marginBottom: 3 }}>{guia.nombre}</Text>
+                          {guia.nombre_localidad && (
+                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                              <Text style={{
+                                ...styles.tagBadge,
+                                backgroundColor: circuito.primary,
+                                fontSize: 12,
+                                fontWeight: 'bold',
+                              }}>
+                                {guia.nombre_localidad}
+                              </Text>
+                            </View>
+                          )}
+                        </View>
+
+                        {/* Zonas de Operación como badges */}
+                        <View style={{ marginBottom: 7 }}>
+                          <Text style={{ ...styles.activitiesTitle, color: circuito.secondary }}>Opera en:</Text>
+                          <View style={styles.tagsContainer}>
+                            {visibleZones.map(zona => (
+                              <Text key={zona} style={{ ...styles.tagBadge, backgroundColor: circuito.secondary }}>
+                                {zona.trim()}
+                              </Text>
+                            ))}
+                            {remainingZones > 0 && (
+                              <Text style={{ ...styles.tagBadge, backgroundColor: '#757575' }}>
+                                +{remainingZones} más
+                              </Text>
+                            )}
+                          </View>
+                        </View>
+
+                        {/* Email de contacto al final */}
+                        <View style={{ flexDirection: 'column', gap: 5, justifyContent: 'space-between' }}>
+                          {guia.domicilio && (
+                            <Text style={styles.infoLine}>
+                              <Text style={styles.cardLabel}>Domicilio: </Text>{guia.domicilio}
+                            </Text>
+                          )}
+                          <Text style={styles.infoLine}>
+                            <Text style={styles.cardLabel}>Email: </Text>{guia.email}
                           </Text>
                         </View>
-                      )}
-                    </View>
-
-                    {/* Zonas de Operación como badges */}
-                    <View style={{ marginBottom: 7 }}>
-                      <Text style={{ ...styles.activitiesTitle, color: circuito.secondary }}>Opera en:</Text>
-                      <View style={styles.tagsContainer}>
-                        {visibleZones.map(zona => (
-                          <Text key={zona} style={{ ...styles.tagBadge, backgroundColor: circuito.secondary }}>
-                            {zona.trim()}
-                          </Text>
-                        ))}
-                        {remainingZones > 0 && (
-                          <Text style={{ ...styles.tagBadge, backgroundColor: '#757575' }}>
-                            +{remainingZones} más
-                          </Text>
-                        )}
                       </View>
-                    </View>
-
-                    {/* Email de contacto al final */}
-                    <View style={{ flexDirection: 'column', gap: 5, justifyContent: 'space-between' }}>
-                      {guia.domicilio && (
-                        <Text style={styles.infoLine}>
-                          <Text style={styles.cardLabel}>Domicilio: </Text>{guia.domicilio}
-                        </Text>
-                      )}
-                      <Text style={styles.infoLine}>
-                        <Text style={styles.cardLabel}>Email: </Text>{guia.email}
-                      </Text>
-                    </View>
-                  </View>
-                );
-              })}
+                    );
+                  })}
+                </View>
+              )}
 
             </View>
             <Text style={styles.footer} render={({ pageNumber, totalPages }) => (
