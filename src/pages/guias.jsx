@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from 'react';
+<<<<<<< HEAD
 import { useGetGuiasQuery } from '@/redux/services/prestadoresService';
+=======
+import { useGetPrestadoresQuery } from '@/redux/services/prestadoresService';
+>>>>>>> 4c114976d79b6a4677f1e9be9cebd031c0d0ce34
 import ParallaxContainer from '@/components/common/ParallaxContainer';
 import CardPrestadores from '@/components/prestadores/CardPrestadores';
 import Breadcrumb from '@/components/common/Breadcrumb';
 import Buscador from '@/components/SearchPrest';
 import Paginado from '@/components/common/Paginado';
+<<<<<<< HEAD
 import CardGuia from '@/components/prestadores/CardGuia';
+=======
+>>>>>>> 4c114976d79b6a4677f1e9be9cebd031c0d0ce34
 
 export default function Guias() {
     // Estado para controlar la paginación y búsqueda

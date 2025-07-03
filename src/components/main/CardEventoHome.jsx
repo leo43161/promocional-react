@@ -102,11 +102,9 @@ export default function CardEventoHome({ evento }) {
                     </div>
                 </div>
                 <div>
-                    <a href={eventLink()}>
-                        <Button className='shadow-lg w-full' size='sm'>
+                    <Button className='shadow-lg w-full' size='sm' href={eventLink()}>
                             {currentContent.buttonText}
-                        </Button>
-                    </a>
+                    </Button>   
                 </div>
             </div>
         </div>
