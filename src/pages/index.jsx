@@ -49,7 +49,8 @@ export default function Index() {
         <Itinerarios />
       </div>
       <div>
-        <div><a href="https://www.tucumanturismo.gob.ar/files/Actividades-Invierno-2025-TucumanTieneTodo.pdf" target="_blank">
+        <div >
+          <a href="https://www.tucumanturismo.gob.ar/files/Actividades-Invierno-2025-TucumanTieneTodo.pdf" target="_blank">
           <img src={process.env.URL_IMG_LOCAL + "/images/banners/BannerWeb1900x450Invierno2025-Desktop.jpg"} alt="Banner de Invierno" />
           </a>
         </div>

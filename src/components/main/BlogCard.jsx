@@ -102,7 +102,7 @@ export default function BlogCard({
                     <Image src={process.env.URL_IMG + (imagenMovil || imagen)} alt={nombre} style={{ objectFit: 'cover', objectPosition: 'top' }} fill className="object-cover" />
                 </div>
                 <div className="md:p-6 p-4 flex flex-col flex-grow justify-between">
-                    <h3 className="text-2xl md:text-4xl font-semibold text-gray-800 mb-3 leading-tight line-clamp-3">
+                    <h3 className="text-2xl md:text-4xl font-semibold text-gray-800 mb-3 leading-tight line-clamp-2">
                         {nombre}
                     </h3>
                     <p className="text-gray-600 text-[1.1em] mb-4 flex-grow">
