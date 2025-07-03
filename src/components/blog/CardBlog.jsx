@@ -63,10 +63,10 @@ export default function CardBlog({
                 <Image src={process.env.URL_IMG + (imagenMovil ? imagenMovil : imagen)} alt={nombre} style={{ objectFit: 'cover', objectPosition: 'top' }} fill className="object-cover" />
             </div>
             <div className="md:p-6 p-4 flex flex-col md:h-135 justify-between ">
-                <h3 className="text-2xl md:text-2xl font-semibold text-gray-800 mb-3 leading-tight line-clamp-2">
+                <h3 className="text-2xl md:text-2xl font-semibold text-gray-800 mb-3 leading-tight line-clamp-3">
                     {nombre}
                 </h3>
-                <p className="text-gray-600 text-md mb-4 line-clamp-3">
+                <p className="text-gray-600 text-md mb-4 line-clamp-2">
                     {copete}
                 </p>
                 <div className="flex justify-between items-center">
