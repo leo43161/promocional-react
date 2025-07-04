@@ -12,7 +12,7 @@ const HeaderSearch = () => {
         if (!searchTerm.trim()) return;
 
         const encodedSearch = encodeURIComponent(searchTerm.trim());
-        const nextPath = `/BusquedaArticulos/?search=${encodedSearch}`;
+        const nextPath = `/busqueda/?search=${encodedSearch}`;
 
         if (router.asPath !== nextPath) {
             router.push(nextPath);

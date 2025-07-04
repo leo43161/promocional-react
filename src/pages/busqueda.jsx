@@ -6,7 +6,7 @@ import Paginado from "@/components/common/Paginado";
 import { Search } from "lucide-react"; // Importamos el ícono para el botón
 import { getCurrentLanguage, languages } from "@/utils";
 
-const BusquedaArticulos = () => {
+const Busqueda = () => {
   const [selectedLang, setSelectedLang] = useState(languages[0]);
   const router = useRouter();
   const searchQuery = router.query.search || "";
@@ -53,7 +53,7 @@ const BusquedaArticulos = () => {
     e.preventDefault();
     if (!localSearchTerm.trim() || localSearchTerm === searchQuery) return;
 
-    router.push(`/BusquedaArticulos/?search=${encodeURIComponent(localSearchTerm.trim())}`);
+    router.push(`/busqueda/?search=${encodeURIComponent(localSearchTerm.trim())}`);
   };
 
   return (
@@ -86,15 +86,19 @@ const BusquedaArticulos = () => {
           // Si está cargando, muestra una lista de skeletons
           // Array.from crea un array con una longitud definida para mapearlo
           Array.from({ length: itemsPerPage }).map((_, index) => (
-            <CardArticulosBusqueda isLoading={true} key={index} />
+            <div key={index}>
+              <CardArticulosBusqueda isLoading={true} key={index} />
+            </div>
           ))
         ) : error ? (
           // Si hay un error, muestra el mensaje de error
           <p className="text-center text-red-600">Error al cargar artículos.</p>
         ) : articulos.length > 0 ? (
           // Si hay artículos, muéstralos
-          articulos.map((articulo) => (
-            <CardArticulosBusqueda key={articulo.id} articulo={articulo} />
+          articulos.map((articulo, key) => (
+            <div key={key}>
+              <CardArticulosBusqueda key={articulo.id} articulo={articulo} />
+            </div>
           ))
         ) : (
           // Si no hay artículos (y no está cargando), muestra el mensaje de "no encontrados"
@@ -119,4 +123,4 @@ const BusquedaArticulos = () => {
   );
 };
 
-export default BusquedaArticulos;
+export default Busqueda;

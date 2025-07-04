@@ -54,7 +54,7 @@ const DropdownSearch = ({
         <div className="relative w-full" ref={wrapperRef}>
             <input
                 type="text"
-                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-lg font-semibold"
                 placeholder={placeholder || "Buscar..."}
                 value={inputValue}
                 onChange={handleInputChange}

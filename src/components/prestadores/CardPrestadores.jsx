@@ -77,7 +77,6 @@ export default function CardPrestadores({ prestador, isLoading = false }) {
       {/* Encabezado verde */}
       <div className="bg-secondary p-4 text-white font-medium">
         <h3 className="text-lg font-bold">{titulo}</h3>
-        <h3 className="text-lg font-bold">{titulo}</h3>
       </div>
 
 

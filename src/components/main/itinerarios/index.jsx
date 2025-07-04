@@ -55,8 +55,8 @@ export default function Itinerarios() {
                     </p>
                 </div>
                 <div>
-                    <Image
-                        src={LogoGobtuc}
+                    <img
+                        src={process.env.URL_IMG_LOCAL + "/svg/itinerarios/" + "logo-gobtuc.svg"}
                         alt="logo gob tuc"
                         className="h-[65px] w-auto hidden md:block"
                     />
@@ -82,8 +82,8 @@ export default function Itinerarios() {
                                     className={`w-full h-full p-4 mb-4 flex items-center justify-center bg-stone-400 hover:bg-${circuito.color} shadow-xl`}
                                     style={{ backgroundColor: isActive ? circuito.bg : "" }}
                                 >
-                                    <Image
-                                        src={circuito.logo}
+                                    <img
+                                        src={process.env.URL_IMG_LOCAL + "/svg/itinerarios/" + circuito.logo}
                                         alt={`Logo ${circuito.nombre}`}
                                         className="h-[60px]"
                                     />
@@ -104,7 +104,7 @@ export default function Itinerarios() {
                             >
                                 {/* Usamos Next Image para mostrar el logo del circuito seleccionado */}
                                 {circuitoSelected?.mb &&
-                                    <Image
+                                    <img
                                         src={circuitoSelected?.mb}
                                         alt={`Logo ${circuitoSelected?.nombre}`}
                                         className="h-[45px] w-auto"
@@ -130,8 +130,8 @@ export default function Itinerarios() {
                                         >
                                             {/* Logo de la opción */}
                                             {circuit.mb &&
-                                                <Image
-                                                    src={circuit.mb}
+                                                <img
+                                                    src={process.env.URL_IMG_LOCAL + "/svg/itinerarios/" + circuit.mb}
                                                     alt={`Logo ${circuit.nombre}`}
                                                     className="h-[30px]  w-auto"
                                                 />
