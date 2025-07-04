@@ -105,7 +105,7 @@ export default function Itinerarios() {
                                 {/* Usamos Next Image para mostrar el logo del circuito seleccionado */}
                                 {circuitoSelected?.mb &&
                                     <img
-                                        src={circuitoSelected?.mb}
+                                        src={process.env.URL_IMG_LOCAL + "/svg/itinerarios/" + circuitoSelected?.mb}
                                         alt={`Logo ${circuitoSelected?.nombre}`}
                                         className="h-[45px] w-auto"
                                     />
