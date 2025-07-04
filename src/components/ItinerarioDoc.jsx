@@ -268,7 +268,8 @@ const ItinerarioDoc = ({ data }) => {
                       borderLeftColor: circuito.secondary,
                       display: 'flex',
                       flexDirection: 'row',
-                      gap: 10
+                      gap: 10,
+                      maxHeight: 150
                     }} wrap={false}>
                       <View style={styles.cardImgContain}>
                         <Image src={{ uri: URLImg + (destino.imagenMovil || destino.imagen) }} style={styles.cardImg} />

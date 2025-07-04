@@ -105,8 +105,8 @@ export default function BuscadorTransporte() {
 
     return (
         <div className="max-w-6xl mx-auto p-4">
-            <h1 className="text-2xl font-bold text-center text-gray-800 mb-2">Busca aquí tu Transporte</h1>
-            <p className="text-center text-gray-600 mb-6">
+            <h1 className="text-3xl font-bold text-center text-gray-800 mb-2">Busca aquí tu Transporte</h1>
+            <p className="text-center text-gray-600 mb-6 font-semibold">
                 Selecciona un destino usando el buscador o navega por los circuitos.
             </p>
 
@@ -125,10 +125,10 @@ export default function BuscadorTransporte() {
                 {CIRCUITOS.map((circuito) => (
                     <button
                         key={circuito.id}
-                        className={`px-4 py-2 rounded-md text-white font-medium transition-colors ${
+                        className={`px-4 py-2 rounded-md text-white font-medium transition-colors text-2xl ${
                             circuitoActivo === circuito.id ? '' : 'opacity-75 hover:opacity-100'
                         }`}
-                        style={{ backgroundColor: circuitoActivo === circuito.id ? circuito.color : "#99a1af" }}
+                        style={{ backgroundColor: circuitoActivo === circuito.id ? circuito.color : "#888888" }}
                         onClick={() => {
                             setCircuitoActivo(circuito.id);
                             // No es necesario limpiar destinoSeleccionado aquí, el useEffect [circuitoActivo] lo manejará.
@@ -141,8 +141,8 @@ export default function BuscadorTransporte() {
 
             {destinoSeleccionado && infoDestino && (
                 <div className="text-center mb-4">
-                    <p className="text-gray-600 uppercase text-[1.1em] font-semibold">
-                        INFORMACIÓN PARA VIAJAR A {destinoSeleccionado}
+                    <p className="text-gray-600 uppercase text-[1.3em] font-semibold">
+                        INFORMACIÓN PARA VIAJAR A <span className='font-bold underline' style={{ color: circuitoColor }}>{destinoSeleccionado}</span> 
                     </p>
                 </div>
             )}
@@ -150,15 +150,15 @@ export default function BuscadorTransporte() {
             <div className="flex flex-col lg:flex-row gap-6">
                 {/* Lista de Destinos del circuito activo (opcional, como una forma de explorar) */}
                 <div className="w-full lg:w-1/4">
-                    <h3 className="text-lg font-semibold mb-2 text-gray-700">Destinos en {CIRCUITOS.find(c=>c.id === circuitoActivo)?.nombre || 'circuito'}</h3>
+                    <h3 className="text-2xl font-semibold mb-2 text-gray-700">Destinos en {CIRCUITOS.find(c=>c.id === circuitoActivo)?.nombre || 'circuito'}</h3>
                     <div className="bg-white rounded-lg shadow-md max-h-96 overflow-y-auto" id='destinos-transporte'>
                         {destinosDelCircuitoActual.length > 0 ? destinosDelCircuitoActual.map((destino) => (
                             <button
                                 key={destino}
-                                className={`w-full text-left px-4 py-3 border-b last:border-b-0 transition-colors hover:bg-gray-100`}
+                                className={`w-full text-left px-4 py-3 border-b last:border-b-0 transition-colors hover:bg-gray-100 text-xl`}
                                 style={{
                                     backgroundColor: destinoSeleccionado === destino ? `${getCircuitoColor()}25` : '',
-                                    fontWeight: destinoSeleccionado === destino ? '600' : '400',
+                                    fontWeight: destinoSeleccionado === destino ? '700' : '500',
                                     color: destinoSeleccionado === destino ? getCircuitoColor() : 'inherit',
                                 }}
                                 onClick={() => handleSeleccionDeDestino(destino)}
@@ -175,14 +175,14 @@ export default function BuscadorTransporte() {
                 {infoDestino && destinoSeleccionado ? (
                     <div className="w-full lg:w-3/4 bg-white rounded-lg shadow-md p-6" id='info-transporte'>
                         <div className="mb-4">
-                            <div className="inline-block text-white px-4 py-1 rounded-md font-medium" style={{ backgroundColor: circuitoColor }}>
+                            <div className="inline-block text-white px-4 py-1 rounded-md font-medium text-xl" style={{ backgroundColor: circuitoColor }}>
                                 {infoDestino.nombre}
                             </div>
                         </div>
                         {/* ... (resto del panel de información sin cambios) ... */}
                          <div className="relative w-full md:h-96 h-80 bg-gray-200 mb-6 rounded-md overflow-hidden">
                             <iframe
-                                src={infoDestino.mapa || "https://maps.google.com/maps?output=embed&q=Tucuman+Argentina"}
+                                src={infoDestino.mapa || 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d314.67437812803115!2d-65.19505326960136!3d-26.835684035893834!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94225d5ba1c427e3%3A0xa2eb36874652c16b!2sTerminal%20de%20Omnibus%20Tucum%C3%A1n!5e0!3m2!1ses!2sar!4v1751555918132!5m2!1ses!2sar'}
                                 width="100%"
                                 height="100%"
                                 frameBorder="0"
@@ -196,23 +196,23 @@ export default function BuscadorTransporte() {
 
                         <div className="flex items-center mb-4">
                             <div className="p-2 rounded-full mr-3" style={{ backgroundColor: lightColor }}>
-                                <DollarSign style={{ color: circuitoColor }} size={20} />
+                                <DollarSign style={{ color: circuitoColor }} size={25} />
                             </div>
-                            <div>
-                                <span className="font-medium text-gray-700">Precio:</span> ${infoDestino.precio?.toLocaleString() || 'No disponible'}
+                            <div className='text-xl'>
+                                <span className="font-medium text-gray-700 text-xl">Precio:</span> ${infoDestino.precio?.toLocaleString() || 'No disponible'}
                             </div>
                         </div>
 
                         <div className="flex items-center mb-6">
                             <div className="p-2 rounded-full mr-3" style={{ backgroundColor: lightColor }}>
-                                <MapPin style={{ color: circuitoColor }} size={20} />
+                                <MapPin style={{ color: circuitoColor }} size={25} />
                             </div>
-                            <div>
-                                <span className="font-medium text-gray-700">Dónde tomarlo:</span> {infoDestino.boleteria || 'No disponible'}
+                            <div className='text-xl'>
+                                <span className="font-medium text-gray-700 text-xl">Dónde tomarlo:</span> {infoDestino.boleteria || 'No disponible'}
                                 {infoDestino.telefono && (
                                     <>
-                                        <span className="font-medium text-gray-700 mx-1">| Teléfono:</span>
-                                        <a href={`tel:${infoDestino.telefono}`} className="ml-1 hover:underline" style={{ color: circuitoColor }}>
+                                        <span className="font-medium text-gray-700 text-xl mx-1">| Teléfono:</span>
+                                        <a href={`tel:${infoDestino.telefono}`} className="ml-1 hover:underline text-xl" style={{ color: circuitoColor }}>
                                             {infoDestino.telefono}
                                         </a>
                                     </>
@@ -223,10 +223,10 @@ export default function BuscadorTransporte() {
                         {infoDestino.horarios && ( typeof infoDestino.horarios === 'string' ? (
                                <div className="flex items-center mb-4">
                                 <div className="p-2 rounded-full mr-3" style={{ backgroundColor: lightColor }}>
-                                    <Clock style={{ color: circuitoColor }} size={20} />
+                                    <Clock style={{ color: circuitoColor }} size={25} />
                                 </div>
                                 <div>
-                                    <span className="font-medium text-gray-700">Horarios:</span> <span className="underline">{infoDestino.horarios}</span>
+                                    <span className="font-medium text-gray-700 text-xl">Horarios:</span> <span className="underline">{infoDestino.horarios}</span>
                                 </div>
                             </div>
                         ) : (
@@ -237,9 +237,9 @@ export default function BuscadorTransporte() {
                                 >
                                     <div className="flex items-center">
                                         <div className="p-2 rounded-full mr-3" style={{ backgroundColor: lightColor }}>
-                                            <Clock style={{ color: circuitoColor }} size={20} />
+                                            <Clock style={{ color: circuitoColor }} size={25} />
                                         </div>
-                                        <span className="font-medium text-gray-700">Horarios:</span>
+                                        <span className="font-medium text-gray-700 text-xl">Horarios:</span>
                                     </div>
                                     {mostrarHorarios ? (
                                         <ChevronUp className="text-gray-600" size={24} />
@@ -253,18 +253,18 @@ export default function BuscadorTransporte() {
                                         <div className="flex flex-col md:flex-row gap-6">
                                             {infoDestino.horarios.map((horario, index) => (
                                                 <div key={`horario-${index}`} className={`w-full ${infoDestino.horarios.length > 1 ? 'md:w-1/2' : ''}`}>
-                                                    <h4 className="text-center font-semibold text-lg mb-3" style={{ color: circuitoColor }}>
+                                                    <h4 className="text-center font-semibold text-2xl mb-3" style={{ color: circuitoColor }}>
                                                         {horario.titulo}
                                                     </h4>
                                                     <div className="border rounded-lg overflow-hidden shadow" style={{ borderColor: `${circuitoColor}30` }}>
-                                                        <div className="grid grid-cols-2 font-semibold text-[1.1em]" style={{ backgroundColor: `${circuitoColor}10` }}>
+                                                        <div className="grid grid-cols-2 font-semibold text-[1.3em]" style={{ backgroundColor: `${circuitoColor}10` }}>
                                                             <div className="p-2 text-center border-r" style={{ borderColor: `${circuitoColor}30` }}>Ida</div>
                                                             <div className="p-2 text-center">Vuelta</div>
                                                         </div>
                                                         {Array.from({ length: Math.max(horario.ida?.length || 0, horario.vuelta?.length || 0) }).map((_, rowIndex) => (
                                                             <div
                                                                 key={`row-${horario.titulo}-${rowIndex}`}
-                                                                className="grid grid-cols-2 text-[1.1em]"
+                                                                className="grid grid-cols-2 text-[1.3em]"
                                                                 style={{
                                                                     backgroundColor: rowIndex % 2 === 0 ? `${circuitoColor}0A` : 'white',
                                                                     borderTop: rowIndex > 0 ? `1px solid ${circuitoColor}20` : 'none'
@@ -289,7 +289,7 @@ export default function BuscadorTransporte() {
                     </div>
                 ) : (
                     <div className="w-full lg:w-3/4 flex items-center justify-center bg-white rounded-lg shadow-md p-6 text-center text-gray-500 min-h-[300px]">
-                        <p className="text-lg">
+                        <p className="text-2xl">
                             {destinoSeleccionado ? `Cargando información para ${destinoSeleccionado}...` : "Selecciona un destino para ver los detalles del transporte."}
                         </p>
                     </div>

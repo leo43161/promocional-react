@@ -7,54 +7,60 @@ import { createSlice } from '@reduxjs/toolkit';
 const componentTypes = ['destinos', 'alojamientos', 'prestadores', 'guias'];
 
 const { HistoricaLogo, HistoricaLogoMb, YungasLogo, YungasLogoMb, ChoromoroLogo, ChoromoroLogoMb, CalchaquiLogo, CalchaquiLogoMb, SurLogoMb, SurLogo } = icons;
+console.log(icons);
 
 
-const circuitos = [{
+const circuitos = [
+  {
     id: 5,
     name: "historica",
     nombre: "Ciudad Histórica",
-    logo: HistoricaLogo,
+    logo: "historica-logo.svg",
     img: "casah",
     color: "#01415C",
     bg: "#01415C",
-    mb: HistoricaLogoMb
-}, {
+    mb: "historica-logo-mb.svg"
+  },
+  {
     id: 4,
     name: "yungas",
     nombre: "Yungas Tucumanas",
-    logo: YungasLogo,
-    mb: YungasLogoMb,
+    logo: "yungas-logo.svg",
+    mb: "yungas-logo-mb.svg",
     img: "quetipi-inicio",
     color: "#66ac7c",
     bg: "#66ac7c",
-}, {
+  },
+  {
     id: 2,
     name: "choromoro",
     nombre: "Valle De Choromoro",
-    logo: ChoromoroLogo,
-    mb: ChoromoroLogoMb,
+    logo: "choromoro-logo.svg",
+    mb: "choromoro-logo-mb.svg",
     img: "pozoindio-inicio",
     color: "#FD5901",
     bg: "#FD5901",
-}, {
+  },
+  {
     id: 3,
     name: "calchaqui",
     nombre: "Valle Calchaqui",
-    logo: CalchaquiLogo,
-    mb: CalchaquiLogoMb,
+    logo: "calchaqui-logo.svg",
+    mb: "calchaqui-logo-mb.svg",
     img: "menhires-inicio",
     color: "#9E2D2C",
     bg: "#9E2D2C",
-}, {
+  },
+  {
     id: 1,
     name: "sur",
     nombre: "Sur Tucumano",
-    logo: SurLogo,
-    mb: SurLogoMb,
+    logo: "sur-logo.svg",
+    mb: "sur-logo-mb.svg",
     img: "sur",
     color: "#508E6D",
     bg: "#508E6D",
-},
+  },
 ];
 
 const initialState = {

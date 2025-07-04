@@ -58,7 +58,7 @@ export async function getStaticProps(context) {
     const apiBaseUrl = process.env.URL_SERVER || 'URL_POR_DEFECTO_DE_TU_API';
     const imageBaseUrl = process.env.URL_IMG || '';
     const pdfBaseUrl = process.env.URL_PDF || '';
-    const siteBaseUrl = process.env.URL_LOCAL || 'https://www.tucumanturismo.gob.ar/reactdev'; // Asume un valor por defecto si no está
+    const siteBaseUrl = process.env.URL_LOCAL || 'https://www.tucumanturismo.gob.ar'; // Asume un valor por defecto si no está
 
     try {
         const [articuloRes, galeriaRes, pdfsRes] = await Promise.all([
@@ -223,7 +223,7 @@ export default function ArticuloPage({ articulo, galleryItems, pdfItems, paralla
     }
 
     const imageBaseUrl = process.env.URL_IMG || '';
-    const siteBaseUrl = process.env.URL_LOCAL || 'https://www.tucumanturismo.gob.ar/reactdev';
+    const siteBaseUrl = process.env.URL_LOCAL || 'https://www.tucumanturismo.gob.ar';
 
     const breadcrumbItems = [
         ...(articulo?.nomSubseccion ? [{ label: articulo.nomSubseccion, href: `${siteBaseUrl}/subsecciones/lista/${articulo.idSubseccion}/${generateSlug(articulo.nomSubseccion)}` }] : []), ///[slug].jsx]

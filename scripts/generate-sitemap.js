@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const { generateSlug } = require('../src/utils'); // Asegúrate que la ruta sea correcta a tu utils/index.js
 
-const SITE_URL = 'https://www.tucumanturismo.gob.ar/reactdev'; // URL base SIN el basePath
+const SITE_URL = 'https://www.tucumanturismo.gob.ar'; // URL base SIN el basePath
 const API_BASE_URL = 'https://www.tucumanturismo.gob.ar/api/v1/api/'; // URL de tu API
 
 // Función para obtener datos de tu API

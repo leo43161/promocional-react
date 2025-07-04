@@ -169,11 +169,9 @@ console.log(productos?.result?.articulos[0]);
                           <Plus style={{ color: circuitoSelected.color }} className="size-8 md:size-7" />
                         )}
                       </button>
-                      <Image
+                      <img
                         src={process.env.URL_IMG + producto.imagen}
                         alt={`imagen ${index}`}
-                        width={250}
-                        height={180}
                         className="w-full rounded-t-md h-[180px] object-cover"
                       />
                     </div>
