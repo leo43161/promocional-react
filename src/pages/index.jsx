@@ -41,17 +41,30 @@ export default function Index() {
   return (
     <div>
       <div className='mb-0'>
+<<<<<<< HEAD
        <a href="https://www.tucumanturismo.gob.ar/files/Actividades-Invierno-2025-TucumanTieneTodo.pdf" target="_blank" rel="noopener noreferrer">
         <ResponsiveVideo />
         </a>
+=======
+        <a href="https://www.tucumanturismo.gob.ar/files/Actividades-Invierno-2025-TucumanTieneTodo.pdf" target="_blank" rel="noopener noreferrer">
+          <ResponsiveVideo />
+        </a>
+        <div className='hidden'>is a main</div>
+>>>>>>> 78b6045f322dcaeced41db13e2caa8a8446c0c29
       </div>
       <div className='mb-0'>
         <Itinerarios />
       </div>
       <div>
+<<<<<<< HEAD
         <div >
           <a href="https://www.tucumanturismo.gob.ar/files/Actividades-Invierno-2025-TucumanTieneTodo.pdf" target="_blank">
           <img src={process.env.URL_IMG_LOCAL + "/images/banners/BannerWeb1900x450Invierno2025-Desktop.jpg"} alt="Banner de Invierno" />
+=======
+        <div>
+          <a href="https://www.tucumanturismo.gob.ar/files/Actividades-Invierno-2025-TucumanTieneTodo.pdf" target="_blank">
+            <img src={process.env.URL_IMG_LOCAL + "/images/banners/BannerWeb1900x450Invierno2025-Desktop.jpg"} alt="Banner de Invierno" />
+>>>>>>> 78b6045f322dcaeced41db13e2caa8a8446c0c29
           </a>
         </div>
       </div>

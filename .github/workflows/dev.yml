@@ -1,0 +1,65 @@
+name: Deploy Next.js Static Site to cPanel
+
+# Disparador: Se ejecuta cuando haces push a la rama 'main'
+# También permite ejecución manual desde la pestaña Actions en GitHub
+on:
+  push:
+    branches:
+      - dev # O la rama principal que uses (master, prod, etc.)
+  workflow_dispatch: # Permite la ejecución manual
+
+  # --- AÑADIR ESTO ---
+concurrency:
+  # Agrupa las ejecuciones por el nombre del workflow Y la rama (o referencia git)
+  # Esto asegura que solo haya una ejecución activa por rama a la vez para este workflow.
+  group: ${{ github.workflow }}-${{ github.ref }}
+  # Cancela ejecuciones anteriores en progreso dentro del mismo grupo
+  cancel-in-progress: true
+# --- FIN DE LO AÑADIDO ---
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest # Usa un runner de Linux
+
+    steps:
+      # 1. Descarga el código del repositorio
+      - name: Checkout code
+        uses: actions/checkout@v4 # Acción oficial para clonar el repo
+
+      # 2. Configura Node.js (ajusta la versión si es necesario)
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22.12.0" # Usa una versión LTS recomendada o la que uses tú
+          cache: "npm" # Habilita caché para 'npm install'
+
+      # 3. Instala las dependencias (usa 'npm ci' para instalaciones más rápidas y fiables en CI)
+      - name: Install dependencies
+        run: npm ci
+
+      # 4. Construye el sitio estático (incluye next export)
+      # Si tu build necesita variables de entorno (ej: URL de API), añádelas aquí
+      - name: Build static site
+        run: npm run build
+        # Ejemplo si necesitaras variables de entorno:
+        env:
+          IS_CPANEL_DEPLOY: "true"
+          NEXT_PUBLIC_IS_DEV: "dev"
+
+      # 5. Despliega a cPanel usando SFTP (o FTP)
+      - name: Deploy to cPanel via SFTP # O FTP si es necesario
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.CPANEL_SERVER_DEV }}
+          username: ${{ secrets.CPANEL_USERNAME_DEV }}
+          password: ${{ secrets.CPANEL_PASSWORD_DEV }}
+          protocol: ftp # O 'sftp' si cambiaste
+          port: ${{ secrets.CPANEL_PORT || '21' }} # O '22' para SFTP
+          local-dir: ./out/ # Sube todo desde out/ (incluyendo .htaccess)
+          server-dir: / # Tu directorio raíz en cPanel
+          # --- OPCIONES MODIFICADAS ---
+          # dangerous-clean-slate: true # <-- ELIMINADO
+          # Opcional: Puedes añadir 'delete: true' si quieres borrar archivos viejos
+          # en el servidor que YA NO existen en './out/', pero ten cuidado.
+          # delete: true
+          # Asegúrate que tu .htaccess esté en public/ para que se incluya en out/

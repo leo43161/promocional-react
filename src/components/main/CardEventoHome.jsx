@@ -75,7 +75,7 @@ export default function CardEventoHome({ evento }) {
 
     return (
         <div className='w-full'>
-            <div className='flex flex-col'>
+            <div className='flex flex-col h-full items-stretch'>
                 <div className='relative border h-75'>
                     <img
                         src={process.env.URL_IMG + imagen}

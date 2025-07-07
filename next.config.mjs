@@ -15,9 +15,11 @@ const nextConfig = {
     basePath: process.env.NODE_ENV === 'production' ? "" : "",
 };
 
-if (process.env.IS_CPANEL_DEPLOY === 'true') {
+if (process.env.NEXT_PUBLIC_IS_DEV === 'dev') {
     console.log("Aplicando basePath para despliegue en cPanel...");
-    nextConfig.basePath = '';
+    nextConfig.env.URL_IMG_LOCAL = "/reactdev";
+    nextConfig.env.URL_LOCAL = "/reactdev";
+    nextConfig.basePath = '/reactdev';
 } else {
     console.log("No aplicando basePath.");
 }

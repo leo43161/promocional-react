@@ -64,7 +64,7 @@ export default function Eventos() {
                         [{ label: "Alojamientos", href: '/eventos' }]
                     }></Breadcrumb>
                 </div>
-                <h2 className="text-2xl font-bold mb-4">Buscá aquí donde hospedarte</h2>
+                <h2 className="text-2xl font-bold mb-4">Buscá aquí los eventos</h2>
                 <div>
                     <div className='w-10/12 mx-auto'>
                         {/* Componente de búsqueda */}

@@ -34,7 +34,7 @@ export default function EventosHome() {
                 interval={6000}
             >
                 {eventosDestacados.map((group, indexGroup) => (
-                    <div key={indexGroup} className="h-full w-full flex">
+                    <div key={indexGroup} className="flex h-full w-full">
                         <div className='flex justify-around w-full'>
                             {group.map((evento, index) => (
                                 <div className="md:w-4/15 w-13/16 relative" key={index}>
