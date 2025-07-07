@@ -40,7 +40,7 @@ jobs:
       # 4. Construye el sitio estático (incluye next export)
       # Si tu build necesita variables de entorno (ej: URL de API), añádelas aquí
       - name: Build static site
-        run: npm run build
+        run: npm run build:static
         # Ejemplo si necesitaras variables de entorno:
         env:
           IS_CPANEL_DEPLOY: "true"
