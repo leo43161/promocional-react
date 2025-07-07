@@ -65,7 +65,7 @@ jobs:
           REMOTE_USER: ${{ secrets.CPANEL_USERNAME_SSH }}
 
           # Carpeta de destino en el servidor (ajústala si tu sitio no está en public_html)
-          TARGET_DIR: "public_html/reactdev/"
+          TARGET: "public_html/reactdev"
 
       # 5. Despliega a cPanel usando SFTP (o FTP)
       # - name: Deploy to cPanel via SFTP # O FTP si es necesario
