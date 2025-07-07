@@ -66,7 +66,7 @@ export default function CardBlog({
                 <h3 className="text-2xl md:text-2xl font-semibold text-gray-800 mb-3 leading-tight line-clamp-3">
                     {nombre}
                 </h3>
-                <p className="text-gray-600 text-md mb-4 line-clamp-3">
+                <p className="text-gray-600 text-md mb-4 line-clamp-2">
                     {copete}
                 </p>
                 <div className="flex justify-between items-center">

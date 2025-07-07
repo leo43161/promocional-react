@@ -65,12 +65,12 @@ export default function Guias() {
             <div className='w-11/12 mx-auto pt-5'>
                 <div className='mb-5'>
                     <Breadcrumb items={
-                        [{ label: "Prestadores activos", href: '/guias' }]
+                        [{ label: "Guías de Turismo", href: '/guias' }]
                     }></Breadcrumb>
                 </div>
-                <h2 className="text-2xl font-bold mb-4">Prestadores de Turismo Aventura Habilitados</h2>
+                <h2 className="text-2xl font-bold mb-4">Guías de Turismo Habilitados</h2>
                 <div>
-                    <h1 className='text-center text-4xl font-bold mb-6'>Buscá aquí que actividad querés hacer</h1>
+                    <h1 className='text-center text-4xl font-bold mb-6'>Buscá aquí los guías de turismo habilitados</h1>
                     <div>
                         {/* Componente de búsqueda */}
                         <Buscador onSearch={handleSearch} />
