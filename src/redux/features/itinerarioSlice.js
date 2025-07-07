@@ -1,14 +1,9 @@
 
 /* import circuitos from '@/data/circuitos'; */
-import icons from '@/utils/icons';
 import { createSlice } from '@reduxjs/toolkit';
 
 // Define los posibles componentes que se pueden mostrar.
 const componentTypes = ['destinos', 'alojamientos', 'prestadores', 'guias'];
-
-const { HistoricaLogo, HistoricaLogoMb, YungasLogo, YungasLogoMb, ChoromoroLogo, ChoromoroLogoMb, CalchaquiLogo, CalchaquiLogoMb, SurLogoMb, SurLogo } = icons;
-console.log(icons);
-
 
 const circuitos = [
   {

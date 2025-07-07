@@ -55,14 +55,6 @@ const CardArticulosBusqueda = ({ articulo, isLoading = false }) => {
   if (!articulo) return null;
 
   const { idArticulo, nombre, imagen, imagenMovil, copete } = articulo;
-  if (idArticulo === "92") {
-    console.log("articulo");
-    console.log(articulo);
-    console.log("imagen");
-    console.log(imagen);
-    console.log("imagenMovil");
-    console.log(imagenMovil);
-  }
   return isLoading ? <CardSkeleton /> : (
     <a href={`articulos/articulo/${idArticulo}`} className="text-primary font-bold text-sm flex items-center">
       <div className="relative flex flex-col md:flex-row w-full my-6 bg-white shadow-sm border border-slate-200 rounded-lg ">

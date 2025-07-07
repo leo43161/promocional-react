@@ -40,23 +40,44 @@ jobs:
       # 4. Construye el sitio estático (incluye next export)
       # Si tu build necesita variables de entorno (ej: URL de API), añádelas aquí
       - name: Build static site
-        run: npm run build
+        run: npm run build:static
         # Ejemplo si necesitaras variables de entorno:
         env:
           IS_CPANEL_DEPLOY: "true"
           NEXT_PUBLIC_IS_DEV: "dev"
 
-      # 5. Despliega a cPanel usando SFTP (o FTP)
-      - name: Deploy to cPanel via SFTP # O FTP si es necesario
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      # 5. Despliega a cPanel usando rsync sobre SSH (EL NUEVO PASO RÁPIDO)
+      - name: Deploy to cPanel via rsync over SSH
+        uses: easingthemes/ssh-deploy@v5.0.0
         with:
-          server: ${{ secrets.CPANEL_SERVER_DEV }}
-          username: ${{ secrets.CPANEL_USERNAME_DEV }}
-          password: ${{ secrets.CPANEL_PASSWORD_DEV }}
-          protocol: ftp # O 'sftp' si cambiaste
-          port: ${{ secrets.CPANEL_PORT || '21' }} # O '22' para SFTP
-          local-dir: ./out/ # Sube todo desde out/ (incluyendo .htaccess)
-          server-dir: / # Tu directorio raíz en cPanel
+          # Clave privada para la autenticación SSH
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          # Credenciales del servidor remoto
+          REMOTE_HOST: ${{ secrets.CPANEL_SERVER }}
+          REMOTE_USER: ${{ secrets.CPANEL_USERNAME_SSH }}
+          REMOTE_PORT: "21"
+          # Carpeta de origen que se va a subir
+          SOURCE: "out/"
+          # Carpeta de destino en el servidor (ajústala si tu sitio no está en public_html)
+          TARGET: "public_html/reactdev"
+          # Argumentos para rsync: -r (recursivo), -l (copiar symlinks), -a (modo archivo), -z (comprimir), -v (verboso)
+          # --delete borra archivos en el destino que no existen en el origen
+          ARGS: "-rlazv --delete"
+
+
+
+
+      # 5. Despliega a cPanel usando SFTP (o FTP)
+      # - name: Deploy to cPanel via SFTP # O FTP si es necesario
+      #  uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      #  with:
+      #    server: ${{ secrets.CPANEL_SERVER_DEV }}
+      #    username: ${{ secrets.CPANEL_USERNAME_DEV }}
+      #    password: ${{ secrets.CPANEL_PASSWORD_DEV }}
+      #    protocol: ftp # O 'sftp' si cambiaste
+      #    port: ${{ secrets.CPANEL_PORT || '21' }} # O '22' para SFTP
+      #    local-dir: ./out/ # Sube todo desde out/ (incluyendo .htaccess)
+      #    server-dir: / # Tu directorio raíz en cPanel
           # --- OPCIONES MODIFICADAS ---
           # dangerous-clean-slate: true # <-- ELIMINADO
           # Opcional: Puedes añadir 'delete: true' si quieres borrar archivos viejos

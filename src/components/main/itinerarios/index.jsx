@@ -1,19 +1,12 @@
 import { useState } from "react";
-import icons from '@/utils/icons'
 import dynamic from 'next/dynamic';
-import Image from "next/image";
 import { CircleArrowRight, ChevronDown, Check } from 'lucide-react';
 import circuitos from "@/data/circuitos";
 import CircuitoSec from "./CircuitoSec";
 import { useSelector, useDispatch } from "react-redux";
 import { setActiveComponent, setCircuitoSelected } from "@/redux/features/itinerarioSlice";
-import PlanificaDoc from "@/components/ItinerarioDoc";
 
 const circuitosData = circuitos();
-
-const { LogoGobtuc } = icons;
-
-console.log(LogoGobtuc);
 
 const PDFDownload = dynamic(
     () => import('./PDFDownload'),

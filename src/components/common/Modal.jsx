@@ -35,7 +35,6 @@ const Modal = ({
     }, []);
 
     useEffect(() => {
-        console.log(ReactLenis);
         if (isOpen) {
             document.body.style.overflow = 'hidden';
         } else {
