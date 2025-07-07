@@ -10,14 +10,14 @@ import HeaderSearch from './HeaderSearch';
 // AJUSTA los 'id' según los valores que espera tu API para cada idioma
 
 const redirectSubsecc = [
-    /* { idSubseccion: 5, articulo: "alojamientos" }, */
+    { idSubseccion: 5, articulo: "alojamientos" },
     { idSubseccion: 6, articulo: "transporte" },
     { idSubseccion: 41, articulo: "autos" },
     { idSubseccion: 20, articulo: "eventos" },
     { idSubseccion: 42, articulo: "prestadores" },
     { idSubseccion: 43, articulo: "agencias" },
     { idSubseccion: 44, articulo: "guias" },
-    /* { idSubseccion: 62, articulo: "alojamientos" }, */
+    { idSubseccion: 62, articulo: "alojamientos" },
     { idSubseccion: 64, articulo: "prestadores" },
     { idSubseccion: 83, articulo: "autos" },
     { idSubseccion: 66, articulo: "guias" },
@@ -197,7 +197,7 @@ export default function Header() {
                     <div className="lg:flex items-center space-x-2 text-[1.1em] pb-1 text-black flex-wrap justify-center hidden">
                         {/* Static text - consider internationalization (i18n) library for this */}
                         <span className='hidden sm:inline'>
-                          {isEnglish ? 'Contact us and discover Tucumán: ' : 'Comunicate y conocé Tucumán: '}
+                            {isEnglish ? 'Contact us and discover Tucumán: ' : 'Comunicate y conocé Tucumán: '}
                         </span>
                         <a href="tel:+54-0381-4303644" className="hover:underline whitespace-nowrap">+54-0381-4303644</a>
                         <span className='hidden sm:inline'>|</span>
