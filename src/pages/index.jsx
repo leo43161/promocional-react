@@ -44,6 +44,7 @@ export default function Index() {
         <a href="https://www.tucumanturismo.gob.ar/files/Actividades-Invierno-2025-TucumanTieneTodo.pdf" target="_blank" rel="noopener noreferrer">
           <ResponsiveVideo />
         </a>
+        <div className='hidden'>is a main</div>
       </div>
       <div className='mb-0'>
         <Itinerarios />
