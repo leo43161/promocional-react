@@ -52,20 +52,20 @@ jobs:
         with:
           # Clave privada para la autenticación SSH
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-
+          # Credenciales del servidor remoto
+          REMOTE_HOST: ${{ secrets.CPANEL_SERVER }}
+          REMOTE_USER: ${{ secrets.CPANEL_USERNAME_SSH }}
+          REMOTE_PORT: "21"
+          # Carpeta de origen que se va a subir
+          SOURCE: "out/"
+          # Carpeta de destino en el servidor (ajústala si tu sitio no está en public_html)
+          TARGET: "public_html/reactdev"
           # Argumentos para rsync: -r (recursivo), -l (copiar symlinks), -a (modo archivo), -z (comprimir), -v (verboso)
           # --delete borra archivos en el destino que no existen en el origen
           ARGS: "-rlazv --delete"
 
-          # Carpeta de origen que se va a subir
-          SOURCE: "out/"
 
-          # Credenciales del servidor remoto
-          REMOTE_HOST: ${{ secrets.CPANEL_SERVER }}
-          REMOTE_USER: ${{ secrets.CPANEL_USERNAME_SSH }}
 
-          # Carpeta de destino en el servidor (ajústala si tu sitio no está en public_html)
-          TARGET: "public_html/reactdev"
 
       # 5. Despliega a cPanel usando SFTP (o FTP)
       # - name: Deploy to cPanel via SFTP # O FTP si es necesario
