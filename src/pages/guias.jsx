@@ -1,18 +1,11 @@
 import React, { useState, useEffect } from 'react';
-<<<<<<< HEAD
 import { useGetGuiasQuery } from '@/redux/services/prestadoresService';
-=======
-import { useGetPrestadoresQuery } from '@/redux/services/prestadoresService';
->>>>>>> 4c114976d79b6a4677f1e9be9cebd031c0d0ce34
 import ParallaxContainer from '@/components/common/ParallaxContainer';
 import CardPrestadores from '@/components/prestadores/CardPrestadores';
 import Breadcrumb from '@/components/common/Breadcrumb';
 import Buscador from '@/components/SearchPrest';
 import Paginado from '@/components/common/Paginado';
-<<<<<<< HEAD
 import CardGuia from '@/components/prestadores/CardGuia';
-=======
->>>>>>> 4c114976d79b6a4677f1e9be9cebd031c0d0ce34
 
 export default function Guias() {
     // Estado para controlar la paginación y búsqueda
@@ -72,12 +65,12 @@ export default function Guias() {
             <div className='w-11/12 mx-auto pt-5'>
                 <div className='mb-5'>
                     <Breadcrumb items={
-                        [{ label: "Prestadores activos", href: '/guias' }]
+                        [{ label: "Guías de Turismo", href: '/guias' }]
                     }></Breadcrumb>
                 </div>
-                <h2 className="text-2xl font-bold mb-4">Prestadores de Turismo Aventura Habilitados</h2>
+                <h2 className="text-2xl font-bold mb-4">Guías de Turismo Habilitados</h2>
                 <div>
-                    <h1 className='text-center text-4xl font-bold mb-6'>Buscá aquí que actividad querés hacer</h1>
+                    <h1 className='text-center text-4xl font-bold mb-6'>Buscá aquí los guías de turismo habilitados</h1>
                     <div>
                         {/* Componente de búsqueda */}
                         <Buscador onSearch={handleSearch} />

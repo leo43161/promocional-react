@@ -47,7 +47,7 @@ export default function Eventos() {
                     speed={0.2}
                     minHeight="h-96 md:h-[58vh] xl:h-[45vh]"
                     className=""
-                    imageUrl='https://www.tucumanturismo.gob.ar/public/img/planviaje/1920x650-HOTEL-Desktop.jpg'
+                    imageUrl='https://www.tucumanturismo.gob.ar/public/img/planviaje/banner-eventos.jpg'
                 >
                     <div className="container mx-auto h-full text-white flex flex-col justify-end">
                         <div className='w-11/12 mx-auto pt-5'>
@@ -61,7 +61,7 @@ export default function Eventos() {
             <div className='w-11/12 mx-auto pt-5'>
                 <div className='mb-5'>
                     <Breadcrumb items={
-                        [{ label: "Alojamientos", href: '/eventos' }]
+                        [{ label: "Eventos", href: '/eventos' }]
                     }></Breadcrumb>
                 </div>
                 <h2 className="text-2xl font-bold mb-4">Buscá aquí los eventos</h2>

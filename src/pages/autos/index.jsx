@@ -12,7 +12,7 @@ export default function Autos() {
     // Consulta con RTK Query
     const { data: guias, error, isLoading, isFetching } = useGetAutosQuery();
 
-    if (error) return <p>Hubo un error al cargar los guias</p>;
+    if (error) return <p>Hubo un error al cargar los autos de alquiler</p>;
 
     // Determinar si estamos en un estado de carga (inicial o actualización)
     const loading = isLoading || isFetching;
@@ -37,11 +37,11 @@ export default function Autos() {
             <div className='w-11/12 mx-auto pt-5'>
                 <div className='mb-5'>
                     <Breadcrumb items={
-                        [{ label: "Prestadores activos", href: '/guias' }]
+                        [{ label: "Alquiler de Autos", href: '/autos' }]
                     }></Breadcrumb>
                 </div>
                 <div>
-                    <h1 className='text-center text-4xl font-bold mb-8 '>Conocé donde organizar tu viaje a Tucumán</h1>
+                    <h1 className='text-center text-4xl font-bold mb-8 '>Conocé donde alquilar autos enTucumán</h1>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-10/11 mx-auto mb-4">
                     {loading ? (
