@@ -71,7 +71,7 @@ export default function CardBlog({
                 </p>
                 <div className="flex justify-between items-center">
                     <a
-                        href={`${idArticulo}`}
+                        href={`${process.env.URL_LOCAL}/articulos/articulo/${idArticulo}`}
                         className="inline-block bg-primary hover:bg-primary/85 text-white text-[1.1em] font-medium py-2 px-4 rounded-md transition-colors"
                     >
                         Conocé más aquí

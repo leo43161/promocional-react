@@ -310,7 +310,7 @@ const ItinerarioDoc = ({ data }) => {
                       {/* Contenedor de la Imagen */}
                       <View style={styles.cardImgContain}>
                         <Image
-                          src={{ uri: `https://www.tucumanturismo.gob.ar/carga/image/${alojamiento.logo}` }}
+                          src={{ uri: `https://www.tucumanturismo.gob.ar/carga/image/${alojamiento.archivo}` }}
                           style={styles.cardImg}
                         />
                       </View>
