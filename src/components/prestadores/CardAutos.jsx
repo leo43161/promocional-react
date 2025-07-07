@@ -5,7 +5,7 @@ export default function CardGuias({ prestador, isLoading = false }) {
     // Si está cargando, mostrar el skeleton
     if (isLoading) {
         return (
-            <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm animate-pulse">
+            <div className="overflow-hidden h-full rounded-lg border border-gray-200 bg-white shadow-sm animate-pulse">
                 {/* Encabezado skeleton */}
                 <div className="bg-gray-200 p-4">
                     <div className="h-6 w-3/4 bg-gray-300 rounded"></div>
@@ -68,7 +68,7 @@ export default function CardGuias({ prestador, isLoading = false }) {
 
 
     return (
-        <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
+        <div className="overflow-hidden h-full rounded-lg border border-gray-200 bg-white shadow-sm">
             {/* Encabezado verde */}
             <div className="bg-secondary p-4 text-white font-medium">
                 <h3 className="md:text-3xl text-xl">{nombre}</h3>
@@ -89,17 +89,17 @@ export default function CardGuias({ prestador, isLoading = false }) {
                 {/* Contactos */}
                 <div className="flex flex-col gap-4 mb-4">
                     {telefonos && (
-                        <p className="flex items-center text-gray-700">
+                        <p className="flex items-center text-gray-700 text-xl">
                             <Phone className="h-5 w-5 mr-2 text-gray-500" />
                             {telefonos}
                         </p>
                     )}
 
                     {email && (
-                        <p className="flex items-center text-gray-700">
-                            <Mail className="h-5 w-5 mr-2 text-gray-500" />
-                            {email}
-                        </p>
+                        <a href={`mailto:${email}`} className="flex items-center text-gray-700 hover:text-primary text-xl">
+                                                    <Mail className="h-5 w-5 mr-2 text-gray-500" />
+                                                    {email}
+                                                </a>
                     )}
                 </div>
 
@@ -109,19 +109,19 @@ export default function CardGuias({ prestador, isLoading = false }) {
                         <p className="text-gray-800 font-medium uppercase mb-2">Encontranos en</p>
                         <div className="flex gap-2">
                             {web && (
-                                <a href={web} target="_blank" rel="noopener noreferrer" className="text-secondary/90 hover:text-secondary">
+                                <a href={web} target="_blank" rel="noopener noreferrer" className="text-secondary/90 hover:text-primary">
                                     <Globe className="h-6 w-6" />
                                 </a>
                             )}
 
                             {facebook && (
-                                <a href={facebook} target="_blank" rel="noopener noreferrer" className="text-secondary/90 hover:text-secondary">
+                                <a href={facebook} target="_blank" rel="noopener noreferrer" className="text-secondary/90 hover:text-primary">
                                     <Facebook className="h-6 w-6" />
                                 </a>
                             )}
 
                             {instagram && (
-                                <a href={instagram} target="_blank" rel="noopener noreferrer" className="text-secondary/90 hover:text-secondary">
+                                <a href={instagram} target="_blank" rel="noopener noreferrer" className="text-secondary/90 hover:text-primary">
                                     <Instagram className="h-6 w-6" />
                                 </a>
                             )}

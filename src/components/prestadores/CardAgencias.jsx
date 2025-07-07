@@ -91,17 +91,17 @@ export default function CardGuias({ prestador, isLoading = false }) {
                 {/* Contactos */}
                 <div className="flex flex-col gap-4 mb-4">
                     {telefonos && (
-                        <p className="flex items-center text-gray-700">
+                        <p className="flex items-center text-gray-700 text-xl">
                             <Phone className="h-5 w-5 mr-2 text-gray-500" />
                             {telefonos}
                         </p>
                     )}
 
                     {email && (
-                        <p className="flex items-center text-gray-700">
-                            <Mail className="h-5 w-5 mr-2 text-gray-500" />
-                            {email}
-                        </p>
+                        <a href={`mailto:${email}`} className="flex items-center text-gray-700 hover:text-primary text-xl">
+                                                    <Mail className="h-5 w-5 mr-2 text-gray-500" />
+                                                    {email}
+                                                </a>
                     )}
                 </div>
 
@@ -111,19 +111,19 @@ export default function CardGuias({ prestador, isLoading = false }) {
                         <p className="text-gray-800 font-medium uppercase mb-2">Encontranos en</p>
                         <div className="flex gap-2">
                             {web && (
-                                <a href={web} target="_blank" rel="noopener noreferrer" className="text-secondary/90 hover:text-secondary">
+                                <a href={web} target="_blank" rel="noopener noreferrer" className="text-secondary/90 hover:text-primary">
                                     <Globe className="h-6 w-6" />
                                 </a>
                             )}
 
                             {facebook && (
-                                <a href={facebook} target="_blank" rel="noopener noreferrer" className="text-secondary/90 hover:text-secondary">
+                                <a href={facebook} target="_blank" rel="noopener noreferrer" className="text-secondary/90 hover:text-primary">
                                     <Facebook className="h-6 w-6" />
                                 </a>
                             )}
 
                             {instagram && (
-                                <a href={instagram} target="_blank" rel="noopener noreferrer" className="text-secondary/90 hover:text-secondary">
+                                <a href={instagram} target="_blank" rel="noopener noreferrer" className="text-secondary/90 hover:text-primary">
                                     <Instagram className="h-6 w-6" />
                                 </a>
                             )}

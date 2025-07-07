@@ -41,7 +41,7 @@ export default function Autos() {
                     }></Breadcrumb>
                 </div>
                 <div>
-                    <h1 className='text-center text-4xl font-bold mb-8 '>Conocé donde alquilar autos enTucumán</h1>
+                    <h1 className='text-center text-4xl font-bold mb-8'>Conocé donde alquilar autos enTucumán</h1>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-10/11 mx-auto mb-4">
                     {loading ? (
