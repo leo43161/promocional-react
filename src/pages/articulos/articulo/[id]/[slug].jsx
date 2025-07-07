@@ -217,6 +217,10 @@ export default function ArticuloPage({ articulo, galleryItems, pdfItems, paralla
 
     const { lang } = router.query;
 
+    if (id === "100") {
+        console.log('Articulo 100 no redirigido');
+    }
+
     if (!articulo) {
         // Esta comprobación es más para robustez, getStaticProps debería devolver notFound: true
         return <div className="container mx-auto p-5 text-center">Artículo no disponible.</div>;
@@ -229,7 +233,7 @@ export default function ArticuloPage({ articulo, galleryItems, pdfItems, paralla
         ...(articulo?.nomSubseccion ? [{ label: articulo.nomSubseccion, href: `${siteBaseUrl}/subsecciones/lista/${articulo.idSubseccion}/${generateSlug(articulo.nomSubseccion)}` }] : []), ///[slug].jsx]
         { label: articulo.nombre || "Detalle", href: `${siteBaseUrl}/articulos/articulo/${id}/${slug}` } ///[slug].jsx]
     ];
-    
+
     // Definir la URL canónica completa
     const canonicalUrl = `${siteBaseUrl}${router.asPath.split("?")[0]}`;
 

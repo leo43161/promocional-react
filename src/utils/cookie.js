@@ -2,7 +2,6 @@ import CryptoJS from 'crypto-js';
 
 // ¡IMPORTANTE! Reemplaza esto con una clave segura y guárdala en tus variables de entorno
 const key = CryptoJS.enc.Utf8.parse(process.env.NEXT_PUBLIC_COOKIE_SECRET || 'EATT8521EATT8521EATT8521EATT8521');
-console.log(key);
 // Función para encriptar
 export function encriptar(string) {
     const iv = CryptoJS.lib.WordArray.random(16);

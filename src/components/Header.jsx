@@ -64,7 +64,7 @@ export default function Header() {
     const dynamicMenuItems = useMemo(() => {
         // Si está cargando, obteniendo datos nuevos, o hubo un error, retorna array vacío
         if (isLoading || isFetching || error || !seccionesApi) {
-            console.log('isLoading, isFetching, error, seccionesApi:', isLoading, isFetching, error, seccionesApi);
+            /* console.log('isLoading, isFetching, error, seccionesApi:', isLoading, isFetching, error, seccionesApi); */
             // Podrías diferenciar entre loading y error si quieres mostrar mensajes distintos
             return [];
         }
