@@ -57,7 +57,7 @@ export default function CardEvento({ evento, isLoading = false }) {
                     </div>
                 </div>
                 <div>
-                    <Button className='shadow-lg' size='sm'>
+                    <Button className='shadow-lg' size='sm' href={`${process.env.URL_LOCAL}/eventos/evento?id=${evento.id}`} key={evento.id}>
                         Conocé más aqui
                     </Button>
                 </div>

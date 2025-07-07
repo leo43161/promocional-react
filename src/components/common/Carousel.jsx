@@ -69,7 +69,7 @@ export default function Carousel({
         style={{ transform: `translateX(-${currentIndex * 100}%)` }}
       >
         {childrenArray.map((child, index) => (
-          <div key={index} className="w-full flex-shrink-0">
+          <div key={index} className="w-full flex-shrink-0 h-full">
             {child}
           </div>
         ))}

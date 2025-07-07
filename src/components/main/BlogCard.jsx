@@ -105,7 +105,7 @@ export default function BlogCard({
                     <h3 className="text-2xl md:text-4xl font-semibold text-gray-800 mb-3 leading-tight line-clamp-3">
                         {nombre}
                     </h3>
-                    <p className="text-gray-600 text-[1.1em] mb-4 flex-grow">
+                    <p className="text-gray-600 text-[1.1em] mb-4 flex-grow line-clamp-2">
                         {copete}
                     </p>
                     <div className="flex justify-between items-center">
@@ -136,7 +136,7 @@ export default function BlogCard({
                 <h3 className="text-2xl font-semibold text-gray-800 mb-2 leading-tight line-clamp-3">
                     {nombre}
                 </h3>
-                <p className="text-gray-600 text-[1.1em] mb-3 overflow-hidden text-ellipsis line-clamp-3 md:line-clamp-4">
+                <p className="text-gray-600 text-[1.1em] mb-3 overflow-hidden text-ellipsis line-clamp-2 md:line-clamp-2">
                     {copete}
                 </p>
                 <div className="flex justify-between items-center">

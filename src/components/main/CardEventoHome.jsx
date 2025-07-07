@@ -75,7 +75,7 @@ export default function CardEventoHome({ evento }) {
 
     return (
         <div className='w-full'>
-            <div className='flex flex-col'>
+            <div className='flex flex-col h-full items-stretch'>
                 <div className='relative border h-75'>
                     <img
                         src={process.env.URL_IMG + imagen}
@@ -102,11 +102,9 @@ export default function CardEventoHome({ evento }) {
                     </div>
                 </div>
                 <div>
-                    <a href={eventLink()}>
-                        <Button className='shadow-lg w-full' size='sm'>
+                    <Button className='shadow-lg w-full' size='sm' href={eventLink()}>
                             {currentContent.buttonText}
-                        </Button>
-                    </a>
+                    </Button>   
                 </div>
             </div>
         </div>
