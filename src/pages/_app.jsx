@@ -12,15 +12,20 @@ const monserrat = Sofia_Sans_Condensed({
 });
 
 function MyApp({ Component, pageProps }) {
+  // Busca una función getLayout en la página. Si no existe, usa el Layout por defecto.
+  const getLayout = Component.getLayout || ((page) => (
+    <Layout className={monserrat.className} pageProps={pageProps}>
+      {page}
+    </Layout>
+  ));
+  
   return (
     <>
       {/* Tu estructura existente de la aplicación */}
       <Provider store={store}>
-        <Layout className={monserrat.className} pageProps={pageProps}>
           <GoogleAnalytics gaId="G-XYDWQ2QQ4R" />
           <GoogleTagManager gtmId="GTM-PKQ3DWZL" />
-          <Component {...pageProps} />
-        </Layout>
+          {getLayout(<Component {...pageProps} />)}
       </Provider>
     </>
   );

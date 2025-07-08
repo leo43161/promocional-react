@@ -48,10 +48,14 @@ jobs:
       # 5. Comprime la salida en un archivo ZIP
       # Nos aseguramos de entrar al directorio 'out' antes de comprimir
       # para que el zip no contenga la carpeta 'out' en sí misma.
-      - name: Compress build output for deployment
-        run: |
-          cd out
-          zip -r ../deploy.zip .
+
+#DESCOMENTARRRRR----------------------------------
+      #- name: Compress build output for deployment
+      #  run: |
+      #    cd out
+      #    zip -r ../deploy.zip .
+#DESCOMENTARRRRR----------------------------------
+
       # 6. Sube SÓLO el archivo ZIP usando FTP
       - name: Deploy ZIP to cPanel via FTP # O FTP si es necesario
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
@@ -61,10 +65,12 @@ jobs:
           password: ${{ secrets.CPANEL_PASSWORD_DEV }}
           protocol: ftp # O 'sftp' si cambiaste
           port: ${{ secrets.CPANEL_PORT || '21' }} # O '22' para SFTP
-          local-dir: ./ # Sube todo desde out/
+          local-dir: ./out/ # Sube todo desde out/
+          #DESCOMENTARRRRR----------------------------------
+          #args: --upload-by-files-name "deploy.zip"
+          #state-name: ftp-transfer.json
+          #DESCOMENTARRRRR----------------------------------
           server-dir: /
-          state-name: ftp-transfer.json
-          args: --upload-by-files-name "deploy.zip"
 
       # 7. Llama al script PHP para que descomprima el archivo en el servidor
       - name: Trigger unzip on server
