@@ -53,7 +53,7 @@ jobs:
           cd out
           zip -r ../deploy.zip .
       # 6. Sube SÓLO el archivo ZIP usando FTP
-      - name: Deploy to cPanel via SFTP # O FTP si es necesario
+      - name: Deploy ZIP to cPanel via FTP # O FTP si es necesario
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: ${{ secrets.CPANEL_SERVER_DEV }}
@@ -61,7 +61,7 @@ jobs:
           password: ${{ secrets.CPANEL_PASSWORD_DEV }}
           protocol: ftp # O 'sftp' si cambiaste
           port: ${{ secrets.CPANEL_PORT || '21' }} # O '22' para SFTP
-          local-dir: ./
+          local-dir: ../
           server-dir: /
           state-name: ftp-transfer.json
           args: --upload-by-files-name "deploy.zip"
