@@ -61,7 +61,7 @@ jobs:
           password: ${{ secrets.CPANEL_PASSWORD_DEV }}
           protocol: ftp # O 'sftp' si cambiaste
           port: ${{ secrets.CPANEL_PORT || '21' }} # O '22' para SFTP
-          local-dir: ../
+          local-dir: ../deploy.zip # Sube todo desde out/
           server-dir: /
           state-name: ftp-transfer.json
           args: --upload-by-files-name "deploy.zip"
