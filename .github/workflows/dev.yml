@@ -1,4 +1,4 @@
-name: Deploy Next.js Static Site to cPanel
+name: Deploy Next.js Static Site to cPanel REACTDEV ZIP
 
 # Disparador: Se ejecuta cuando haces push a la rama 'main'
 # También permite ejecución manual desde la pestaña Actions en GitHub
