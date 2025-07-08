@@ -29,7 +29,7 @@ const CardAlojamiento = ({ alojamiento, isLoading = false }) => {
 
     const renderStars = (count) => {
         return [...Array(Number(count))].map((_, i) => (
-            <img className='w-5 h-5' key={i} src={process.env.URL_IMG_LOCAL + '/svg/star.svg'}></img>
+            <img className='w-5 h-5' key={i} src={'svg/star.svg'}></img>
 
         ));
     };
@@ -41,7 +41,7 @@ const CardAlojamiento = ({ alojamiento, isLoading = false }) => {
                 {alojamiento.logo ? (
                     <div className="relative overflow-hidden rounded h-full">
                         <img
-                            src={`${process.env.URL_IMG}${alojamiento.logo}`}
+                            src={`https://www.tucumanturismo.gob.ar/carga/image/${alojamiento.logo}`}
                             alt={alojamiento.nombre}
                             className="w-full h-full object-contain"
                         />

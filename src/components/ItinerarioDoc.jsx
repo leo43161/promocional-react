@@ -1,5 +1,5 @@
 import React from 'react';
-import { Page, Text, View, Document, StyleSheet, Font, Image, Link } from '@react-pdf/renderer';
+import { Page, Text, View, Document, StyleSheet, Font, Image, Link, PDFViewer } from '@react-pdf/renderer';
 import { extractGoogleMapsLink } from '@/utils';
 
 const URLImg = process.env.URL_IMG
@@ -234,7 +234,6 @@ const ItinerarioDoc = ({ data }) => {
     data[circuitKey].prestadores.length > 0 ||
     data[circuitKey].guias.length > 0
   );
-
   return (
     <Document author="Tu Viaje por Tucumán" title="Mi Itinerario Personalizado">
       {circuitsWithFavorites.flatMap((circuitKey, index) => {

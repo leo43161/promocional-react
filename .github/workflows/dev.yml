@@ -1,4 +1,4 @@
-name: Deploy Next.js Static Site to cPanel
+name: Deploy Next.js Static Site to cPanel REACTDEV ZIP
 
 # Disparador: Se ejecuta cuando haces push a la rama 'main'
 # También permite ejecución manual desde la pestaña Actions en GitHub
@@ -45,9 +45,19 @@ jobs:
         env:
           IS_CPANEL_DEPLOY: "true"
           NEXT_PUBLIC_IS_DEV: "dev"
+      # 5. Comprime la salida en un archivo ZIP
+      # Nos aseguramos de entrar al directorio 'out' antes de comprimir
+      # para que el zip no contenga la carpeta 'out' en sí misma.
 
-      # 5. Despliega a cPanel usando SFTP (o FTP)
-      - name: Deploy to cPanel via SFTP # O FTP si es necesario
+#DESCOMENTARRRRR----------------------------------
+      #- name: Compress build output for deployment
+      #  run: |
+      #    cd out
+      #    zip -r ../deploy.zip .
+#DESCOMENTARRRRR----------------------------------
+
+      # 6. Sube SÓLO el archivo ZIP usando FTP
+      - name: Deploy ZIP to cPanel via FTP # O FTP si es necesario
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: ${{ secrets.CPANEL_SERVER_DEV }}
@@ -55,8 +65,17 @@ jobs:
           password: ${{ secrets.CPANEL_PASSWORD_DEV }}
           protocol: ftp # O 'sftp' si cambiaste
           port: ${{ secrets.CPANEL_PORT || '21' }} # O '22' para SFTP
-          local-dir: ./out/ # Sube todo desde out/ (incluyendo .htaccess)
-          server-dir: / # Tu directorio raíz en cPanel
+          local-dir: ./out/ # Sube todo desde out/
+          #DESCOMENTARRRRR----------------------------------
+          #args: --upload-by-files-name "deploy.zip"
+          #state-name: ftp-transfer.json
+          #DESCOMENTARRRRR----------------------------------
+          server-dir: /
+
+      # 7. Llama al script PHP para que descomprima el archivo en el servidor
+      - name: Trigger unzip on server
+        run:
+          curl "https://www.tucumanturismo.gob.ar/reactdev/descomprimir.php?secret=${{ secrets.SECRET_DESCOMPRIMIR }}"
           # --- OPCIONES MODIFICADAS ---
           # dangerous-clean-slate: true # <-- ELIMINADO
           # Opcional: Puedes añadir 'delete: true' si quieres borrar archivos viejos

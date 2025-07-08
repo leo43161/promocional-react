@@ -4,6 +4,11 @@ export const itinerarioService = createApi({
     reducerPath: 'itinerarioService',
     baseQuery: fetchBaseQuery({ baseUrl: process.env.URL_SERVER }),
     endpoints: (builder) => ({
+        getItinerario: builder.query({
+            query: (id) => ({
+                url: 'itinerario?id=' + id,
+            }),
+        }),
         guardarItinerario: builder.mutation({
             query: (body) => ({
                 url: 'itinerarios',
@@ -20,4 +25,4 @@ export const itinerarioService = createApi({
     }),
 });
 
-export const { useGuardarItinerarioMutation, useGetIdSessionMutation } = itinerarioService;
+export const { useGuardarItinerarioMutation, useGetIdSessionMutation, useGetItinerarioQuery } = itinerarioService;

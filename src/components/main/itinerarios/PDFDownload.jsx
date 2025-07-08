@@ -46,10 +46,7 @@ export default function PDFGeneratorButton() {
   useEffect(() => {
     console.log(instance);
     if (instance.url && !instance.loading) {
-      setPdfUrl(instance.url);
-      if (!showQR) {
-        window.open(instance.url, '_blank');
-      }
+      window.open(instance.url, '_blank');
       updateInstance(null);
       handleCloseModal();
     }
@@ -78,7 +75,8 @@ export default function PDFGeneratorButton() {
       guias: Object.values(favoritos).flatMap(circuito => circuito.guias.map(g => ({ id_guia: g.id }))),
     };
     try {
-      await guardarItinerario(payload).unwrap();
+      const response = await guardarItinerario(payload).unwrap();
+      setPdfUrl(process.env.URL_LOCAL_SERVER + "/itinerario?id=" + response.id_itinerario);
     } catch (error) {
       console.error('Error al guardar el itinerario:', error);
     }
@@ -98,11 +96,8 @@ export default function PDFGeneratorButton() {
   };
 
   const handleGenerateQR = async () => {
-    setShowQR(true);
     await handleCookieAndSave();
-    if (!pdfUrl) {
-      updateInstance(<ItinerarioDoc data={favoritos} />);
-    }
+    setShowQR(true);
   };
 
   const isLoading = instance.loading || isSaving;
@@ -134,8 +129,6 @@ export default function PDFGeneratorButton() {
         onClose={handleCloseModal}
         title="Descargar Itinerario"
         scrollContentRef={scrollContentRef}
-        classNameContain='md:h-[50vh] h-[38vh]'
-        fullHeightContain={true}
         backgroundColor={'#206C60'}
         classNameHeader='text-white'
       >
@@ -145,15 +138,15 @@ export default function PDFGeneratorButton() {
           </p>
 
           {showQR && (
-            <div className="flex flex-col items-center justify-center min-h-[250px] my-4 transition-all duration-300">
+            <div className="flex flex-col items-center justify-center min-h-[250px] my-4 transition-all duration-300 text-white">
               {pdfUrl ? (
                 <>
                   <h3 className="text-lg font-bold mb-2">¡Tu QR está listo!</h3>
-                  <p className='text-xs text-gray-500 mb-4'>Escanea el código para ver tu itinerario.</p>
+                  <p className='text-xs mb-4'>Escanea el código para ver tu itinerario.</p>
                   <QRCodeSVG value={pdfUrl} size={180} includeMargin={true} />
                 </>
               ) : (
-                <div className="flex flex-col items-center justify-center text-gray-500">
+                <div className="flex flex-col items-center justify-center">
                   <LoaderCircle className="animate-spin mb-4" size={48} />
                   <p className="font-semibold">Generando tu itinerario...</p>
                   <p className="text-sm">Esto puede tardar unos segundos.</p>
@@ -164,21 +157,21 @@ export default function PDFGeneratorButton() {
 
           <div className="flex flex-col space-y-4 pt-4 border-t border-gray-200 mt-4 justify-between">
             <button
+              onClick={handleGenerateQR}
+              disabled={isLoading || showQR}
+              className="flex items-center justify-center px-4 py-1.5 bg-primary/90 text-white rounded-md hover:bg-primary disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-xl"
+            >
+              <QrCode className="mr-2" />
+              Generar QR
+            </button>
+            <button
               onClick={handleDownload}
               disabled={isLoading}
-              className="flex items-center justify-center px-4 py-2.5 bg-primary/90 text-white rounded-md hover:bg-primary disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-2xl"
+              className="flex items-center justify-center px-4 py-1.5 bg-primary/90 text-white rounded-md hover:bg-primary disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-xl"
             >
               <ArrowDownToLine size={25} className="mr-2" />
               Descargar PDF
             </button>
-            {/* <button
-              onClick={handleGenerateQR}
-              disabled={isLoading || showQR}
-              className="flex items-center justify-center px-4 py-2 bg-secondary/90 text-white rounded-md hover:bg-secondary disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-            >
-              <QrCode className="mr-2" />
-              Generar QR
-            </button> */}
           </div>
         </div>
       </Modal>
