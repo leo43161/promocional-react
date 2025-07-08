@@ -11,7 +11,7 @@ export default function Alojamientos() {
     // Estado para controlar la paginación y búsqueda
     const [filter, setFilter] = useState({ search: '', categoria: "", estrellas: "", localidad: "" });
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 1;
+    const itemsPerPage = 12;
 
     // Calcular el offset basado en la página actual
     const offset = (currentPage - 1) * itemsPerPage;
