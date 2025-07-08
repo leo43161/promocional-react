@@ -45,8 +45,14 @@ jobs:
         env:
           IS_CPANEL_DEPLOY: "true"
           NEXT_PUBLIC_IS_DEV: "dev"
-
-      # 5. Despliega a cPanel usando SFTP (o FTP)
+      # 5. Comprime la salida en un archivo ZIP
+      # Nos aseguramos de entrar al directorio 'out' antes de comprimir
+      # para que el zip no contenga la carpeta 'out' en sí misma.
+      - name: Compress build output for deployment
+        run: |
+          cd out
+          zip -r ../deploy.zip .
+      # 6. Sube SÓLO el archivo ZIP usando FTP
       - name: Deploy to cPanel via SFTP # O FTP si es necesario
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
@@ -55,8 +61,15 @@ jobs:
           password: ${{ secrets.CPANEL_PASSWORD_DEV }}
           protocol: ftp # O 'sftp' si cambiaste
           port: ${{ secrets.CPANEL_PORT || '21' }} # O '22' para SFTP
-          local-dir: ./out/ # Sube todo desde out/ (incluyendo .htaccess)
-          server-dir: / # Tu directorio raíz en cPanel
+          local-dir: ./
+          server-dir: /
+          state-name: ftp-transfer.json
+          args: --upload-by-files-name "deploy.zip"
+
+      # 7. Llama al script PHP para que descomprima el archivo en el servidor
+      - name: Trigger unzip on server
+        run:
+          curl "https://www.tucumanturismo.gob.ar/reactdev/descomprimir.php?secret=${{ secrets.SECRET_DESCOMPRIMIR }}"
           # --- OPCIONES MODIFICADAS ---
           # dangerous-clean-slate: true # <-- ELIMINADO
           # Opcional: Puedes añadir 'delete: true' si quieres borrar archivos viejos
