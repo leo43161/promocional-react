@@ -55,17 +55,17 @@ jobs:
           zip -r ../deploy.zip .
 
       # 6. Sube SÓLO el archivo ZIP usando FTP
-      - name: Deploy ZIP to cPanel via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      - name: Deploy ZIP to cPanel
+        uses: appleboy/ftp-deploy@v2.2.0
         with:
-          server: ${{ secrets.CPANEL_SERVER_DEV }}
+          host: ${{ secrets.CPANEL_SERVER_DEV }}
           username: ${{ secrets.CPANEL_USERNAME_DEV }}
           password: ${{ secrets.CPANEL_PASSWORD_DEV }}
-          protocol: ftp # O 'sftp' si cambiaste
-          port: ${{ secrets.CPANEL_PORT || '21' }} # O '22' para SFTP
-          source: "deploy.zip" 
-          server-dir: / # Tu directorio raíz en cPanel
-      # 7. Llama al script PHP para que descomprima el archivo en el servidor
+          port: 21
+          source: "deploy.zip" # <-- Le decimos exactamente qué archivo subir
+          target: "/" # <-- La carpeta de destino en tu servidor
+
+      # 7. Llama al script PHP para que descomprima el archivo
       - name: Trigger unzip on server
         run: curl --fail "https://tucumanturismo.gob.ar/reactdev/descomprimir.php?secret=${{ secrets.UNZIP_SECRET }}"
           # --- OPCIONES MODIFICADAS ---
