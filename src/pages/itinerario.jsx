@@ -1,9 +1,9 @@
 import dynamic from 'next/dynamic';
 import { useGetItinerarioQuery } from '@/redux/services/itinerarioService';
 import { useRouter } from 'next/router';
-import { useIsMobile } from '@/utils/index';
 import ItinerarioDoc from '@/components/ItinerarioDoc';
 import { PDFDownloadLink } from '@react-pdf/renderer';
+import { useEffect, useState } from 'react';
 // --- Icono de Carga (Loader) ---
 // Un simple SVG que podemos animar con Tailwind.
 const LoaderIcon = () => (
@@ -15,9 +15,21 @@ const LoaderIcon = () => (
 
 // --- Componente de la Página ---
 export default function Itinerario() {
+  const [isMobile, setIsMobile] = useState();
   const router = useRouter();
-  const isMobile = useIsMobile();
+  /* const isMobile = useIsMobile(); */
   const { id } = router.query;
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        setIsMobile(false);
+      } else {
+        setIsMobile(true);
+      }
+    };
+    handleResize();
+  }, []);
 
   const ItinerarioViewer = dynamic(
     () => import('@/components/ItinerarioViewer'),

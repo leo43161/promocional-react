@@ -3,27 +3,27 @@ import { useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 export const languages = [
-    { id: 1, code: 'ES', label: 'Español', flag: (process.env.URL_IMG_LOCAL || '') + '/svg/arg.svg', alt: 'Bandera Argentina' },
-    { id: 2, code: 'EN', label: 'English', flag: (process.env.URL_IMG_LOCAL || '') + '/svg/eng.svg', alt: 'Bandera Reino Unido' } // Asumiendo ID 2 para inglés
+  { id: 1, code: 'ES', label: 'Español', flag: (process.env.URL_IMG_LOCAL || '') + '/svg/arg.svg', alt: 'Bandera Argentina' },
+  { id: 2, code: 'EN', label: 'English', flag: (process.env.URL_IMG_LOCAL || '') + '/svg/eng.svg', alt: 'Bandera Reino Unido' } // Asumiendo ID 2 para inglés
 ];
 
 export function generateSlug(text) {
-    if (!text) return '';
-    return text
-        .toString()
-        .toLowerCase()
-        .normalize('NFD') // Separa acentos de letras
-        .replace(/[\u0300-\u036f]/g, '') // Quita acentos
-        .replace(/\s+/g, '-') // Reemplaza espacios con -
-        .replace(/[^\w\-]+/g, '') // Quita caracteres no alfanuméricos (excepto guiones)
-        .replace(/\-\-+/g, '-') // Reemplaza múltiples guiones con uno solo
-        .replace(/^-+/, '') // Quita guiones al inicio
-        .replace(/-+$/, ''); // Quita guiones al final
+  if (!text) return '';
+  return text
+    .toString()
+    .toLowerCase()
+    .normalize('NFD') // Separa acentos de letras
+    .replace(/[\u0300-\u036f]/g, '') // Quita acentos
+    .replace(/\s+/g, '-') // Reemplaza espacios con -
+    .replace(/[^\w\-]+/g, '') // Quita caracteres no alfanuméricos (excepto guiones)
+    .replace(/\-\-+/g, '-') // Reemplaza múltiples guiones con uno solo
+    .replace(/^-+/, '') // Quita guiones al inicio
+    .replace(/-+$/, ''); // Quita guiones al final
 }
 
 // Esto sirve para combinar clases de Tailwind y clsx
 export function cn(...inputs) {
-    return twMerge(clsx(inputs));
+  return twMerge(clsx(inputs));
 }
 
 /**
@@ -42,13 +42,13 @@ export function cn(...inputs) {
    }, [router.isReady, router.query]);
  */
 export function getCurrentLanguage(query) {
-    const defaultLanguage = languages[0]; // Español como default
-    if (query && query.lang) {
-        const langCode = typeof query.lang === 'string' ? query.lang.toUpperCase() : '';
-        const found = languages.find(l => l.code === langCode);
-        return found || defaultLanguage;
-    }
-    return defaultLanguage;
+  const defaultLanguage = languages[0]; // Español como default
+  if (query && query.lang) {
+    const langCode = typeof query.lang === 'string' ? query.lang.toUpperCase() : '';
+    const found = languages.find(l => l.code === langCode);
+    return found || defaultLanguage;
+  }
+  return defaultLanguage;
 }
 
 /**
@@ -57,9 +57,9 @@ export function getCurrentLanguage(query) {
  * @returns {boolean} True si el idioma es diferente al por defecto, false en caso contrario.
  */
 export function isAlternateLanguage(query) {
-    const currentLang = getCurrentLanguage(query);
-    // Asumimos que el primer idioma en el array 'languages' (ID 1, código 'ES') es el principal/por defecto.
-    return currentLang.id !== languages[0].id;
+  const currentLang = getCurrentLanguage(query);
+  // Asumimos que el primer idioma en el array 'languages' (ID 1, código 'ES') es el principal/por defecto.
+  return currentLang.id !== languages[0].id;
 }
 
 /**
@@ -68,7 +68,7 @@ export function isAlternateLanguage(query) {
  * @returns {string} El código del idioma actual.
  */
 export function getCurrentLanguageCode(query) {
-    return getCurrentLanguage(query).code;
+  return getCurrentLanguage(query).code;
 }
 
 /*
@@ -104,13 +104,13 @@ export function extractGoogleMapsLink(htmlString) {
 }
 
 export function useIsMobile() {
-  const [isMobile, setIsMobile] = useState(false);
-
+  const [isMobile, setIsMobile] = useState(true);
   useEffect(() => {
-    // Esta comprobación se ejecuta solo en el cliente
-    const userAgent = typeof window.navigator === 'undefined' ? '' : navigator.userAgent;
-    const mobileRegex = /Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i;
-    setIsMobile(mobileRegex.test(userAgent));
+    if (window.innerWidth >= 1024) {
+        setIsMobile(false);
+      }else{
+        setIsMobile(true);
+      }
   }, []);
 
   return isMobile;
