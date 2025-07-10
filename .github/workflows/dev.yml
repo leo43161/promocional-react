@@ -56,14 +56,14 @@ jobs:
 
       # 6. Sube SÓLO el archivo ZIP usando FTP
       - name: Deploy ZIP to cPanel
-        uses: appleboy/ftp-deploy@v3.1.4
+        uses: appleboy/ftp-deploy@v4.3.4
         with:
           host: ${{ secrets.CPANEL_SERVER_DEV }}
           username: ${{ secrets.CPANEL_USERNAME_DEV }}
           password: ${{ secrets.CPANEL_PASSWORD_DEV }}
           port: 21
-          source: "deploy.zip" # <-- Le decimos exactamente qué archivo subir
-          target: "/" # <-- La carpeta de destino en tu servidor
+          local-dir: "deploy.zip" # <-- Le decimos exactamente qué archivo subir
+          server-dir: "/" # <-- La carpeta de destino en tu servidor
 
       # 7. Llama al script PHP para que descomprima el archivo
       - name: Trigger unzip on server
