@@ -63,13 +63,11 @@ jobs:
           password: ${{ secrets.CPANEL_PASSWORD_DEV }}
           protocol: ftp # O 'sftp' si cambiaste
           port: ${{ secrets.CPANEL_PORT || '21' }} # O '22' para SFTP
-          local-dir: ./ # Sube todo desde out/ (incluyendo .htaccess)
+          source: "deploy.zip" 
           server-dir: / # Tu directorio raíz en cPanel
-          state-name: ftp-transfer.json 
-          args: --upload-by-files-name "deploy.zip"
       # 7. Llama al script PHP para que descomprima el archivo en el servidor
       - name: Trigger unzip on server
-        run: curl "https://tucumanturismo.gob.ar/reactdev/descomprimir.php?secret=${{ secrets.UNZIP_SECRET }}"
+        run: curl --fail "https://tucumanturismo.gob.ar/reactdev/descomprimir.php?secret=${{ secrets.UNZIP_SECRET }}"
           # --- OPCIONES MODIFICADAS ---
           # dangerous-clean-slate: true # <-- ELIMINADO
           # Opcional: Puedes añadir 'delete: true' si quieres borrar archivos viejos
