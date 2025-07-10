@@ -102,9 +102,24 @@ export default function Itinerario() {
             <PDFDownloadLink
               document={itinerarioDocumento}
               fileName={`Itinerario-Tucuman-${id}.pdf`}
-              className="px-8 py-3 bg-primary text-white font-bold rounded-lg shadow-lg hover:bg-primary/90 transition-transform transform hover:scale-105"
+              /* className="px-8 py-3 bg-primary text-white font-bold rounded-lg shadow-lg hover:bg-primary/90 transition-transform transform hover:scale-105" */
             >
-              {({ loading }) => (loading ? 'Generando...' : 'Abrir Itinerario')}
+              {({ blob, url, loading, error }) => (
+                <button
+                  onClick={() => {
+                    // Esta es la línea clave:
+                    // Si la URL existe, la abre en una nueva pestaña.
+                    if (url) {
+                      window.open(url, '_blank');
+                    }
+                  }}
+                  disabled={loading}
+                  className="px-8 py-3 bg-primary text-white font-bold rounded-lg shadow-lg hover:bg-primary/90 transition-transform transform hover:scale-105 disabled:bg-gray-400"
+                >
+                  {loading ? 'Generando...' : (error ? 'Error al descargar intente de nuevo' : 'Abrir Itinerario')}
+                </button>
+              )
+              }
             </PDFDownloadLink>
           </div>
         ) : (
