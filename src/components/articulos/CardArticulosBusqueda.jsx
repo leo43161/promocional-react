@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { generateSlug } from "@/utils";
 
 const CardSkeleton = () => {
   return (
@@ -53,10 +54,9 @@ const CardArticulosBusqueda = ({ articulo, isLoading = false }) => {
   }, [articulo]);
 
   if (!articulo) return null;
-
   const { idArticulo, nombre, imagen, imagenMovil, copete } = articulo;
   return isLoading ? <CardSkeleton /> : (
-    <a href={`articulos/articulo/${idArticulo}`} className="text-primary font-bold text-sm flex items-center">
+    <a href={`articulos/articulo/${idArticulo}/${generateSlug(nombre)}`} className="text-primary font-bold text-sm flex items-center">
       <div className="relative flex flex-col md:flex-row w-full my-6 bg-white shadow-sm border border-slate-200 rounded-lg ">
         <div className="md:flex">
           <div className="relative md:h-full md:min-w-70 md:max-w-70 h-48">
