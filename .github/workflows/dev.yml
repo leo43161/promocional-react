@@ -56,7 +56,7 @@ jobs:
 
       # 6. Sube SÓLO el archivo ZIP usando FTP
       - name: Deploy ZIP to cPanel
-        uses: appleboy/ftp-deploy@v4.3.4
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           host: ${{ secrets.CPANEL_SERVER_DEV }}
           username: ${{ secrets.CPANEL_USERNAME_DEV }}
