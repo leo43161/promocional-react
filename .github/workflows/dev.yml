@@ -58,7 +58,7 @@ jobs:
       - name: Deploy ZIP to cPanel
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
-          host: ${{ secrets.CPANEL_SERVER_DEV }}
+          server: ${{ secrets.CPANEL_SERVER_DEV }}
           username: ${{ secrets.CPANEL_USERNAME_DEV }}
           password: ${{ secrets.CPANEL_PASSWORD_DEV }}
           port: 21
