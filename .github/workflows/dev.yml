@@ -62,8 +62,8 @@ jobs:
           username: ${{ secrets.CPANEL_USERNAME_DEV }}
           password: ${{ secrets.CPANEL_PASSWORD_DEV }}
           port: 21
-          local-dir: "deploy.zip" # <-- Le decimos exactamente qué archivo subir
-          server-dir: "/" # <-- La carpeta de destino en tu servidor
+          local-dir: ./deploy.zip # <-- Le decimos exactamente qué archivo subir
+          server-dir: / # <-- La carpeta de destino en tu servidor
 
       # 7. Llama al script PHP para que descomprima el archivo
       - name: Trigger unzip on server
