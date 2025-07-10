@@ -1,4 +1,5 @@
 import { clsx } from 'clsx';
+import { useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 export const languages = [
@@ -100,6 +101,19 @@ export function extractGoogleMapsLink(htmlString) {
 
   // Si no se encuentra ninguna coincidencia, retorna null.
   return null;
+}
+
+export function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    // Esta comprobación se ejecuta solo en el cliente
+    const userAgent = typeof window.navigator === 'undefined' ? '' : navigator.userAgent;
+    const mobileRegex = /Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i;
+    setIsMobile(mobileRegex.test(userAgent));
+  }, []);
+
+  return isMobile;
 }
 
 export const encode = (str) => encodeURIComponent(str);

@@ -1,7 +1,9 @@
 import dynamic from 'next/dynamic';
 import { useGetItinerarioQuery } from '@/redux/services/itinerarioService';
 import { useRouter } from 'next/router';
-
+import { useIsMobile } from '@/utils/index';
+import ItinerarioDoc from '@/components/ItinerarioDoc';
+import { PDFDownloadLink } from '@react-pdf/renderer';
 // --- Icono de Carga (Loader) ---
 // Un simple SVG que podemos animar con Tailwind.
 const LoaderIcon = () => (
@@ -14,6 +16,7 @@ const LoaderIcon = () => (
 // --- Componente de la Página ---
 export default function Itinerario() {
   const router = useRouter();
+  const isMobile = useIsMobile();
   const { id } = router.query;
 
   const ItinerarioViewer = dynamic(
@@ -66,18 +69,36 @@ export default function Itinerario() {
 
   try {
     const dataArray = JSON.parse(data.result[0].ItinerarioJSON);
+    const itinerarioDocumento = <ItinerarioDoc data={dataArray} />;
     if (Object.keys(dataArray).every(key => Object.values(dataArray[key]).every(arr => arr.length === 0))) {
-        return (
-            <div className="flex flex-col justify-center items-center h-screen bg-background text-center p-4">
-                <h2 className="text-2xl font-bold text-secondary">Tu itinerario está vacío</h2>
-                <p className="text-foreground/80 mt-2">Aún no has agregado favoritos. ¡Comienza a explorar y planificar tu viaje!</p>
-            </div>
-        );
+      return (
+        <div className="flex flex-col justify-center items-center h-screen bg-background text-center p-4">
+          <h2 className="text-2xl font-bold text-secondary">Tu itinerario está vacío</h2>
+          <p className="text-foreground/80 mt-2">Aún no has agregado favoritos. ¡Comienza a explorar y planificar tu viaje!</p>
+        </div>
+      );
     }
-    
+
     return (
-      <div className="h-screen w-full">
-        <ItinerarioViewer data={dataArray} />
+      <div className="h-screen w-full bg-background">
+        {isMobile ? (
+          // --- VISTA PARA MÓVIL ---
+          <div className="flex flex-col justify-center items-center h-full text-center p-8">
+            <svg className="w-24 h-24 text-secondary mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+            <h2 className="text-3xl font-bold text-foreground">Tu Itinerario está Listo</h2>
+            <p className="text-foreground/80 mt-2 mb-8">Haz clic en el botón para ver o descargar tu PDF.</p>
+            <PDFDownloadLink
+              document={itinerarioDocumento}
+              fileName={`Itinerario-Tucuman-${id}.pdf`}
+              className="px-8 py-3 bg-primary text-white font-bold rounded-lg shadow-lg hover:bg-primary/90 transition-transform transform hover:scale-105"
+            >
+              {({ loading }) => (loading ? 'Generando...' : 'Abrir Itinerario')}
+            </PDFDownloadLink>
+          </div>
+        ) : (
+          // --- VISTA PARA ESCRITORIO ---
+          <ItinerarioViewer data={dataArray} />
+        )}
       </div>
     );
   } catch (e) {
