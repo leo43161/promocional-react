@@ -39,8 +39,8 @@ export default function Itinerario() {
       loading: () => (
         <div className="flex flex-col justify-center items-center h-screen bg-background text-foreground">
           <LoaderIcon />
-          <h2 className="text-2xl font-bold mt-6">Preparando el visor...</h2>
-          <p className="text-foreground/80 mt-2">Cargando la interfaz del PDF.</p>
+          <h2 className="text-2xl font-bold mt-6">Preparando el visor isdev...</h2>
+          <p className="text-foreground/80 mt-2">Cargando la interfaz del PDF. isdev</p>
         </div>
       ),
       ssr: false,
@@ -64,8 +64,8 @@ export default function Itinerario() {
     return (
       <div className="flex flex-col justify-center items-center h-screen bg-background">
         <LoaderIcon />
-        <h2 className="text-2xl font-bold text-foreground mt-6">Generando tu Itinerario</h2>
-        <p className="text-foreground/80 mt-2 text-center">Recopilando tus selecciones. ¡Un momento, por favor!</p>
+        <h2 className="text-2xl font-bold text-foreground mt-6">Generando tu Itinerario isdev</h2>
+        <p className="text-foreground/80 mt-2 text-center">Recopilando tus selecciones. ¡Un momento, por favor! isdev</p>
       </div>
     );
   }
@@ -95,38 +95,34 @@ export default function Itinerario() {
 
     return (
       <div className="h-screen w-full bg-background">
-        {true ? (
           // --- VISTA PARA MÓVIL ---
-          <div className="flex flex-col justify-center items-center h-full text-center p-8">
-            <svg className="w-24 h-24 text-secondary mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-            <h2 className="text-3xl font-bold text-foreground">Tu Itinerario está Listo</h2>
-            <p className="text-foreground/80 mt-2 mb-8">Haz clic en el botón para ver o descargar tu PDF.</p>
-            <PDFDownloadLink
-              document={itinerarioDocumento}
-              fileName={`Itinerario-Tucuman-${id}.pdf`}
-              /* className="px-8 py-3 bg-primary text-white font-bold rounded-lg shadow-lg hover:bg-primary/90 transition-transform transform hover:scale-105" */
-            >
-              {({ blob, url, loading, error }) => (
-                <button
-                  onClick={() => {
-                    // Esta es la línea clave:
-                    // Si la URL existe, la abre en una nueva pestaña.
-                    if (url) {
-                      window.open(url, '_blank');
-                    }
-                  }}
-                  disabled={loading}
-                  className="px-8 py-3 bg-primary text-white font-bold rounded-lg shadow-lg hover:bg-primary/90 transition-transform transform hover:scale-105 disabled:bg-gray-400"
-                >
-                  {loading ? 'Generando...' : (error ? 'Error al descargar intente de nuevo' : 'Abrir Itinerario')}
-                </button>
-              )
-              }
-            </PDFDownloadLink>
-          </div>
-        ) : (
-          <ItinerarioViewer data={dataArray} />
-        )}
+        <div className="flex flex-col justify-center items-center h-full text-center p-8">
+          <svg className="w-24 h-24 text-secondary mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+          <h2 className="text-3xl font-bold text-foreground">Tu Itinerario está Listo en dev</h2>
+          <p className="text-foreground/80 mt-2 mb-8">Haz clic en el botón para ver o descargar tu PDF.</p>
+          <PDFDownloadLink
+            document={itinerarioDocumento}
+            fileName={`Itinerario-Tucuman-${id}.pdf`}
+          /* className="px-8 py-3 bg-primary text-white font-bold rounded-lg shadow-lg hover:bg-primary/90 transition-transform transform hover:scale-105" */
+          >
+            {({ blob, url, loading, error }) => (
+              <button
+                onClick={() => {
+                  // Esta es la línea clave:
+                  // Si la URL existe, la abre en una nueva pestaña.
+                  if (url) {
+                    window.open(url, '_blank');
+                  }
+                }}
+                disabled={loading}
+                className="px-8 py-3 bg-primary text-white font-bold rounded-lg shadow-lg hover:bg-primary/90 transition-transform transform hover:scale-105 disabled:bg-gray-400"
+              >
+                {loading ? 'Generando...' : (error ? 'Error al descargar intente de nuevo' : 'Abrir Itinerario')}
+              </button>
+            )
+            }
+          </PDFDownloadLink>
+        </div>
       </div>
     );
   } catch (e) {
