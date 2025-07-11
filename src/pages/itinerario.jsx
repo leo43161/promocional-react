@@ -15,12 +15,12 @@ const LoaderIcon = () => (
 
 // --- Componente de la Página ---
 export default function Itinerario() {
-  const [isMobile, setIsMobile] = useState(true);
+  /* const [isMobile, setIsMobile] = useState(true); */
   const router = useRouter();
   /* const isMobile = useIsMobile(); */
   const { id } = router.query;
 
-  useEffect(() => {
+  /* useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 1024) {
         console.log('No es movil');
@@ -31,7 +31,7 @@ export default function Itinerario() {
       }
     };
     handleResize();
-  }, []);
+  }, []); */
 
   /* const ItinerarioViewer = dynamic(
     () => import('@/components/ItinerarioViewer'),
