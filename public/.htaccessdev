@@ -1,19 +1,19 @@
-# --- .htaccess para / ---
+# --- .htaccess para /reactdev/ ---
 
 # Options -MultiViews
 
 RewriteEngine On
 
-RewriteBase /
+RewriteBase /reactdev/
 
 # Al principio de tu .htaccess, después de RewriteEngine On y RewriteBase
-ErrorDocument 404 /404.html
+ErrorDocument 404 /reactdev/404.html
 
 # REGLA PARA /eventos -> servir eventos.html
 # Si la solicitud es exactamente /eventos o /eventos/
-RewriteCond %{REQUEST_URI} ^/eventos/?$
-# Y el archivo /eventos.html existe
-RewriteCond %{DOCUMENT_ROOT}/eventos.html -f [NC]
+RewriteCond %{REQUEST_URI} ^/reactdev/eventos/?$
+# Y el archivo /reactdev/eventos.html existe
+RewriteCond %{DOCUMENT_ROOT}/reactdev/eventos.html -f [NC]
 # Sirve internamente eventos.html
 RewriteRule ^eventos/?$ eventos.html [L]
 
@@ -22,8 +22,8 @@ RewriteRule ^eventos/?$ eventos.html [L]
 
 # REGLA A: Sirve la página de redirección /articulos/articulo/ID.html si se solicita /articulos/articulo/ID
 # Esta página (generada por pages/articulos/articulo/[id].jsx) luego redirige vía JS al slug correcto.
-RewriteCond %{REQUEST_URI} ^/articulos/articulo/([0-9]+)/?$
-RewriteCond %{DOCUMENT_ROOT}/articulos/articulo/$1.html -f [NC]
+RewriteCond %{REQUEST_URI} ^/reactdev/articulos/articulo/([0-9]+)/?$
+RewriteCond %{DOCUMENT_ROOT}/reactdev/articulos/articulo/$1.html -f [NC]
 RewriteRule ^articulos/articulo/([0-9]+)/?$ articulos/articulo/$1.html [L]
 
 
@@ -33,11 +33,11 @@ RewriteRule ^articulos/articulo/([0-9]+)/?$ articulos/articulo/$1.html [L]
 # Condición 1: La solicitud original (THE_REQUEST) debe coincidir con el patrón de ID y cualquier slug.
 # THE_REQUEST es menos propenso a modificaciones internas que REQUEST_URI.
 # Capturamos el ID numérico en %1 para usarlo en la siguiente condición.
-RewriteCond %{THE_REQUEST} \s/articulos/articulo/([0-9]+)/[^?\s]+\s [NC]
+RewriteCond %{THE_REQUEST} \s/reactdev/articulos/articulo/([0-9]+)/[^?\s]+\s [NC]
 
 # Condición 2: Verifica que el archivo HTML de redirección para el ID capturado (%1) exista.
 # Esta es la misma lógica de verificación que usa REGLA A.
-RewriteCond %{DOCUMENT_ROOT}/articulos/articulo/%1.html -f [NC]
+RewriteCond %{DOCUMENT_ROOT}/reactdev/articulos/articulo/%1.html -f [NC]
 
 # Condición 3 (NUEVA Y CLAVE): Verifica que NO exista un archivo .html para el slug solicitado.
 # Si SÍ existiera (ej. campana-de-turismo-sustentable.html), entonces el slug es correcto y esta regla NO debe aplicarse.
@@ -53,7 +53,7 @@ RewriteCond %{REQUEST_FILENAME} !-d
 # a la URL base del artículo (solo con ID).
 # El patrón de RewriteRule coincide con la parte de la URL después de RewriteBase.
 # NE (NoEscape) evita que caracteres especiales en la URL de redirección se escapen.
-RewriteRule ^articulos/articulo/[0-9]+/.+$ /articulos/articulo/%1 [R=301,L,NE]
+RewriteRule ^articulos/articulo/[0-9]+/.+$ /reactdev/articulos/articulo/%1 [R=301,L,NE]
 
 
 # --- REGLAS ESPECÍFICAS DE SUBSECCIONES ---
@@ -61,8 +61,8 @@ RewriteRule ^articulos/articulo/[0-9]+/.+$ /articulos/articulo/%1 [R=301,L,NE]
 
 # REGLA A: Sirve la página de redirección /subsecciones/lista/ID.html si se solicita /subsecciones/lista/ID
 # Esta página (generada por pages/subsecciones/lista/[id].jsx) luego redirige vía JS al slug correcto.
-RewriteCond %{REQUEST_URI} ^/subsecciones/lista/([0-9]+)/?$
-RewriteCond %{DOCUMENT_ROOT}/subsecciones/lista/$1.html -f [NC]
+RewriteCond %{REQUEST_URI} ^/reactdev/subsecciones/lista/([0-9]+)/?$
+RewriteCond %{DOCUMENT_ROOT}/reactdev/subsecciones/lista/$1.html -f [NC]
 RewriteRule ^subsecciones/lista/([0-9]+)/?$ subsecciones/lista/$1.html [L]
 
 
@@ -72,11 +72,11 @@ RewriteRule ^subsecciones/lista/([0-9]+)/?$ subsecciones/lista/$1.html [L]
 # Condición 1: La solicitud original (THE_REQUEST) debe coincidir con el patrón de ID y cualquier slug.
 # THE_REQUEST es menos propenso a modificaciones internas que REQUEST_URI.
 # Capturamos el ID numérico en %1 para usarlo en la siguiente condición.
-RewriteCond %{THE_REQUEST} \s/subsecciones/lista/([0-9]+)/[^?\s]+\s [NC]
+RewriteCond %{THE_REQUEST} \s/reactdev/subsecciones/lista/([0-9]+)/[^?\s]+\s [NC]
 
 # Condición 2: Verifica que el archivo HTML de redirección para el ID capturado (%1) exista.
 # Esta es la misma lógica de verificación que usa REGLA A.
-RewriteCond %{DOCUMENT_ROOT}/subsecciones/lista/%1.html -f [NC]
+RewriteCond %{DOCUMENT_ROOT}/reactdev/subsecciones/lista/%1.html -f [NC]
 
 
 
@@ -95,13 +95,13 @@ RewriteCond %{REQUEST_FILENAME} !-d
 # a la URL base del artículo (solo con ID).
 # El patrón de RewriteRule coincide con la parte de la URL después de RewriteBase.
 # NE (NoEscape) evita que caracteres especiales en la URL de redirección se escapen.
-RewriteRule ^subsecciones/lista/[0-9]+/.+$ /subsecciones/lista/%1 [R=301,L,NE]
+RewriteRule ^subsecciones/lista/[0-9]+/.+$ /reactdev/subsecciones/lista/%1 [R=301,L,NE]
 
 
 # --- REGLAS GENERALES DESPUÉS ---
 
 # REGLA C: Redirecciona .html a extensionless
-RewriteCond %{THE_REQUEST} \s/+(.+?)\.html[\s?] [NC]
+RewriteCond %{THE_REQUEST} \s/+(reactdev/.+?)\.html[\s?] [NC]
 RewriteRule ^(.+?)\.html$ %1 [R=301,L,NE]
 
 # REGLA D: Sirve el archivo .html si existe para OTRAS rutas sin extensión
