@@ -33,7 +33,7 @@ export default function Itinerario() {
     handleResize();
   }, []);
 
-  const ItinerarioViewer = dynamic(
+  /* const ItinerarioViewer = dynamic(
     () => import('@/components/ItinerarioViewer'),
     {
       loading: () => (
@@ -45,7 +45,7 @@ export default function Itinerario() {
       ),
       ssr: false,
     }
-  );
+  ); */
 
   const { data, isLoading, isFetching, isError, error } = useGetItinerarioQuery(id, {
     skip: !id,
