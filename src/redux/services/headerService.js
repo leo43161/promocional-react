@@ -9,9 +9,16 @@ export const headerService = createApi({
         params: { idioma },
       }),
     }),
+    getMenu: builder.query({
+      query: (idioma = "ES") => ({
+        url: `navbar_menu`,
+        params: { idioma },
+      }),
+    }),
   }),
 });
 
 export const {
   useGetSeccionesQuery,
+  useGetMenuQuery
 } = headerService;
