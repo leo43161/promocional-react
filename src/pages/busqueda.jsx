@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+mport React, { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/router";
 import { useGetArticulosQuery } from "@/redux/services/busquedaArtService";
 import { useGetPrestadoresQuery, useGetGuiasQuery } from "@/redux/services/prestadoresService";
@@ -141,11 +141,11 @@ const Busqueda = () => {
         return <CardArticulosBusqueda key={item.idArticulo || item.id} articulo={item} />;
       case 'prestador':
        
-        return (<div className="w-1/3 p-3" ><CardPrestadores key={item.idPrestador || item.id} prestador={item} /> </div>);
+        return (<div className="w-1/2 m-2 p-2"><CardPrestadores key={item.idPrestador || item.id} prestador={item} /> </div>);
       case 'guia':
-        return(<div className="w-1/3 p-3" ><CardGuia key={item.idGuia || item.id} guia={item} /></div>);
+        return(<div className="w-1/2 m-2 p-2"><CardGuia key={item.idGuia || item.id} guia={item} /></div>);
       case 'evento':
-        return (<div className="w-1/3 p-3" ><CardEvento key={item.idEvento || item.id} evento={item} /></div>);
+        return (<div className="w-1/2 m-2 p-2 rounded-lg border border-gray-200 bg-white shadow-sm"><CardEvento key={item.idEvento || item.id} evento={item} /></div>);
       default:
         return null;
     }
