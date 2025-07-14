@@ -190,7 +190,7 @@ export default function Header() {
                 <div className="px-4 pt-1 flex justify-between w-11/12 flex-wrap">
                     {/* Date/Weather */}
                     <div className="bg-white px-3 py-1 rounded-t-md text-[1.1em] mb-0">
-                        {new Date().toLocaleDateString(selectedLang.code === 'ES' ? 'es-AR' : 'en-US', { day: 'numeric', month: 'long', year: 'numeric' })} IS A DEV{/* ° */}
+                        {new Date().toLocaleDateString(selectedLang.code === 'ES' ? 'es-AR' : 'en-US', { day: 'numeric', month: 'long', year: 'numeric' })} {/* ° */}
                         {/* <span className="ml-1 text-yellow-500">☀️</span> */} {/* Placeholder */}
                     </div>
                     {/* Contact/Social Links */}

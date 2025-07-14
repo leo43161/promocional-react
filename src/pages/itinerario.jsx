@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic';
 import { useGetItinerarioQuery } from '@/redux/services/itinerarioService';
 import { useRouter } from 'next/router';
-import ItinerarioDoc from '@/components/ItinerarioDoc';
+import ItinerarioMobile from '@/components/ItinerarioMobile';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import { useEffect, useState } from 'react';
 // --- Icono de Carga (Loader) ---
@@ -83,7 +83,8 @@ export default function Itinerario() {
 
   try {
     const dataArray = JSON.parse(data.result[0].ItinerarioJSON);
-    const itinerarioDocumento = <ItinerarioDoc data={dataArray} />;
+    console.log(dataArray);
+    const itinerarioDocumento = <ItinerarioMobile data={dataArray} />;
     if (Object.keys(dataArray).every(key => Object.values(dataArray[key]).every(arr => arr.length === 0))) {
       return (
         <div className="flex flex-col justify-center items-center h-screen bg-background text-center p-4">
