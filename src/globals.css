@@ -48,12 +48,12 @@
     --tertiary: #85bd77;
   }
 
-  @media (prefers-color-scheme: light) {
+  /* @media (prefers-color-scheme: light) {
     :root {
       --background: #0a0a0a;
       --foreground: #ededed;
     }
-  }
+  } */
 
   body {
     color: var(--text);
