@@ -17,7 +17,7 @@ export const prestadoresService = createApi({
     getGuias: builder.query({
       query: ({ limit, offset, search }) => ({
         url: `guias`,
-        params: { limit, offset, busqueda: search },
+        params: { limit, offset, nombre: search },
       }),
     }),
     getAutos: builder.query({
