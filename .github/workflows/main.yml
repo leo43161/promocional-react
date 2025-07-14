@@ -46,17 +46,35 @@ jobs:
           IS_CPANEL_DEPLOY: "true"
         #   NEXT_PUBLIC_ALGUNA_VAR: ${{ secrets.ALGUNA_VAR_PUBLICA }}
 
-      # 5. Despliega a cPanel usando SFTP (o FTP)
-      - name: Deploy to cPanel via SFTP # O FTP si es necesario
+      # 5. Comprime la salida en un archivo ZIP
+      # Nos aseguramos de entrar al directorio 'out' antes de comprimir
+      # para que el zip no contenga la carpeta 'out' en sí misma.
+      - name: Compress build output for deployment
+        run: |
+          cd out
+          zip -r ../deploy.zip .
+
+      # 6. Prepara el artefacto para la subida (EL NUEVO PASO CLAVE)
+      - name: Prepare artifact for upload
+        run: |
+          mkdir upload_dir
+          mv deploy.zip upload_dir/
+
+      # 7. Sube el contenido del directorio temporal (que solo tiene el ZIP)
+      - name: Deploy ZIP to cPanel
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: ${{ secrets.CPANEL_SERVER }}
           username: ${{ secrets.CPANEL_USERNAME }}
           password: ${{ secrets.CPANEL_PASSWORD }}
-          protocol: ftp # O 'sftp' si cambiaste
-          port: ${{ secrets.CPANEL_PORT || '21' }} # O '22' para SFTP
-          local-dir: ./out/ # Sube todo desde out/ (incluyendo .htaccess)
-          server-dir: / # Tu directorio raíz en cPanel
+          port: 21
+          local-dir: ./upload_dir/ # <-- Le decimos exactamente qué archivo subir
+          server-dir: / # <-- La carpeta de destino en tu servidor
+
+      # 8. Llama al script PHP para que descomprima el archivo
+      - name: Trigger unzip on server
+        run: curl --fail "https://tucumanturismo.gob.ar/descomprimir.php?secret=${{ secrets.UNZIP_SECRET }}"
+
           # --- OPCIONES MODIFICADAS ---
           # dangerous-clean-slate: true # <-- ELIMINADO
           # Opcional: Puedes añadir 'delete: true' si quieres borrar archivos viejos
