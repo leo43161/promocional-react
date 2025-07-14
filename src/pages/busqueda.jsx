@@ -1,9 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/router";
 import { useGetArticulosQuery } from "@/redux/services/busquedaArtService";
+import { useGetPrestadoresQuery, useGetGuiasQuery } from "@/redux/services/prestadoresService";
+import { useGetEventosQuery } from "@/redux/services/eventosService";
+
 import CardArticulosBusqueda from "@/components/articulos/CardArticulosBusqueda";
+import CardPrestadores from "@/components/prestadores/CardPrestadores";
+import CardGuia from "@/components/prestadores/CardGuia";
+import CardEvento from "@/components/eventos/CardEvento";
 import Paginado from "@/components/common/Paginado";
-import { Search } from "lucide-react"; // Importamos el ícono para el botón
+import { Search } from "lucide-react";
 import { getCurrentLanguage, languages } from "@/utils";
 
 const Busqueda = () => {
@@ -14,102 +20,181 @@ const Busqueda = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [localSearchTerm, setLocalSearchTerm] = useState(searchQuery);
 
+  // Ajustado a 15, ya que indicas que el backend devuelve 15 ítems por página.
   const itemsPerPage = 10;
   const offset = (currentPage - 1) * itemsPerPage;
+
+  const {
+    data: articulosResponse,
+    error: errorArticulos,
+    isLoading: isLoadingArticulos,
+    isFetching: isFetchingArticulos,
+  } = useGetArticulosQuery({
+    limit: itemsPerPage,
+    offset: offset,
+    search: localSearchTerm,
+    idioma: selectedLang.code,
+    localidad: "",
+  }, { refetchOnMountOrArgChange: true });
+
+  const {
+    data: prestadoresResponse,
+    error: errorPrestadores,
+    isLoading: isLoadingPrestadores,
+    isFetching: isFetchingPrestadores,
+  } = useGetPrestadoresQuery({
+    limit: itemsPerPage,
+    offset: offset,
+    search: localSearchTerm,
+  }, { refetchOnMountOrArgChange: true });
+
+  const {
+    data: guiasResponse,
+    error: errorGuias,
+    isLoading: isLoadingGuias,
+    isFetching: isFetchingGuias,
+  } = useGetGuiasQuery({
+    limit: itemsPerPage,
+    offset: offset,
+    search: localSearchTerm,
+  }, { refetchOnMountOrArgChange: true });
+
+  const {
+    data: eventosResponse,
+    error: errorEventos,
+    isLoading: isLoadingEventos,
+    isFetching: isFetchingEventos,
+  } = useGetEventosQuery({
+    limit: itemsPerPage,
+    offset: offset,
+    search: localSearchTerm,
+  }, { refetchOnMountOrArgChange: true });
+
+  const isLoading = isLoadingArticulos || isLoadingPrestadores || isLoadingGuias || isLoadingEventos;
+  const error = errorArticulos || errorPrestadores || errorGuias || errorEventos;
+  const isFetching = isFetchingArticulos || isFetchingPrestadores || isFetchingGuias || isFetchingEventos;
+
+  const allCurrentPageResults = useMemo(() => {
+    const combined = [];
+
+    // Artículos: `data` ya es el array debido a su transformResponse
+    if (articulosResponse?.data) {
+      articulosResponse.data.forEach(item => combined.push({ ...item, type: 'articulo' }));
+    }
+    // Prestadores, Guías, Eventos: `data` es el objeto raw de la API,
+    // y los items están en `data.result`.
+    // Asegurarse de que `data.result` sea un array antes de iterar.
+    if (prestadoresResponse?.result && Array.isArray(prestadoresResponse.result)) {
+      prestadoresResponse.result.forEach(item => combined.push({ ...item, type: 'prestador' }));
+    }
+    if (guiasResponse?.result && Array.isArray(guiasResponse.result)) {
+      guiasResponse.result.forEach(item => combined.push({ ...item, type: 'guia' }));
+    }
+    if (eventosResponse?.result && Array.isArray(eventosResponse.result)) {
+      eventosResponse.result.forEach(item => combined.push({ ...item, type: 'evento' }));
+    }
+
+    return combined;
+  }, [articulosResponse, prestadoresResponse, guiasResponse, eventosResponse]);
+
+  const total = useMemo(() => {
+    const totalArticulos = articulosResponse?.total || 0; // Este es el total que viene del transformResponse de articulosService.js
+                                                         // Puede ser la cantidad de ítems de la página actual si el total global está anidado.
+
+    // **** CAMBIOS AQUI: Acceder al 'total' anidado dentro del primer objeto de 'result'
+    const totalPrestadores = parseInt(prestadoresResponse?.result?.[0]?.total, 10) || 0;
+    const totalGuias = parseInt(guiasResponse?.result?.[0]?.total, 10) || 0;
+    const totalEventos = parseInt(eventosResponse?.result?.[0]?.total, 10) || 0; // Asumiendo estructura similar a guias/prestadores para eventos
+
+    return totalArticulos + totalPrestadores + totalGuias + totalEventos;
+  }, [articulosResponse, prestadoresResponse, guiasResponse, eventosResponse]);
+
+
+  const currentArticulos = allCurrentPageResults;
 
   useEffect(() => {
     if (router.isReady) {
       const currentLangObject = getCurrentLanguage(router.query);
       setSelectedLang(currentLangObject);
+      setLocalSearchTerm(searchQuery);
     }
-  }, [router.isReady, router.query]);
-
-  const {
-    data: articulosResponse,
-    error,
-    isLoading
-  } = useGetArticulosQuery({
-    search: searchQuery,
-    limit: itemsPerPage,
-    offset: offset,
-    idioma: selectedLang.code,
-    localidad: "",
-  }, { refetchOnMountOrArgChange: true });
+  }, [router.isReady, router.query, searchQuery]);
 
   useEffect(() => {
-    setLocalSearchTerm(searchQuery);
     setCurrentPage(1);
-  }, [searchQuery]);
-
-  const articulos = articulosResponse?.data || [];
-  const total = articulosResponse?.total || 0;
+  }, [localSearchTerm]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
 
-  // [-- NUEVO --] Manejador para el nuevo formulario de búsqueda
-  const handleNewSearch = (e) => {
+  const handleSearch = (e) => {
     e.preventDefault();
-    if (!localSearchTerm.trim() || localSearchTerm === searchQuery) return;
+    const newQuery = { ...router.query, search: localSearchTerm };
+    router.push({ pathname: router.pathname, query: newQuery }, undefined, { shallow: true });
+  };
 
-    router.push(`/busqueda/?search=${encodeURIComponent(localSearchTerm.trim())}`);
+  const renderCard = (item) => {
+    
+    switch (item.type) {
+      case 'articulo':
+        return <CardArticulosBusqueda key={item.idArticulo || item.id} articulo={item} />;
+      case 'prestador':
+       
+        return (<div className="w-1/3 p-3" ><CardPrestadores key={item.idPrestador || item.id} prestador={item} /> </div>);
+      case 'guia':
+        return(<div className="w-1/3 p-3" ><CardGuia key={item.idGuia || item.id} guia={item} /></div>);
+      case 'evento':
+        return (<div className="w-1/3 p-3" ><CardEvento key={item.idEvento || item.id} evento={item} /></div>);
+      default:
+        return null;
+    }
   };
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
-      <h3 className="text-3xl font-bold mb-2 text-center">
-        Resultados de Búsqueda
-      </h3>
+      <div className='flex flex-col md:flex-row justify-between items-center mb-6'>
+        <h3 className="text-2xl font-bold text-center md:text-left mb-4 md:mb-0">
+          Resultados de búsqueda para:{" "}
+          <span className="text-secondary">{searchQuery}</span>
+        </h3>  
+   
+    </div>
 
-      {/* [-- NUEVO --] Formulario para realizar otra búsqueda */}
-      <form onSubmit={handleNewSearch} className="flex items-stretch w-full max-w-lg mx-auto mb-8">
-        <input
-          type="text"
-          value={localSearchTerm}
-          onChange={(e) => setLocalSearchTerm(e.target.value)}
-          placeholder="Realizar otra búsqueda..."
-          className="w-full bg-gray-100 border-1 focus:ring-2 focus:ring-secondary/50 rounded-l-md px-4 py-2 text-gray-800 placeholder-gray-500 transition-all text-xl shadow-2xs"
-        />
-        <button
-          type="submit"
-          className="bg-secondary hover:bg-secondary/90 text-white px-4 py-2 rounded-r-md flex items-center justify-center"
-          aria-label="Buscar"
-        >
-          <Search size={25} />
-        </button>
-      </form>
+      <div className='w-11/12 mx-auto'>
+        <form onSubmit={handleSearch} className="flex items-center justify-center gap-2 mb-8">
+          <input
+            type="text"
+            placeholder="Buscar..."
+            value={localSearchTerm}
+            onChange={(e) => setLocalSearchTerm(e.target.value)}
+            className="border border-gray-300 px-4 py-2 rounded w-full md:w-96"
+          />
+          <button type="submit" className="bg-primary text-white px-4 py-2 rounded flex items-center justify-center">
+            <Search size={20} className="mr-2" /> Buscar
+          </button>
+        </form>
+      </div>
 
-      {/* [-- MODIFICADO --] Lógica de carga y renderizado */}
       <div className="col max-w-6xl">
-        {isLoading ? (
-          // Si está cargando, muestra una lista de skeletons
-          // Array.from crea un array con una longitud definida para mapearlo
+        {isLoading || isFetching ? (
           Array.from({ length: itemsPerPage }).map((_, index) => (
-            <div key={index}>
-              <CardArticulosBusqueda isLoading={true} key={index} />
+            <div className="" key={index}>
+              <CardArticulosBusqueda isLoading={true} />
             </div>
           ))
         ) : error ? (
-          // Si hay un error, muestra el mensaje de error
-          <p className="text-center text-red-600">Error al cargar artículos.</p>
-        ) : articulos.length > 0 ? (
-          // Si hay artículos, muéstralos
-          articulos.map((articulo, key) => (
-            <div key={key}>
-              <CardArticulosBusqueda key={articulo.id} articulo={articulo} />
-            </div>
-          ))
-        ) : (
-          // Si no hay artículos (y no está cargando), muestra el mensaje de "no encontrados"
+          <p className="text-center text-red-600">Error al cargar resultados.</p>
+        ) : allCurrentPageResults.length === 0 ? (
           <p className="text-center text-lg text-gray-500 mt-4">
             No se encontraron resultados para <span className="font-semibold text-secondary">"{searchQuery}"</span>.
           </p>
+        ) : (
+          currentArticulos.map(renderCard)
         )}
       </div>
 
-      {/* El paginado solo se muestra si no está cargando y hay resultados */}
-      {!isLoading && articulos.length > 0 && (
+      {!isLoading && total > 0 && (
         <div className="pb-2">
           <Paginado
             currentPage={currentPage}
