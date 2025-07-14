@@ -44,7 +44,6 @@ export default function Index() {
         <a href="https://www.tucumanturismo.gob.ar/files/Actividades-Invierno-2025-TucumanTieneTodo.pdf" target="_blank" rel="noopener noreferrer">
           <ResponsiveVideo />
         </a>
-        <div className='hidden'>is a DEV</div>
       </div>
       <div className='mb-0'>
         <Itinerarios />
@@ -74,10 +73,10 @@ export default function Index() {
           <img src={`${process.env.URL_LOCAL_SERVER}${process.env.URL_LOCAL}/images/banners/TeatroMercedesSosa-desktop.jpg`} className='w-full' alt="Banner Teatro Mercedes Sosa" />
         </a>
       </div>
-      <div className='md:w-11/13 w-full mx-auto'>
-        <div className='relative flex justify-center items-center'>
-          <h1 className="text-5xl mb-7 text-gray-500/70">{currentContent.featuredEvents}</h1>
-          <div className='absolute right-0 mb-7 pe-7'>
+      <div className='md:w-11/13 w-11/13 mx-auto'>
+        <div className='relative flex md:justify-center justify-between items-center'>
+          <h1 className="md:text-5xl text-4xl mb-7 text-gray-500/70">{currentContent.featuredEvents}</h1>
+          <div className='md:absolute right-0 mb-7 md:pe-7'>
             <a href={eventsLink}>
               <Button className='shadow-lg' size='sm'>
                 {currentContent.learnMore}

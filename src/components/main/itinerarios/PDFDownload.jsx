@@ -1,6 +1,7 @@
 import { usePDF } from '@react-pdf/renderer';
 import { ArrowDownToLine, QrCode, LoaderCircle, AlertCircle } from 'lucide-react';
 import ItinerarioDoc from '@/components/ItinerarioDoc';
+import ItinerarioMobile from '@/components/ItinerarioMobile';
 import { useSelector } from 'react-redux';
 import { useEffect, useState, useRef } from 'react';
 import Modal from '@/components/common/Modal';
@@ -92,7 +93,11 @@ export default function PDFGeneratorButton() {
   const handleDownload = async () => {
     await handleCookieAndSave();
     setShowQR(false);
-    updateInstance(<ItinerarioDoc data={favoritos} />);
+    if (window.innerWidth < 1024 ) {
+      updateInstance(<ItinerarioMobile data={favoritos} />);
+    }else{
+      updateInstance(<ItinerarioDoc data={favoritos} />);
+    }
   };
 
   const handleGenerateQR = async () => {
