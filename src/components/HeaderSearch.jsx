@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { Search } from 'lucide-react'; // Importamos el ícono
 
 // Este componente es específico para el header, por eso quitamos el padding exterior.
-const HeaderSearch = () => {
+const HeaderSearch = ({ setView = null }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const router = useRouter();
 
@@ -13,7 +13,9 @@ const HeaderSearch = () => {
 
         const encodedSearch = encodeURIComponent(searchTerm.trim());
         const nextPath = `/busqueda/?search=${encodedSearch}`;
-
+        if (setView) {
+            setView(false); 
+        }
         if (router.asPath !== nextPath) {
             router.push(nextPath);
         }

@@ -190,7 +190,7 @@ export default function Header() {
                 <div className="px-4 pt-1 flex justify-between w-11/12 flex-wrap">
                     {/* Date/Weather */}
                     <div className="bg-white px-3 py-1 rounded-t-md text-[1.1em] mb-0">
-                        {new Date().toLocaleDateString(selectedLang.code === 'ES' ? 'es-AR' : 'en-US', { day: 'numeric', month: 'long', year: 'numeric' })}{/* ° */}
+                        {new Date().toLocaleDateString(selectedLang.code === 'ES' ? 'es-AR' : 'en-US', { day: 'numeric', month: 'long', year: 'numeric' })} {/* ° */}
                         {/* <span className="ml-1 text-yellow-500">☀️</span> */} {/* Placeholder */}
                     </div>
                     {/* Contact/Social Links */}
@@ -246,7 +246,7 @@ export default function Header() {
                         {/* Si la búsqueda está abierta, muestra el componente de búsqueda */}
                         {isSearchOpen ? (
                             <div className="w-full max-w-lg animate-fade-in"> {/* Animación sutil */}
-                                <HeaderSearch />
+                                <HeaderSearch setView={setIsSearchOpen} />
                             </div>) : (
                             <nav className="hidden lg:flex text-gray-700 font-medium items-center gap-4 lg:flex-1 justify-around">
                                 {/* Desktop Navigation (Uses dynamicMenuItems) */}
@@ -363,7 +363,7 @@ export default function Header() {
                 className={`lg:hidden w-full bg-white shadow-md absolute top-full left-0 z-20 overflow-y-auto transition-all duration-300 ease-in-out ${isMobileMenuOpen ? 'max-h-[calc(100vh-150px)] border-t border-gray-200' : 'max-h-0'}`} style={{ overflowY: isMobileMenuOpen ? 'auto' : 'hidden' }}
             >
                 <div className="p-4 border-b border-gray-200">
-                    <HeaderSearch />
+                    <HeaderSearch setView={setIsMobileMenuOpen} />
                 </div>
                 <nav className="flex flex-col px-4 py-2">
                     {isLoading || isFetching ? (
