@@ -355,7 +355,7 @@ export default function Header() {
             {/* --- INICIO: PANEL DEL MEGA-MENÚ --- */}
             <div
                 onMouseEnter={() => handleMouseEnter(activeMenu)}
-                className={`absolute top-full left-0 w-full bg-white shadow-lg transition-all duration-300 ease-in-out overflow-hidden ${activeMenu && !isSearchOpen ? 'max-h-[80vh] opacity-100 border-t' : 'max-h-0 opacity-0'}`}
+                className={`absolute top-full left-0 w-full bg-white shadow-lg transition-all duration-300 ease-in-out overflow-auto ${activeMenu && !isSearchOpen ? 'max-h-[80vh] opacity-100 border-t' : 'max-h-0 opacity-0'}`}
             >
                 <div className="w-11/12 mx-auto px-4 py-8">
                     {dynamicMenuItems.map((menu) => (
@@ -363,12 +363,12 @@ export default function Header() {
                             <div key={menu.label} className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-8 gap-y-6">
                                 {menu.sections.map((section) => (
                                     <div key={section.label} className="flex flex-col space-y-2">
-                                        <h3 className="font-bold text-gray-800 border-b-2 border-primary pb-1 mb-2 text-lg">
+                                        <h3 className="font-bold text-gray-800 border-b-2 border-primary pb-1 mb-2 text-2xl">
                                             {section.label}
                                         </h3>
                                         <div className="flex flex-col space-y-2">
                                             {section.children.map((child) => (
-                                                <a key={child.label} href={child.href} className="text-gray-600 hover:text-secondary hover:underline underline-offset-2 decoration-2 text-base">
+                                                <a key={child.label} href={child.href} className="text-gray-600 hover:text-secondary hover:underline underline-offset-2 decoration-2 text-xl">
                                                     {child.label}
                                                 </a>
                                             ))}

@@ -25,7 +25,7 @@ export default function Alojamientos() {
         estrellas: filter.estrellas,
         localidad: filter.localidad
     });
-
+    console.log(alojamientos);
     // Manejar cambio de página
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -92,13 +92,13 @@ export default function Alojamientos() {
                 </div>
 
                 {/* Componente de paginación */}
-                    <Paginado
-                        currentPage={currentPage}
-                        totalItems={totalItems}
-                        itemsPerPage={itemsPerPage}
-                        onPageChange={handlePageChange}
-                        className={'pb-5'}
-                    />
+                <Paginado
+                    currentPage={currentPage}
+                    totalItems={totalItems}
+                    itemsPerPage={itemsPerPage}
+                    onPageChange={handlePageChange}
+                    className={'pb-5'}
+                />
             </div>
         </div>
     );
