@@ -6,7 +6,7 @@ import { setFavorito } from '@/redux/features/itinerarioSlice';
 
 
 const HotelCard = ({ hotel, isFavorite, isLoading = false }) => {
-
+console.log(hotel);
     if (isLoading) {
         return (
             <div className="bg-white rounded-lg duration-300 overflow-hidden border border-gray-200 md:flex-1 shadow min-w-[72vw] max-w-[72vw] md:min-w-auto md:max-w-auto animate-pulse">
@@ -62,7 +62,7 @@ const HotelCard = ({ hotel, isFavorite, isLoading = false }) => {
         id: hotel.id,
         nombre: hotel.nombre,
         estrellas: parseInt(hotel.estrellas), // Convert stars to a number
-        logo: hotel.archivo, // Assuming 'archivo' is the logo file name
+        logo: hotel.logo, // Assuming 'archivo' is the logo file name
         ubicacion: hotel.ubicacion,
         descripcion: hotel.descripcion,
         direccion: hotel.direccion,
@@ -115,7 +115,7 @@ const HotelCard = ({ hotel, isFavorite, isLoading = false }) => {
             <div className="relative h-48 sm:h-56 md:h-64 lg:h-50">
                 {hotelData.logo && !imageError ? (
                     <Image
-                        src={`https://www.tucumanturismo.gob.ar/carga/image/${hotelData.logo}`}
+                        src={`https://www.tucumanturismo.gob.ar/public/img/alojamientos/${hotelData.logo}`}
                         alt={hotelData.nombre}
                         layout="fill"
                         objectFit="cover"
@@ -134,7 +134,7 @@ const HotelCard = ({ hotel, isFavorite, isLoading = false }) => {
                 </div>
             </div>
 
-            <div className="p-5 flex flex-col gap-3">
+            <div className="px-5 py-3 flex flex-col gap-3">
 
                 {hotelData.estrellas > 0 && (
                     <div className="flex items-center gap-1 justify-center">
