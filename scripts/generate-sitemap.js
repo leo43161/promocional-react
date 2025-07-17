@@ -80,9 +80,9 @@ async function generateSitemap() {
         if (lastmod) entry += `  <lastmod>${lastmod}</lastmod>\n`;
         entry += `  <changefreq>${changefreq}</changefreq>\n`;
         entry += `  <priority>${priority}</priority>\n`;
-        entry += `  <xhtml:link rel="alternate" hreflang="es" href="https://tucumanturismo.gob.ar/reactdev/articulos/articulo/229/frequent-questions?lang=EN" />\n`;
-        entry += `  <xhtml:link rel="alternate" hreflang="en" href="${escapedFullPathEn}" />\n`;
-        entry += `  <xhtml:link rel="alternate" hreflang="x-default" href="${escapedFullPathEs}" />\n`; // Asume español como default
+        entry += `  <xhtml:link rel="alternate" hreflang="es" href="https://tucumanturismo.gob.ar" />\n`;
+        /* entry += `  <xhtml:link rel="alternate" hreflang="en" href="${escapedFullPathEn}" />\n`;
+        entry += `  <xhtml:link rel="alternate" hreflang="x-default" href="${escapedFullPathEs}" />\n`; */ // Asume español como default
         entry += `</url>`;
         return entry;
     }
