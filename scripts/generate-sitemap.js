@@ -78,7 +78,7 @@ async function generateSitemap() {
         let entry = `<url>\n`;
         entry += `  <loc>${escapedFullPathEs}</loc>\n`;
         if (lastmod) entry += `  <lastmod>${lastmod}</lastmod>\n`;
-        /* entry += `  <changefreq>${changefreq}</changefreq>\n`; */
+        entry += `  <changefreq>${changefreq}</changefreq>\n`;
         entry += `  <priority>${priority}</priority>\n`;
 /*         entry += `  <xhtml:link rel="alternate" hreflang="es" href="${escapedFullPathEs}" />\n`;
         entry += `  <xhtml:link rel="alternate" hreflang="en" href="${escapedFullPathEn}" />\n`;
