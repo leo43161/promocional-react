@@ -36,8 +36,7 @@ function escapeXml(url) {
               .replace(/'/g, '&apos;')
               .replace(/"/g, '&quot;')
               .replace(/>/g, '&gt;')
-              .replace(/</g, '&lt;')
-              .generateSlug();
+              .replace(/</g, '&lt;');
 }
 
 
@@ -73,8 +72,8 @@ async function generateSitemap() {
         }
 
         // Escapamos las URLs antes de insertarlas en el XML
-        const escapedFullPathEs = escapeXml(fullPathEs);
-        const escapedFullPathEn = escapeXml(fullPathEn);
+        const escapedFullPathEs = generateSlug(escapeXml(fullPathEs));
+        const escapedFullPathEn = generateSlug(escapeXml(fullPathEn));
 
         let entry = `<url>\n`;
         entry += `  <loc>${escapedFullPathEs}</loc>\n`;
