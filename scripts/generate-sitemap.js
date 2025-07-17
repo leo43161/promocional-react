@@ -23,8 +23,6 @@ async function fetchData(endpoint) {
 }
 
 function formatDate(dateString) {
-    // Asume que tu API devuelve fechas en un formato que puede ser parseado por Date
-    // o si no, usa una fecha fija o la fecha actual.
     try {
         return new Date(dateString || Date.now()).toISOString().split('T')[0];
     } catch (e) {
@@ -32,15 +30,23 @@ function formatDate(dateString) {
     }
 }
 
+// Nueva función para escapar caracteres especiales para XML
+function escapeXml(url) {
+    return url.replace(/&/g, '&amp;')
+              .replace(/'/g, '&apos;')
+              .replace(/"/g, '&quot;')
+              .replace(/>/g, '&gt;')
+              .replace(/</g, '&lt;');
+}
+
 
 async function generateSitemap() {
     console.log("Generating sitemap...");
 
-    const articles = await fetchData('articulos'); // Endpoint de tu API para todos los artículos
-    const subsecciones = await fetchData('subseccion_all'); // Endpoint para todas las subsecciones
-    const eventos = await fetchData('evento'); // Endpoint para todos los eventos
+    const articles = await fetchData('articulos');
+    const subsecciones = await fetchData('subseccion_all');
+    const eventos = await fetchData('evento');
 
-    // Páginas estáticas (añade todas las que tengas)
     const staticPages = [
         '', // Homepage
         '/eventos',
@@ -50,32 +56,33 @@ async function generateSitemap() {
         '/prestadores',
         '/autos',
         '/agencias',
-        '/blog', // si es una página estática y no un listado dinámico desde API en el sitemap
-        // ... otras páginas estáticas
+        '/blog',
     ];
 
     const sitemapEntries = [];
 
     // Función para crear entradas de URL con hreflang
     function createUrlEntry(pathSegment, lastmod, changefreq = 'weekly', priority = 0.7) {
-        const fullPathEs = `${SITE_URL}${pathSegment}`;
-        const fullPathEn = `${SITE_URL}${pathSegment}${pathSegment.includes('?') ? '&' : '?'}lang=EN`;
+        let fullPathEs = `${SITE_URL}${pathSegment}`;
+        let fullPathEn = `${SITE_URL}${pathSegment}${pathSegment.includes('?') ? '&' : '?'}lang=EN`;
 
-        // Limpieza para el caso de la homepage
-        let cleanFullPathEn = fullPathEn;
         if (pathSegment === '' || pathSegment === '/') {
-            cleanFullPathEn = `${SITE_URL}/?lang=EN`;
+            fullPathEs = `${SITE_URL}/`;
+            fullPathEn = `${SITE_URL}/?lang=EN`;
         }
 
+        // Escapamos las URLs antes de insertarlas en el XML
+        const escapedFullPathEs = escapeXml(fullPathEs);
+        const escapedFullPathEn = escapeXml(fullPathEn);
 
         let entry = `<url>\n`;
-        entry += `  <loc>${fullPathEs}</loc>\n`;
+        entry += `  <loc>${escapedFullPathEs}</loc>\n`;
         if (lastmod) entry += `  <lastmod>${lastmod}</lastmod>\n`;
         entry += `  <changefreq>${changefreq}</changefreq>\n`;
         entry += `  <priority>${priority}</priority>\n`;
-        entry += `  <xhtml:link rel="alternate" hreflang="es" href="${fullPathEs}" />\n`;
-        entry += `  <xhtml:link rel="alternate" hreflang="en" href="${cleanFullPathEn}" />\n`;
-        entry += `  <xhtml:link rel="alternate" hreflang="x-default" href="${fullPathEs}" />\n`; // Asume español como default
+        entry += `  <xhtml:link rel="alternate" hreflang="es" href="${escapedFullPathEs}" />\n`;
+        entry += `  <xhtml:link rel="alternate" hreflang="en" href="${escapedFullPathEn}" />\n`;
+        entry += `  <xhtml:link rel="alternate" hreflang="x-default" href="${escapedFullPathEs}" />\n`; // Asume español como default
         entry += `</url>`;
         return entry;
     }
@@ -92,7 +99,7 @@ async function generateSitemap() {
             sitemapEntries.push(
                 createUrlEntry(
                     `/articulos/articulo/${article.idArticulo}/${slug}`,
-                    formatDate(article.fecha_mod || article.fecha_alta), // Usa fecha de modificación o creación
+                    formatDate(article.fecha_mod || article.fecha_alta),
                     'monthly',
                     0.7
                 )
@@ -107,7 +114,7 @@ async function generateSitemap() {
             sitemapEntries.push(
                 createUrlEntry(
                     `/subsecciones/lista/${subseccion.id}/${slug}`,
-                    formatDate(subseccion.fecha_mod), // Asume que tienes una fecha de mod
+                    formatDate(subseccion.fecha_mod),
                     'weekly',
                     0.6
                 )
@@ -115,11 +122,10 @@ async function generateSitemap() {
         }
     });
 
-    // Páginas de Detalle de Eventos (si aplica y si tienes una URL dedicada por evento)
-    // Este es un ejemplo, necesitas adaptar la URL y la obtención de datos
+    // Páginas de Detalle de Eventos
     eventos.forEach(evento => {
-        if (evento.id && evento.nombre) { // Asumiendo que usas el ID para la URL y tienes el nombre
-            const eventoPath = `/eventos/evento?id=${evento.id}`; // Ajusta esta ruta si es diferente
+        if (evento.id && evento.nombre) {
+            const eventoPath = `/eventos/evento?id=${evento.id}`;
             sitemapEntries.push(
                 createUrlEntry(
                     eventoPath,
@@ -131,8 +137,7 @@ async function generateSitemap() {
         }
     });
 
-
-    const sitemapContent = `<?xml version="1.0" encoding="UTF-8"?> <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">${sitemapEntries.join('\n ')}</urlset>`;
+    const sitemapContent = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${sitemapEntries.join('\n')}\n</urlset>`;
 
     const sitemapPath = path.join(__dirname, '../public/sitemap.xml');
     fs.writeFileSync(sitemapPath, sitemapContent);
@@ -143,4 +148,3 @@ generateSitemap().catch(err => {
     console.error("Error generating sitemap:", err);
     process.exit(1);
 });
-``
