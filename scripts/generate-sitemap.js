@@ -33,10 +33,10 @@ function formatDate(dateString) {
 // Nueva función para escapar caracteres especiales para XML
 function escapeXml(url) {
     return url.replace(/&/g, '&amp;')
-              .replace(/'/g, '&apos;')
-              .replace(/"/g, '&quot;')
-              .replace(/>/g, '&gt;')
-              .replace(/</g, '&lt;');
+        .replace(/'/g, '&apos;')
+        .replace(/"/g, '&quot;')
+        .replace(/>/g, '&gt;')
+        .replace(/</g, '&lt;');
 }
 
 
@@ -80,8 +80,8 @@ async function generateSitemap() {
         if (lastmod) entry += `  <lastmod>${lastmod}</lastmod>\n`;
         entry += `  <changefreq>${changefreq}</changefreq>\n`;
         entry += `  <priority>${priority}</priority>\n`;
-/*         entry += `  <xhtml:link rel="alternate" hreflang="es" href="${escapedFullPathEs}" />\n`;
-        entry += `  <xhtml:link rel="alternate" hreflang="en" href="${escapedFullPathEn}" />\n`;
+        entry += `  <xhtml:link rel="alternate" hreflang="es" href="${escapedFullPathEs}" />\n`;
+        /* entry += `  <xhtml:link rel="alternate" hreflang="en" href="${escapedFullPathEn}" />\n`;
         entry += `  <xhtml:link rel="alternate" hreflang="x-default" href="${escapedFullPathEs}" />\n`; */ // Asume español como default
         entry += `</url>`;
         return entry;
@@ -138,7 +138,7 @@ async function generateSitemap() {
     });
 
     // CAMBIO: Se reincorporó el namespace faltante 'xmlns:xhtml'.
-const sitemapContent = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">\n${sitemapEntries.join('\n')}\n</urlset>`;
+    const sitemapContent = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">\n${sitemapEntries.join('\n')}\n</urlset>`;
 
     const sitemapPath = path.join(__dirname, '../public/sitemap.xml');
     fs.writeFileSync(sitemapPath, sitemapContent);
