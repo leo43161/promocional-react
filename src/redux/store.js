@@ -9,6 +9,7 @@ import { itinerariosService } from './services/itinerariosService';
 import { itinerarioService } from './services/itinerarioService';
 import itinerarioReducer from './features/itinerarioSlice';
 import { busquedaArtService } from './services/busquedaArtService';
+import { transporteService } from './services/transporteService';
 
 export const store = configureStore({
   reducer: {
@@ -21,8 +22,8 @@ export const store = configureStore({
     [blogService.reducerPath]: blogService.reducer,
     [itinerariosService.reducerPath]: itinerariosService.reducer,
     [itinerarioService.reducerPath]: itinerarioService.reducer,
-    [busquedaArtService.reducerPath]: busquedaArtService.reducer
-
+    [busquedaArtService.reducerPath]: busquedaArtService.reducer,
+    [transporteService.reducerPath]: transporteService.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
@@ -35,6 +36,7 @@ export const store = configureStore({
       itinerariosService.middleware,
       itinerarioService.middleware,
       busquedaArtService.middleware,
+      transporteService.middleware,
     ),
 });
 
