@@ -72,8 +72,8 @@ async function generateSitemap() {
         }
 
         // Escapamos las URLs antes de insertarlas en el XML
-        const escapedFullPathEs = generateSlug(escapeXml(fullPathEs));
-        const escapedFullPathEn = generateSlug(escapeXml(fullPathEn));
+        const escapedFullPathEs = escapeXml(fullPathEs);
+        const escapedFullPathEn = escapeXml(fullPathEn);
 
         let entry = `<url>\n`;
         entry += `  <loc>${escapedFullPathEs}</loc>\n`;
