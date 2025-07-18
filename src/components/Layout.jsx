@@ -3,6 +3,7 @@ import React from 'react';
 import Head from 'next/head'; //
 import { useRouter } from 'next/router';
 import Header from './Header'; //
+import HeaderEN from './HeaderEN'; //
 import SmoothView from './common/SmoothView'; //
 import Footer from './Footer'; //
 import { languages } from '@/utils'; //
@@ -133,7 +134,7 @@ export default function Layout({ children, className, pageProps }) {
             </Head>
             <SmoothView>
                 <div className='relative'>
-                    <Header />
+                    {currentLangCode === 'EN' ? <HeaderEN /> : <Header />}
                     <main>
                         {children}
                     </main>

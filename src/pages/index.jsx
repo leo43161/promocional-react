@@ -42,7 +42,10 @@ export default function Index() {
     <div>
       <div className='mb-0'>
         <a href="https://www.tucumanturismo.gob.ar/files/Actividades-Invierno-2025-TucumanTieneTodo.pdf" target="_blank" rel="noopener noreferrer">
-          <ResponsiveVideo />
+          <ResponsiveVideo
+            desktopSrc="video/Tucuman_Tiene_Todo_INV.mp4"
+            mobileSrc="video/Tucuman_Tiene_Todo_M_INV.mp4"
+          />
         </a>
       </div>
       <div className='mb-0'>
@@ -53,6 +56,11 @@ export default function Index() {
           <a href="https://www.tucumanturismo.gob.ar/files/Actividades-Invierno-2025-TucumanTieneTodo.pdf" target="_blank">
             <img src={process.env.URL_IMG_LOCAL + "/images/banners/BannerWeb1900x450Invierno2025-Desktop.jpg"} alt="Banner de Invierno" />
           </a>
+        </div>
+        <div>
+          <ResponsiveVideo
+            desktopSrc="video/Copa_Banner_1900_X_450.mp4"
+          />
         </div>
       </div>
       <div className='mb-20'>

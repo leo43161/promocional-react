@@ -1,6 +1,6 @@
 import React from 'react';
 // Se importa el nuevo icono FileText
-import { Mail, Globe, Facebook, Instagram, CircleSmall, FileText } from 'lucide-react';
+import { Mail, Globe, Facebook, Instagram, CircleSmall, FileText, Phone } from 'lucide-react';
 
 // Se añade el nuevo prop 'pdfBaseUrl'
 export default function CardGuia({
@@ -55,6 +55,7 @@ export default function CardGuia({
         tipo_registro,
         numero_registro,
         domicilio,
+        telefonos,
         nombre_localidad,
         email,
         web,
@@ -102,6 +103,14 @@ export default function CardGuia({
                             <Mail className="h-5 w-5 mr-2 text-gray-500" />
                             {email}
                         </a>
+                    )}
+                </div>
+                <div className="space-y-2">
+                    {telefonos && (
+                        <p className="flex items-center text-gray-700">
+                            <Phone className="h-5 w-5 mr-2 text-gray-500" />
+                            {telefonos}
+                        </p>
                     )}
                 </div>
 

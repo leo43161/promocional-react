@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 
 const ResponsiveVideo = ({
     desktopSrc = "video/Tucuman_Tiene_Todo_INV.mp4",
-    mobileSrc = "video/Tucuman_Tiene_Todo_M_INV.mp4",
+    mobileSrc,
     posterSrc = "/images/banner-video.webp",
     mobilePosterSrc = "/images/banner-video.webp",
     isBackgroundVideo = true,
@@ -71,10 +71,12 @@ const ResponsiveVideo = ({
                 type="video/mp4"
                 media="(min-width: 768px)"
             />
-            <source
-                src={mobileSrc}
-                type="video/mp4"
-            />
+            {mobileSrc &&
+                <source
+                    src={mobileSrc}
+                    type="video/mp4"
+                />
+            }
             Tu navegador no soporta la reproducción de videos.
         </video>
     );

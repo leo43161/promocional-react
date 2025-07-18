@@ -1,4 +1,4 @@
-import { usePDF } from '@react-pdf/renderer';
+import { PDFDownloadLink, usePDF } from '@react-pdf/renderer';
 import { ArrowDownToLine, QrCode, LoaderCircle, AlertCircle } from 'lucide-react';
 import ItinerarioDoc from '@/components/ItinerarioDoc';
 import ItinerarioMobile from '@/components/ItinerarioMobile';
@@ -47,6 +47,7 @@ export default function PDFGeneratorButton() {
   useEffect(() => {
     console.log(instance);
     if (instance.url && !instance.loading) {
+      setIsDownloading(false);
       window.open(instance.url, '_blank');
       updateInstance(null);
       handleCloseModal();
@@ -83,21 +84,18 @@ export default function PDFGeneratorButton() {
     }
   };
 
+  const handleDownload = async () => {
+    setIsDownloading(true);
+    await handleCookieAndSave();
+    setShowQR(false);
+    updateInstance(<ItinerarioDoc data={favoritos} />);
+  };
+
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setShowQR(false);
     setPdfUrl(null);
     updateInstance(null);
-  };
-
-  const handleDownload = async () => {
-    await handleCookieAndSave();
-    setShowQR(false);
-    if (window.innerWidth < 1024 ) {
-      updateInstance(<ItinerarioMobile data={favoritos} />);
-    }else{
-      updateInstance(<ItinerarioDoc data={favoritos} />);
-    }
   };
 
   const handleGenerateQR = async () => {
@@ -106,7 +104,7 @@ export default function PDFGeneratorButton() {
   };
 
   const isLoading = instance.loading || isSaving;
-
+  const itinerarioDocumento = <ItinerarioMobile data={favoritos} />;
   return (
     // --- Contenedor relativo para posicionar el tooltip ---
     <div className="relative h-full">
@@ -169,14 +167,38 @@ export default function PDFGeneratorButton() {
               <QrCode className="mr-2" />
               Generar QR
             </button>
-            <button
-              onClick={handleDownload}
-              disabled={isLoading}
-              className="flex items-center justify-center px-4 py-1.5 bg-primary/90 text-white rounded-md hover:bg-primary disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-xl"
+            {window.innerWidth < 1024 ? <PDFDownloadLink
+              document={itinerarioDocumento}
+              fileName={`Itinerario-Tucuman-Tiene-Todo.pdf`}
             >
-              <ArrowDownToLine size={25} className="mr-2" />
-              Descargar PDF
-            </button>
+              {({ blob, url, loading, error }) => (
+                <button
+                  onClick={async () => {
+                    // Si la URL existe, la abre en una nueva pestaña.
+                    if (url) {
+                      window.open(url, '_blank');
+                      await handleCookieAndSave();
+                      setShowQR(false);
+                    }
+                  }}
+                  disabled={loading}
+                  className="flex items-center justify-center px-4 py-1.5 bg-primary/90 text-white rounded-md hover:bg-primary disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-xl w-full"
+                >
+                  <ArrowDownToLine size={25} className="mr-2" />
+                  {loading ? 'Generando...' : (error ? 'Error al descargar intente de nuevo' : 'Descargar Itinerario')}
+                </button>
+              )
+              }
+            </PDFDownloadLink> :
+              <button
+                onClick={handleDownload}
+                disabled={isDownloading}
+                className="flex items-center justify-center px-4 py-1.5 bg-primary/90 text-white rounded-md hover:bg-primary disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-xl"
+              >
+                <ArrowDownToLine size={25} className="mr-2" />
+                {isDownloading ? "Cargando Itinerario..." : "Descargar Itinerario"} 
+              </button>
+            }
           </div>
         </div>
       </Modal>

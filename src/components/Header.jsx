@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { MessageCircle, Facebook, Instagram, Twitter, Youtube, Menu, X, ChevronDown, Search } from 'lucide-react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
+import { MessageCircle, Facebook, Instagram, Twitter, Youtube, Menu, X, ChevronDown, Search, ChevronLeft, ChevronRight } from 'lucide-react';
 // Asegúrate que la ruta sea correcta para tu proyecto
-import { useGetSeccionesQuery } from '@/redux/services/headerService';
+import { useGetMenuQuery, useGetSeccionesQuery } from '@/redux/services/headerService';
 import { useRouter } from 'next/router';
 import { generateSlug, languages } from '@/utils';
 import HeaderSearch from './HeaderSearch';
@@ -15,6 +15,7 @@ const redirectSubsecc = [
     { idSubseccion: 41, articulo: "autos" },
     { idSubseccion: 20, articulo: "eventos" },
     { idSubseccion: 42, articulo: "prestadores" },
+    { idSubseccion: 85, articulo: "blog" },
     { idSubseccion: 43, articulo: "agencias" },
     { idSubseccion: 44, articulo: "guias" },
     { idSubseccion: 62, articulo: "alojamientos" },
@@ -23,7 +24,8 @@ const redirectSubsecc = [
     { idSubseccion: 66, articulo: "guias" },
     { idSubseccion: 65, articulo: "agencias" },
     { idSubseccion: 63, articulo: "transporte" },
-    { idSubseccion: 201, articulo: "eventos" },
+    { idSubseccion: 86, articulo: "blog" },
+    { idSubseccion: 184, articulo: "eventos" },
     { idSubseccion: 40, articulo: "gastronomia" },
 ];
 
@@ -31,17 +33,19 @@ const redirectSubsecc = [
 export default function Header() {
     const router = useRouter();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const [openAccordionItem, setOpenAccordionItem] = useState(null);
+    const [openMobileMenu, setOpenMobileMenu] = useState(null); // Para el acordeón del menú principal móvil
+    const [openMobileSection, setOpenMobileSection] = useState(null); // Para el acordeón de secciones dentro del menú móvil
     const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
     const [isSearchOpen, setIsSearchOpen] = useState(false);
-    // Estado para el ID del idioma seleccionado, inicia con el ID del primer idioma (Español)
     const [selectedLangId, setSelectedLangId] = useState(languages[0].code);
-    // Estado para el objeto completo del idioma seleccionado (para mostrar bandera/código)
     const [selectedLang, setSelectedLang] = useState(languages[0]);
+    const [activeMenu, setActiveMenu] = useState(null); // Para controlar el mega-menú visible en desktop
+    const headerRef = useRef(null);
 
 
     // --- Obtener datos de la API usando el ID del idioma seleccionado ---
-    const { data: seccionesApi, error, isLoading, isFetching } = useGetSeccionesQuery(selectedLangId);
+    /* const { data: seccionesApi, error, isLoading, isFetching } = useGetMenuQuery(selectedLangId); */
+    const { data: menuData, error, isLoading, isFetching } = useGetMenuQuery(selectedLangId);
 
     const { lang } = router.query;
     const isEnglish = lang === 'EN';
@@ -62,93 +66,92 @@ export default function Header() {
     // --- Transformar datos de la API al formato del menú (Memoizado) ---
     // se recalculará automáticamente cuando seccionesApi cambie (debido al cambio de selectedLangId)
     const dynamicMenuItems = useMemo(() => {
-        // Si está cargando, obteniendo datos nuevos, o hubo un error, retorna array vacío
-        if (isLoading || isFetching || error || !seccionesApi) {
-            /* console.log('isLoading, isFetching, error, seccionesApi:', isLoading, isFetching, error, seccionesApi); */
-            // Podrías diferenciar entre loading y error si quieres mostrar mensajes distintos
+        if (isLoading || isFetching || error || !menuData || !menuData.result) {
             return [];
         }
-        // Filtrar secciones activas y visibles, luego ordenar
-        const visibleSections = seccionesApi
-            .result
-            .filter(s => s.seccionVisible === "1" && s.seccionActiva === "1")
-            .sort((a, b) => parseInt(a.orden || '999') - parseInt(b.orden || '999'));
-
-        const groupedSubcategories = visibleSections.reduce((acc, item) => {
-            const key = item.nombreSeccion.trim();
-            const exist = acc.length > 0 && acc.find(s => s.nombre.trim() === key);
-            if (!exist) {
-                acc.push({
-                    nombre: key,
-                    subsecciones: []
-                });
+        // 1. Agrupar todo por 'nombreMenu'
+        const groupedByMenu = menuData.result.reduce((acc, item) => {
+            const menuName = item.nombreMenu.trim();
+            if (!acc[menuName]) {
+                acc[menuName] = [];
             }
-            const subseccion = {
-                idSubseccion: item.idSubseccion,
-                nombre: item.nombreSubseccion,
-                visible: item.subsecVisible,
-                activa: item.subsecActiva,
-                orden: item.orden,
-                primerArt: item.primerArticuloSubseccion,
-                primerArtNombre: item.primerArticuloNombre,
-                articulos: item.cantidadArticulos,
-                idioma: parseInt(item.idiomaSubseccion),
-            };
-            // si el key coincide con algunos de los existentes, agrega el item a subsecciones
-            acc.find(s => s.nombre.trim() === key).subsecciones.push(subseccion);
+            acc[menuName].push(item);
             return acc;
-        }, []);
-        return groupedSubcategories.map(seccion => {
-            // Filtrar subsecciones activas y visibles, luego ordenar
-            const visibleSubsections = (seccion.subsecciones || [])
-                .filter(sub => sub.visible === "1" && sub.activa === "1")
-                .sort((a, b) => parseInt(a.orden || '999') - parseInt(b.orden || '999'));
-            // Mapear subsecciones al formato { label, href }
-            const children = visibleSubsections
-                .map(sub => {
-                    let href = '#'; // Default href
-                    // **AJUSTA ESTA LÓGICA DE RUTAS SEGÚN TU APLICACIÓN**
-                    // Generar el enlace basado en la sección, subsección y si existe en redirectSubsecc
-                    const redirectSubseccion = redirectSubsecc.find(redirec => redirec.idSubseccion === parseInt(sub.idSubseccion));
-                    if (sub.primerArt && parseInt(sub.articulos) === 1 && !redirectSubseccion) {
-                        href = `${process.env.URL_LOCAL}/articulos/articulo/${sub.primerArt}/${generateSlug(sub.primerArtNombre)}`; // Link to first article
-                    } else if (sub.idSubseccion) {
-                        href = redirectSubseccion ? `${process.env.URL_LOCAL}/${redirectSubseccion.articulo}` : `${process.env.URL_LOCAL}/subsecciones/lista/${sub.idSubseccion}/${generateSlug(sub.nombre)}`;
-                    }
-                    if (parseInt(sub.idioma) !== 1) {
-                        href += `?lang=${languages.find(l => l.id === sub.idioma).code}`
-                    }
+        }, {});
 
-                    // Only return if a valid href was generated
-                    if (href !== '#') {
+
+
+        // 2. Para cada Menú, agrupar por 'nombreSeccion' y luego mapear las subsecciones
+        return Object.keys(groupedByMenu).map(menuName => {
+            const itemsInMenu = groupedByMenu[menuName];
+
+
+            const groupedBySection = itemsInMenu.reduce((acc, item) => {
+                const sectionName = item.nombreSeccion.trim();
+                if (!acc[sectionName]) {
+                    acc[sectionName] = {
+                        // Podríamos necesitar un orden para las secciones si el API lo proveyera
+                        subsecciones: []
+                    };
+                }
+                acc[sectionName].subsecciones.push(item);
+                return acc;
+            }, {});
+
+
+            const sections = Object.keys(groupedBySection).map(sectionName => {
+                const sectionItems = groupedBySection[sectionName].subsecciones;
+
+
+                const subsecciones = sectionItems
+                    .map(sub => {
+                        let href = '#'; // Default href
+                        const redirectSubseccion = redirectSubsecc.find(redirec => redirec.idSubseccion === parseInt(sub.idSubseccion));
+
+
+                        if (sub.primerArticuloSubseccion && parseInt(sub.cantidadArticulos) === 1 && !redirectSubseccion) {
+                            href = `/articulos/articulo/${sub.primerArticuloSubseccion}/${generateSlug(sub.nombrePrimerArticulo)}`;
+                        } else if (sub.idSubseccion) {
+                            href = redirectSubseccion
+                                ? `/${redirectSubseccion.articulo}`
+                                : `/subsecciones/lista/${sub.idSubseccion}/${generateSlug(sub.nombreSubseccion)}`;
+                        }
+
+
+                        // Agregamos el prefijo de la URL y el idioma
+                        if (href !== '#') {
+                            href = `${process.env.URL_LOCAL || ''}${href}`;
+                            // Asumiendo que `languages` tiene `id` y `code`
+                            const langParam = languages.find(l => l.id === parseInt(sub.idiomaSubseccion));
+                            if (langParam && langParam.code !== 'ES') { // O tu idioma por defecto
+                                href += `?lang=${langParam.code}`;
+                            }
+                        }
+
+
                         return {
-                            label: sub.nombre,
+                            label: sub.nombreSubseccion,
                             href: href,
                         };
-                    }
-                    return null; // Ignore subsections without a valid link
-                })
-                .filter(Boolean); // Remove nulls
+                    })
+                    .filter(sub => sub.href !== '#'); // Filtrar las que no tienen link válido
 
-            // Create the main menu item
-            const menuItem = {
-                label: seccion.nombre,
-                children: children.length > 0 ? children : undefined,
-                // Add direct href for sections without children if applicable (e.g., Blog)
-                // You might need a specific field from the API or check the name
-                // href: (children.length === 0 && seccion.isDirectLink) ? seccion.directLink : undefined
+
+                return {
+                    label: sectionName,
+                    children: subsecciones,
+                };
+            }).filter(section => section.children.length > 0); // Solo incluir secciones que tengan subsecciones visibles
+
+
+            return {
+                label: menuName,
+                sections: sections
             };
-
-            // Example: Specific handling for a "BLOG" section without children
-            if (!menuItem.children && seccion.nombre.toUpperCase() === 'BLOG') {
-                menuItem.href = '/blog'; // Adjust condition and href as needed
-            }
+        }).filter(menu => menu.sections.length > 0); // Solo incluir menús que tengan secciones visibles
 
 
-            return menuItem;
-        });
-
-    }, [seccionesApi, isLoading, isFetching, error]); // Dependencies: recalculate when data, loading state, or error changes
+    }, [menuData, isLoading, isFetching, error]); // Dependencies: recalculate when data, loading state, or error changes
 
 
     // --- Effect to close mobile menu on resize (no changes needed) ---
@@ -156,7 +159,8 @@ export default function Header() {
         const handleResize = () => {
             if (window.innerWidth >= 1024) {
                 setIsMobileMenuOpen(false);
-                setOpenAccordionItem(null);
+                setOpenMobileMenu(null);
+                setOpenMobileSection(null);
             }
         };
         window.addEventListener('resize', handleResize);
@@ -165,12 +169,13 @@ export default function Header() {
 
     // --- Function to change language ---
     const handleLanguageChange = (lang) => {
-        setSelectedLang(lang); // Update the displayed language info (flag, code)
-        setSelectedLangId(lang.code); // Update the language ID state -> THIS TRIGGERS useGetSeccionesQuery
-        setIsLangDropdownOpen(false); // Close dropdown
-        setIsMobileMenuOpen(false); // Close mobile menu if open
-        setOpenAccordionItem(null); // Reset mobile accordion
-        // No need to manually call refetch, RTK Query handles it when selectedLangId changes
+        setSelectedLang(lang);
+        setSelectedLangId(lang.code);
+        setIsLangDropdownOpen(false);
+        setIsMobileMenuOpen(false);
+        setOpenMobileMenu(null);
+        setOpenMobileSection(null);
+        setActiveMenu(null); // Cierra el mega-menú al cambiar idioma
         router.push(
             { pathname: router.pathname, query: { ...router.query, lang: lang.code } },
             undefined,
@@ -178,13 +183,28 @@ export default function Header() {
         );
     };
 
-    // --- Function to toggle mobile accordion (no changes needed) ---
-    const toggleAccordion = (label) => {
-        setOpenAccordionItem(openAccordionItem === label ? null : label);
+    const handleMouseEnter = (menuLabel) => {
+        setActiveMenu(menuLabel);
+    };
+
+
+    const handleMouseLeave = () => {
+        setActiveMenu(null);
+    };
+
+
+    const toggleMobileMenu = (label) => {
+        setOpenMobileMenu(openMobileMenu === label ? null : label);
+        setOpenMobileSection(null); // Resetear sub-acordeón al cambiar de menú principal
+    };
+
+
+    const toggleMobileSection = (label) => {
+        setOpenMobileSection(openMobileSection === label ? null : label);
     };
     // --- Render ---
     return (
-        <div className="w-full sticky top-0 z-50">
+        <header ref={headerRef} className="w-full sticky top-0 z-50" onMouseLeave={handleMouseLeave}>
             {/* Top gray bar (content assumed unchanged, add dynamic date/weather if needed) */}
             <div className='w-full bg-[#D6D3D1] flex justify-center'>
                 <div className="px-4 pt-1 flex justify-between w-11/12 flex-wrap">
@@ -242,62 +262,36 @@ export default function Header() {
                             <img src={(process.env.URL_IMG_LOCAL || '') + "/images/logo.png"} className='w-full h-auto' alt="Logo Tucumán Turismo" />
                         </a>
                     </div>
+                    {/* --- INICIO: NUEVO MEGA-MENÚ DESKTOP --- */}
                     <div className="hidden lg:flex flex-1 items-center justify-end">
-                        {/* Si la búsqueda está abierta, muestra el componente de búsqueda */}
                         {isSearchOpen ? (
-                            <div className="w-full max-w-lg animate-fade-in"> {/* Animación sutil */}
+                            <div className="w-full max-w-lg animate-fade-in">
                                 <HeaderSearch setView={setIsSearchOpen} />
-                            </div>) : (
-                            <nav className="hidden lg:flex text-gray-700 font-medium items-center gap-4 lg:flex-1 justify-around">
-                                {/* Desktop Navigation (Uses dynamicMenuItems) */}
+                            </div>
+                        ) : (
+                            <nav className="hidden lg:flex text-gray-700 font-medium items-center gap-6 lg:flex-1 justify-around">
                                 {isLoading || isFetching ? (
-                                    <div className="animate-pulse w-full">
-                                        <div className='flex gap-3 justify-between'>
-                                            <div className="w-1/8 h-3 bg-gray-300 rounded"></div>
-                                            <div className="w-1/8 h-3 bg-gray-300 rounded"></div>
-                                            <div className="w-1/8 h-3 bg-gray-300 rounded"></div>
-                                            <div className="w-1/8 h-3 bg-gray-300 rounded"></div>
-                                            <div className="w-1/8 h-3 bg-gray-300 rounded"></div>
-                                            <div className="w-1/8 h-3 bg-gray-300 rounded"></div>
-                                            <div className="w-1/8 h-3 bg-gray-300 rounded"></div>
-                                        </div>
-                                    </div> // Loading indicator
+                                    <div className="animate-pulse w-full flex justify-around">
+                                        {[...Array(4)].map((_, i) => <div key={i} className="w-24 h-4 bg-gray-200 rounded"></div>)}
+                                    </div>
                                 ) : error ? (
-                                    <p className='text-red-600'>Error al cargar menú</p> // Error message
+                                    <p className='text-red-600'>Error al cargar menú</p>
                                 ) : dynamicMenuItems.length > 0 ? (
-                                    dynamicMenuItems.map((item) => (
-                                        <div key={item.label} className="relative group">
-                                            {/* Direct link if item has href and no children */}
-                                            {item.href && !item.children ? (
-                                                <a href={item.href} className="hover:text-primary py-2 flex items-center font-semibold text-[1.1em] xl:text-[1.1em] cursor-pointer">
-                                                    {item.label}
-                                                </a>
-                                            ) : (
-                                                <div className={`py-2 flex items-center font-semibold text-[1.1em] xl:text-[1.1em] ${item.children ? 'cursor-default hover:text-primary text-nowrap' : 'cursor-default'}`}>
-                                                    {item.label}
-                                                </div>
-                                            )}
-
-                                            {/* Dropdown if children exist */}
-                                            {item.children && (
-                                                <div className="absolute top-full left-0 mt-1 w-48 bg-white shadow-lg rounded-md py-1
-                                            opacity-0 max-h-0 group-hover:max-h-96 group-hover:opacity-100 overflow-hidden
-                                            transition-all duration-300 ease-in-out z-20">
-                                                    {item.children.map((child) => (
-                                                        <a key={child.label} href={child.href} className="block px-4 py-2 text-[1.1em] xl:text-[1.1em] text-gray-700 hover:bg-gray-100 hover:text-secondary/70">
-                                                            {child.label}
-                                                        </a>
-                                                    ))}
-                                                </div>
-                                            )}
+                                    dynamicMenuItems.map((menu) => (
+                                        <div key={menu.label} className="relative" onMouseEnter={() => handleMouseEnter(menu.label)}>
+                                            <button className={`py-2 flex items-center font-semibold text-lg hover:text-primary transition-colors duration-200 ${activeMenu === menu.label ? 'text-primary' : ''}`}>
+                                                {menu.label.toUpperCase()}
+                                                <ChevronDown size={16} className={`ml-1 transition-transform duration-300 ${activeMenu === menu.label ? 'rotate-180' : ''}`} />
+                                            </button>
                                         </div>
                                     ))
                                 ) : (
-                                    <p className="text-gray-500">No hay secciones disponibles.</p> // No items message
+                                    <p className="text-gray-500">No hay secciones disponibles.</p>
                                 )}
                             </nav>
                         )}
                     </div>
+                    {/* --- FIN: NUEVO MEGA-MENÚ DESKTOP --- */}
 
                     {/* Language Selector & Hamburger Button */}
                     <div className="flex items-center space-x-4">
@@ -358,80 +352,99 @@ export default function Header() {
                 </div>
             </div>
 
-            {/* Mobile Menu (Uses dynamicMenuItems) */}
+            {/* --- INICIO: PANEL DEL MEGA-MENÚ --- */}
             <div
-                className={`lg:hidden w-full bg-white shadow-md absolute top-full left-0 z-20 overflow-y-auto transition-all duration-300 ease-in-out ${isMobileMenuOpen ? 'max-h-[calc(100vh-150px)] border-t border-gray-200' : 'max-h-0'}`} style={{ overflowY: isMobileMenuOpen ? 'auto' : 'hidden' }}
+                onMouseEnter={() => handleMouseEnter(activeMenu)}
+                className={`absolute top-full left-0 w-full bg-white shadow-lg transition-all duration-300 ease-in-out overflow-auto ${activeMenu && !isSearchOpen ? 'max-h-[80vh] opacity-100 border-t' : 'max-h-0 opacity-0'}`}
             >
+                <div className="w-11/12 mx-auto px-4 py-8">
+                    {dynamicMenuItems.map((menu) => (
+                        menu.label === activeMenu && (
+                            <div key={menu.label} className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-8 gap-y-6">
+                                {menu.sections.map((section) => {
+                                    console.log(section);
+                                    return section.children.length > 1 ? (
+                                        <div key={section.label} className="flex flex-col space-y-2">
+                                            <h3 className="font-bold text-gray-800 border-b-2 border-primary pb-1 mb-2 text-2xl">
+                                                {section.label}
+                                            </h3>
+                                            <div className="flex flex-col space-y-2">
+                                                {section.children.map((child) => (
+                                                    <a key={child.label} href={child.href} className="text-gray-700 hover:text-secondary hover:underline underline-offset-2 decoration-2 text-xl font-semibold flex items-center">
+                                                        <ChevronRight size={18} strokeWidth={2} className={`me-0.5 transition-transform duration-200`} />
+                                                        {child.label}
+                                                    </a>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <div key={section.label} className="flex flex-col space-y-2">
+                                            <a href={section.children[0].href} className="font-bold flex items-center text-gray-900 border-b-2 border-primary hover:border-primary pb-1 mb-2 text-2xl hover:text-primary hover:underline underline-offset-2 decoration-2 underline">
+                                                <ChevronRight size={18} strokeWidth={2} className={`me-0.5 transition-transform duration-200`} />
+                                                {section.label}
+                                            </a>
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                        )
+                    ))}
+                </div>
+            </div>
+            {/* --- FIN: PANEL DEL MEGA-MENÚ --- */}
+
+            {/* --- INICIO: NUEVO MENÚ MÓVIL CON DOBLE ACORDEÓN --- */}
+            <div className={`lg:hidden w-full bg-white shadow-md absolute top-full left-0 z-20 transition-all duration-300 ease-in-out ${isMobileMenuOpen ? 'max-h-[calc(100vh-120px)] border-t border-gray-200' : 'max-h-0'}`} style={{ overflowY: isMobileMenuOpen ? 'auto' : 'hidden' }}>
                 <div className="p-4 border-b border-gray-200">
                     <HeaderSearch setView={setIsMobileMenuOpen} />
                 </div>
-                <nav className="flex flex-col px-4 py-2">
+                <nav className="flex flex-col px-2 py-2">
                     {isLoading || isFetching ? (
-                        <div className="animate-pulse w-full">
-                            <div className="w-1/8 h-3 bg-gray-300 rounded"></div>
-                            <div className="w-1/8 h-3 bg-gray-300 rounded"></div>
-                            <div className="w-1/8 h-3 bg-gray-300 rounded"></div>
-                            <div className="w-1/8 h-3 bg-gray-300 rounded"></div>
-                            <div className="w-1/8 h-3 bg-gray-300 rounded"></div>
-                            <div className="w-1/8 h-3 bg-gray-300 rounded"></div>
-                            <div className="w-1/8 h-3 bg-gray-300 rounded"></div>
+                        <div className="p-4 space-y-4 animate-pulse">
+                            {[...Array(5)].map((_, i) => <div key={i} className="h-5 bg-gray-200 rounded w-3/4"></div>)}
                         </div>
                     ) : error ? (
                         <p className='py-3 text-center text-red-600'>Error al cargar menú</p>
                     ) : dynamicMenuItems.length > 0 ? (
-                        dynamicMenuItems.map((item) => (
-                            <div key={item.label} className="border-b border-gray-100 last:border-b-0">
-                                <div
-                                    className="flex justify-between items-center py-3 cursor-pointer"
-                                    onClick={item.children ? () => toggleAccordion(item.label) : undefined}
-                                >
-                                    {/* Direct link if no children and has href */}
-                                    {!item.children && item.href ? (
-                                        <a href={item.href} className="text-gray-700 font-medium hover:text-secondary/70 flex-grow" onClick={() => setIsMobileMenuOpen(false)}>
-                                            {item.label}
-                                        </a>
-                                        /* Span if it has children or no direct href */
-                                    ) : (
-                                        <span className="text-gray-700 font-medium flex-grow text-2xl">
-                                            {item.label}
-                                        </span>
-                                    )}
-                                    {/* Arrow only if children exist */}
-                                    {item.children && (
-                                        <ChevronDown
-                                            size={16}
-                                            className={`ml-2 text-gray-500 transition-transform duration-200 ${openAccordionItem === item.label ? 'rotate-180' : ''
-                                                }`}
-                                        />
-                                    )}
+                        dynamicMenuItems.map((menu) => (
+                            <div key={menu.label} className="border-b border-gray-100">
+                                {/* Nivel 1: Menú Principal */}
+                                <div className="flex justify-between items-center py-4 px-2 cursor-pointer" onClick={() => toggleMobileMenu(menu.label)}>
+                                    <span className="text-gray-800 font-bold text-xl">{menu.label.toUpperCase()}</span>
+                                    <ChevronDown size={20} className={`text-gray-500 transition-transform duration-300 ${openMobileMenu === menu.label ? 'rotate-180' : ''}`} />
                                 </div>
-                                {/* Accordion content if children exist */}
-                                {item.children && (
-                                    <div
-                                        className={`overflow-hidden transition-max-height duration-300 ease-in-out ${openAccordionItem === item.label ? 'max-h-96' : 'max-h-0' // Adjust max-h if needed
-                                            }`}
-                                    >
-                                        <div className="pl-4 pb-2 pt-1 border-t border-gray-100">
-                                            {item.children.map((child) => (
-                                                <a
-                                                    key={child.label}
-                                                    href={child.href}
-                                                    className="block py-2 text-[1.1em] text-gray-600 hover:text-secondary/70"
-                                                    onClick={() => setIsMobileMenuOpen(false)} // Close menu on click
-                                                >
-                                                    {child.label}
-                                                </a>
-                                            ))}
-                                        </div>
+                                {/* Contenido del Menú (Secciones) */}
+                                <div className={`overflow-hidden transition-all duration-300 ease-in-out ${openMobileMenu === menu.label ? 'max-h-screen' : 'max-h-0'}`}>
+                                    <div className="px-4 border-t border-gray-100">
+                                        {menu.sections.map((section) => (
+                                            <div key={section.label} className="border-b border-gray-100 last:border-b-0">
+                                                {/* Nivel 2: Sección */}
+                                                <div className="flex justify-between items-center py-3 cursor-pointer" onClick={() => toggleMobileSection(section.label)}>
+                                                    <span className="text-gray-700 font-semibold text-lg">{section.label}</span>
+                                                    <ChevronDown size={16} className={`text-gray-500 transition-transform duration-200 ${openMobileSection === section.label ? 'rotate-180' : ''}`} />
+                                                </div>
+                                                {/* Contenido de la Sección (Subsecciones) */}
+                                                <div className={`overflow-hidden transition-all duration-300 ease-in-out ${openMobileSection === section.label ? 'max-h-screen' : 'max-h-0'}`}>
+                                                    <div className="pl-4 pb-2 pt-1 border-t border-primary">
+                                                        {section.children.map((child) => (
+                                                            <a key={child.label} href={child.href} className="block py-2 text-base text-gray-600 hover:text-secondary/70" onClick={() => setIsMobileMenuOpen(false)}>
+                                                                {child.label}
+                                                            </a>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
                                     </div>
-                                )}
+                                </div>
                             </div>
                         ))
                     ) : (
-                        <p className='py-3 text-center text-gray-500'>No hay secciones disponibles.</p> // No items message
+                        <p className='py-3 text-center text-gray-500'>No hay secciones disponibles.</p>
                     )}
                 </nav>
             </div>
-        </div>
+            {/* --- FIN: NUEVO MENÚ MÓVIL --- */}
+        </header>
     );
 }

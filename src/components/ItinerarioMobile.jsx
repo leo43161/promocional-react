@@ -218,13 +218,35 @@ const ItinerarioMobile = ({ data }) => {
                                     <Text style={{ ...styles.sectionTitle, color: circuito.primary, borderBottomColor: circuito.secondary }}>Alojamientos</Text>
                                     {circuitData.alojamientos.map(alojamiento => (
                                         <View key={alojamiento.id} style={styles.card} wrap={false}>
-                                            <Image src={{ uri: `https://www.tucumanturismo.gob.ar/carga/image/${alojamiento.archivo}` }} style={styles.cardImage} />
+                                            <Image src={{ uri: `https://www.tucumanturismo.gob.ar/public/img/alojamientos/${alojamiento.logo}` }} style={styles.cardImage} />
                                             <View style={styles.cardContent}>
                                                 <Text style={{ ...styles.cardTitle, color: circuito.primary }}>{alojamiento.nombre}</Text>
-                                                <Text style={{ ...styles.tagBadge, backgroundColor: circuito.primary, alignSelf: 'flex-start' }}>{alojamiento.nombreLocalidad}</Text>
-                                                <Text style={{ ...styles.infoLine, marginTop: 10 }}><Text style={styles.cardLabel}>Estrellas: </Text>{'★'.repeat(parseInt(alojamiento.estrellas, 10))}</Text>
-                                                <Text style={styles.infoLine}><Text style={styles.cardLabel}>Dirección: </Text>{alojamiento.direccion}</Text>
-                                                <Text style={styles.infoLine}><Text style={styles.cardLabel}>Teléfono: </Text>{alojamiento.telefono}</Text>
+                                                {alojamiento.nombre_localidad && (
+                                                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 5 }}>
+                                                        <Text style={{
+                                                            ...styles.tagBadge,
+                                                            backgroundColor: circuito.primary,
+                                                            fontSize: 16,
+                                                            fontWeight: 'bold',
+                                                        }}>
+                                                            {alojamiento.nombre_localidad}
+                                                        </Text>
+                                                    </View>
+                                                )}
+                                                {/* <Text style={{ ...styles.infoLine, marginTop: 5 }}><Text style={styles.cardLabel}>Estrellas: </Text>{'★'.repeat(parseInt(alojamiento.estrellas, 10))}</Text> */}
+                                                <Text style={{ ...styles.infoLine, marginBottom: 5 }}>
+                                                    <Text style={styles.cardLabel}>Teléfono: </Text>{alojamiento.domicilio}
+                                                </Text>
+                                                {alojamiento.telefono && (
+                                                    <Text style={{ ...styles.infoLine, marginBottom: 5 }}>
+                                                        <Text style={styles.cardLabel}>Email: </Text>{alojamiento.email}
+                                                    </Text>
+                                                )}
+                                                {alojamiento.instagram && (
+                                                    <Text style={{ ...styles.infoLine, marginBottom: 5 }}>
+                                                        <Text style={styles.cardLabel}>Instagram: </Text>{alojamiento.instagram}
+                                                    </Text>
+                                                )}
                                             </View>
                                         </View>
                                     ))}
@@ -260,7 +282,7 @@ const ItinerarioMobile = ({ data }) => {
                                                         <Text style={{ ...styles.infoLine, marginBottom: 0 }}>
                                                             <Text style={styles.cardLabel}>Teléfono: </Text>{prestador.telefono}
                                                         </Text>
-                                                        {prestador.instagram && (
+                                                        {prestador.email && (
                                                             <Text style={{ ...styles.infoLine, marginBottom: 0 }}>
                                                                 <Text style={styles.cardLabel}>Email: </Text>{prestador.email}
                                                             </Text>
