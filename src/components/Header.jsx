@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
-import { MessageCircle, Facebook, Instagram, Twitter, Youtube, Menu, X, ChevronDown, Search } from 'lucide-react';
+import { MessageCircle, Facebook, Instagram, Twitter, Youtube, Menu, X, ChevronDown, Search, ChevronLeft, ChevronRight } from 'lucide-react';
 // Asegúrate que la ruta sea correcta para tu proyecto
 import { useGetMenuQuery, useGetSeccionesQuery } from '@/redux/services/headerService';
 import { useRouter } from 'next/router';
@@ -361,20 +361,31 @@ export default function Header() {
                     {dynamicMenuItems.map((menu) => (
                         menu.label === activeMenu && (
                             <div key={menu.label} className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-8 gap-y-6">
-                                {menu.sections.map((section) => (
-                                    <div key={section.label} className="flex flex-col space-y-2">
-                                        <h3 className="font-bold text-gray-800 border-b-2 border-primary pb-1 mb-2 text-2xl">
-                                            {section.label}
-                                        </h3>
-                                        <div className="flex flex-col space-y-2">
-                                            {section.children.map((child) => (
-                                                <a key={child.label} href={child.href} className="text-gray-600 hover:text-secondary hover:underline underline-offset-2 decoration-2 text-xl">
-                                                    {child.label}
-                                                </a>
-                                            ))}
+                                {menu.sections.map((section) => {
+                                    console.log(section);
+                                    return section.children.length > 1 ? (
+                                        <div key={section.label} className="flex flex-col space-y-2">
+                                            <h3 className="font-bold text-gray-800 border-b-2 border-primary pb-1 mb-2 text-2xl">
+                                                {section.label}
+                                            </h3>
+                                            <div className="flex flex-col space-y-2">
+                                                {section.children.map((child) => (
+                                                    <a key={child.label} href={child.href} className="text-gray-700 hover:text-secondary hover:underline underline-offset-2 decoration-2 text-xl font-semibold flex items-center">
+                                                        <ChevronRight size={18} strokeWidth={2} className={`me-0.5 transition-transform duration-200`} />
+                                                        {child.label}
+                                                    </a>
+                                                ))}
+                                            </div>
                                         </div>
-                                    </div>
-                                ))}
+                                    ) : (
+                                        <div key={section.label} className="flex flex-col space-y-2">
+                                            <a href={section.children[0].href} className="font-bold flex items-center text-gray-900 border-b-2 border-primary hover:border-primary pb-1 mb-2 text-2xl hover:text-primary hover:underline underline-offset-2 decoration-2 underline">
+                                                <ChevronRight size={18} strokeWidth={2} className={`me-0.5 transition-transform duration-200`} />
+                                                {section.label}
+                                            </a>
+                                        </div>
+                                    )
+                                })}
                             </div>
                         )
                     ))}
