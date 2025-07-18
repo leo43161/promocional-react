@@ -415,26 +415,43 @@ export default function Header() {
                                 </div>
                                 {/* Contenido del Menú (Secciones) */}
                                 <div className={`overflow-hidden transition-all duration-300 ease-in-out ${openMobileMenu === menu.label ? 'max-h-screen' : 'max-h-0'}`}>
-                                    <div className="px-4 border-t border-gray-100">
-                                        {menu.sections.map((section) => (
-                                            <div key={section.label} className="border-b border-gray-100 last:border-b-0">
-                                                {/* Nivel 2: Sección */}
-                                                <div className="flex justify-between items-center py-3 cursor-pointer" onClick={() => toggleMobileSection(section.label)}>
-                                                    <span className="text-gray-700 font-semibold text-lg">{section.label}</span>
-                                                    <ChevronDown size={16} className={`text-gray-500 transition-transform duration-200 ${openMobileSection === section.label ? 'rotate-180' : ''}`} />
-                                                </div>
-                                                {/* Contenido de la Sección (Subsecciones) */}
-                                                <div className={`overflow-hidden transition-all duration-300 ease-in-out ${openMobileSection === section.label ? 'max-h-screen' : 'max-h-0'}`}>
-                                                    <div className="pl-4 pb-2 pt-1 border-t border-primary">
-                                                        {section.children.map((child) => (
-                                                            <a key={child.label} href={child.href} className="block py-2 text-base text-gray-600 hover:text-secondary/70" onClick={() => setIsMobileMenuOpen(false)}>
-                                                                {child.label}
-                                                            </a>
-                                                        ))}
+                                    <div className="border-t border-gray-100 bg-gray-100">
+                                        {menu.sections.map((section) =>
+
+                                            section.children.length > 1 ? (
+
+                                                <div key={section.label} className="border-b border-gray-200 px-4">
+                                                    {/* Nivel 2: Sección */}
+
+                                                    <div className="flex justify-between items-center py-3 cursor-pointer" onClick={() => toggleMobileSection(section.label)}>
+                                                        <span className="text-gray-700 font-bold text-lg">{section.label}</span>
+                                                        <ChevronDown size={16} className={`text-gray-500 transition-transform duration-200 ${openMobileSection === section.label ? 'rotate-180' : ''}`} />
+                                                    </div>
+
+                                                    {/* Contenido de la Sección (Subsecciones) */}
+
+                                                    <div className={`overflow-hidden transition-all duration-300 ease-in-out ${openMobileSection === section.label ? 'max-h-screen' : 'max-h-0'}`}>
+
+                                                        <div className="pl-0 pb-2 pt-1 border-t-2 border-primary">
+                                                            {section.children.map((child) => (
+                                                                <a key={child.label} href={child.href} className="py-2 text-lg font-semibold text-gray-600 hover:text-secondary/70 flex items-center underline" onClick={() => setIsMobileMenuOpen(false)}>
+                                                                    <ChevronRight size={16} className={`text-gray-500 transition-transform duration-200`} />
+                                                                    {child.label}
+                                                                </a>
+                                                            ))}
+                                                        </div>
+
                                                     </div>
                                                 </div>
-                                            </div>
-                                        ))}
+                                            ) : (
+                                                <div key={section.label} className="border-b px-4 border-gray-200 last:border-b-0">
+                                                    {/* Nivel 2: Sección */}
+                                                    <a href={section.children[0].href} className="flex items-center py-3 cursor-pointer underline">
+                                                        <ChevronRight size={16} className={`text-gray-500 transition-transform duration-200 ${openMobileSection === section.label ? 'rotate-180' : ''}`} />
+                                                        <span className="text-gray-700 font-bold text-lg">{section.label}</span>
+                                                    </a>
+                                                </div>
+                                            ))}
                                     </div>
                                 </div>
                             </div>
