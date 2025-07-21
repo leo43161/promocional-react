@@ -61,7 +61,7 @@ export default function DestinoCard({ }) {
     }
   }, [productoSeleccionado, favoritos, circuitoSelected]);
 
-console.log(productoSeleccionado);
+  console.log(productoSeleccionado);
   const handleOpenModal = (producto) => {
     setProductoSeleccionado(producto);
     setIsOpen(true);
@@ -100,28 +100,36 @@ console.log(productoSeleccionado);
   const loading = isLoading || isFetching;
   const loadingDestinos = isLoadingDest || isFetchingDest;
   const loadingGalery = isLoadingGalery || isFetchingGalery;
-console.log(productos?.result?.articulos[0]);
+  console.log(productos?.result?.articulos[0]);
   return (
     <div>
       <div className="mb-0">
-        {loadingDestinos ?
-          Array(5).fill(0).map((_, index) => (<div
+        {errorDest ? <div>
+          <div
             key={index}
-            className={`font-700 rounded-md text-white text-2xl lg:text-4xl w-fit px-4 m-1`}
+            className={`font-700 rounded-md text-red-500 text-2xl lg:text-4xl w-fit px-4 m-1 inline-block`}
           >
-            {errorDest ? "Error al cargar los destinos" : "Cargando..."}
-          </div>))
-          :
-          destinos?.result.map((destino, index) => (
-            <button
+            Error al cargar los destinos
+          </div>
+        </div> :
+          loadingDestinos ?
+            Array(5).fill(0).map((_, index) => (<div
               key={index}
-              className={`font-700 rounded-md text-white text-2xl lg:text-4xl w-fit px-4 m-1 transition-colors duration-300`}
-              style={{ backgroundColor: destinoSeleccionado?.nombre !== destino.nombre ? "#888888" : circuitoSelected.color }}
-              onClick={() => setDestinoSeleccionado(destino)}
+              className={`font-700 rounded-md text-white text-2xl lg:text-4xl px-4 m-1 bg-gray-500 animate-pulse inline-block w-35 h-10`}
             >
-              {destino.nombre}
-            </button>
-          ))}
+              
+            </div>))
+            :
+            destinos?.result.map((destino, index) => (
+              <button
+                key={index}
+                className={`font-700 rounded-md text-white text-2xl lg:text-4xl w-fit px-4 m-1 transition-colors duration-300`}
+                style={{ backgroundColor: destinoSeleccionado?.nombre !== destino.nombre ? "#888888" : circuitoSelected.color }}
+                onClick={() => setDestinoSeleccionado(destino)}
+              >
+                {destino.nombre}
+              </button>
+            ))}
       </div>
 
       {destinoSeleccionado && (
