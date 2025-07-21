@@ -58,9 +58,11 @@ export default function Index() {
           </a>
         </div>
         <div>
-          <ResponsiveVideo
-            desktopSrc="video/Copa_Banner_1900_X_450.mp4"
-          />
+          <a href="https://www.tucumanturismo.gob.ar/articulos/articulo/819/promociones" target="_blank" rel="noopener noreferrer">
+            <ResponsiveVideo
+              desktopSrc="video/Copa_Banner_1900_X_450.mp4"
+            />
+          </a>
         </div>
       </div>
       <div className='mb-20'>

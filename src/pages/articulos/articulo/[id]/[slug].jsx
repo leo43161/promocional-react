@@ -350,7 +350,7 @@ export default function ArticuloPage({ articulo, galleryItems, pdfItems, paralla
 
                     <div className={`prose prose-slate max-w-none w-full px-4 mt-3 mb-4 ${pdfItems?.length === 0 ? 'md:w-8/11 md:mt-3' : ''}`}>
                         {articulo?.cuerpo ? (
-                            <div dangerouslySetInnerHTML={{ __html: articulo.cuerpo }} />
+                            <div className='[&_a]:underline [&_a]:text-blue-600 [&_a:hover]:text-blue-800'  dangerouslySetInnerHTML={{ __html: articulo.cuerpo }} />
                         ) : (
                             <p>Contenido no disponible.</p>
                         )}
