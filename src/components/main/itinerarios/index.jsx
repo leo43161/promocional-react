@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import dynamic from 'next/dynamic';
 import { CircleArrowRight, ChevronDown, Check } from 'lucide-react';
 import circuitos from "@/data/circuitos";
 import CircuitoSec from "./CircuitoSec";
 import { useSelector, useDispatch } from "react-redux";
-import { setActiveComponent, setCircuitoSelected } from "@/redux/features/itinerarioSlice";
+import { setActiveComponent, setCircuitoSelected, setFavorito, setFavReset } from "@/redux/features/itinerarioSlice";
+import { getCurrentLanguage } from "@/utils";
+import { useRouter } from "next/router";
 
 const circuitosData = circuitos();
 
@@ -21,17 +23,32 @@ const PDFDownload = dynamic(
 );
 
 export default function Itinerarios() {
+    const router = useRouter();
     const dispatch = useDispatch();
     const {
         progress,
         circuitoSelected,
-        circuitos
+        circuitos,
+        circuitosEN
     } = useSelector(state => state.itinerarioReducer.value);
+    const [circuitosIdioma, setCircuitosIdioma] = useState(circuitos);
     const [isOpen, setIsOpen] = useState(false);
     const dias = Math.ceil(progress / 100);
     const progressText = `${dias} día${dias > 1 ? "s" : ""}`;
     const progressWidth = progress > 100 ? 100 : progress;
+    const lenguaje = getCurrentLanguage(router.query);
 
+    useEffect(() => {
+        if (!router.isReady) return;
+        if (lenguaje.code === "EN") {
+            setCircuitosIdioma(circuitosEN);
+            dispatch(setCircuitoSelected(circuitosEN[0].id))
+        } else {
+            setCircuitosIdioma(circuitos);
+            dispatch(setCircuitoSelected(circuitos[0].id))
+        }
+        dispatch(setFavReset());
+    }, [router.isReady, router.query.lang]);
     // Función para manejar la selección de un nuevo circuito
     const handleSelectCircuit = (id) => {
         dispatch(setActiveComponent("destinos"));
@@ -41,7 +58,7 @@ export default function Itinerarios() {
     return (
         <div className="relative">
             {/* Header que ya tenías */}
-            <div className="md:py-3 flex flex-row items-center justify-between md:shadow-md mb-0 lg:gap-5 px-6 lg:mb-0 border">
+            {/* <div className="md:py-3 flex flex-row items-center justify-between md:shadow-md mb-0 lg:gap-5 px-6 lg:mb-0 border">
                 <div>
                     <p className="hidden lg:block text-neutral-400 text-[42px] font-semibold text-center">
                         Planificá tu viaje al Corazón del Norte Argentino
@@ -54,19 +71,21 @@ export default function Itinerarios() {
                         className="h-[65px] w-auto hidden md:block"
                     />
                 </div>
-            </div>
+            </div> */}
             <div className="w-full">
                 <div className="grid grid-cols-6 justify-center w-full">
                     <div className="bg-[#206C60] col-span-6 md:col-span-1 flex items-center p-2 xl:pl-12 justify-center lg:p-3">
-                        <p className="col-span-2 xl:col-span-3 text-[24px] lg:text-[26px] xl:text-[30px] leading-7 pr-2 font-400 text-white xl:shrink-0 lg:ms-2">
-                            Elegí tu destino y <br className="hidden xl:block" /> planifica
-                            tu viaje
-                        </p>
+                        {lenguaje && lenguaje.code !== "EN" && <p className="col-span-2 xl:col-span-3 text-[24px] lg:text-[26px] xl:text-[30px] leading-7 pr-2 font-400 text-white xl:shrink-0 lg:ms-2">
+                            Elegí tu destino y <br className="hidden xl:block" /> planifica tu viaje
+                        </p>}
+                        {lenguaje && lenguaje.code === "EN" && <p className="col-span-2 xl:col-span-3 text-[24px] lg:text-[26px] xl:text-[30px] leading-7 pr-2 font-400 text-white xl:shrink-0 lg:ms-2">
+                            Choose your destination and<br className="hidden xl:block" /> plan your trip
+                        </p>}
                         <CircleArrowRight className="text-white hidden lg:block lg:size-12 xl:text-[40px]" />
                     </div>
 
                     <div className="hidden lg:col-span-5 xl:col-span-5 lg:flex lg:flex-row overflow-hidden">
-                        {circuitos.map((circuito, index) => {
+                        {circuitosIdioma.map((circuito, index) => {
                             const isActive = circuito.id === circuitoSelected?.id;
                             return (
                                 <button
@@ -113,7 +132,7 @@ export default function Itinerarios() {
                             {isOpen && (
                                 <div className="absolute top-full left-0 right-0 bg-neutral-100 z-20000 shadow-lg border-t border-neutral-300">
                                     {/* Mapeamos el objeto 'circuitos' para crear cada una de las opciones */}
-                                    {circuitos.map((circuit) => (
+                                    {circuitosIdioma.map((circuit) => (
                                         <button
                                             key={circuit.nombre}
                                             onClick={() => handleSelectCircuit(circuit.id)}
@@ -150,7 +169,7 @@ export default function Itinerarios() {
             {/* barra de itinerario */}
             <div className="flex items-center justify-between w-full h-[45px] bg-neutral-500 sticky rounded-t-lg bottom-0 right-0 z-20" style={{ backgroundColor: circuitoSelected.bg }}>
                 <p className="font-700 uppercase text-2xl text-white shrink-0 pl-6">
-                    Tu itinerario
+                  {lenguaje.code === 'ES' ? 'Tu itinerario' : 'Your itinerary'}
                 </p>
                 <div className="w-full h-[30px] bg-neutral-200 rounded-full mx-2 md:flex hidden items-center">
                     {progressWidth > 0 && (

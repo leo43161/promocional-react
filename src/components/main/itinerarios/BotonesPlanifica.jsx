@@ -1,36 +1,44 @@
 import { setActiveComponent } from "@/redux/features/itinerarioSlice";
+import { getCurrentLanguage } from "@/utils";
 import { MapPin, BedDouble, Bike, Milestone, Check, Plus, UserRound } from "lucide-react";
+import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 
 // No changes needed here
 const ButtonsSecciones = [
   {
     id: "destinos",
-    name: "Destinos",
+    nombre: "Destinos",
+    name: "Destinations",
     icon: MapPin,
     color: "#206C60",
   },
   {
     id: "alojamientos",
-    name: "Alojamientos",
+    nombre: "Alojamientos",
+    name: "Accommodations",
     icon: BedDouble,
     color: "#d42727",
   },
   {
     id: "prestadores",
-    name: "Actividades",
+    nombre: "Actividades",
+    name: "Activities",
     icon: Bike,
     color: "#ff9f31",
   },
   {
     id: "guias",
-    name: "Guias",
+    nombre: "Guias",
+    name: "Guides",
     icon: UserRound,
     color: "#6d6b63",
   },
 ];
 
 const BotonesPlanifica = () => {
+  const router = useRouter();
+  const lenguaje = getCurrentLanguage(router.query);
   const {
     activeComponent,
     circuitoSelected,
@@ -64,7 +72,7 @@ const BotonesPlanifica = () => {
               className={`hidden lg:block absolute -bottom-[36px] left-1/2 bg-[${ButtonS.color}] transform p-1 px-2 rounded-lg -translate-x-1/2 text-s text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
               style={{ opacity: isSelected && 1, backgroundColor: ButtonS.color }}
             >
-              {ButtonS.name}
+              {lenguaje.code === 'ES' ? ButtonS.nombre : ButtonS.name}
             </span>
             <p
               className={`absolute h-4 w-4 lg:h-5 lg:w-5 rounded-full font-[700] -right-1 top-9 lg:top-6 xl:top-12 text-[10px] lg:text-[15px] text-center bg-white flex justify-center items-center border`}

@@ -134,7 +134,8 @@ export default function Layout({ children, className, pageProps }) {
             </Head>
             <SmoothView>
                 <div className='relative'>
-                    {currentLangCode === 'EN' ? <HeaderEN /> : <Header />}
+                    {/* {currentLangCode === 'EN' ? <HeaderEN /> : <Header />} */}
+                    <Header />
                     <main>
                         {children}
                     </main>
