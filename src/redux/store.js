@@ -9,11 +9,13 @@ import { itinerariosService } from './services/itinerariosService';
 import { itinerarioService } from './services/itinerarioService';
 import itinerarioReducer from './features/itinerarioSlice';
 import { busquedaArtService } from './services/busquedaArtService';
+import busquedaReducer from './features/busquedaSlice';
 import { transporteService } from './services/transporteService';
 
 export const store = configureStore({
   reducer: {
     itinerarioReducer,
+    busqueda: busquedaReducer, // <-- ¡AGREGAR ESTA LÍNEA!
     [eventosService.reducerPath]: eventosService.reducer,
     [prestadoresService.reducerPath]: prestadoresService.reducer,
     [articulosService.reducerPath]: articulosService.reducer,
