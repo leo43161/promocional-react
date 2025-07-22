@@ -109,7 +109,13 @@ const circuitosEN = [
         bg: "#508E6D",
     },
 ];
-
+const circuitosEN_ES = {
+    10:5,
+    9:4,
+    7:2,
+    8:3,
+    6:1
+}
 const favoritosStart = {
     historica: {
         destinos: [],
@@ -147,6 +153,7 @@ const initialState = {
     value: {
         circuitos,
         circuitosEN,
+        circuitosEN_ES,
         circuitoSelected: circuitos[0],
         activeComponent: componentTypes[0],
         searchDestino: '',

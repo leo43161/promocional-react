@@ -3,8 +3,12 @@ import { useGetHotelesQuery } from "@/redux/services/itinerariosService";
 import HotelCard from "@/components/main/itinerarios/HotelCard";
 import { useEffect, useState } from "react";
 import Paginado from "@/components/common/Paginado";
+import { useRouter } from "next/router";
+import { getCurrentLanguage } from "@/utils";
 
 export default function Alojamientos() {
+  const router = useRouter();
+  const lenguaje = getCurrentLanguage(router.query);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
   // Calcular el offset basado en la página actual
@@ -15,10 +19,11 @@ export default function Alojamientos() {
   const {
     favoritos,
     circuitoSelected,
+    circuitosEN_ES
   } = useSelector(state => state.itinerarioReducer.value);
 
   const { data: hoteles, error, isLoading, isFetching } = useGetHotelesQuery({
-    id: circuitoSelected.id,
+    id: lenguaje.code === "EN" ? circuitosEN_ES[circuitoSelected.id] :  circuitoSelected.id,
     limit: itemsPerPage,
     offset: offset,
   }, {

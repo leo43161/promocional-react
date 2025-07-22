@@ -3,8 +3,12 @@ import { useGetActividadesQuery, useGetGuiasQuery, useGetHotelesQuery } from "@/
 import GuiasCard from "@/components/main/itinerarios/GuiasCard";
 import { useEffect, useState } from "react";
 import Paginado from "@/components/common/Paginado";
+import { getCurrentLanguage } from "@/utils";
+import { useRouter } from "next/router";
 
 export default function Guias() {
+    const router = useRouter();
+  const lenguaje = getCurrentLanguage(router.query);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 8;
     // Calcular el offset basado en la página actual
@@ -15,10 +19,11 @@ export default function Guias() {
     const {
         favoritos,
         circuitoSelected,
+        circuitosEN_ES
     } = useSelector(state => state.itinerarioReducer.value);
 
     const { data: guias, error, isLoading, isFetching } = useGetGuiasQuery({
-        id: circuitoSelected.id,
+        id: lenguaje.code === "EN" ? circuitosEN_ES[circuitoSelected.id] :  circuitoSelected.id,
         limit: itemsPerPage,
         offset: offset,
     }, {
