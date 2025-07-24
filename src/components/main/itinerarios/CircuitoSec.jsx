@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import DestinoCard from './DestinoCard'
 import BotonesPlanifica from './BotonesPlanifica'
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,6 +15,7 @@ import { useRouter } from 'next/router';
 export default function CircuitoSec() {
     const dispatch = useDispatch();
     const router = useRouter();
+    const inputRef = useRef(null);
     const lenguaje = getCurrentLanguage(router.query);
     const {
         activeComponent,
@@ -28,6 +30,13 @@ export default function CircuitoSec() {
         dispatch(setSearchDestino(event.target.value));
     };
 
+    const handleKeyDown = (event) => {
+        // Si la tecla presionada es 'Enter'
+        if (event.key === 'Enter') {
+            // Quitamos el foco del input, lo que oculta el teclado
+            inputRef.current.blur();
+        }
+    };
 
     const renderActiveComponent = () => {
         if (searchDestino !== '' && activeComponent === 'destinos') return <BusquedaItinerario search={searchDestino} />
@@ -63,6 +72,8 @@ export default function CircuitoSec() {
                         {activeComponent === 'destinos' ? <div className='w-full'>
                             <div className="relative w-full mx-auto">
                                 <input
+                                    ref={inputRef}
+                                    onKeyDown={handleKeyDown}
                                     type="text"
                                     placeholder={lenguaje && lenguaje.code === "EN" ? "Search..." : "Buscar..."}
                                     value={searchDestino}

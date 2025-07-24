@@ -5,6 +5,7 @@ import { useGetMenuQuery, useGetSeccionesQuery } from '@/redux/services/headerSe
 import { useRouter } from 'next/router';
 import { generateSlug, languages } from '@/utils';
 import HeaderSearch from './HeaderSearch';
+import { ReactLenis } from 'lenis/react';
 
 // --- Opciones de Idioma (AHORA CON ID) ---
 // AJUSTA los 'id' según los valores que espera tu API para cada idioma
@@ -34,7 +35,8 @@ export default function Header() {
     const router = useRouter();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [openMobileMenu, setOpenMobileMenu] = useState(null); // Para el acordeón del menú principal móvil
-    const [openMobileSection, setOpenMobileSection] = useState(null); // Para el acordeón de secciones dentro del menú móvil
+    const [openMobileSection, setOpenMobileSection] = useState(null);
+    const [openMobileSections, setOpenMobileSections] = useState([]); // Array para controlar las secciones abiertas
     const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
     const [isSearchOpen, setIsSearchOpen] = useState(false);
     const [selectedLangId, setSelectedLangId] = useState(languages[0].code);
@@ -193,14 +195,36 @@ export default function Header() {
     };
 
 
-    const toggleMobileMenu = (label) => {
-        setOpenMobileMenu(openMobileMenu === label ? null : label);
-        setOpenMobileSection(null); // Resetear sub-acordeón al cambiar de menú principal
+    const toggleMobileMenu = (menuLabel) => {
+        const isOpening = openMobileMenu !== menuLabel;
+        setOpenMobileMenu(isOpening ? menuLabel : null);
+
+        if (isOpening) {
+            // Encuentra el menú actual y pre-abre todas sus secciones con más de 1 hijo
+            const currentMenu = dynamicMenuItems.find(m => m.label === menuLabel);
+            if (currentMenu) {
+                const sectionsToOpen = currentMenu.sections
+                    .filter(section => section.children.length > 1)
+                    .map(section => section.label);
+                setOpenMobileSections(sectionsToOpen);
+            }
+        } else {
+            // Si se cierra el menú principal, se cierran todas las secciones
+            setOpenMobileSections([]);
+        }
     };
 
-
-    const toggleMobileSection = (label) => {
-        setOpenMobileSection(openMobileSection === label ? null : label);
+    const toggleMobileSection = (sectionLabel) => {
+        setOpenMobileSections(prevOpenSections => {
+            // Si la sección ya está en el array, la quitamos (plegar)
+            if (prevOpenSections.includes(sectionLabel)) {
+                return prevOpenSections.filter(label => label !== sectionLabel);
+            }
+            // Si no está, la añadimos (desplegar)
+            else {
+                return [...prevOpenSections, sectionLabel];
+            }
+        });
     };
     // --- Render ---
     return (
@@ -353,14 +377,15 @@ export default function Header() {
             </div>
 
             {/* --- INICIO: PANEL DEL MEGA-MENÚ --- */}
-            <div
+            <ReactLenis
+                options={{ lerp: 0.08, duration: 2 }}
                 onMouseEnter={() => handleMouseEnter(activeMenu)}
-                className={`absolute top-full left-0 w-full bg-white shadow-lg transition-all duration-300 ease-in-out overflow-auto ${activeMenu && !isSearchOpen ? 'max-h-[80vh] opacity-100 border-t' : 'max-h-0 opacity-0'}`}
+                className={`absolute top-full left-0 w-full bg-white shadow-lg transition-all duration-300 ease-in-out overflow-auto ${activeMenu && !isSearchOpen ? 'max-h-[70vh] opacity-100 border-t' : 'max-h-0 opacity-0'}`}
             >
                 <div className="w-11/12 mx-auto px-4 py-8">
                     {dynamicMenuItems.map((menu) => (
                         menu.label === activeMenu && (
-                            <div key={menu.label} className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-8 gap-y-6">
+                            <div key={menu.label} className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-8 gap-y-4">
                                 {menu.sections.map((section) => {
                                     console.log(section);
                                     return section.children.length > 1 ? (
@@ -390,7 +415,7 @@ export default function Header() {
                         )
                     ))}
                 </div>
-            </div>
+            </ReactLenis>
             {/* --- FIN: PANEL DEL MEGA-MENÚ --- */}
 
             {/* --- INICIO: NUEVO MENÚ MÓVIL CON DOBLE ACORDEÓN --- */}
@@ -414,27 +439,27 @@ export default function Header() {
                                     <ChevronDown size={20} className={`text-gray-500 transition-transform duration-300 ${openMobileMenu === menu.label ? 'rotate-180' : ''}`} />
                                 </div>
                                 {/* Contenido del Menú (Secciones) */}
-                                <div className={`overflow-hidden transition-all duration-300 ease-in-out ${openMobileMenu === menu.label ? 'max-h-screen' : 'max-h-0'}`}>
+                                <div className={`overflow-hidden transition-all duration-300 ease-in-out ${openMobileMenu === menu.label ? '' : 'max-h-0'}`}>
                                     <div className="border-t border-gray-100 bg-gray-100">
-                                        {menu.sections.map((section) =>
-
-                                            section.children.length > 1 ? (
+                                        {menu.sections.map((section) => {
+                                            console.log(section);
+                                            return section.children.length > 1 ? (
 
                                                 <div key={section.label} className="border-b border-gray-200 px-4">
                                                     {/* Nivel 2: Sección */}
 
                                                     <div className="flex justify-between items-center py-3 cursor-pointer" onClick={() => toggleMobileSection(section.label)}>
-                                                        <span className="text-gray-700 font-bold text-lg">{section.label}</span>
-                                                        <ChevronDown size={16} className={`text-gray-500 transition-transform duration-200 ${openMobileSection === section.label ? 'rotate-180' : ''}`} />
+                                                        <span className="text-gray-700 font-bold text-xl">{section.label}</span>
+                                                        <ChevronDown size={16} className={`text-gray-500 transition-transform duration-200 ${openMobileSections.includes(section.label) ? 'rotate-180' : ''}`} />
                                                     </div>
 
                                                     {/* Contenido de la Sección (Subsecciones) */}
 
-                                                    <div className={`overflow-hidden transition-all duration-300 ease-in-out ${openMobileSection === section.label ? 'max-h-screen' : 'max-h-0'}`}>
+                                                    <div className={`overflow-hidden transition-all duration-300 ease-in-out ${openMobileSections.includes(section.label) ? '' : 'max-h-0'}`}>
 
                                                         <div className="pl-0 pb-2 pt-1 border-t-2 border-primary">
                                                             {section.children.map((child) => (
-                                                                <a key={child.label} href={child.href} className="py-2 text-lg font-semibold text-gray-600 hover:text-secondary/70 flex items-center underline" onClick={() => setIsMobileMenuOpen(false)}>
+                                                                <a key={child.label} href={child.href} className="py-2 text-xl font-semibold text-gray-600 hover:text-secondary/70 flex items-center underline" onClick={() => setIsMobileMenuOpen(false)}>
                                                                     <ChevronRight size={16} className={`text-gray-500 transition-transform duration-200`} />
                                                                     {child.label}
                                                                 </a>
@@ -446,12 +471,14 @@ export default function Header() {
                                             ) : (
                                                 <div key={section.label} className="border-b px-4 border-gray-200 last:border-b-0">
                                                     {/* Nivel 2: Sección */}
-                                                    <a href={section.children[0].href} className="flex items-center py-3 cursor-pointer underline">
+                                                    <a href={section.children[0].href} className="flex items-center py-3 cursor-pointer underline decoration-primary underline-offset-2">
                                                         <ChevronRight size={16} className={`text-gray-500 transition-transform duration-200 ${openMobileSection === section.label ? 'rotate-180' : ''}`} />
                                                         <span className="text-gray-700 font-bold text-lg">{section.label}</span>
                                                     </a>
                                                 </div>
-                                            ))}
+                                            )
+                                        })
+                                        }
                                     </div>
                                 </div>
                             </div>
