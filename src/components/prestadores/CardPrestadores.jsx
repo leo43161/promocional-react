@@ -112,7 +112,7 @@ export default function CardPrestadores({ prestador, isLoading = false }) {
             <p className="flex items-center text-gray-700">
               <Phone className="h-5 w-5 mr-2 text-gray-500" />
               {telefono_final}
-              {telefono_final}
+            
             </p>
           )}
 
