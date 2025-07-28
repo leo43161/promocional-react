@@ -387,7 +387,6 @@ export default function Header() {
                         menu.label === activeMenu && (
                             <div key={menu.label} className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-8 gap-y-4">
                                 {menu.sections.map((section) => {
-                                    console.log(section);
                                     return section.children.length > 1 ? (
                                         <div key={section.label} className="flex flex-col space-y-2">
                                             <h3 className="font-bold text-gray-800 border-b-2 border-primary pb-1 mb-2 text-2xl">
@@ -442,7 +441,6 @@ export default function Header() {
                                 <div className={`overflow-hidden transition-all duration-300 ease-in-out ${openMobileMenu === menu.label ? '' : 'max-h-0'}`}>
                                     <div className="border-t border-gray-100 bg-gray-100">
                                         {menu.sections.map((section) => {
-                                            console.log(section);
                                             return section.children.length > 1 ? (
 
                                                 <div key={section.label} className="border-b border-gray-200 px-4">

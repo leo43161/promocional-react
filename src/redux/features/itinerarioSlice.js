@@ -110,11 +110,11 @@ const circuitosEN = [
     },
 ];
 const circuitosEN_ES = {
-    10:5,
-    9:4,
-    7:2,
-    8:3,
-    6:1
+    10: 5,
+    9: 4,
+    7: 2,
+    8: 3,
+    6: 1
 }
 const favoritosStart = {
     historica: {
@@ -193,12 +193,19 @@ const itinerariosSlice = createSlice({
                 state.value.favoritos[nameCircuito][type].push(item);
                 state.value.total = state.value.total + 1;
             }
-            const newProgress = (state.value.favoritos[nameCircuito].destinos.length / 3) * 100;
+            /* const allDestinos = state.value.favoritos.map((fav) => fav.destinos).flat(); */
+            const favs = state.value.favoritos;
+            const allDestinos = Object.values(favs).flatMap(category => category.destinos || []);
+            console.log(allDestinos);
+            /* ESTO ME DEVUELVE EL PRIMERO OBJETO BIEN Y DESPUES SIGUE CON Proxy(Object), esta bien. console.log(allDestinos) = [Proxy(Object), Proxy(Object), {…}] */
+            const newProgress = (allDestinos.length / 6) * 100;
             state.value.progress = newProgress;
         },
         setCircuitoSelected: (state, action) => {
             const selectedCircuit = [...circuitos, ...circuitosEN].find((c) => c.id === action.payload)
-            const newProgress = (state.value.favoritos[selectedCircuit.name].destinos.length / 3) * 100;
+            const favs = state.value.favoritos;
+            const allDestinos = Object.values(favs).flatMap(category => category.destinos || []);
+            const newProgress = (allDestinos.length / 6) * 100;
             state.value.progress = newProgress;
             state.value.searchDestino = "";
             state.value.circuitoSelected = selectedCircuit;
