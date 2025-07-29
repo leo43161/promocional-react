@@ -171,7 +171,7 @@ const Footer = () => {
       <div className="w-full text-center p-1">
         <hr className="bg-white text-center"></hr>
         <p className="text-center text-[1.1em] text-white p-2">
-          <strong>Ente Autárquico Tucumán Turismo - 2024 | </strong>
+          <strong>Ente Autárquico Tucumán Turismo - 2025 | </strong>
           <a
             href="https://www.google.com/maps/place/Ente+Tucum%C3%A1n+Turismo/@-26.8311125,-65.2109502,16z/data=!4m10!1m2!2m1!1stucuman+turismo!3m6!1s0x94225c10470c56c9:0x7016910ca98c12c1!8m2!3d-26.8311131!4d-65.2045773!15sCg90dWN1bWFuIHR1cmlzbW9aESIPdHVjdW1hbiB0dXJpc21vkgEadG91cmlzdF9pbmZvcm1hdGlvbl9jZW50ZXKaASRDaGREU1VoTk1HOW5TMFZKUTBGblNVUlBhV1l0VW1wUlJSQULgAQA!16s%2Fg%2F1tzvxnh6?entry=ttu"
             className="text-white"
@@ -196,7 +196,7 @@ const Footer = () => {
         </p>
         <div className="text-center text-white text-[1.1em] p-2">
           <p className="text-base">
-            Desarrollado por Dpto. Informatica EATT 2024
+            Desarrollado por Dpto. Informatica EATT 2025
           </p>
         </div>
       </div>
