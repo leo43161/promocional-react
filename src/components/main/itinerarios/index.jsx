@@ -9,12 +9,6 @@ import { getCurrentLanguage } from "@/utils";
 import { useRouter } from "next/router";
 
 const circuitosData = circuitos();
-
-// Duración para cada circuito en el autoplay (6.5 segundos)
-const AUTOPLAY_DURATION = 10000;
-// Tiempo de inactividad para reanudar el autoplay (6 segundos)
-const INACTIVITY_THRESHOLD = 17000;
-
 const PDFDownload = dynamic(
     () => import('./PDFDownload'),
     {
@@ -28,8 +22,19 @@ const PDFDownload = dynamic(
 );
 
 export default function Itinerarios() {
+    const [AUTOPLAY_DURATION, setAutoplay] = useState(20000)
+    const [INACTIVITY_THRESHOLD, setInactivity] = useState(17000)
     const router = useRouter();
     const dispatch = useDispatch();
+    useEffect(() => {
+        if (window.innerWidth >= 1024) {
+            setAutoplay(17000);
+            setInactivity(15000);
+        } else {
+            setAutoplay(40000);
+            setInactivity(13000);
+        }
+    }, []);
     const {
         progress,
         circuitoSelected,
@@ -185,6 +190,7 @@ export default function Itinerarios() {
                         {lenguaje && lenguaje.code === "EN" && <p className="col-span-2 xl:col-span-3 text-[24px] lg:text-[26px] xl:text-[30px] leading-7 pr-2 font-400 text-white xl:shrink-0 lg:ms-2">
                             Choose your destination and<br className="hidden xl:block" /> plan your trip
                         </p>}
+                        {AUTOPLAY_DURATION === 20000 && "Es mobile"}
                         <CircleArrowRight className="text-white hidden lg:block lg:size-12 xl:text-[40px]" />
                     </div>
 

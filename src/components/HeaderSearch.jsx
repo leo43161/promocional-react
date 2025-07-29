@@ -1,20 +1,29 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Search } from 'lucide-react'; // Importamos el ícono
+import { getCurrentLanguage, languages } from '@/utils';
 
 // Este componente es específico para el header, por eso quitamos el padding exterior.
 const HeaderSearch = ({ setView = null }) => {
+    const [selectedLang, setSelectedLang] = useState(languages[0]);
     const [searchTerm, setSearchTerm] = useState('');
     const router = useRouter();
+
+    useEffect(() => {
+        if (router.isReady) {
+            const currentLangObject = getCurrentLanguage(router.query);
+            setSelectedLang(currentLangObject);
+        }
+    }, [router.isReady, router.query]);
 
     const handleSearch = (e) => {
         e.preventDefault();
         if (!searchTerm.trim()) return;
-
         const encodedSearch = encodeURIComponent(searchTerm.trim());
-        const nextPath = `/busqueda/?search=${encodedSearch}`;
+        const langCode = selectedLang.code !== "ES" ? selectedLang.code : ""
+        const nextPath = `/busqueda/?search=${encodedSearch}&lang=${langCode}`;
         if (setView) {
-            setView(false); 
+            setView(false);
         }
         if (router.asPath !== nextPath) {
             router.push(nextPath);

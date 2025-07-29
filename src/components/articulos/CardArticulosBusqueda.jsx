@@ -55,6 +55,7 @@ const CardArticulosBusqueda = ({ articulo, isLoading = false }) => {
 
   if (!articulo) return null;
   const { idArticulo, nombre, imagen, imagenMovil, copete } = articulo;
+  console.log(articulo);
   return isLoading ? <CardSkeleton /> : (
     <a href={`articulos/articulo/${idArticulo}/${generateSlug(nombre)}`} className="text-primary font-bold text-sm flex items-center">
       <div className="relative flex flex-col md:flex-row w-full my-6 bg-white shadow-sm border border-slate-200 rounded-lg ">

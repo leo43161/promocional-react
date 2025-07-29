@@ -52,8 +52,8 @@ const Busqueda = () => {
   const handleNewSearch = (e) => {
     e.preventDefault();
     if (!localSearchTerm.trim() || localSearchTerm === searchQuery) return;
-
-    router.push(`/busqueda/?search=${encodeURIComponent(localSearchTerm.trim())}`);
+    const langCode = selectedLang.code !== "ES" ? selectedLang.code : ""
+    router.push(`/busqueda/?search=${encodeURIComponent(localSearchTerm.trim())}&lang=${langCode}`);
   };
 
   return (
