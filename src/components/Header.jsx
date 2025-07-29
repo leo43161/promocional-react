@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
+import { useLenis } from 'lenis/react';
 import { MessageCircle, Facebook, Instagram, Twitter, Youtube, Menu, X, ChevronDown, Search, ChevronLeft, ChevronRight } from 'lucide-react';
 // Asegúrate que la ruta sea correcta para tu proyecto
 import { useGetMenuQuery, useGetSeccionesQuery } from '@/redux/services/headerService';
@@ -43,7 +44,30 @@ export default function Header() {
     const [selectedLang, setSelectedLang] = useState(languages[0]);
     const [activeMenu, setActiveMenu] = useState(null); // Para controlar el mega-menú visible en desktop
     const headerRef = useRef(null);
+    const [isTopBarVisible, setIsTopBarVisible] = useState(true);
+    const lenis = useLenis(); // Obtenemos la instancia de Lenis
 
+    // Efecto para manejar la visibilidad de la barra superior con el scroll de Lenis
+    useEffect(() => {
+        if (!lenis) return;
+
+        const handleScroll = (e) => {
+            if (!window) return;
+            const scrollHidden = window.innerWidth >= 1024 ? 100 : 50;
+            // Oculta la barra si el scroll es mayor a 30px
+            if (scrollY > scrollHidden) {
+                setIsTopBarVisible(false);
+            }
+            // Muestra la barra si el scroll es 20px o menos
+            else if (scrollY <= scrollHidden) {
+                setIsTopBarVisible(true);
+            }
+        };
+        lenis.on('scroll', handleScroll);
+        return () => {
+            lenis.off('scroll', handleScroll);
+        };
+    }, [lenis]);
 
     // --- Obtener datos de la API usando el ID del idioma seleccionado ---
     /* const { data: seccionesApi, error, isLoading, isFetching } = useGetMenuQuery(selectedLangId); */
@@ -230,7 +254,7 @@ export default function Header() {
     return (
         <header ref={headerRef} className="w-full sticky top-0 z-50" onMouseLeave={handleMouseLeave}>
             {/* Top gray bar (content assumed unchanged, add dynamic date/weather if needed) */}
-            <div className='w-full bg-[#D6D3D1] flex justify-center'>
+            <div className={`w-full bg-[#D6D3D1] flex justify-center transition-[max-height,padding] duration-800 ease-linear overflow-hidden ${isTopBarVisible ? 'max-h-40 py-0' : 'max-h-0 py-0'}`}>
                 <div className="px-4 pt-1 flex justify-between w-11/12 flex-wrap">
                     {/* Date/Weather */}
                     <div className="bg-white px-3 py-1 rounded-t-md text-[1.1em] mb-0">
@@ -278,9 +302,9 @@ export default function Header() {
 
             {/* Main white bar */}
             <div className='flex justify-center bg-white shadow-md'>
-                <div className="flex justify-between items-center px-2 py-4 w-11/12 gap-7">
+                <div className={`flex justify-between items-center px-2 w-11/12 duration-700 gap-7 ease ${isTopBarVisible ? 'py-4' : 'py-3'}`}>
                     {/* Logo */}
-                    <div className="flex items-center w-3/6 md:w-3/18 xl:w-3/19">
+                    <div className={`flex items-center duration-700 ease w-3/6 xl:w-3/19 ${isTopBarVisible ? 'md:w-3/18' : 'md:w-3/20'}`}>
                         <a href={`${process.env.URL_LOCAL_SERVER || ''}${process.env.URL_LOCAL || ''}${lang === 'EN' ? '?lang=EN' : ''}`} className="flex items-center w-full">
                             {/* Ensure process.env.URL_IMG_LOCAL is set or replace */}
                             <img src={(process.env.URL_IMG_LOCAL || '') + "/images/logo.png"} className='w-full h-auto' alt="Logo Tucumán Turismo" />
