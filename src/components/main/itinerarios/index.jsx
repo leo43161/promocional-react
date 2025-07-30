@@ -190,7 +190,6 @@ export default function Itinerarios() {
                         {lenguaje && lenguaje.code === "EN" && <p className="col-span-2 xl:col-span-3 text-[24px] lg:text-[26px] xl:text-[30px] leading-7 pr-2 font-400 text-white xl:shrink-0 lg:ms-2">
                             Choose your destination and<br className="hidden xl:block" /> plan your trip
                         </p>}
-                        {AUTOPLAY_DURATION === 20000 && "Es mobile"}
                         <CircleArrowRight className="text-white hidden lg:block lg:size-12 xl:text-[40px]" />
                     </div>
 
