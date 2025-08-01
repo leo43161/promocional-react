@@ -43,32 +43,25 @@ const CookieConsent = () => {
 
   return (
     <div
-      style={{
-        position: 'fixed',
-        bottom: '0',
-        left: '0',
-        right: '0',
+      /* style={{
         backgroundColor: 'rgba(26, 32, 44, 0.9)',
-        color: 'white',
-        padding: '1.5rem',
-        zIndex: 1050,
-        textAlign: 'center',
         boxShadow: '0 -2px 10px rgba(0,0,0,0.2)'
-      }}
+      }} */
+      className='animate-fadeIn fixed bottom-0 left-0 right-0 md:bg-foreground/90 bg-foreground/70 p-5 flex flex-col md:flex-row justify-between items-center border-t-2 border-primary z-100 w-screen text-white '
     >
-      <p style={{ margin: 0, paddingBottom: '1rem', fontSize: '0.9rem' }}>
+      <p className='text-base mb-4'>
         Para ofrecerte una mejor experiencia, este sitio utiliza cookies. Al continuar navegando, aceptas nuestra <a href="privacidad" class="text-primary underline font-semibold">política de privacidad</a>.
       </p>
       <div className='flex justify-center gap-4'>
         <button
           onClick={() => handleConsent(true)}
-          className='bg-primary text-white px-4 py-2 rounded text-[1.1em]'
+          className='bg-primary text-white px-4 py-2 rounded text-[1.1em] cursor-pointer'
         >
           Aceptar
         </button>
         <button
           onClick={() => handleConsent(false)}
-          className='bg-red-600 text-white px-4 py-2 rounded text-[1.1em]'
+          className='bg-red-600 text-white px-4 py-2 rounded text-[1.1em] cursor-pointer'
         >
           Rechazar
         </button>
