@@ -28,13 +28,7 @@ const CookieConsent = () => {
     const encryptedValue = encriptar(JSON.stringify(cookieData));
     // Reutilizamos setCookie, pasándole el número de días para la expiración
     setCookie('__cookieSesion', encryptedValue, 60);
-    
     setShowBanner(false);
-
-    if(permiso){
-        // Forzamos un refresco para activar el PageTracker
-        window.location.reload();
-    }
   };
 
   if (!showBanner) {
@@ -43,11 +37,7 @@ const CookieConsent = () => {
 
   return (
     <div
-      /* style={{
-        backgroundColor: 'rgba(26, 32, 44, 0.9)',
-        boxShadow: '0 -2px 10px rgba(0,0,0,0.2)'
-      }} */
-      className='animate-fadeIn fixed bottom-0 left-0 right-0 md:bg-foreground/90 bg-foreground/70 p-5 flex flex-col md:flex-row justify-between items-center border-t-2 border-primary z-100 w-screen text-white '
+      className='animate-fadeIn fixed bottom-0 left-0 right-0 md:bg-foreground/90 bg-foreground/70 p-5 flex flex-col md:flex-row justify-between items-center border-t-2 border-primary z-100 w-screen text-white shadow-lg'
     >
       <p className='text-base mb-4'>
         Para ofrecerte una mejor experiencia, este sitio utiliza cookies. Al continuar navegando, aceptas nuestra <a href="privacidad" class="text-primary underline font-semibold">política de privacidad</a>.
