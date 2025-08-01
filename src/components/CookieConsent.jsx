@@ -57,7 +57,7 @@ const CookieConsent = () => {
       }}
     >
       <p style={{ margin: 0, paddingBottom: '1rem', fontSize: '0.9rem' }}>
-        Este sitio web utiliza cookies para mejorar tu experiencia y analizar el tráfico. Al hacer clic en "Aceptar", acepta <a href="privacidad" class="text-primary underline font-semibold">política de privacidad</a>.
+        Para ofrecerte una mejor experiencia, este sitio utiliza cookies. Al continuar navegando, aceptas nuestra <a href="privacidad" class="text-primary underline font-semibold">política de privacidad</a>.
       </p>
       <div className='flex justify-center gap-4'>
         <button
