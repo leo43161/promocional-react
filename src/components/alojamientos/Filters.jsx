@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronDown, Search } from 'lucide-react';
 import { useGetAlojamientosFiltersQuery } from '@/redux/services/alojamientosService';
+import { useSearchTracker } from '@/hooks/useSearchTracker';
 
 export default function Filters({ filter, setFilter }) {
   // Consulta con RTK Query
+  const { trackSearch } = useSearchTracker();
   const { data: filters, error, isLoading, isFetching } = useGetAlojamientosFiltersQuery();
   const [searchInput, setSearchInput] = useState(filter.search || '');
   const [_categorias, setCategorias] = useState([]);
@@ -26,6 +28,7 @@ export default function Filters({ filter, setFilter }) {
 
   const handleSearch = (e) => {
     e.preventDefault();
+    trackSearch(searchInput)
     setFilter({
       ...filter,
       search: searchInput
@@ -33,13 +36,22 @@ export default function Filters({ filter, setFilter }) {
   };
 
   const handleCategoriaChange = (categoriaId) => {
+    console.log(_categorias);
+    const categoriaSearch = _categorias.find(c => c.id === `${categoriaId}`);
+    if (!!categoriaSearch) {
+      trackSearch(categoriaSearch?.nombre || null);
+    }
     setFilter({
       ...filter,
       categoria: categoriaId || ""
     });
   };
 
+
   const handleEstrellasChange = (estrellas) => {
+    if (!!estrellas) {
+      trackSearch(estrellas || null);
+    }
     setFilter({
       ...filter,
       estrellas: estrellas || ""
@@ -47,6 +59,10 @@ export default function Filters({ filter, setFilter }) {
   };
 
   const handleLocalidadChange = (localidadId) => {
+    const localidadSearch = _localidades.find(l => l.id === `${localidadId}`);
+    if (!!localidadSearch) {
+      trackSearch(`lol:${localidadSearch?.nombre}` || null);
+    }
     setFilter({
       ...filter,
       localidad: localidadId || ""

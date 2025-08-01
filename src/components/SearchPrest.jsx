@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { Search } from 'lucide-react';
 import { cn } from '@/utils';
+import { useSearchTracker } from '@/hooks/useSearchTracker';
 
 const Buscador = ({ onSearch, placeholder = "Buscar actividades, prestadores...", className }) => {
   const [searchTerm, setSearchTerm] = useState('');
+  const { trackSearch } = useSearchTracker();
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    trackSearch(searchTerm);
     onSearch(searchTerm);
   };
 
