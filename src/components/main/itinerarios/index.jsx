@@ -205,12 +205,12 @@ export default function Itinerarios() {
                                     key={index}
                                     onClick={() => handleSelectCircuit(circuito.id)}
                                     className={`w-full h-full p-4 mb-4 flex items-center justify-center bg-stone-400 hover:bg-${circuito.color} shadow-xl relative overflow-hidden`}
-                                    style={{ backgroundColor: isActive ? (autoPlayActive ? circuito.bg + "d8" : circuito.bg) : "" }}
+                                    style={{ backgroundColor: isActive ? (autoPlayActive ? circuito.bg + "d2" : circuito.bg) : "" }}
                                 >
                                     {/* Barra de progreso */}
                                     {isCurrentlyAutoPlayingThisCircuit && (
                                         <div
-                                            className="absolute top-0 left-0 h-full bg-gray-400 opacity-50"
+                                            className="absolute top-0 left-0 h-full bg-gray-400 "
                                             style={{
                                                 width: `${currentProgressBarWidth}%`,
                                                 backgroundColor: circuito.bg
@@ -239,7 +239,7 @@ export default function Itinerarios() {
                                     setCurrentProgressBarWidth(0); // Resetear barra
                                     resetInactivityTimer();
                                 }}
-                                style={{ backgroundColor: autoPlayActive ? circuitoSelected?.bg + "d8" : circuitoSelected?.bg }}
+                                style={{ backgroundColor: autoPlayActive ? circuitoSelected?.bg + "d2" : circuitoSelected?.bg }}
                                 className="w-full flex items-center justify-center p-4 transition-colors duration-300"
                             >
                                 {circuitoSelected?.mb &&
