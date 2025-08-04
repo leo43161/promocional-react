@@ -251,7 +251,7 @@ export default function Itinerarios() {
                                 }
 
                                 <div
-                                    className="absolute top-0 left-0 h-full bg-gray-400 opacity-50"
+                                    className="absolute top-0 left-0 h-full bg-gray-400"
                                     style={{
                                         width: `${currentProgressBarWidth}%`,
                                         backgroundColor: circuitoSelected.bg
