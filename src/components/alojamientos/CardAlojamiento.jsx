@@ -41,7 +41,7 @@ const CardAlojamiento = ({ alojamiento, isLoading = false }) => {
                 {alojamiento.logo ? (
                     <div className="relative overflow-hidden rounded h-full">
                         <img
-                            src={`https://www.tucumanturismo.gob.ar/carga/image/${alojamiento.logo}`}
+                            src={`${process.env.URL_IMG}alojamientos/${alojamiento.logo}`}
                             alt={alojamiento.nombre}
                             className="w-full h-full object-contain"
                         />

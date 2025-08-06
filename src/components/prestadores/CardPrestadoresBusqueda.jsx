@@ -81,27 +81,36 @@ export default function CardPrestadoresBusqueda({
   } = prestador;
 
   // URL de la imagen placeholder si no hay una imagen definida para el prestador
-  const imageUrl = imagen ? `${process.env.URL_IMG}/${imagen}`
-    : "/svg/itinerarios/prestadores.svg";
+  const imageUrl = /* imagen ? `${process.env.URL_IMG}/${imagen}`
+    : */ "/svg/itinerarios/prestadores.svg";
 
   return (
-    <div className="flex flex-col md:flex-row w-full my-4 bg-white shadow-sm border border-slate-200 rounded-lg">
-      <div className="md:flex">
-        <div className="relative w-full h-full md:w-60 md:h-auto">
-          <Image
+    <div className="flex flex-colw-full bg-white shadow-sm border border-slate-200 rounded-lg">
+      <div className="">
+        {/* <div className="relative w-full bg-secondary rounded-t-lg md:rounded-l-lg md:rounded-tr-none flex items-center py-8">
+          <img
             src={imageUrl}
             alt={titulo}
-            style={{ objectFit: "" }}
-            fill
-            className="rounded-t-lg md:rounded-l-lg md:rounded-tr-none bg-secondary"
+            className="h-50 w-full"
           />
-        </div>
+        </div> */}
 
         <div className="p-6 flex flex-col justify-between flex-grow">
           <div>
-            <h5 className="mb-2 text-primary text-2xl font-semibold">
-              {titulo}
-            </h5>
+            <div className="flex gap-3 items-center">
+              <div className="rounded-full bg-secondary size-10 p-2 mb-2 flex justify-center items-center">
+                <img
+                  src={imageUrl}
+                  alt={titulo}
+                  className="h-full w-full"
+                />
+              </div>
+              <div className="w-5/6">
+                <h5 className="mb-2 text-primary text-2xl font-semibold">
+                  {titulo}
+                </h5>
+              </div>
+            </div>
             <p className="text-gray-800 font-medium">{responsable}</p>
             <p className="text-gray-700 font-medium uppercase underline">{direccion}</p>
             <p className="text-gray-700 font-semibold">{localidad_nombre}</p>

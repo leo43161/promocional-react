@@ -105,7 +105,7 @@ export default function ImageGallery({
             <div className={cn("flex flex-col md:flex-row gap-4 md:gap-6 md:items-stretch h-full", classContain)}>
                 {/* Main Image Display Area */}
                 <div className="flex-1">
-                    <div className="relative overflow-hidden md:min-h-full h-[360px] shadow">
+                    <div className="relative overflow-hidden md:min-h-full h-[360px]">
                         {hasCurrentError ? (
                             <ImagePlaceholder message="No se pudo cargar la imagen" />
                         ) : (
@@ -113,7 +113,7 @@ export default function ImageGallery({
                                 key={currentImageUrl?.text} // Añadido optional chaining por si acaso
                                 src={currentImageUrl?.img}  // Añadido optional chaining
                                 alt={`Imagen de galería ${activeImageIndex + 1}`}
-                                className="w-full h-full object-cover rounded"
+                                className="w-full h-full object-contain rounded shadow border-amber-300"
                                 onError={() => handleImageError(activeImageIndex)}
                                 loading="lazy"
                             />

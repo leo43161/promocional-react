@@ -178,13 +178,19 @@ const Busqueda = () => {
         ));
     };
 
+    const divClassConatiner = {
+        'articulo': 'col max-w-6xl',
+        'prestador': 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 w-10/11 mx-auto mb-4',
+        'guia': 'col max-w-6xl',
+        'evento': 'col max-w-6xl',
+    }
     return (
         <div className="max-w-6xl mx-auto px-4 py-8">
             <div className='flex flex-col justify-center items-center mb-6'>
-                
+
                 <h3 className="text-2xl font-bold text-center md:text-left mb-4 md:mb-4">
                     Resultados de búsqueda para:{" "}
-                    <span className="text-secondary">{searchQuery}</span>
+                    <span className="text-secondary">{localSearchTerm}</span>
                 </h3>
                 <BotonesBusqueda />
             </div>
@@ -205,19 +211,21 @@ const Busqueda = () => {
             </div>
 
             {/* Este es el div restaurado a su estado original */}
-            <div className="col max-w-6xl">
-                {isLoading ? ( // Usamos el isLoading único
-                    renderSkeletons()
-                ) : error ? (
-                    <p className="text-center text-red-600">Error al cargar resultados.</p>
-                ) : currentResults.length === 0 ? (
-                    <p className="text-center text-lg text-gray-500 mt-4">
-                        No se encontraron resultados para <span className="font-semibold text-secondary">"{searchQuery}"</span> en la categoría seleccionada.
-                    </p>
-                ) : (
-                    currentResults.map(renderCard)
-                )}
-            </div>
+            {isLoading ? ( // Usamos el isLoading único
+                <div className="col max-w-6xl">
+                    {renderSkeletons()}
+                </div>
+            ) : error ? (
+                <p className="text-center text-red-600">Error al cargar resultados.</p>
+            ) : currentResults.length === 0 ? (
+                <p className="text-center text-lg text-gray-500 mt-4">
+                    No se encontraron resultados para <span className="font-semibold text-secondary">"{localSearchTerm}"</span> en la categoría seleccionada.
+                </p>
+            ) : (
+                <div className={divClassConatiner[currentResults[0].type]}>
+                    {currentResults.map(renderCard)}
+                </div>
+            )}
 
             {!isLoading && total > 0 && (
                 <div className="pb-2">

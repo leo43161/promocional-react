@@ -38,6 +38,12 @@ export const itinerariosService = createApi({
                 url: `subseccion/${id}`,
             }),
         }),
+        getDestinosBusqueda: builder.query({
+            query: ({ busqueda, limite, offset, idioma }) => ({
+                url: `buscador_destinos`,
+                params: { busqueda, limite, offset, idioma },
+            }),
+        }),
         getGaleryDestino: builder.query({
             query: ({ id }) => ({
                 url: `galeria_art/${id}`,
@@ -48,6 +54,7 @@ export const itinerariosService = createApi({
 
 export const {
     useGetDestinosQuery,
+    useGetDestinosBusquedaQuery,
     useGetItinerariosQuery,
     useGetGaleryDestinoQuery,
     useGetLocalidadesQuery,

@@ -3,8 +3,12 @@ import { useGetActividadesQuery, useGetHotelesQuery } from "@/redux/services/iti
 import ActividadCard from "@/components/main/itinerarios/ActividadCard";
 import { useEffect, useState } from "react";
 import Paginado from "@/components/common/Paginado";
+import { getCurrentLanguage } from "@/utils";
+import { useRouter } from "next/router";
 
 export default function Actividades() {
+    const router = useRouter();
+    const lenguaje = getCurrentLanguage(router.query);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 8;
     // Calcular el offset basado en la página actual
@@ -13,12 +17,13 @@ export default function Actividades() {
     // Manejar cambio de página
 
     const {
+        circuitosEN_ES,
         favoritos,
         circuitoSelected,
     } = useSelector(state => state.itinerarioReducer.value);
 
     const { data: actividades, error, isLoading, isFetching } = useGetActividadesQuery({
-        id: circuitoSelected.id,
+        id: lenguaje.code === "EN" ? circuitosEN_ES[circuitoSelected.id] : circuitoSelected.id,
         limit: itemsPerPage,
         offset: offset,
     }, {

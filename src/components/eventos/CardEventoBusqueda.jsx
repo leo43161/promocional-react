@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image'; // Asumiendo Next.js para el componente Image
 import Link from 'next/link'; // Asumiendo Next.js para el componente Link
-import { Clock, MapPin } from 'lucide-react';
+import { Clock, MapPin, Calendar } from 'lucide-react';
 import Button from '../common/Button'; // Asegúrate de que esta ruta sea correcta
 
 // Componente Skeleton genérico, adaptado para la nueva disposición
@@ -66,16 +66,19 @@ export default function CardEventoBusqueda({ evento, isLoading = false }) {
         fechaInicio,
         fechaFin,
         horaInicio,
-        direccion
+        direccion,
+        descripcion,
+        nombreCategoria,
+        nombreLocalidad
     } = evento;
 
     // Ajusta la URL de la imagen según tus datos de evento
     const imageUrl = process.env.URL_IMG + (imagenMovil ? imagenMovil : imagen);
 
     return (
-        <div className="relative flex flex-col md:flex-row w-full my-4 bg-white shadow-sm border border-slate-200 rounded-lg">
-            <div className="md:flex">
-                <div className="relative md:h-full md:min-w-70 md:max-w-70 h-48">
+        <a className="relative flex flex-col md:flex-row w-full my-4 bg-white shadow-sm border border-slate-200 rounded-lg" href={`/eventos/evento?id=${id}`}>
+            <div className="md:flex w-full">
+                <div className="relative md:h-full md:min-w-70 md:max-w-70 h-65">
                     <Image
                         src={imageUrl}
                         alt={nombre}
@@ -83,41 +86,55 @@ export default function CardEventoBusqueda({ evento, isLoading = false }) {
                         fill
                         className="rounded-t-lg md:rounded-l-lg md:rounded-tr-none object-cover"
                     />
-                     <div className='rounded-b-md absolute top-0 left-8 shadow-lg bg-white py-1 px-1 flex justify-center'>
-                         <h4 className='font-bold text-sm'>{formatearFecha(fechaInicio)} - {formatearFecha(fechaFin)}</h4>
-                     </div>
+                    <div className='rounded-b-md absolute top-0 left-8 shadow-lg bg-white py-1 px-2 flex justify-center'>
+                        <h4 className='font-bold text-xl'>{formatearFecha(fechaInicio)} - {formatearFecha(fechaFin)}</h4>
+                    </div>
                 </div>
 
-                <div className="p-6 flex flex-col justify-between flex-grow">
-                    <div>
-                        <h4 className="mb-2 text-slate-800 text-3xl font-semibold">
-                            {nombre}
-                        </h4>
+                <div className="p-6 flex flex-col justify-between w-full">
+                    <div className='w-full mb-4'>
+                        <div className='flex justify-between w-full gap-2 mb-1'>
+                            <h4 className="mb-2 text-slate-800 text-4xl font-bold">
+                                {nombre}
+                            </h4>
+                            <div className="bg-secondary px-3 py-1 text-[1.1em] font-medium rounded mb-3 text-white text-nowrap h-fit hidden md:block">
+                                {nombreCategoria || 'Evento'}
+                            </div>
+                        </div>
 
                         <div className='flex items-center gap-2 mb-2'>
                             <div>
-                                <Clock className='font-bold text-lg' size={17} />
+                                <Clock className='font-bold text-lg' size={21} />
                             </div>
-                            <span>{horaInicio.slice(0, 5)}</span>
+                            <span className='font-semibold text-xl'>{horaInicio.slice(0, 5)}</span>
                         </div>
-                        <div className='flex items-center gap-2'>
+                        <div className='flex items-center gap-2 mb-3'>
                             <div>
-                                <MapPin className='font-bold text-lg' size={17} />
+                                <MapPin className='font-bold text-lg' size={21} />
                             </div>
-                            <span className='text-base'>{direccion}</span>
+                            <span className='font-semibold text-xl'>{direccion} - {nombreLocalidad}</span>
+                        </div>
+                        <div className='flex items-center gap-2 mb-3'>
+                            <div>
+                                <Calendar className='font-bold text-lg' size={21} />
+                            </div>
+                            <span className='font-semibold text-xl'>{formatearFecha(fechaInicio)} - {formatearFecha(fechaFin)}</span>
+                        </div>
+                        <div className='flex gap-2'>
+                            <span className='text-xl line-clamp-2'>{descripcion}</span>
                         </div>
                     </div>
 
-                    <div className="mt-6">
+                    <div>
                         {/* Asegúrate de que Button reciba 'href' para funcionar como Link de Next.js si es el caso */}
                         <Link href={`/eventos/evento?id=${id}`} passHref legacyBehavior>
-                            <Button className='shadow-lg' size='sm'>
+                            <Button className='shadow-lg cursor-pointer'  size='sm'>
                                 Conocé más aquí
                             </Button>
                         </Link>
                     </div>
                 </div>
             </div>
-        </div>
+        </a>
     );
 }

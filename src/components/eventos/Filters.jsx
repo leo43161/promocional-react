@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { ChevronDown, Search } from 'lucide-react';
+import { useSearchTracker } from '@/hooks/useSearchTracker';
 
 export default function Filters({ filter, setFilter }) {
   const [searchInput, setSearchInput] = useState(filter.search || '');
+  const { trackSearch } = useSearchTracker();
 
   const [diaOptions] = useState([
     { value: "todos", label: "Todos los eventos" },
@@ -21,6 +23,9 @@ export default function Filters({ filter, setFilter }) {
   };
 
   const handleDiaChange = (diaValue) => {
+    if (!!diaValue) {
+      trackSearch(diaValue || null);
+    }
     setFilter({
       ...filter,
       dia: diaValue || "" // Ensure it's an empty string if null/undefined
@@ -28,6 +33,9 @@ export default function Filters({ filter, setFilter }) {
   };
 
   const handleFechaIniChange = (e) => {
+    if (!!e.target.value) {
+      trackSearch(`ini:${e.target.value}/fin:${filter.fechaFin}` || null);
+    }
     setFilter({
       ...filter,
       fechaIni: e.target.value
@@ -35,6 +43,9 @@ export default function Filters({ filter, setFilter }) {
   };
 
   const handleFechaFinChange = (e) => {
+    if (!!e.target.value) {
+      trackSearch(`ini:${filter.fechaIni}/fin:${e.target.value}` || null);
+    }
     setFilter({
       ...filter,
       fechaFin: e.target.value

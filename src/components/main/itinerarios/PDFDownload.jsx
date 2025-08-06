@@ -8,8 +8,13 @@ import Modal from '@/components/common/Modal';
 import { QRCodeSVG } from 'qrcode.react';
 import { setCookie, getCookie, encriptar, desencriptar } from '@/utils/cookie';
 import { useGetIdSessionMutation, useGuardarItinerarioMutation } from '@/redux/services/itinerarioService';
+import { useRouter } from 'next/router';
+import { getCurrentLanguage } from '@/utils';
 
 export default function PDFGeneratorButton() {
+  const router = useRouter();
+  const lenguaje = getCurrentLanguage(router.query);
+
   const favoritos = useSelector(state => state.itinerarioReducer.value.favoritos);
   const [instance, updateInstance] = usePDF({ document: null });
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -53,6 +58,7 @@ export default function PDFGeneratorButton() {
       handleCloseModal();
     }
   }, [instance.url, instance.loading]);
+
 
 
   const handleCookieAndSave = async () => {
@@ -115,7 +121,7 @@ export default function PDFGeneratorButton() {
       >
         <ArrowDownToLine className="text-[26px]" />
         <p className="font-700 uppercase text-2xl ml-2">
-          {isLoading && !isModalOpen ? 'Generando...' : 'Descargar'}
+          {isLoading && !isModalOpen ? lenguaje.code === 'ES' ? 'Generando...' : 'Generating...' : lenguaje.code === 'ES' ? 'Descargar' : 'Download'}
         </p>
       </button>
 
@@ -123,7 +129,7 @@ export default function PDFGeneratorButton() {
       {showTooltip && (
         <div className="absolute -top-12 right-1 mt-2 w-max bg-primary text-white text-sm font-semibold rounded-md shadow-lg px-3 py-2 z-50 flex items-center">
           <AlertCircle className="mr-1.5" size={20} />
-          <span>Debes agregar items a tu itinerario.</span>
+          <span>{ lenguaje.code === 'ES' ? "Debes agregar items a tu itinerario." : "You must add items to your itinerary."}</span>
         </div>
       )}
 
@@ -136,23 +142,24 @@ export default function PDFGeneratorButton() {
         classNameHeader='text-white'
       >
         <div className="p-4 text-center flex flex-col justify-between h-full">
-          <p className="text-sm text-white my-auto">
+          {lenguaje.code === 'ES' ? <p className="text-sm text-white my-auto">
             Al descargar o generar el QR, aceptas nuestra política de cookies. Puedes leer más en nuestros <a href="/privacidad" className="underline text-primary">términos y condiciones</a>.
-          </p>
+          </p> : <p className="text-sm text-white my-auto"> By downloading or generating the QR, you accept our cookie policy. You can read more in our <a href="/privacidad" className="underline text-primary">terms and conditions</a>.
+          </p>}
 
           {showQR && (
             <div className="flex flex-col items-center justify-center min-h-[250px] my-4 transition-all duration-300 text-white">
               {pdfUrl ? (
                 <>
-                  <h3 className="text-lg font-bold mb-2">¡Tu QR está listo!</h3>
-                  <p className='text-xs mb-4'>Escanea el código para ver tu itinerario.</p>
+                  <h3 className="text-lg font-bold mb-2"> {lenguaje.code === 'ES' ? '¡Tu QR está listo!' : 'Your QR is ready!'}</h3>
+                  <p className='text-xs mb-4'>{lenguaje.code === 'ES' ? 'Escanea el código QR para ver tu itinerario' : 'Scan the codeQR to view your itinerary'}</p>
                   <QRCodeSVG value={pdfUrl} size={180} includeMargin={true} />
                 </>
               ) : (
                 <div className="flex flex-col items-center justify-center">
                   <LoaderCircle className="animate-spin mb-4" size={48} />
-                  <p className="font-semibold">Generando tu itinerario...</p>
-                  <p className="text-sm">Esto puede tardar unos segundos.</p>
+                  <p className="font-semibold">{lenguaje.code === 'ES' ? 'Generando tu itinerario...' : 'Generating your itinerary...'}</p>
+                  <p className="text-sm"> {lenguaje.code === 'ES' ? 'Esto puede tardar unos segundos.' : 'This may take a few seconds.'}</p>
                 </div>
               )}
             </div>
@@ -165,7 +172,7 @@ export default function PDFGeneratorButton() {
               className="flex items-center justify-center px-4 py-1.5 bg-primary/90 text-white rounded-md hover:bg-primary disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-xl"
             >
               <QrCode className="mr-2" />
-              Generar QR
+              {lenguaje.code === 'ES' ? 'Generar QR' : 'Generate QR'}
             </button>
             {window.innerWidth < 1024 ? <PDFDownloadLink
               document={itinerarioDocumento}
@@ -185,7 +192,10 @@ export default function PDFGeneratorButton() {
                   className="flex items-center justify-center px-4 py-1.5 bg-primary/90 text-white rounded-md hover:bg-primary disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-xl w-full"
                 >
                   <ArrowDownToLine size={25} className="mr-2" />
-                  {loading ? 'Generando...' : (error ? 'Error al descargar intente de nuevo' : 'Descargar Itinerario')}
+                  {loading ?
+                    (lenguaje.code === 'ES' ? 'Generando...' : 'Generating...') :
+                    (error ? (lenguaje.code === 'ES' ? 'Error al descargar intente de nuevo' : 'Error while downloading, try again') :
+                      (lenguaje.code === 'ES' ? 'Descargar Itinerario' : 'Descargar Itinerario'))}
                 </button>
               )
               }
@@ -196,7 +206,10 @@ export default function PDFGeneratorButton() {
                 className="flex items-center justify-center px-4 py-1.5 bg-primary/90 text-white rounded-md hover:bg-primary disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-xl"
               >
                 <ArrowDownToLine size={25} className="mr-2" />
-                {isDownloading ? "Cargando Itinerario..." : "Descargar Itinerario"} 
+                {isDownloading ?
+                  (lenguaje.code === 'ES' ? "Cargando Itinerario..." : "Loading Itinerary...") :
+                  (lenguaje.code === 'ES' ? "Descargar Itinerario" : "Descargar Itinerario")
+                }
               </button>
             }
           </div>

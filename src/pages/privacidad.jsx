@@ -2,20 +2,34 @@ import Breadcrumb from '@/components/common/Breadcrumb';
 import Button from '@/components/common/Button';
 import ParallaxContainer from '@/components/common/ParallaxContainer';
 // Asegúrate de importar todas las funciones de cookies necesarias
-import { getCookie, setCookie, deleteCookie, encriptar } from '@/utils/cookie';
+import { getCookie, setCookie, deleteCookie, encriptar, desencriptar } from '@/utils/cookie';
 import React, { useEffect, useState } from 'react';
 import { CheckCircle, XCircle } from 'lucide-react'; // Iconos para feedback visual
+import { useGetIdSessionMutation } from '@/redux/services/itinerarioService';
 
 export default function Privacidad() {
     // Estado para saber si la cookie de sesión existe
     const [cookieExists, setCookieExists] = useState(false);
     // Estado para mostrar un mensaje de confirmación al usuario
     const [feedbackMessage, setFeedbackMessage] = useState('');
+    const [getIdSession] = useGetIdSessionMutation();
+
+    const generateSessionId = async () => {
+    console.log('Generando ID de sesión...');
+    const response = await getIdSession().unwrap();
+    return response.result[0].id;
+  };
 
     // Función para comprobar el estado de la cookie
     const checkCookieStatus = () => {
         const cookie = getCookie('__cookieSesion');
-        setCookieExists(!!cookie); // !!convierte el valor en un booleano (true si existe, false si no)
+        if (cookie) {
+            const cookieDecrypted = JSON.parse(desencriptar(cookie));
+            const { permiso } = cookieDecrypted;
+            setCookieExists(permiso);
+        } else {
+            setCookieExists(!!cookie); // !!convierte el valor en un booleano (true si existe, false si no)
+        }
     };
 
     // useEffect se ejecuta solo en el cliente.
@@ -23,8 +37,8 @@ export default function Privacidad() {
         checkCookieStatus();
     }, []);
 
-    const handleAcceptCookies = () => {
-        const id_session = Math.floor(Math.random() * 1000000);
+    const handleAcceptCookies = async () => {
+        const id_session = await generateSessionId();
         const cookieData = { permiso: true, id: id_session };
         const encryptedValue = encriptar(JSON.stringify(cookieData));
         setCookie('__cookieSesion', encryptedValue, 60); // Guardar por 60 días

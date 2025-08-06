@@ -4,9 +4,12 @@ import { useLenis } from 'lenis/react';
 import { DESTINOS, CIRCUITOS } from '@/data/transporte';
 import DropdownSearch from '@/components/DropdownSearch';
 import { useGetColectivosQuery } from '@/redux/services/transporteService';
+import { useSearchTracker } from '@/hooks/useSearchTracker';
+import React from 'react';
 
 export default function BuscadorTransporte() {
-    const lenis = useLenis();
+    const lenis = useLenis();  
+    const { trackSearch } = useSearchTracker();
     const { data: colectivosData, isLoading, isError } = useGetColectivosQuery();
 
     const [circuitoActivo, setCircuitoActivo] = useState('sur');
@@ -24,6 +27,7 @@ export default function BuscadorTransporte() {
     }, [circuitoActivo]);
 
     const handleSeleccionDeDestino = (nombreDestino) => {
+        trackSearch(nombreDestino);
         const circuitoIdDelDestino = Object.keys(DESTINOS).find(idCircuito =>
             DESTINOS[idCircuito].some(d => d.nombre === nombreDestino)
         );

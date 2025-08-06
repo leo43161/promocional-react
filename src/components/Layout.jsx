@@ -7,6 +7,9 @@ import HeaderEN from './HeaderEN'; //
 import SmoothView from './common/SmoothView'; //
 import Footer from './Footer'; //
 import { languages } from '@/utils'; //
+//Cookies
+import CookieConsent from './CookieConsent';
+import PageTracker from './PageTracker';
 //import Busqueda from '../pages/busqueda'; // Componente de búsqueda
 
 export default function Layout({ children, className, pageProps }) {
@@ -134,10 +137,13 @@ export default function Layout({ children, className, pageProps }) {
             </Head>
             <SmoothView>
                 <div className='relative'>
-                    {currentLangCode === 'EN' ? <HeaderEN /> : <Header />}
+                    {/* {currentLangCode === 'EN' ? <HeaderEN /> : <Header />} */}
+                    <Header />
+                    <PageTracker />
                     <main>
                         {children}
                     </main>
+                    <CookieConsent />
                 </div>
             </SmoothView>
             <Footer />
