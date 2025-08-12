@@ -12,6 +12,7 @@ import Breadcrumb from '@/components/common/Breadcrumb'; ///[slug].jsx]
 import ImageGallery from '@/components/articulos/ImageGallery'; ///[slug].jsx]
 import { Facebook, MessageCircle, Twitter } from 'lucide-react';
 import { pdf } from '@react-pdf/renderer';
+import YoutubePlayer from '@/components/common/YoutubePlayer';
 // import ImperdiblesCard from '@/components/articulos/ImperdiblesCard'; // Comentado si no se usa directamente en esta página
 
 // --- getStaticPaths ---
@@ -239,7 +240,7 @@ export default function ArticuloPage({ articulo, galleryItems, pdfItems, paralla
 
     const shareUrl = pageMeta?.ogUrl || canonicalUrl; // Usa la ogUrl si está definida, sino la canónica
     const shareTitle = pageMeta?.ogTitle || articulo?.nombre || 'Artículo de Tucumán Turismo';
-
+    console.log(articulo);
     const activeRightSidebar = pdfItems?.length > 0;
     return (
         <div>
@@ -337,6 +338,12 @@ export default function ArticuloPage({ articulo, galleryItems, pdfItems, paralla
                         </div>
                     </div>
 
+                    {articulo?.video && (
+                        <div className='ps-4'>
+                            <YoutubePlayer youtubeUrl={articulo?.video} title={articulo?.nombre} />
+                        </div>
+                    )}
+
                     {articulo?.iframe && (
                         <div className='mb-6'>
                             <div className='flex flex-col gap-3 px-2 md:px-0'>
@@ -350,7 +357,7 @@ export default function ArticuloPage({ articulo, galleryItems, pdfItems, paralla
 
                     <div className={`prose prose-slate max-w-none w-full px-4 mt-3 mb-4 ${pdfItems?.length === 0 ? 'md:w-8/11 md:mt-3' : ''}`}>
                         {articulo?.cuerpo ? (
-                            <div className='[&_a]:underline [&_a]:text-blue-600 [&_a:hover]:text-blue-800'  dangerouslySetInnerHTML={{ __html: articulo.cuerpo }} />
+                            <div className='[&_a]:underline [&_a]:text-blue-600 [&_a:hover]:text-blue-800' dangerouslySetInnerHTML={{ __html: articulo.cuerpo }} />
                         ) : (
                             <p>Contenido no disponible.</p>
                         )}
