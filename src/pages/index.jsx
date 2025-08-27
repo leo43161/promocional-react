@@ -58,11 +58,11 @@ export default function Index() {
         <Itinerarios />
       </div>
       <div>
-        {/* <div>
-          <a href="https://www.tucumanturismo.gob.ar/files/Actividades-Invierno-2025-TucumanTieneTodo.pdf" target="_blank">
-            <img src={process.env.URL_IMG_LOCAL + "/images/banners/BannerWeb1900x450Invierno2025-Desktop.jpg"} alt="Banner de Invierno" />
+        <div>
+          <a href="https://www.tucumanturismo.gob.ar/articulos/articulo/963/septiembre-mes-del-turismo-2025" target="_blank">
+            <img src={process.env.URL_IMG_LOCAL + "/images/banners/banner-mes-del-turismo-1900-x-450.jpg"} alt="Banner de Invierno" />
           </a>
-        </div> */}
+        </div>
         <div>
           <a href="https://www.tucumanturismo.gob.ar/articulos/articulo/819/promociones" target="_blank" rel="noopener noreferrer">
             <ResponsiveVideo
