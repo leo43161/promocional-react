@@ -179,9 +179,10 @@ export default function DestinoCard({ }) {
                         src={process.env.URL_IMG + producto.imagen}
                         alt={`imagen ${index}`}
                         className="w-full rounded-t-md h-[180px] object-cover"
+                        onClick={() => handleOpenModal(producto)}
                       />
                     </div>
-                    <div className="flex flex-col border rounded-b-lg flex-1 p-3 gap-3">
+                    <div className="flex flex-col border rounded-b-lg flex-1 p-3 gap-3" onClick={() => handleOpenModal(producto)}>
                       <h4 className="text-[23px] xl:text-[30px] font-bold leading-[19px] uppercase text-neutral-semibold text-wrap xl:leading-[28px] line-clamp-3">
                         {producto.nombre}
                       </h4>
