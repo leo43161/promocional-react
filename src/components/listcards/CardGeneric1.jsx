@@ -1,10 +1,5 @@
-// src/components/listcards/CardGeneric.jsx
 import React from 'react';
-// Eliminamos la importación de FontAwesomeIcon y los iconos individuales, ya que ahora usarás un <img>
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-// Eliminamos la importación de 'next/router' porque no se usa aquí
-// import { userRoute} from 'next/router';
+import { userRoute} from 'next/router';
 
 const iconsCard = {
     calendarDays: "/icons/listas/calendar-days.svg",
@@ -19,37 +14,37 @@ const iconsCard = {
     mapPinned:"/icons/listas/map-pinned.svg",
     phone: "/icons/listas/phone.svg",
     triangleAlert: "/icons/listas/triangle-alert.svg",
-    wine: "/icons/listas/wine.svg",
+    wine: "/icons/listas/wine.svg",       
+    
 };
-
 /**
- * Función auxiliar para obtener la ruta del ícono SVG
- * basada en el título del campo.
+ * Función auxiliar para obtener el ícono de Font Awesome
+ * basado en el título del campo.
  */
 const getIcon = (titulo) => {
     const lowerCaseTitulo = titulo?.toLowerCase();
     if (!lowerCaseTitulo) return null;
-
-    if (lowerCaseTitulo.includes('dirección')) return iconsCard.locationDot;
-    if (lowerCaseTitulo.includes('teléfono')) return iconsCard.phone;
-    if (lowerCaseTitulo.includes('mail')) return iconsCard.mail;
-    if (lowerCaseTitulo.includes('horarios') || lowerCaseTitulo.includes('atención')) return iconsCard.clock;
-    if (lowerCaseTitulo.includes('fecha')) return iconsCard.calendarDays;
-    if (lowerCaseTitulo.includes('instagram')) return iconsCard.instagram;
-    if (lowerCaseTitulo.includes('wine')) return iconsCard.wine;
-    if (lowerCaseTitulo.includes('pago')) return iconsCard.circleDollar;
+    if (lowerCaseTitulo.includes('dirección')) return locationDot;
+    if (lowerCaseTitulo.includes('teléfono')) return phone;
+    if (lowerCaseTitulo.includes('mail')) return mail;
+    if (lowerCaseTitulo.includes('horarios') || lowerCaseTitulo.includes('atención')) return clock;
+    if (lowerCaseTitulo.includes('fecha')) return calendarDays;
+    //if (lowerCaseTitulo.includes('sitioweb') || lowerCaseTitulo.includes('web')) return faGlobe;
+    if (lowerCaseTitulo.includes('instagram')) return instagram;
+    if (lowerCaseTitulo.includes('wine')) return wine ;
+    if (lowerCaseTitulo.includes('pago')) return circleDollar;
     return null;
 };
-
 /**
  * Componente genérico para renderizar una tarjeta de artículo.
  * @param {object} articulo - El objeto de datos del artículo.
  */
 const CardGeneric = ({ articulo }) => {
-    const { Titulo, Img, campos, id_Articulo } = articulo;
-    const cardImgUrl = `https://www.tucumanturismo.gob.ar/public/img/listas/${Img}`;
-    const articuloUrl = campos?.find(c => c.Url)?.Url || (id_Articulo ? `/articulos/${id_Articulo}` : null);
-
+    const { Titulo, Img, campos, id_ListaCard } = articulo;    
+    // Construye la ruta de la imagen asumiendo que el archivo está en la carpeta /public/img/listas
+    const cardImgUrl = `public/img/listas/${Img}`;
+    // Encuentra la URL del artículo si existe en los campos o en la propiedad id_Articulo
+    const articuloUrl = campos?.find(c => c.Url)?.Url || (id_ListaCard ? `/articulos/${id_ListaCard}` : null);
     return (
         <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden flex flex-col h-full">
             <div className="relative h-48 sm:h-56 w-full">
@@ -67,16 +62,12 @@ const CardGeneric = ({ articulo }) => {
                         {campos?.map((campo, index) => (
                             <li key={index} className="flex items-start">
                                 {getIcon(campo.Titulo) && (
-                                   
-                                    <img
-                                        src={getIcon(campo.Titulo)}
-                                        alt={campo.Titulo}
-                                        className="text-gray-500 mr-3 mt-1 w-4 h-4 flex-shrink-0"
-                                    />
+                                    <img icon={getIcon(campo.Titulo)} className="text-gray-500 mr-3 mt-1 w-4 h-4 flex-shrink-0" />
                                 )}
                                 <div className="flex-grow">
                                     <span className="font-semibold text-gray-800">{campo.Titulo}:</span>
                                     <span className="ml-2">
+                                        {/* Renderiza un enlace si el campo tiene una URL */}
                                         {campo.Url ? (
                                             <a href={campo.Url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
                                                 {campo.Texto || campo.Url}
@@ -91,6 +82,7 @@ const CardGeneric = ({ articulo }) => {
                     </ul>
                 </div>
                 
+                {/* Botón condicional para enlaces externos, ahora más dinámico */}
                 {articuloUrl && (
                     <div className="mt-4">
                         <a
