@@ -26,7 +26,7 @@ export default function EventosHome() {
 
     }, [eventos, isLoading, isFetching, error]);
     return (
-        <div className='mb-40'>
+        <div className='mb-10'>
             <Carousel
                 autoPlay={false}
                 showIndicators={false}

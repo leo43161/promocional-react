@@ -57,7 +57,7 @@ export default function Index() {
       <div className='mb-0'>
         <Itinerarios />
       </div>
-      <div>
+      <div className='mb-10'>
         <div>
           <a href="https://www.tucumanturismo.gob.ar/articulos/articulo/963/septiembre-mes-del-turismo-2025" target="_blank">
             <img src={process.env.URL_IMG_LOCAL + "/images/banners/banner-mes-del-turismo-1900-x-450.jpg"} alt="Banner de Invierno" />
@@ -70,14 +70,33 @@ export default function Index() {
             />
           </a>
         </div>
+        <div>
+          <a href="https://www.tucumanturismo.gob.ar/articulos/articulo/969/juegos-argentinos-en-altura-vientos-calchaquies-2025" target="_blank" rel="noopener noreferrer">
+            <ResponsiveVideo
+              desktopSrc="video/Calchaqui_Banner.mp4"
+            />
+          </a>
+        </div>
       </div>
-      <div className='mb-20'>
+      <div>
+        <div className='md:w-11/13 w-11/13 mx-auto'>
+          <div className='relative flex md:justify-center justify-between items-center'>
+            <h1 className="md:text-5xl text-4xl mb-7 text-gray-500/70">{currentContent.featuredEvents}</h1>
+            <div className='md:absolute right-0 mb-7 md:pe-7'>
+              <a href={eventsLink}>
+                <Button className='shadow-lg' size='sm'>
+                  {currentContent.learnMore}
+                </Button>
+              </a>
+            </div>
+          </div>
+        </div>
+        <EventosHome />
+      </div>
+
+      {/* <div className='mb-20'>
         <Entumesa />
-      </div>
-      <div className='md:w-11/13 lg:w-10/13 w-full mx-auto mb-20'>
-        <h1 className="text-5xl mb-12 text-center text-gray-500/70">{currentContent.unmissable}</h1>
-        <Imperdible />
-      </div>
+      </div> */}
       <div className='mb-10'>
         <BlogHome />
       </div>
@@ -89,21 +108,11 @@ export default function Index() {
           <img src={`${process.env.URL_LOCAL_SERVER}${process.env.URL_LOCAL}/images/banners/TeatroMercedesSosa-desktop.jpg`} className='w-full' alt="Banner Teatro Mercedes Sosa" />
         </a>
       </div>
-      <div className='md:w-11/13 w-11/13 mx-auto'>
-        <div className='relative flex md:justify-center justify-between items-center'>
-          <h1 className="md:text-5xl text-4xl mb-7 text-gray-500/70">{currentContent.featuredEvents}</h1>
-          <div className='md:absolute right-0 mb-7 md:pe-7'>
-            <a href={eventsLink}>
-              <Button className='shadow-lg' size='sm'>
-                {currentContent.learnMore}
-              </Button>
-            </a>
-          </div>
-        </div>
-        <div>
-          <EventosHome />
-        </div>
-      </div>
+
+      {/* <div className='md:w-11/13 lg:w-10/13 w-full mx-auto mb-20'>
+        <h1 className="text-5xl mb-12 text-center text-gray-500/70">{currentContent.unmissable}</h1>
+        <Imperdible />
+      </div> */}
     </div>
   )
 }

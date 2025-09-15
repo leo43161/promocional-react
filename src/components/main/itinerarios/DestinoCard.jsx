@@ -104,10 +104,8 @@ export default function DestinoCard({ }) {
       <div className="mb-0">
         {errorDest ? <div>
           <div
-            key={index}
             className={`font-700 rounded-md text-red-500 text-2xl lg:text-4xl w-fit px-4 m-1 inline-block`}
           >
-            Error al cargar los destinos
           </div>
         </div> :
           loadingDestinos ?
