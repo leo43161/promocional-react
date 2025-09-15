@@ -59,7 +59,7 @@ export default function Index() {
       </div>
       <div className='mb-10'>
         <div>
-          <a href="https://www.tucumanturismo.gob.ar/articulos/articulo/963/septiembre-mes-del-turismo-2025" target="_blank">
+          <a href="https://www.tucumanturismo.gob.ar/files/AGENDA DE ACTIVIDADES mes del turismo.pdf" target="_blank">
             <img src={process.env.URL_IMG_LOCAL + "/images/banners/banner-mes-del-turismo-1900-x-450.jpg"} alt="Banner de Invierno" />
           </a>
         </div>
