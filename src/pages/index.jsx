@@ -108,7 +108,6 @@ export default function Index() {
           <img src={`${process.env.URL_LOCAL_SERVER}${process.env.URL_LOCAL}/images/banners/TeatroMercedesSosa-desktop.jpg`} className='w-full' alt="Banner Teatro Mercedes Sosa" />
         </a>
       </div>
-
       {/* <div className='md:w-11/13 lg:w-10/13 w-full mx-auto mb-20'>
         <h1 className="text-5xl mb-12 text-center text-gray-500/70">{currentContent.unmissable}</h1>
         <Imperdible />
