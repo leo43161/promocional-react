@@ -36,7 +36,7 @@ export default function OficinasPage() {
           speed={0.2}
           minHeight="h-96 md:h-[58vh] xl:h-[45vh]"
           className=""
-          imageUrl="https://www.tucumanturismo.gob.ar/public/img/planviaje/alquilerautos.webp"
+          imageUrl="https://www.tucumanturismo.gob.ar/public/img/1920x650-Tucuman-Oficinas-Desktop_t4eelyer_02-07-2024.jpg"
         >
           <div className="container mx-auto h-full text-white flex flex-col justify-end">
             <div className="w-11/12 mx-auto pt-5">

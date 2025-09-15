@@ -91,7 +91,7 @@ const CardGeneric = ({ articulo }) => {
                     </ul>
                 </div>
                 
-                {articuloUrl && (
+                {/*{articuloUrl && (
                     <div className="mt-4">
                         <a
                             href={articuloUrl}
@@ -102,7 +102,7 @@ const CardGeneric = ({ articulo }) => {
                             Ver más
                         </a>
                     </div>
-                )}
+                )}*/}
             </div>
         </div>
     );
