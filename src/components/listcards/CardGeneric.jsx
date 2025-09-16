@@ -34,6 +34,7 @@ const getIcon = (titulo) => {
     if (lowerCaseTitulo.includes('teléfono')) return iconsCard.phone;
     if (lowerCaseTitulo.includes('mail')) return iconsCard.mail;
     if (lowerCaseTitulo.includes('horarios') || lowerCaseTitulo.includes('atención')) return iconsCard.clock;
+    if (lowerCaseTitulo.includes('duracion') || lowerCaseTitulo.includes('atención')) return iconsCard.clock;
     if (lowerCaseTitulo.includes('fecha')) return iconsCard.calendarDays;
     if (lowerCaseTitulo.includes('instagram')) return iconsCard.instagram;
     if (lowerCaseTitulo.includes('wine')) return iconsCard.wine;
