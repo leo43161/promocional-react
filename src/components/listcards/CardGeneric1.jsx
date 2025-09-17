@@ -1,17 +1,22 @@
 // src/components/listcards/CardGeneric.jsx
 import React from 'react';
+// Eliminamos la importación de FontAwesomeIcon y los iconos individuales, ya que ahora usarás un <img>
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+// Eliminamos la importación de 'next/router' porque no se usa aquí
+// import { userRoute} from 'next/router';
 
 const iconsCard = {
     calendarDays: "/icons/listas/calendar-days.svg",
     circleAlert: "/icons/listas/circle-alert.svg",
-    circleDollar: "/icons/listas/circle-dollar-sign.svg",
+    circleDollar:"/icons/listas/circle-dollar-sign.svg",
     clock: "/icons/listas/clock.svg",
     diamondMinus: "/icons/listas/diamond-minus.svg",
-    instagram: "/icons/listas/instagram.svg",
+    instagram:"/icons/listas/instagram.svg",
     locationDot: "/icons/listas/location-dot.svg",
     mail: "/icons/listas/mail.svg",
-    mapPin: "/icons/listas/map-pin.svg",
-    mapPinned: "/icons/listas/map-pinned.svg",
+    mapPin:"/icons/listas/map-pin.svg",
+    mapPinned:"/icons/listas/map-pinned.svg",
     phone: "/icons/listas/phone.svg",
     triangleAlert: "/icons/listas/triangle-alert.svg",
     wine: "/icons/listas/wine.svg",
@@ -23,29 +28,21 @@ const iconsCard = {
  */
 const getIcon = (titulo) => {
     const lowerCaseTitulo = titulo?.toLowerCase();
+    if (!lowerCaseTitulo) return null;
 
-    if (!lowerCaseTitulo) {
-        return null;
-    }
-
-    const iconMap = new Map([
-        [['dirección', 'ubicación', 'dónde'], iconsCard.locationDot],
-        [['teléfono', 'contacto'], iconsCard.phone],
-        [['mail'], iconsCard.mail],
-        [['horarios', 'atención', 'duración'], iconsCard.clock],
-        [['fecha', 'cuándo'], iconsCard.calendarDays],
-        [['instagram'], iconsCard.instagram],
-        [['wine'], iconsCard.wine],
-        [['pago', 'entrada'], iconsCard.circleDollar],
-        [['recomendaciones'], iconsCard.triangleAlert],
-    ]);
-
-    for (const [keywords, iconPath] of iconMap) {
-        if (keywords.some(keyword => lowerCaseTitulo.includes(keyword))) {
-            return iconPath;
-        }
-    }
-
+    if (lowerCaseTitulo.includes('dirección')|| lowerCaseTitulo.includes ('ubicación')) return iconsCard.locationDot;
+    if (lowerCaseTitulo.includes('teléfono')|| lowerCaseTitulo.includes ('contacto')) return iconsCard.phone;
+    if (lowerCaseTitulo.includes('mail')) return iconsCard.mail;
+    if (lowerCaseTitulo.includes('horarios') || lowerCaseTitulo.includes ('atención')) return iconsCard.clock;  
+      if(lowerCaseTitulo.includes('duración')) return iconsCard.clock;
+    if (lowerCaseTitulo.includes('fecha')) return iconsCard.calendarDays;
+    if (lowerCaseTitulo.includes('instagram')) return iconsCard.instagram;
+    if (lowerCaseTitulo.includes('wine')) return iconsCard.wine;
+    if (lowerCaseTitulo.includes('pago')) return iconsCard.circleDollar;
+    if (lowerCaseTitulo.includes('entrada')) return iconsCard.circleDollar;
+    if (lowerCaseTitulo.includes('recomendaciones')) return iconsCard. triangleAlert;
+    if (lowerCaseTitulo.includes('cuándo')) return iconsCard.calendarDays;
+    if (lowerCaseTitulo.includes('dónde')) return iconsCard.locationDot;
     return null;
 };
 
@@ -75,6 +72,7 @@ const CardGeneric = ({ articulo }) => {
                         {campos?.map((campo, index) => (
                             <li key={index} className="flex items-start">
                                 {getIcon(campo.Titulo) && (
+                                   
                                     <img
                                         src={getIcon(campo.Titulo)}
                                         alt={campo.Titulo}
@@ -97,6 +95,19 @@ const CardGeneric = ({ articulo }) => {
                         ))}
                     </ul>
                 </div>
+                
+                {/*{articuloUrl && (
+                    <div className="mt-4">
+                        <a
+                            href={articuloUrl}
+                            target={articuloUrl.startsWith('http') ? '_blank' : '_self'}
+                            rel={articuloUrl.startsWith('http') ? 'noopener noreferrer' : ''}
+                            className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 transition-colors duration-300 w-full"
+                        >
+                            Ver más
+                        </a>
+                    </div>
+                )}*/}
             </div>
         </div>
     );
