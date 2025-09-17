@@ -9,7 +9,7 @@ import React from 'react';
 const iconsCard = {
     calendarDays: "/icons/listas/calendar-days.svg",
     circleAlert: "/icons/listas/circle-alert.svg",
-    circleDollar:"/icons/listas/circle-dollar.svg",
+    circleDollar:"/icons/listas/circle-dollar-sign.svg",
     clock: "/icons/listas/clock.svg",
     diamondMinus: "/icons/listas/diamond-minus.svg",
     instagram:"/icons/listas/instagram.svg",
@@ -30,15 +30,19 @@ const getIcon = (titulo) => {
     const lowerCaseTitulo = titulo?.toLowerCase();
     if (!lowerCaseTitulo) return null;
 
-    if (lowerCaseTitulo.includes('dirección')) return iconsCard.locationDot;
-    if (lowerCaseTitulo.includes('teléfono')) return iconsCard.phone;
+    if (lowerCaseTitulo.includes('dirección')|| lowerCaseTitulo.includes ('ubicación')) return iconsCard.locationDot;
+    if (lowerCaseTitulo.includes('teléfono')|| lowerCaseTitulo.includes ('contacto')) return iconsCard.phone;
     if (lowerCaseTitulo.includes('mail')) return iconsCard.mail;
-    if (lowerCaseTitulo.includes('horarios') || lowerCaseTitulo.includes('atención')) return iconsCard.clock;
-    if (lowerCaseTitulo.includes('duracion') || lowerCaseTitulo.includes('atención')) return iconsCard.clock;
+    if (lowerCaseTitulo.includes('horarios') || lowerCaseTitulo.includes ('atención')) return iconsCard.clock;  
+      if(lowerCaseTitulo.includes('duración')) return iconsCard.clock;
     if (lowerCaseTitulo.includes('fecha')) return iconsCard.calendarDays;
     if (lowerCaseTitulo.includes('instagram')) return iconsCard.instagram;
     if (lowerCaseTitulo.includes('wine')) return iconsCard.wine;
     if (lowerCaseTitulo.includes('pago')) return iconsCard.circleDollar;
+    if (lowerCaseTitulo.includes('entrada')) return iconsCard.circleDollar;
+    if (lowerCaseTitulo.includes('recomendaciones')) return iconsCard. triangleAlert;
+    if (lowerCaseTitulo.includes('cuándo')) return iconsCard.calendarDays;
+    if (lowerCaseTitulo.includes('dónde')) return iconsCard.locationDot;
     return null;
 };
 
@@ -62,9 +66,9 @@ const CardGeneric = ({ articulo }) => {
             </div>
             <div className="p-5 flex flex-col justify-between flex-grow">
                 <div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">{Titulo}</h3>
+                    <h3 className="text-2xl font-bold text-secondary mb-2">{Titulo}</h3>
                     <hr className="mb-4 border-gray-200" />
-                    <ul className="space-y-3 text-sm text-gray-700">
+                    <ul className="space-y-3 text-xl text-gray-700">
                         {campos?.map((campo, index) => (
                             <li key={index} className="flex items-start">
                                 {getIcon(campo.Titulo) && (
@@ -79,7 +83,7 @@ const CardGeneric = ({ articulo }) => {
                                     <span className="font-semibold text-gray-800">{campo.Titulo}:</span>
                                     <span className="ml-2">
                                         {campo.Url ? (
-                                            <a href={campo.Url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                                            <a href={campo.Url} target="_blank" rel="noopener noreferrer" className=" text-gray-700 hover:text-primary ">
                                                 {campo.Texto || campo.Url}
                                             </a>
                                         ) : (
