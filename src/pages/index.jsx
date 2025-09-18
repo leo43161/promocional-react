@@ -12,6 +12,7 @@ import dynamic from 'next/dynamic';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router'; // Importar useRouter
 import Button from '../components/common/Button';
+import ContadorFit from '@/components/main/ContadorFit';
 
 // Objeto para manejar los textos en diferentes idiomas
 const content = {
@@ -47,11 +48,14 @@ export default function Index() {
             mobileSrc="video/Tucuman_Tiene_Todo_M_INV.mp4"
           />
         </a> */}
-        <div>
+        <div className='relative'>
           <ResponsiveVideo
             desktopSrc="video/Tucuman_Tiene_Todo.mp4"
             mobileSrc="video/Tucuman_Tiene_Todo_M.mp4"
           />
+          <div className='md:bottom-4 md:right-4 md:absolute md:w-6/12 flex justify-end w-full'>
+            <ContadorFit></ContadorFit>
+          </div>
         </div>
       </div>
       <div className='mb-0'>

@@ -38,7 +38,7 @@ export default function Alojamientos() {
     }, [filter]);
 
     if (error) return <p>Hubo un error al cargar los alojamientos</p>;
-
+console.log(alojamientos);
     const totalItems = alojamientos?.result[0]?.total ? parseInt(alojamientos?.result[0]?.total) : 0;
     // Determinar si estamos en un estado de carga (inicial o actualización)
     const loading = isLoading || isFetching;
