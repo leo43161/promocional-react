@@ -17,6 +17,7 @@ export default function Itinerario() {
   const router = useRouter();
   const { id } = router.query;
   const language = getCurrentLanguage(router.query);
+  console.log(language);
   const isSpanish = language.code === 'ES';
 
   const ItinerarioViewer = dynamic(
