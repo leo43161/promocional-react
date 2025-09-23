@@ -52,11 +52,12 @@ const getIcon = (titulo) => {
 /**
  * Componente genérico para renderizar una tarjeta de artículo.
  * @param {object} articulo - El objeto de datos del artículo.
+ * @param {boolean} isCiclodificultad - Indica si la tarjeta pertenece a cicloturismo.
  */
-const CardGeneric = ({ articulo }) => {
+const CardGeneric = ({ articulo, isCiclodificultad }) => {
     const { Titulo, Img, campos, id_Articulo } = articulo;
     const cardImgUrl = `https://www.tucumanturismo.gob.ar/public/img/listas/${Img}`;
-    const articuloUrl = campos?.find(c => c.Url)?.Url || (id_Articulo ? `/articulos/${id_Articulo}` : null);
+    const articuloUrl = campos?.find(c => c.Url)?.Url || (id_Articulo ? `/articulos/articulo/${id_Articulo}` : null);
 
     return (
         <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden flex flex-col h-full">
@@ -97,6 +98,19 @@ const CardGeneric = ({ articulo }) => {
                         ))}
                     </ul>
                 </div>
+                {/* Botón condicional para enlaces externos, ahora más dinámico */}
+                {isCiclodificultad && articuloUrl && (
+                    <div className="mt-4">
+                        <a
+                            href={articuloUrl}
+                            target={articuloUrl.startsWith('http') ? '_blank' : '_self'}
+                            rel={articuloUrl.startsWith('http') ? 'noopener noreferrer' : ''}
+                            className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-lg font-medium rounded-md shadow-sm text-white bg-secondary hover:bg-primary transition-colors duration-300 w-full"
+                        >
+                            Conocé más aquí...
+                        </a>
+                    </div>
+                )}
             </div>
         </div>
     );

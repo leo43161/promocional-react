@@ -50,6 +50,8 @@ const listBackendList = {
 export default function ListaGenericaPage() {
   const router = useRouter();
   const { id } = router.query;
+  // ⚙️ Lógica para determinar si la lista es de cicloturismo
+    const isCiclodificultad = id?.includes('ciclodificultad');
 
   //Se busca el ID numérico del backend usando la clave de la URL
   const backendListId = listBackendList[id] || null;
@@ -111,7 +113,7 @@ export default function ListaGenericaPage() {
         <div className="row g-4 mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {articulos.length > 0 ? (
             articulos.map((articulo) => (
-              <CardGeneric key={articulo.id_LC} articulo={articulo} />
+              <CardGeneric key={articulo.id_LC} articulo={articulo} isCiclodificultad={isCiclodificultad} />
             ))
           ) : (
             <div className="col-span-full text-center text-muted">
