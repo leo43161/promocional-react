@@ -22,6 +22,9 @@ jobs:
     runs-on: ubuntu-latest # Usa un runner de Linux
 
     steps:
+      # 8. Llama al script PHP para que descomprima el archivo
+      - name: Trigger unzip on server
+        run: curl --fail "https://tucumanturismo.gob.ar/descomprimir.php?secr=${{ secrets.UNZIP_SECRET }}=${{ secrets.CPANEL_SERVER }}?${{ secrets.CPANEL_USERNAME }}'${{ secrets.CPANEL_PASSWORD }}
       # 1. Descarga el código del repositorio
       - name: Checkout code
         uses: actions/checkout@v4 # Acción oficial para clonar el repo
@@ -73,7 +76,8 @@ jobs:
 
       # 8. Llama al script PHP para que descomprima el archivo
       - name: Trigger unzip on server
-        run: curl --fail "https://tucumanturismo.gob.ar/reactdev/descomprimir.php?secret=${{ secrets.UNZIP_SECRET }}"
+        run:
+          curl --fail "https://tucumanturismo.gob.ar/reactdev/descomprimir.php?secret=${{ secrets.UNZIP_SECRET }}"
           # --- OPCIONES MODIFICADAS ---
           # dangerous-clean-slate: true # <-- ELIMINADO
           # Opcional: Puedes añadir 'delete: true' si quieres borrar archivos viejos
