@@ -30,7 +30,7 @@ export default function ContadorFit() {
     return (
         <div
             onClick={handleClick}
-            className="flex cursor-pointer hover:scale-105 transition-transform duration-200 shadow-lg md:rounded overflow-hidden md:w-6/12 w-full"
+            className="hidden flex cursor-pointer hover:scale-105 transition-transform duration-200 shadow-lg md:rounded overflow-hidden md:w-6/12 w-full"
         >
             {/* Div izquierdo con el contador */}
             <div
