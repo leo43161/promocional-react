@@ -15,7 +15,7 @@ const SocialIcons = ({ url, title, className = '' }) => {
     const shareLinks = {
         facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
         twitter: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
-        // WhatsApp: usa el protocolo wa.me y necesita un texto que incluya la URL
+        // WhatsApp: usa el protocolo wa.me y necesita un texto que incluya la URL 
         // Las previsualizaciones en WhatsApp se generan automáticamente si la URL tiene las meta OG correctas.
         whatsapp: `https://api.whatsapp.com/send?text=${encodedTitle}%0A${encodedUrl}`, // %0A es un salto de línea codificado
     };
