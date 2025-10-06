@@ -52,15 +52,14 @@ const getIcon = (titulo) => {
 /**
  * Componente genérico para renderizar una tarjeta de artículo.
  * @param {object} articulo - El objeto de datos del artículo.
- * @param {boolean} isCiclodificultad - Indica si la tarjeta pertenece a cicloturismo.
  */
-const CardGeneric = ({ articulo, isCiclodificultad }) => {
+const CardGeneric = ({ articulo }) => {
     const { Titulo, Img, campos, id_Articulo } = articulo;
     const cardImgUrl = `https://www.tucumanturismo.gob.ar/public/img/listas/${Img}`;
-    const articuloUrl = campos?.find(c => c.Url)?.Url || (id_Articulo ? `/articulos/articulo/${id_Articulo}` : null);
+    const articuloUrl = (id_Articulo ? `/articulos/articulo/${id_Articulo}` : null);
 
     return (
-        <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden flex flex-col h-full">
+        <div className="bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden flex flex-col h-full group/item relative">
             <div className="relative h-48 sm:h-56 w-full">
                 <img
                     src={cardImgUrl}
@@ -70,23 +69,23 @@ const CardGeneric = ({ articulo, isCiclodificultad }) => {
             </div>
             <div className="p-5 flex flex-col justify-between flex-grow">
                 <div>
-                    <h3 className="text-2xl font-bold text-secondary mb-2">{Titulo}</h3>
+                    <h3 className="text-3xl font-bold text-secondary mb-2">{Titulo}</h3>
                     <hr className="mb-4 border-gray-200" />
-                    <ul className="space-y-3 text-xl text-gray-700">
+                    <ul className="space-y-2 text-xl text-gray-700">
                         {campos?.map((campo, index) => (
                             <li key={index} className="flex items-start">
                                 {getIcon(campo.Titulo) && (
                                     <img
                                         src={getIcon(campo.Titulo)}
                                         alt={campo.Titulo}
-                                        className="text-gray-500 mr-3 mt-1 w-4 h-4 flex-shrink-0"
+                                        className="text-gray-500 mr-1.5 size-5 flex-shrink-0 mt-1"
                                     />
                                 )}
                                 <div className="flex-grow">
                                     <span className="font-semibold text-gray-800">{campo.Titulo}:</span>
-                                    <span className="ml-2">
+                                    <span className="ml-1.5">
                                         {campo.Url ? (
-                                            <a href={campo.Url} target="_blank" rel="noopener noreferrer" className=" text-gray-700 hover:text-primary ">
+                                            <a href={campo.Url} target="_blank" rel="noopener noreferrer" className=" group/link text-primary hover:text-primary underline z-10 relative">
                                                 {campo.Texto || campo.Url}
                                             </a>
                                         ) : (
@@ -99,16 +98,17 @@ const CardGeneric = ({ articulo, isCiclodificultad }) => {
                     </ul>
                 </div>
                 {/* Botón condicional para enlaces externos, ahora más dinámico */}
-                {isCiclodificultad && articuloUrl && (
+                {articuloUrl && (
                     <div className="mt-4">
                         <a
                             href={articuloUrl}
                             target={articuloUrl.startsWith('http') ? '_blank' : '_self'}
                             rel={articuloUrl.startsWith('http') ? 'noopener noreferrer' : ''}
-                            className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-lg font-medium rounded-md shadow-sm text-white bg-secondary hover:bg-primary transition-colors duration-300 w-full"
+                            className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-lg font-medium rounded-md shadow-sm text-white bg-secondary hover:bg-primary transition-colors duration-300 w-full group-hover/edit:bg-secondary group-hover/item:bg-primary z-0"
                         >
                             Conocé más aquí...
                         </a>
+                        <a className='absolute top-0 left-0 w-full h-full' href={articuloUrl}></a>
                     </div>
                 )}
             </div>

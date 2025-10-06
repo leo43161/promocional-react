@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import { generateSlug, languages } from '@/utils';
 import HeaderSearch from './HeaderSearch';
 import { ReactLenis } from 'lenis/react';
+import { idListList } from '@/data/listas';
 
 // --- Opciones de Idioma (AHORA CON ID) ---
 // AJUSTA los 'id' según los valores que espera tu API para cada idioma
@@ -30,6 +31,7 @@ const redirectSubsecc = [
     { idSubseccion: 184, articulo: "eventos" },
     { idSubseccion: 40, articulo: "gastronomia" },
 ];
+const listOfLists = idListList();
 
 // --- Componente Header ---
 export default function Header() {
@@ -92,6 +94,7 @@ export default function Header() {
     // --- Transformar datos de la API al formato del menú (Memoizado) ---
     // se recalculará automáticamente cuando seccionesApi cambie (debido al cambio de selectedLangId)
     const dynamicMenuItems = useMemo(() => {
+        console.log('menuData', menuData);
         if (isLoading || isFetching || error || !menuData || !menuData.result) {
             return [];
         }
@@ -127,15 +130,14 @@ export default function Header() {
 
             const sections = Object.keys(groupedBySection).map(sectionName => {
                 const sectionItems = groupedBySection[sectionName].subsecciones;
-
-
                 const subsecciones = sectionItems
                     .map(sub => {
                         let href = '#'; // Default href
                         const redirectSubseccion = redirectSubsecc.find(redirec => redirec.idSubseccion === parseInt(sub.idSubseccion));
 
-
-                        if (sub.primerArticuloSubseccion && parseInt(sub.cantidadArticulos) === 1 && !redirectSubseccion) {
+                        if (sub.lista && listOfLists[parseInt(sub.lista)]) {
+                            href = `/listas/${listOfLists[parseInt(sub.lista)]}`;
+                        } else if (sub.primerArticuloSubseccion && parseInt(sub.cantidadArticulos) === 1 && !redirectSubseccion) {
                             href = `/articulos/articulo/${sub.primerArticuloSubseccion}/${generateSlug(sub.nombrePrimerArticulo)}`;
                         } else if (sub.idSubseccion) {
                             href = redirectSubseccion

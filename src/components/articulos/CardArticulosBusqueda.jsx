@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { generateSlug } from "@/utils";
+import { idListList } from "@/data/listas";
+import { List } from "lucide-react";
 
 const CardSkeleton = () => {
   return (
@@ -45,6 +47,8 @@ const CardSkeleton = () => {
 
 const CardArticulosBusqueda = ({ articulo, isLoading = false }) => {
   const [tags, setTags] = useState([]);
+  const listOfLists = idListList();
+
 
   useEffect(() => {
     if (articulo?.tags) {
@@ -54,10 +58,15 @@ const CardArticulosBusqueda = ({ articulo, isLoading = false }) => {
   }, [articulo]);
 
   if (!articulo) return null;
-  const { idArticulo, nombre, imagen, imagenMovil, copete } = articulo;
+  const { idArticulo, nombre, imagen, imagenMovil, copete, idioma } = articulo;
   console.log(articulo);
+  const idiomaCode = parseInt(idioma) !== 1 && languages.find(lang => lang.id === parseInt(idioma))?.code;
+  console.log(articulo);
+  const urlArt = listOfLists[parseInt(articulo.lista)] ?
+    `${process.env.URL_LOCAL}/listas/${listOfLists[parseInt(articulo.lista)]}${idiomaCode ? `?lang=${idiomaCode}` : ''}` :
+    `${process.env.URL_LOCAL}/articulos/articulo/${idArticulo}/${generateSlug(nombre)}${idiomaCode ? `?lang=${idiomaCode}` : ''}`
   return isLoading ? <CardSkeleton /> : (
-    <a href={`articulos/articulo/${idArticulo}/${generateSlug(nombre)}`} className="text-primary font-bold text-sm flex items-center">
+    <a href={urlArt} className="text-primary font-bold text-sm flex items-center">
       <div className="relative flex flex-col md:flex-row w-full my-6 bg-white shadow-sm border border-slate-200 rounded-lg ">
         <div className="md:flex">
           <div className="relative md:h-full md:min-w-70 md:max-w-70 h-48">
@@ -84,10 +93,17 @@ const CardArticulosBusqueda = ({ articulo, isLoading = false }) => {
                   ))}
                 </div>
               )}
-
-              <h4 className="mb-2 text-slate-800 text-4xl font-semibold">
-                {nombre}
-              </h4>
+              <div className="flex items-center gap-2">
+                <h4 className="mb-0 text-slate-800 text-4xl font-semibold">
+                  {nombre}
+                </h4>
+                {listOfLists[parseInt(articulo.lista)] && <>
+                  <div className="bg-secondary text-white text-lg px-3 py-1 rounded-full flex items-center gap-1">
+                    <List className="size-5" />
+                    Lista
+                  </div>
+                </>}
+              </div>
 
               <p className="mb-6 text-slate-600 leading-normal font-light line-clamp-3">
                 {copete}
