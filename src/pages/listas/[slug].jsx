@@ -38,14 +38,16 @@ export async function getStaticProps(context) {
     const apiBaseUrl = process.env.URL_SERVER || 'URL_POR_DEFECTO_DE_TU_API';
     const siteBaseUrl = process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL || '';
     let listaData = null;
-console.log(`${apiBaseUrl}listas/${id}`);
     try {
         const res = await fetch(`${apiBaseUrl}listas?lista=${id}`);
+        console.log(res);
         if (!res.ok) {
             if (res.status === 404) return { notFound: true };
             throw new Error(`API Error Lista ${id}: ${res.status}`);
         }
         listaData = await res.json();
+        console.log("listaData")
+        console.log(listaData)
     } catch (error) {
         console.error(`Error fetching lista for ID ${id}:`, error);
         return { notFound: true };
