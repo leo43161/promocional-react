@@ -14,7 +14,7 @@ import { useRouter } from 'next/router'; // Importar useRouter
 import Button from '../components/common/Button';
 import ContadorFit from '@/components/main/ContadorFit';
 
-// Objeto para manejar los textos en diferentes idiomas
+// Objeto para manejar los textos en diferentes idiomas #
 const content = {
   es: {
     unmissable: "IMPERDIBLES",
