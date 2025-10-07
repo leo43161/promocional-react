@@ -2,15 +2,20 @@ import { useState, useEffect } from 'react';
 // Importamos las funciones directamente desde nuestro archivo de utilidades
 import { encriptar, getCookie, setCookie } from '../utils/cookie'; 
 import { useGetIdSessionMutation } from '@/redux/services/itinerarioService';
+import { useRouter } from 'next/router';
 
 const CookieConsent = () => {
   const [showBanner, setShowBanner] = useState(false);
   const [getIdSession] = useGetIdSessionMutation();
+  const router = useRouter();
 
   // Función para generar un ID de sesión aleatorio y simple
   const generateSessionId = async () => {
+    const urlFull = window.location.href;
     console.log('Generando ID de sesión...');
-    const response = await getIdSession().unwrap();
+    console.log(window.location.href);
+    console.log(router.asPath);
+    const response = await getIdSession(urlFull).unwrap();
     return response.result[0].id;
   };
 

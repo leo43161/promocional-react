@@ -15,10 +15,11 @@ export default function Privacidad() {
     const [getIdSession] = useGetIdSessionMutation();
 
     const generateSessionId = async () => {
-    console.log('Generando ID de sesión...');
-    const response = await getIdSession().unwrap();
-    return response.result[0].id;
-  };
+        const urlFull = window.location.href;
+        console.log('Generando ID de sesión...');
+        const response = await getIdSession(urlFull).unwrap();
+        return response.result[0].id;
+    };
 
     // Función para comprobar el estado de la cookie
     const checkCookieStatus = () => {

@@ -64,7 +64,8 @@ export default function PDFGeneratorButton() {
   const handleCookieAndSave = async () => {
     let id_session;
     const cookie = getCookie('__cookieSesion');
-    const idSession = await getIdSession().unwrap();
+    const urlItinerario = window.location.href;
+    const idSession = await getIdSession(urlItinerario + "/itinerario").unwrap();
     if (!cookie) {
       id_session = idSession.result[0].id;
       console.log(id_session);

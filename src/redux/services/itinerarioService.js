@@ -17,9 +17,9 @@ export const itinerarioService = createApi({
             }),
         }),
         getIdSession: builder.mutation({
-            query: () => ({
+            query: (direccion = "itinerarios") => ({
                 url: 'session',
-                params: { direccion: "itinerarios" },
+                params: { direccion },
             }),
         }),
     }),
