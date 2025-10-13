@@ -74,13 +74,13 @@ export default function Index() {
             />
           </a>
         </div>
-        <div>
+        {/* <div>
           <a href="https://www.tucumanturismo.gob.ar/articulos/articulo/969/juegos-argentinos-en-altura-vientos-calchaquies-2025" target="_blank" rel="noopener noreferrer">
             <ResponsiveVideo
               desktopSrc="video/Calchaqui_Banner.mp4"
             />
           </a>
-        </div>
+        </div> */}
       </div>
       <div>
         <div className='md:w-11/13 w-11/13 mx-auto'>
