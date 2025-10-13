@@ -12,9 +12,6 @@ const CookieConsent = () => {
   // Función para generar un ID de sesión aleatorio y simple
   const generateSessionId = async () => {
     const urlFull = window.location.href;
-    console.log('Generando ID de sesión...');
-    console.log(window.location.href);
-    console.log(router.asPath);
     const response = await getIdSession(urlFull).unwrap();
     return response.result[0].id;
   };

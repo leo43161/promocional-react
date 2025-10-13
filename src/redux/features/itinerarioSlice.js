@@ -182,7 +182,6 @@ const itinerariosSlice = createSlice({
                 idCircuito ?
                     [...circuitos, ...circuitosEN].find((c) => c.id === idCircuito).name :
                     state.value.circuitoSelected.name;
-            console.log(nameCircuito);
             const existe = state.value.favoritos[nameCircuito][type].find((favorito) => favorito.id === item.id);
             if (existe) {
                 state.value.favoritos[nameCircuito][type] = state.value.favoritos[nameCircuito][type].filter(
@@ -196,7 +195,6 @@ const itinerariosSlice = createSlice({
             /* const allDestinos = state.value.favoritos.map((fav) => fav.destinos).flat(); */
             const favs = state.value.favoritos;
             const allDestinos = Object.values(favs).flatMap(category => category.destinos || []);
-            console.log(allDestinos);
             /* ESTO ME DEVUELVE EL PRIMERO OBJETO BIEN Y DESPUES SIGUE CON Proxy(Object), esta bien. console.log(allDestinos) = [Proxy(Object), Proxy(Object), {…}] */
             const newProgress = (allDestinos.length / 6) * 100;
             state.value.progress = newProgress;

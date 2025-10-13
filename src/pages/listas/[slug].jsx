@@ -22,8 +22,6 @@ export async function getStaticPaths() {
         };
     })
         .filter(path => path !== null);
-    console.log("paths");
-    console.log(paths);
     return { paths, fallback: false };
 }
 
@@ -31,23 +29,17 @@ export async function getStaticPaths() {
 export async function getStaticProps(context) {
     const { slug } = context.params;
     const id = listLists[slug] ? listLists[slug] : null;
-    console.log("slug");
-    console.log(slug);
-    console.log(id);
     const imageBaseUrl = process.env.URL_IMG || '';
     const apiBaseUrl = process.env.URL_SERVER || 'URL_POR_DEFECTO_DE_TU_API';
     const siteBaseUrl = process.env.URL_LOCAL_SERVER + process.env.URL_LOCAL || '';
     let listaData = null;
     try {
         const res = await fetch(`${apiBaseUrl}listas?lista=${id}`);
-        console.log(res);
         if (!res.ok) {
             if (res.status === 404) return { notFound: true };
             throw new Error(`API Error Lista ${id}: ${res.status}`);
         }
         listaData = await res.json();
-        console.log("listaData")
-        console.log(listaData)
     } catch (error) {
         console.error(`Error fetching lista for ID ${id}:`, error);
         return { notFound: true };

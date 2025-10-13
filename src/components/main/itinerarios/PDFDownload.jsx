@@ -50,7 +50,6 @@ export default function PDFGeneratorButton() {
   };
 
   useEffect(() => {
-    console.log(instance);
     if (instance.url && !instance.loading) {
       setIsDownloading(false);
       window.open(instance.url, '_blank');
@@ -68,7 +67,6 @@ export default function PDFGeneratorButton() {
     const idSession = await getIdSession(urlItinerario + "/itinerario").unwrap();
     if (!cookie) {
       id_session = idSession.result[0].id;
-      console.log(id_session);
       const cookieData = { permiso: true, id: id_session };
       const encryptedValue = encriptar(JSON.stringify(cookieData));
       setCookie('__cookieSesion', encryptedValue, 60);

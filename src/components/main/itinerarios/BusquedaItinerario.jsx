@@ -20,7 +20,6 @@ const MultimediaRenderer = ({ htmlContent, className }) => {
 export default function BusquedaItinerario() {
     const router = useRouter();
     const lenguaje = getCurrentLanguage(router.query);
-    console.log(lenguaje);
     const dispatch = useDispatch();
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 8;

@@ -17,10 +17,8 @@ const PageTracker = () => {
 
         const handleRouteChange = (url) => {
             const consentCookieRaw = getCookie('__cookieSesion');
-            console.log(consentCookieRaw);
             if (consentCookieRaw) {
                 const cookieDecrypted = JSON.parse(desencriptar(consentCookieRaw));
-                console.log(cookieDecrypted);
                 try {
                     const { permiso, id } = cookieDecrypted;
                     if (permiso === true && id) {

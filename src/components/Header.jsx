@@ -94,7 +94,6 @@ export default function Header() {
     // --- Transformar datos de la API al formato del menú (Memoizado) ---
     // se recalculará automáticamente cuando seccionesApi cambie (debido al cambio de selectedLangId)
     const dynamicMenuItems = useMemo(() => {
-        console.log('menuData', menuData);
         if (isLoading || isFetching || error || !menuData || !menuData.result) {
             return [];
         }

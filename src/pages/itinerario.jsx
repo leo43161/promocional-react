@@ -17,7 +17,6 @@ export default function Itinerario() {
   const router = useRouter();
   const { id } = router.query;
   const language = getCurrentLanguage(router.query);
-  console.log(language);
   const isSpanish = language.code === 'ES';
 
   const ItinerarioViewer = dynamic(
@@ -69,7 +68,6 @@ export default function Itinerario() {
 
   try {
     const dataArray = JSON.parse(data.result[0].ItinerarioJSON);
-    console.log(dataArray);
     const itinerarioDocumento = <ItinerarioMobile data={dataArray} />;
     
     // Check if all arrays within the data are empty

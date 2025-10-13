@@ -59,9 +59,7 @@ const CardArticulosBusqueda = ({ articulo, isLoading = false }) => {
 
   if (!articulo) return null;
   const { idArticulo, nombre, imagen, imagenMovil, copete, idioma } = articulo;
-  console.log(articulo);
   const idiomaCode = parseInt(idioma) !== 1 && languages.find(lang => lang.id === parseInt(idioma))?.code;
-  console.log(articulo);
   const urlArt = listOfLists[parseInt(articulo.lista)] ?
     `${process.env.URL_LOCAL}/listas/${listOfLists[parseInt(articulo.lista)]}${idiomaCode ? `?lang=${idiomaCode}` : ''}` :
     `${process.env.URL_LOCAL}/articulos/articulo/${idArticulo}/${generateSlug(nombre)}${idiomaCode ? `?lang=${idiomaCode}` : ''}`

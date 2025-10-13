@@ -240,7 +240,6 @@ export default function ArticuloPage({ articulo, galleryItems, pdfItems, paralla
 
     const shareUrl = pageMeta?.ogUrl || canonicalUrl; // Usa la ogUrl si está definida, sino la canónica
     const shareTitle = pageMeta?.ogTitle || articulo?.nombre || 'Artículo de Tucumán Turismo';
-    console.log(articulo);
     const activeRightSidebar = pdfItems?.length > 0;
     return (
         <div>

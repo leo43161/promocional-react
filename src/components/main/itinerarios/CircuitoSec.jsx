@@ -26,7 +26,6 @@ export default function CircuitoSec() {
 
 
     const handleChange = (event) => {
-        console.log(event.target.value);
         dispatch(setSearchDestino(event.target.value));
     };
 

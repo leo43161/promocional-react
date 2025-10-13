@@ -7,7 +7,6 @@ export default function Filters({ filter, setFilter }) {
   // Consulta con RTK Query
   const { trackSearch } = useSearchTracker();
   const { data: filters, error, isLoading, isFetching } = useGetAlojamientosFiltersQuery();
-  console.log(filters);
   const [searchInput, setSearchInput] = useState(filter.search || '');
   const [_categorias, setCategorias] = useState([]);
   const [_localidades, setLocalidades] = useState([]);
@@ -37,7 +36,6 @@ export default function Filters({ filter, setFilter }) {
   };
 
   const handleCategoriaChange = (categoriaId) => {
-    console.log(_categorias);
     const categoriaSearch = _categorias.find(c => c.id === `${categoriaId}`);
     if (!!categoriaSearch) {
       trackSearch(categoriaSearch?.nombre || null);

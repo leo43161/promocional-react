@@ -47,12 +47,10 @@ function Player({ youtubeUrl, title }) {
     const patterns = [
       /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/,
     ];
-    console.log(patterns)
     for (const pattern of patterns) {
 
       const match = url.match(pattern);
       if (match) {
-        console.log(match);
         videoId = match[1];
         break;
       }
@@ -86,8 +84,6 @@ function Player({ youtubeUrl, title }) {
 
 // --- Componente Principal que exportas y usas ---
 export default function YoutubePlayer({ youtubeUrl, title = 'Video de YouTube' }) {
-  console.log("youtubeUrl");
-  console.log(youtubeUrl);
   return (
     <Suspense fallback={<VideoSkeleton />}>
       <Player youtubeUrl={youtubeUrl} title={title} />

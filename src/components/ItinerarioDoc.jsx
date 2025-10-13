@@ -3,7 +3,6 @@ import { Page, Text, View, Document, StyleSheet, Font, Image, Link, PDFViewer } 
 import { extractGoogleMapsLink } from '@/utils';
 
 const URLImg = process.env.URL_IMG
-console.log(URLImg);
 
 // --- Paleta de Colores y Datos de Circuitos ---
 const circuitosData = {

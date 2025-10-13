@@ -109,7 +109,6 @@ export default function Articulo() {
     // URL para la imagen del Parallax (usando 'imagen' del articuloData.result)
     const parallaxImageUrl = articulo?.imagen ? `${imageBaseUrl}/${articulo.imagen}` : undefined;
 
-    console.log(articulo);
     // --- Renderizado Principal ---
     return (
         <div> {/* Contenedor principal */}

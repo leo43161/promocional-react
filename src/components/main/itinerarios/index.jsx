@@ -67,7 +67,6 @@ export default function Itinerarios() {
     // Función para reiniciar el timer de inactividad
     const resetInactivityTimer = () => {
         clearTimeout(inactivityTimerRef.current);
-        console.log("inactivityTimerRef.current");
         setUserInteracted(true);
         setAutoPlayActive(false); // Detiene el autoplay
         // Detener y resetear la animación de la barra inmediatamente

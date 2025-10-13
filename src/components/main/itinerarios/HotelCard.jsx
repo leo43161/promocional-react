@@ -6,7 +6,6 @@ import { setFavorito } from '@/redux/features/itinerarioSlice';
 
 
 const HotelCard = ({ hotel, isFavorite, isLoading = false }) => {
-console.log(hotel);
     if (isLoading) {
         return (
             <div className="bg-white rounded-lg duration-300 overflow-hidden border border-gray-200 md:flex-1 shadow min-w-[72vw] max-w-[72vw] md:min-w-auto md:max-w-auto animate-pulse">
