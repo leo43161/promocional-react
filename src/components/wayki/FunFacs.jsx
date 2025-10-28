@@ -119,7 +119,7 @@ export default function FunFacs() {
                         >
                             <X size={18} />
                         </button>
-                        <a href={process.env.URL_LOCAL + currentFact.link}>
+                        <a href={process.env.URL_LOCAL + "/" + currentFact.link}>
                             {currentFact.img && (
                                 <div className="relative md:h-35 h-30 w-full">
                                     <Image
