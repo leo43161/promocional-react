@@ -10,6 +10,7 @@ import { languages } from '@/utils'; //
 //Cookies
 import CookieConsent from './CookieConsent';
 import PageTracker from './PageTracker';
+import FunFacs from './wayki/FunFacs';
 //import Busqueda from '../pages/busqueda'; // Componente de búsqueda
 
 export default function Layout({ children, className, pageProps }) {
@@ -144,6 +145,7 @@ export default function Layout({ children, className, pageProps }) {
                         {children}
                     </main>
                     <CookieConsent />
+                    <FunFacs></FunFacs>
                 </div>
             </SmoothView>
             <Footer />
