@@ -134,7 +134,7 @@ export default function FunFacs() {
                             <div className="px-4 py-3.5 bg-secondary">
                                 <p className="mb-3 md:text-3xl xl:text-4xl text-xl font-bold px-1">{currentFact.texto}</p>
                                 <a
-                                    href={process.env.URL_LOCAL + currentFact.link}
+                                    href={process.env.URL_LOCAL + "/" + currentFact.link}
                                     className="inline-block rounded-md bg-primary px-3 py-1 text-sm md:text-md font-bold text-white transition-transform hover:scale-105"
                                 >
                                     Leer más
