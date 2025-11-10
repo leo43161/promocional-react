@@ -55,7 +55,6 @@ export async function getStaticPaths() {
 
     return { paths, fallback: false };
 }
-
 // 2. getStaticProps para obtener el slug correspondiente al ID
 export async function getStaticProps(context) {
     const { id } = context.params;
