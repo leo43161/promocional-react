@@ -79,14 +79,14 @@ const CardAlojamiento = ({ alojamiento, isLoading = false }) => {
                 ) : (<span className="text-[1.1em] text-gray-700">{alojamiento.domicilio} - {alojamiento.localidad}</span>)}
             </div>
 
-            <div className="flex items-center mb-2">
+            <div className="flex flex-wrap items-center mb-2">
                 <Phone className="min-w-5 h-5 text-gray-500 mr-2" />
                 {/* <a
                     href={`tel:${alojamiento.telefono}`}
                     className="text-[1.1em] text-secondary hover:underline truncate"
                 > */}
                 {alojamiento.telefono_final.split(',').map((telefono, index) => (
-                    <a href={`tel:${telefono}`} key={index} className="text-[1.1em] text-secondary hover:underline truncate font-semibold">
+                    <a href={`tel:${telefono}`} key={index} className="text-[1.1em] text-secondary hover:underline font-semibold">
                         {telefono}<br />
                     </a>
                 ))}
