@@ -49,7 +49,7 @@ export default function Index() {
           />
         </a> */}
         <div className='relative'>
-          <a href="https://www.tucumanturismo.gob.ar/short/actverano2026" target="_blank" rel="noopener noreferrer" className='hidden'>
+          <a href="https://www.tucumanturismo.gob.ar/short/actverano2026" target="_blank" rel="noopener noreferrer">
           <ResponsiveVideo
             desktopSrc="video/Tucuman_Tiene_Todo.mp4"
             mobileSrc="video/Tucuman_Tiene_Todo_M.mp4"
