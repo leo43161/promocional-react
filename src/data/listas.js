@@ -12,13 +12,12 @@ export const listLists = {
   'ecosendas': 12,
   'ecosendas-parque-aconquija': 13,
   'otras-bodegas': 14,
-  'areas-protegidas':15,
- 
+  'areas-protegidas': 15,
 };
 
-export function idListList(){
+export function idListList() {
   var ret = {};
-  for(var key in listLists){
+  for (var key in listLists) {
     ret[listLists[key]] = key;
   }
   return ret;
