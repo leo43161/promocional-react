@@ -28,7 +28,6 @@ export async function getStaticPaths() {
 // 2. getStaticProps para obtener el slug correspondiente al ID
 export async function getStaticProps(context) {
     const { slug } = context.params;
-    console.log(slug);
     const id = listLists[slug] ? listLists[slug] : null;
     const imageBaseUrl = process.env.URL_IMG || '';
     const apiBaseUrl = process.env.URL_SERVER || 'URL_POR_DEFECTO_DE_TU_API';
@@ -47,7 +46,6 @@ export async function getStaticProps(context) {
     }
 
     const lista = listaData?.result?.lista;
-    console.log(lista);
     const cards = listaData?.result?.cards || [];
     const parallaxImageUrl = lista?.img ? `${imageBaseUrl}${lista.img}` : null;
     const defaultOgImage = `${siteBaseUrl}/public/icons/main/logotuc.png`;
