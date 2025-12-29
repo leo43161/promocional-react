@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useLenis } from 'lenis/react';
-import { MessageCircle, Facebook, Instagram, Twitter, Youtube, Menu, X, ChevronDown, Search, ChevronLeft, ChevronRight } from 'lucide-react';
+import { MessageCircle, Facebook, Instagram, Twitter, Youtube, Menu, X, ChevronDown, Search, ChevronLeft, ChevronRight, Mountain, Nfc, Video, Circle } from 'lucide-react';
 // Asegúrate que la ruta sea correcta para tu proyecto
 import { useGetMenuQuery, useGetSeccionesQuery } from '@/redux/services/headerService';
 import { useRouter } from 'next/router';
@@ -8,6 +8,8 @@ import { generateSlug, languages } from '@/utils';
 import HeaderSearch from './HeaderSearch';
 import { ReactLenis } from 'lenis/react';
 import { idListList } from '@/data/listas';
+import { useDispatch } from 'react-redux';
+import { openModalVivo } from '@/redux/features/uiSlice';
 
 // --- Opciones de Idioma (AHORA CON ID) ---
 // AJUSTA los 'id' según los valores que espera tu API para cada idioma
@@ -36,6 +38,7 @@ const listOfLists = idListList();
 // --- Componente Header ---
 export default function Header() {
     const router = useRouter();
+    const dispatch = useDispatch();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [openMobileMenu, setOpenMobileMenu] = useState(null); // Para el acordeón del menú principal móvil
     const [openMobileSection, setOpenMobileSection] = useState(null);
@@ -47,7 +50,7 @@ export default function Header() {
     const [activeMenu, setActiveMenu] = useState(null); // Para controlar el mega-menú visible en desktop
     const headerRef = useRef(null);
     const [isTopBarVisible, setIsTopBarVisible] = useState(true);
-    const lenis = useLenis(); // Obtenemos la instancia de Lenis
+    const lenis = useLenis(); // LENIS
 
     // Efecto para manejar la visibilidad de la barra superior con el scroll de Lenis
     useEffect(() => {
@@ -251,12 +254,13 @@ export default function Header() {
             }
         });
     };
+    const handleVivoOpen = () => dispatch(openModalVivo());
     // --- Render ---
     return (
         <header ref={headerRef} className="w-full sticky top-0 z-50" onMouseLeave={handleMouseLeave}>
             {/* Top gray bar (content assumed unchanged, add dynamic date/weather if needed) */}
             <div className={`w-full bg-[#D6D3D1] flex justify-center transition-[max-height,padding] duration-800 ease-linear overflow-hidden ${isTopBarVisible ? 'max-h-40 py-0' : 'max-h-0 py-0'}`}>
-                <div className="px-4 pt-1 flex justify-between w-11/12 flex-wrap">
+                <div className="px-4 pt-1 flex justify-between w-11/12 flex-wrap ">
                     {/* Date/Weather */}
                     <div className="bg-white px-3 py-1 rounded-t-md text-[1.1em] mb-0">
                         {new Date().toLocaleDateString(selectedLang.code === 'ES' ? 'es-AR' : 'en-US', { day: 'numeric', month: 'long', year: 'numeric' })} {/* ° */}
@@ -302,7 +306,17 @@ export default function Header() {
             </div>
 
             {/* Main white bar */}
-            <div className='flex justify-center bg-white shadow-md'>
+            <div className='flex justify-center bg-white shadow-md border'>
+                <div
+                    className='absolute -bottom-9 md:right-14 right-5 bg-red-500 px-3 py-1 text-xl text-white font-bold flex items-center gap-1 cursor-pointer'
+                    onClick={handleVivoOpen}
+                >
+                    <div className='flex items-center'>
+                        <Circle fill="#fff" size={22} stroke="#00000000" className="animate-ping duration-150 opacity-75" />
+                        <Circle fill="#fff" size={22} stroke="#00000000" className="absolute" />
+                    </div>
+                    <span>Mira el Cadillal en VIVO</span>
+                </div>
                 <div className={`flex justify-between items-center px-2 w-11/12 duration-700 gap-7 ease ${isTopBarVisible ? 'py-4' : 'py-3'}`}>
                     {/* Logo */}
                     <div className={`flex items-center duration-700 ease w-3/6 xl:w-3/19 ${isTopBarVisible ? 'md:w-3/18' : 'md:w-3/20'}`}>
@@ -447,7 +461,7 @@ export default function Header() {
                 <div className="p-4 border-b border-gray-200">
                     <HeaderSearch setView={setIsMobileMenuOpen} />
                 </div>
-                <nav className="flex flex-col px-2 py-2">
+                <nav className="flex flex-col px-2 pt-2">
                     {isLoading || isFetching ? (
                         <div className="p-4 space-y-4 animate-pulse">
                             {[...Array(5)].map((_, i) => <div key={i} className="h-5 bg-gray-200 rounded w-3/4"></div>)}
@@ -510,6 +524,16 @@ export default function Header() {
                         <p className='py-3 text-center text-gray-500'>No hay secciones disponibles.</p>
                     )}
                 </nav>
+                <div
+                    className='bg-red-500 px-3 py-1 text-xl text-white font-bold flex items-center gap-1 cursor-pointer'
+                    onClick={handleVivoOpen}
+                >
+                    <div className='flex items-center'>
+                        <Circle fill="#fff" stroke="#00000000" className="animate-ping duration-150 opacity-75" />
+                        <Circle fill="#fff" stroke="#00000000" className="absolute" />
+                    </div>
+                    <span>Mira el Cadillal en VIVO</span>
+                </div>
             </div>
             {/* --- FIN: NUEVO MENÚ MÓVIL --- */}
         </header>

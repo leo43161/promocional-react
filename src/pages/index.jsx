@@ -13,6 +13,9 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router'; // Importar useRouter
 import Button from '../components/common/Button';
 import ContadorFit from '@/components/main/ContadorFit';
+import ModalVivo from '@/components/stream/ModalVivo';
+import { useDispatch, useSelector } from 'react-redux';
+import { closeModalVivo, openModalVivo } from '@/redux/features/uiSlice';
 
 // Objeto para manejar los textos en diferentes idiomas #
 const content = {
@@ -29,6 +32,8 @@ const content = {
 };
 
 export default function Index() {
+  const showModal = useSelector((state) => state.ui.visibleModal);
+  const dispatch = useDispatch();
   const router = useRouter();
   const { lang } = router.query;
   const isEnglish = lang === 'EN';
@@ -50,10 +55,10 @@ export default function Index() {
         </a> */}
         <div className='relative'>
           <a href="https://www.tucumanturismo.gob.ar/short/actverano2026" target="_blank" rel="noopener noreferrer">
-          <ResponsiveVideo
-            desktopSrc="video/Tucuman_Tiene_Todo_Verano.mp4"
-            mobileSrc="video/Tucuman_Tiene_Todo_Verano_M.mp4"
-          />
+            <ResponsiveVideo
+              desktopSrc="video/Tucuman_Tiene_Todo_Verano.mp4"
+              mobileSrc="video/Tucuman_Tiene_Todo_Verano_M.mp4"
+            />
           </a>
           <div className='md:bottom-4 md:right-4 md:absolute md:w-6/12 flex justify-end w-full'>
             <ContadorFit></ContadorFit>
@@ -76,7 +81,7 @@ export default function Index() {
             />
           </a>
         </div>
-        
+
         {/* <div>
           <a href="https://www.tucumanturismo.gob.ar/articulos/articulo/969/juegos-argentinos-en-altura-vientos-calchaquies-2025" target="_blank" rel="noopener noreferrer">
             <ResponsiveVideo
@@ -116,126 +121,10 @@ export default function Index() {
         </a>
       </div>
       {/* <div className='md:w-11/13 lg:w-10/13 w-full mx-auto mb-20'>
-        <h1 className="text-5xl mb-12 text-center text-gray-500/70">{currentContent.unmissable}</h1>
+        <h1 className="text-5xl mb-12 text-center te+xt-gray-500/70">{currentContent.unmissable}</h1>
         <Imperdible />
       </div> */}
+      <ModalVivo isOpen={showModal} handleCloseModal={()=> dispatch(closeModalVivo())} />
     </div>
   )
 }
-
-// import Carousel from '@/components/common/Carousel'
-// import ResponsiveVideo from '@/components/common/ResponsiveVideo'
-// import BlogHome from '@/components/main/BlogHome'
-// import Entumesa from '@/components/main/Entumesa'
-// import EventosHome from '@/components/main/EventosHome'
-// import Imperdible from '@/components/main/Imperdible'
-// import Itinerarios from '@/components/main/itinerarios'
-// import Planifica from '@/components/main/planifica'
-// import Rutas from '@/components/main/Rutas'
-// import axios from 'axios'
-// import dynamic from 'next/dynamic'
-// import React, { useEffect, useState } from 'react'
-// import Button from '../components/common/Button'
-
-// export default function index() {
-//   /* const PDFItinerario = dynamic(
-//     () => import('@/pages/PDFItinerario'),
-//     {
-//       ssr: false,
-//       loading: () => (
-//         <div className="flex items-center px-4 text-white h-full">
-//           <p className="font-700 uppercase text-2xl ml-2">Cargando...</p>
-//         </div>
-//       )
-//     }
-//   ); */
-//   /* const [sessionData, setSessionData] = useState(null);
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState(null);
-
-//   useEffect(() => {
-//     const fetchSessionData = async () => {
-//       try {
-//         // Directly make the GET request to the external API
-//         const response = await axios.get('http://10.15.15.151/api/api/session');
-//         setSessionData(response.data);
-//         console.log(response);
-//       } catch (err) {
-//         // Handle errors during the fetch
-//         console.error('Error fetching session data:', err);
-//         setError(err);
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-
-//     fetchSessionData();
-//   }, []); // The empty dependency array ensures this runs only once after the initial render
-
-//   if (loading) {
-//     return <div>Cargando datos de sesión...</div>;
-//   }
-
-//   if (error) {
-//     // You can display a more user-friendly error message here
-//     return <div>Error al cargar los datos: {error.message}</div>;
-//   } */
-//   return (
-//     <div>
-//       <div className='mb-0'>
-//         <ResponsiveVideo />
-//       </div>
-//       <div className='mb-0'>
-//         <Itinerarios></Itinerarios>
-//       </div>
-//       <div>
-//         <div>
-//           <img src={process.env.URL_IMG_LOCAL + "/images/banners/BannerWeb1900x450Invierno2025-Desktop.jpg"} alt="" />
-//         </div>
-//       </div>
-//       {/* <div className='border'>
-//         <PDFItinerario></PDFItinerario>
-//       </div> */}
-//       {/* <div className='md:w-11/13 lg:w-11/13 w-full mx-auto md:mb-30 mb-15'>
-//         <Planifica></Planifica>
-//       </div> */}
-//       <div className='mb-20'>
-//         <Entumesa></Entumesa>
-//       </div>
-//       <div className='md:w-11/13 lg:w-10/13 w-full mx-auto mb-20'>
-//         <h1 className="text-5xl mb-12 text-center text-gray-500/70">IMPERDIBLES</h1>
-//         <Imperdible></Imperdible>
-//       </div>
-//       <div className='mb-10'>
-//         <BlogHome></BlogHome>
-//       </div>
-//       <div className='mb-10'>
-//         <Rutas></Rutas>
-//       </div>
-//       <div className='mb-20'>
-//         <a target='_blank' href='https://teatromercedessosa.com/'>
-//           <img src={`${process.env.URL_LOCAL_SERVER}${process.env.URL_LOCAL}/images/banners/TeatroMercedesSosa-desktop.jpg`} className='w-full' alt="" />
-//         </a>
-//       </div>
-//       <div className='md:w-11/13 w-full mx-auto'>
-//         <div className='relative flex justify-center items-center'>
-//           {/* El h1 se centra gracias a justify-center en el div padre */}
-//           <h1 className="text-5xl mb-7 text-gray-500/70">EVENTOS DESTACADOS</h1>
-
-//           {/* Este div se posiciona de forma absoluta a la derecha del contenedor padre */}
-//           <div className='absolute right-0 mb-7 pe-7'>
-//             <a href={`${process.env.URL_LOCAL || ''}/eventos`}>
-//               <Button className='shadow-lg' size='sm'>
-//                 Conocé más aqui
-//               </Button>
-//             </a>
-//           </div>
-//         </div>
-
-//         <div>
-//           <EventosHome></EventosHome>
-//         </div>
-//       </div>
-//     </div>
-//   )
-// }

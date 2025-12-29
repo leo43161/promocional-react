@@ -12,11 +12,13 @@ import { busquedaArtService } from './services/busquedaArtService';
 import busquedaReducer from './features/busquedaSlice';
 import { transporteService } from './services/transporteService';
 import { visitasApi } from './services/visitasService';
-import { listaCardService} from './services/listaCardService';
+import { listaCardService } from './services/listaCardService';
+import uiReducer from './features/uiSlice';
 
 
 export const store = configureStore({
   reducer: {
+    ui: uiReducer,
     itinerarioReducer,
     busqueda: busquedaReducer, // <-- ¡AGREGAR ESTA LÍNEA!
     [eventosService.reducerPath]: eventosService.reducer,

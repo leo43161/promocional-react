@@ -92,7 +92,7 @@ const Modal = ({
                 : size === 'lg' ? 'md:max-w-lg'
                     : size === 'xl' ? 'md:max-w-4/5'
                         : size === '2xl' ? 'md:max-w-6/7'
-                            : size === 'full' ? 'md:w-screen md:h-full md:max-h-full'
+                            : size === 'full' ? 'md:max-w-7/7 md:max-h-full'
                                 : 'md:max-w-md';
 
     // Se definen clases base para móvil (w-11/12) y se añaden las de desktop.
