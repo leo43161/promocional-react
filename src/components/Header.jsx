@@ -8,7 +8,7 @@ import { generateSlug, languages } from '@/utils';
 import HeaderSearch from './HeaderSearch';
 import { ReactLenis } from 'lenis/react';
 import { idListList } from '@/data/listas';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { openModalVivo } from '@/redux/features/uiSlice';
 
 // --- Opciones de Idioma (AHORA CON ID) ---
@@ -38,6 +38,7 @@ const listOfLists = idListList();
 // --- Componente Header ---
 export default function Header() {
     const router = useRouter();
+    const showVivo = useSelector((state) => state.ui.visibleVivo);
     const dispatch = useDispatch();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [openMobileMenu, setOpenMobileMenu] = useState(null); // Para el acordeón del menú principal móvil
@@ -307,16 +308,18 @@ export default function Header() {
 
             {/* Main white bar */}
             <div className='flex justify-center bg-white shadow-md border'>
-                <div
-                    className='absolute -bottom-9 md:right-14 right-5 bg-red-500 px-3 py-1 text-xl text-white font-bold flex items-center gap-1 cursor-pointer'
-                    onClick={handleVivoOpen}
-                >
-                    <div className='flex items-center'>
-                        <Circle fill="#fff" size={22} stroke="#00000000" className="animate-ping duration-150 opacity-75" />
-                        <Circle fill="#fff" size={22} stroke="#00000000" className="absolute" />
+                {showVivo && (
+                    <div
+                        className='absolute -bottom-9 md:right-14 right-5 bg-red-500 px-3 py-1 text-xl text-white font-bold flex items-center gap-1 cursor-pointer'
+                        onClick={handleVivoOpen}
+                    >
+                        <div className='flex items-center'>
+                            <Circle fill="#fff" size={22} stroke="#00000000" className="animate-ping duration-150 opacity-75" />
+                            <Circle fill="#fff" size={22} stroke="#00000000" className="absolute" />
+                        </div>
+                        <span>Mira el Cadillal en VIVO</span>
                     </div>
-                    <span>Mira el Cadillal en VIVO</span>
-                </div>
+                )}
                 <div className={`flex justify-between items-center px-2 w-11/12 duration-700 gap-7 ease ${isTopBarVisible ? 'py-4' : 'py-3'}`}>
                     {/* Logo */}
                     <div className={`flex items-center duration-700 ease w-3/6 xl:w-3/19 ${isTopBarVisible ? 'md:w-3/18' : 'md:w-3/20'}`}>
@@ -524,16 +527,18 @@ export default function Header() {
                         <p className='py-3 text-center text-gray-500'>No hay secciones disponibles.</p>
                     )}
                 </nav>
-                <div
-                    className='bg-red-500 px-3 py-1 text-xl text-white font-bold flex items-center gap-1 cursor-pointer'
-                    onClick={handleVivoOpen}
-                >
-                    <div className='flex items-center'>
-                        <Circle fill="#fff" stroke="#00000000" className="animate-ping duration-150 opacity-75" />
-                        <Circle fill="#fff" stroke="#00000000" className="absolute" />
+                {showVivo && (
+                    <div
+                        className='bg-red-500 px-3 py-1 text-xl text-white font-bold flex items-center gap-1 cursor-pointer'
+                        onClick={handleVivoOpen}
+                    >
+                        <div className='flex items-center'>
+                            <Circle fill="#fff" stroke="#00000000" className="animate-ping duration-150 opacity-75" />
+                            <Circle fill="#fff" stroke="#00000000" className="absolute" />
+                        </div>
+                        <span>Mira el Cadillal en VIVO</span>
                     </div>
-                    <span>Mira el Cadillal en VIVO</span>
-                </div>
+                )}
             </div>
             {/* --- FIN: NUEVO MENÚ MÓVIL --- */}
         </header>
