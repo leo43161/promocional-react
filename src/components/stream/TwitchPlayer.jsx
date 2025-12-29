@@ -23,7 +23,7 @@ export default function TwitchPlayer({
       </div>
     );
   }
-  const embedUrl = `https://player.twitch.tv/?channel=${channel}&parent=${host}&autoplay=${autoplay}&muted=${muted}`;
+  const embedUrl = `https://player.twitch.tv/?channel=${channel}&parent=${host}&autoplay=true&muted=${muted}`;
 
   return (
     <div className="relative w-full aspect-video rounded-xl overflow-hidden shadow-2xl  md:h-130 h-100">
