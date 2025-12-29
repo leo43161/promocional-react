@@ -35,7 +35,7 @@ export default function ModalVivo({
             onClose={handleCloseModal}
             size="full"
             header={false}
-            classNameContain='w-full'
+            classNameContain='w-full h-auto'
         >
             <div className='relative w-full h-full bg-black flex items-center justify-center overflow-hidden flex-col'>
                 
