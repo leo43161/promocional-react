@@ -44,7 +44,7 @@ export default function ModalVivo({
                     <TwitchPlayer channel="tucumanturismo02" />
                     
                     {/* CAPA INVISIBLE PARA BLOQUEAR CLICS (pointer-events-none no sirve aquí, queremos bloquearlo) */}
-                    <div className="absolute inset-0 z-10 cursor-default bg-transparent" />
+                    {/* <div className="absolute inset-0 z-10 cursor-default bg-transparent" /> */}
                 </div>
 
                 {/* OVERLAY DE INFORMACIÓN (Clima y Localidad) */}
