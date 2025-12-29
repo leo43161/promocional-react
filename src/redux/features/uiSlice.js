@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   visibleModal: false,
-  visibleVivo: false
+  visibleVivo: true
 };
 
 // Creamos el slice
