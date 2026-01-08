@@ -12,7 +12,7 @@ const RutasContent = {
                 descripcion: "El sabor de Tucumán en cada copa",
                 imagen: "/images/banners/vino.jpg",
                 icono: "/icons/rutas/vino.svg",
-                articulo: "88",
+                articulo: "173",
             },
             {
                 id: 2,
@@ -20,7 +20,7 @@ const RutasContent = {
                 descripcion: "Viví una experiencia artesanal",
                 imagen: "/images/banners/artesano.jpg",
                 icono: "/icons/rutas/artesano.svg",
-                articulo: "89",
+                articulo: "171",
             },
             {
                 id: 3,
@@ -28,7 +28,7 @@ const RutasContent = {
                 descripcion: "Un viaje de Fe, un camino de encuentro",
                 imagen: "/images/banners/fe.jpg",
                 icono: "/icons/rutas/fe.svg",
-                articulo: "90",
+                articulo: "174",
             },
             {
                 id: 4,
@@ -36,7 +36,7 @@ const RutasContent = {
                 descripcion: "Sumergite en la naturaleza",
                 imagen: "/images/banners/ecosendas.jpg",
                 icono: "/icons/rutas/ecosendas.svg",
-                articulo: "91",
+                articulo: "167",
             },
         ],
     },
@@ -49,7 +49,7 @@ const RutasContent = {
                 descripcion: "The taste of Tucumán in every glass",
                 imagen: "/images/banners/vino.jpg",
                 icono: "/icons/rutas/vino.svg",
-                articulo: "88", // No English article, link to ES with lang=EN
+                articulo: "842", // No English article, link to ES with lang=EN
             },
             {
                 id: 2,
@@ -87,9 +87,10 @@ export default function Rutas() {
     const content = isEnglish ? RutasContent.en : RutasContent.es;
 
     const generateLink = (articulo) => {
-        let link = `${process.env.URL_LOCAL}/articulos/articulo/${articulo}`;
+        let link = `${process.env.URL_LOCAL}/subsecciones/lista/${articulo}`;
         if (isEnglish) {
-            link += `?lang=EN`;
+            //cambio el link para que busque articulo en ingles ya que no hay lista en ingles
+           link = `${process.env.URL_LOCAL}/articulos/articulo/${articulo}` + `?lang=EN`;
         }
         return link;
     };
