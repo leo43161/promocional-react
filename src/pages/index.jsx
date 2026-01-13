@@ -36,7 +36,7 @@ export default function Index() {
   const dispatch = useDispatch();
   const router = useRouter();
   const { lang } = router.query;
-  const isEnglish = lang === 'EN';
+  const isEnglish = lang === 'EN'; 
 
   // Seleccionar el contenido según el idioma
   const currentContent = isEnglish ? content.en : content.es;
