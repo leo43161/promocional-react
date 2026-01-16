@@ -120,7 +120,7 @@ const CardAlojamiento = ({ alojamiento, isLoading = false }) => {
                 </div>
             )}
 
-            {/* <div className="mt-auto pt-4">
+            {/* <div className="mt-auto  pt-4">
                 <Link
                     href={`/alojamientos/${alojamiento.id}`}
                     className="block text-center bg-orange-500 text-white py-2 rounded hover:bg-orange-600 transition-colors"
