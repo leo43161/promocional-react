@@ -9,6 +9,7 @@ import {
 import { Calendar, CalendarIcon, Clock, Info, MapPin } from 'lucide-react';
 import { GoogleMapsEmbed } from '@next/third-parties/google'
 import Modal, { ImageModal } from '@/components/common/Modal';
+import { useGetGoogleMapsQuery } from '@/redux/services/apikeyService';
 
 // --- Componentes Skeleton Simples ---
 
@@ -42,7 +43,14 @@ export default function Evento() {
         isError: isErrorEvento,
         error: errorEvento,
     } = useGetEventoIdQuery({ id }, { skip: !id });
-
+    const {
+        data: apiKeyData,
+        isLoading: isLoadingApiKey,
+        isError: isErrorApiKey,
+        error: errorApiKey,
+    } = useGetGoogleMapsQuery();
+    console.log("API Key Data:", apiKeyData);
+    console.log("API Key DataError:", errorApiKey);
     const isLoading = isLoadingEvento;
 
     // --- Extracción de Datos ---
@@ -261,10 +269,11 @@ export default function Evento() {
                                 {isLoading ? (
                                     <SkeletonImage className='w-full h-64' />
                                 ) : (
+                                    // Aquí puedes pasar las coordenadas a tu componente de mapa
                                     <div className="w-full h-80 bg-gray-200 flex items-stretch justify-center text-gray-500">
                                         <div className='w-full h-full *:h-full'>
                                             <GoogleMapsEmbed
-                                                apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
+                                                apiKey={apiKeyData?.result || ''}
                                                 height="100%"
                                                 width="100%"
                                                 mode="place"

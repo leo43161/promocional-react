@@ -16,6 +16,7 @@ import ContadorFit from '@/components/main/ContadorFit';
 import ModalVivo from '@/components/stream/ModalVivo';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeModalVivo, openModalVivo } from '@/redux/features/uiSlice';
+import config from '../../config.json';
 
 // Objeto para manejar los textos en diferentes idiomas #
 const content = {
@@ -36,8 +37,20 @@ export default function Index() {
   const dispatch = useDispatch();
   const router = useRouter();
   const { lang } = router.query;
-  const isEnglish = lang === 'EN'; 
-
+  const isEnglish = lang === 'EN';
+  const fetchData = () => {
+      console.log(`https://www.tucumanturismo.gob.ar/env/consultar-datos.php`);
+    
+    /* try {
+      // Usas una ruta relativa. En producción buscará en midominio.com/api/consultar-datos.php
+      const res = await fetch(`${process.env.URL_LOCAL_SERVER}/env/consultar-datos.php`);
+      const data = await res.json();
+      console.log(`${process.env.URL_LOCAL_SERVER}/env/consultar-datos.php`);
+    } catch (error) {
+      console.error("Error al obtener datos seguros", error);
+    } */
+  };
+  console.log("API URL from config:", fetchData());
   // Seleccionar el contenido según el idioma
   const currentContent = isEnglish ? content.en : content.es;
 
@@ -124,7 +137,7 @@ export default function Index() {
         <h1 className="text-5xl mb-12 text-center te+xt-gray-500/70">{currentContent.unmissable}</h1>
         <Imperdible />
       </div> */}
-      <ModalVivo isOpen={showModal} handleCloseModal={()=> dispatch(closeModalVivo())} />
+      <ModalVivo isOpen={showModal} handleCloseModal={() => dispatch(closeModalVivo())} />
     </div>
   )
 }

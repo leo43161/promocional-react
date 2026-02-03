@@ -13,6 +13,7 @@ import busquedaReducer from './features/busquedaSlice';
 import { transporteService } from './services/transporteService';
 import { visitasApi } from './services/visitasService';
 import { listaCardService } from './services/listaCardService';
+import { apiKeyService } from './services/apikeyService';
 import uiReducer from './features/uiSlice';
 
 
@@ -33,6 +34,7 @@ export const store = configureStore({
     [transporteService.reducerPath]: transporteService.reducer,
     [visitasApi.reducerPath]: visitasApi.reducer,
     [listaCardService.reducerPath]: listaCardService.reducer,
+    [apiKeyService.reducerPath]: apiKeyService.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
@@ -47,7 +49,8 @@ export const store = configureStore({
       busquedaArtService.middleware,
       transporteService.middleware,
       visitasApi.middleware,
-      listaCardService.middleware
+      listaCardService.middleware,
+      apiKeyService.middleware
     ),
 });
 
