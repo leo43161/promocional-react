@@ -45,12 +45,7 @@ export default function Evento() {
     } = useGetEventoIdQuery({ id }, { skip: !id });
     const {
         data: apiKeyData,
-        isLoading: isLoadingApiKey,
-        isError: isErrorApiKey,
-        error: errorApiKey,
     } = useGetGoogleMapsQuery();
-    console.log("API Key Data:", apiKeyData);
-    console.log("API Key DataError:", errorApiKey);
     const isLoading = isLoadingEvento;
 
     // --- Extracción de Datos ---
