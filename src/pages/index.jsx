@@ -16,7 +16,6 @@ import ContadorFit from '@/components/main/ContadorFit';
 import ModalVivo from '@/components/stream/ModalVivo';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeModalVivo, openModalVivo } from '@/redux/features/uiSlice';
-import config from '../../config.json';
 
 // Objeto para manejar los textos en diferentes idiomas #
 const content = {
