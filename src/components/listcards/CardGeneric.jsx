@@ -57,7 +57,7 @@ const CardGeneric = ({ articulo }) => {
     const { Titulo, Img, campos, id_Articulo } = articulo;
     const cardImgUrl = `https://www.tucumanturismo.gob.ar/public/img/listas/${Img}`;
     const articuloUrl = (id_Articulo ? `/articulos/articulo/${id_Articulo}` : null);
-
+    console.log(campos);
     return (
         <div className="bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden flex flex-col h-full group/item relative">
             <div className="relative h-48 sm:h-56 w-full">
@@ -85,7 +85,7 @@ const CardGeneric = ({ articulo }) => {
                                     <span className="font-semibold text-gray-800">{campo.Titulo}:</span>
                                     <span className="ml-1.5">
                                         {campo.Url ? (
-                                            <a href={campo.Url} target="_blank" rel="noopener noreferrer" className=" group/link text-primary hover:text-primary underline z-10 relative">
+                                            <a href={`${campo.Url}`} target="_blank" rel="noopener noreferrer" className=" group/link text-primary hover:text-primary underline z-10 relative">
                                                 {campo.Texto || campo.Url}
                                             </a>
                                         ) : (
