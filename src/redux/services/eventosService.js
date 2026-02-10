@@ -27,7 +27,7 @@ export const eventosService = createApi({
         params: {
           limit,
           offset,
-          Busqueda: search,
+          busqueda: search,
           Dia: dia,
           FechaIni: fechaIni,
           FechaFin: fechaFin
