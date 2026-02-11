@@ -165,7 +165,7 @@ export default function SubseccionPage({ subseccion, articulos, parallaxImageUrl
                 <meta property="og:url" content={pageMeta?.ogUrl || canonicalUrl} />
                 <meta property="og:image" content={pageMeta?.ogImage || parallaxImageUrl || "https://www.tucumanturismo.gob.ar/public/icons/main/logotuc.png"} />
                 <meta property="og:site_name" content={pageMeta?.ogSiteName || "Tucumán Turismo"} />
-                
+
                 {/* Twitter Card */}
                 <meta name="twitter:card" content={pageMeta?.twitterCard || "summary_large_image"} />
                 <meta name="twitter:site" content="@TucumanTurismo" />
@@ -220,8 +220,18 @@ export default function SubseccionPage({ subseccion, articulos, parallaxImageUrl
                     }></Breadcrumb>
                 </div>
             </div>
-
             <div className='mb-10 md:w-11/14 xl:w-11/16 w-full mx-auto flex flex-col gap-15 px-5'>
+                {id === "93" && (
+                    <p className="text-justify text-gray-700 mb-0 text-2xl">
+                        Con el objetivo de fortalecer la oferta turística de la provincia, el Ente Tucumán Turismo lleva adelante acciones articuladas con la Secretaría de Derechos Humanos a fin de diseñar un circuito histórico que fomente la identificación y visitación de sitios y espacios donde se cometieron o planificaron crímenes de lesa humanidad, tanto durante el Operativo Independencia y la última dictadura cívico-militar (1975-1983) como en otros momentos de nuestra historia.
+                        <br />
+                        <br />
+                        Estas acciones, que implicaron la incorporación de señalización y soporte digital para brindar información de relevancia, forman parte de las políticas públicas de Memoria, Verdad y Justicia que simbolizan el compromiso del Estado democrático para dar a conocer y condenar los crímenes de lesa humanidad, impulsar el juzgamiento de los responsables y reconocer a las víctimas, los sobrevivientes y sus familiares.
+                        <br />
+                        <br />
+                        En estas intervenciones del espacio público confluyen el acompañamiento y la reparación a las víctimas de la represión ilegal y el impulso a la participación de la comunidad en la construcción de la memoria, a fin de que tales hechos lesivos no vuelvan a ocurrir.
+                    </p>
+                )}
                 {articulos && articulos.length > 0 ? (
                     articulos.map((articulo, index) => (
                         <Fragment key={articulo.idArticulo || index}> {/* Usa un ID único del artículo si está disponible */}
