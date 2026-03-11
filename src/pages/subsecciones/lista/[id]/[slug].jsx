@@ -1,5 +1,5 @@
 // src/pages/subsecciones/lista/[id]/[slug].jsx
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import ParallaxContainer from '@/components/common/ParallaxContainer';
