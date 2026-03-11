@@ -3,6 +3,7 @@ import ResponsiveVideo from '@/components/common/ResponsiveVideo';
 import BlogHome from '@/components/main/BlogHome';
 import Entumesa from '@/components/main/Entumesa';
 import EventosHome from '@/components/main/EventosHome';
+import EventosHomeSmall from '@/components/main/EventosHomeSmall';
 import Imperdible from '@/components/main/Imperdible';
 import Itinerarios from '@/components/main/itinerarios';
 import Planifica from '@/components/main/planifica';
@@ -16,6 +17,7 @@ import ContadorFit from '@/components/main/ContadorFit';
 import ModalVivo from '@/components/stream/ModalVivo';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeModalVivo, openModalVivo } from '@/redux/features/uiSlice';
+import BuscadorIAHome from '@/components/main/BuscadorIAHome';
 
 // Objeto para manejar los textos en diferentes idiomas #
 const content = {
@@ -76,6 +78,12 @@ export default function Index() {
             <ContadorFit></ContadorFit>
           </div>
         </div>
+      </div>
+      {/* <div>
+        <EventosHomeSmall />
+      </div> */}
+      <div>
+        <BuscadorIAHome />
       </div>
       <div className='mb-0'>
         <Itinerarios />

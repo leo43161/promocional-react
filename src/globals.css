@@ -11,6 +11,7 @@
   --color-primary: var(--primary);
   --color-secondary: var(--secondary);
   --color-tertiary: var(--tertiary);
+  --color-back: var(--bg-tertiary);
   --breakpoint-xl: 87rem;
 }
 
@@ -46,6 +47,7 @@
     --primary: #e9721f;
     --secondary: #006e66;
     --tertiary: #85bd77;
+    --bg-tertiary: #D9E8D1;
   }
 
   /* @media (prefers-color-scheme: light) {
