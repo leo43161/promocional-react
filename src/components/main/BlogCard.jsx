@@ -4,7 +4,7 @@ import { Facebook, Twitter, MessageCircle } from 'lucide-react';
 import Image from 'next/image';
 import { cn, encode, generateSlug } from '@/utils';
 
-// Objeto con los textos para internacionalización
+// Objeto con los textos para internacionalización 
 const content = {
     es: {
         buttonText: "Conocé más aquí",

@@ -68,12 +68,16 @@ export default function Index() {
           />
         </a> */}
         <div className='relative'>
-          <a href="https://www.tucumanturismo.gob.ar/short/actverano2026" target="_blank" rel="noopener noreferrer">
+         {/* <a href="https://www.tucumanturismo.gob.ar/short/actverano2026" target="_blank" rel="noopener noreferrer">
             <ResponsiveVideo
               desktopSrc="video/Tucuman_Tiene_Todo_Verano.mp4"
               mobileSrc="video/Tucuman_Tiene_Todo_Verano_M.mp4"
             />
-          </a>
+          </a>*/}
+          <ResponsiveVideo
+              desktopSrc="video/Tucuman_Tiene_Todo_Verano.mp4"
+              mobileSrc="video/Tucuman_Tiene_Todo_Verano_M.mp4"
+            />
           <div className='md:bottom-4 md:right-4 md:absolute md:w-6/12 flex justify-end w-full'>
             <ContadorFit></ContadorFit>
           </div>

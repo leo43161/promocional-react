@@ -1,5 +1,5 @@
 // src/pages/subsecciones/lista/[id]/[slug].jsx
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import ParallaxContainer from '@/components/common/ParallaxContainer';
@@ -143,7 +143,11 @@ export default function SubseccionPage({ subseccion, articulos, parallaxImageUrl
     const router = useRouter();
     const siteBaseUrl = process.env.URL_LOCAL || 'https://www.tucumanturismo.gob.ar';
     const canonicalUrl = `${siteBaseUrl}${router.asPath.split("?")[0]}`;
-
+    useEffect(() => {
+        if (id === "85") {
+            router.replace(`${process.env.URL_LOCAL}/blog`);
+        }
+    }, [id]);
     // Si la subsección no existe (aunque getStaticProps debería manejar esto con notFound)
     if (!subseccion) {
         return <div className="container mx-auto p-5 text-center">Contenido no disponible.</div>;

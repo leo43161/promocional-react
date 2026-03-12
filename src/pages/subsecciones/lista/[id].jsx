@@ -85,12 +85,16 @@ export async function getStaticProps(context) {
 export default function SubseccionLoades({ id, slug, idioma }) {
   const router = useRouter();
 
-   useEffect(() => {
+  useEffect(() => {
+    if (id === "85") {
+      router.replace(`${process.env.URL_LOCAL}/blog`);
+      return;  // <-- agregado
+    }
     if (id && slug) {
       const idiomaCode = {
         1: 'ES',
         2: 'EN'
-    }
+      }
       let targetUrl = `${process.env.URL_LOCAL}/subsecciones/lista/${id}/${slug}`;
       if (parseInt(idioma) !== 1) {
         targetUrl += `?lang=${idiomaCode[parseInt(idioma)] || idioma}`
