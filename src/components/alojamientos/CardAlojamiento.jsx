@@ -127,7 +127,7 @@ const CardAlojamiento = ({ alojamiento, isLoading = false }) => {
                 >
                     Ver Detalles
                 </Link>
-            </div> */}
+            </div>  */}
         </div>
     );
 };
