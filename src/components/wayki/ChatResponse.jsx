@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { parseMarkdown } from '@/utils/wayki';
 import ToolsChat from './ToolsChat';
-
+/* src/components/wayki/ChatResponse.jsx */
 const typesTools = {
     "hotels-data": "",
     "adventure-data": "",
@@ -23,20 +23,9 @@ const typesArt = {
     "products-data": "Productos turisticos en localidad especifica",
 }
 
-export default function ChatResponse({ messages, response }) {
+export default function ChatResponse({ messages, response, setChatCacheResp }) {
     const [chat, setChat] = useState([]);
-    const [chatDebug, setChatDebug] = useState([]);
-    const [typeTools, setTypeTools] = useState({
-        "hotels-data": [],
-        "adventure-data": [],
-        "guides-data": [],
-        "transport-data": [],
-        "events-data": [],
-        "articles-data": [],
-        "destinations-data": [],
-        "products-data": [],
-        "search-data": [],
-    })
+    
     const handleChat = useCallback((data) => {
         if (data.role === 'user') {
             setChat((prev) => [...prev, data]);
@@ -47,14 +36,14 @@ export default function ChatResponse({ messages, response }) {
             // Mensaje inicial de bienvenida (no es type:'response')
             if (data.type !== 'response') {
                 setChat((prev) => [...prev, data]);
+                setChatCacheResp((prev) => [...prev, data]);
                 return;
             }
 
             data.content.forEach((msj) => {
                 switch (msj?.type || '') {
-
                     case 'text-delta':
-                        setChat((prev) => {
+                        const handleChatDelta = (prev) => {
                             const last = prev[prev.length - 1];
                             if (last?.type === 'text-delta') {
                                 // ✅ Crea nuevo array + nuevo objeto (sin mutar)
@@ -64,9 +53,10 @@ export default function ChatResponse({ messages, response }) {
                                 ];
                             }
                             return [...prev, { role: 'assistant', content: msj.delta, type: 'text-delta' }];
-                        });
+                        }
+                        setChatCacheResp((prev) => handleChatDelta(prev));
+                        setChat((prev) => handleChatDelta(prev));
                         break;
-
                     case 'status':
                         setChat((prev) => [...prev, { role: 'assistant', type: 'status', data: msj.data }]);
                         break;
@@ -112,29 +102,30 @@ export default function ChatResponse({ messages, response }) {
         }
     }, [messages])
 
-    /* console.log("chatDebug");
-    console.log(chatDebug); */
     return (
         <div className='flex flex-col gap-3'>
-            {chat.map((msg, i) => (
-                msg.role === 'user' ? (
-                    <div
-                        key={i}
-                        className={`flex gap-3 items-end flex-row-reverse`}
-                        style={{ animation: 'fadeInUp 0.25s ease' }}
-                    >
+            {chat.map((msg, i) => {
+                const isLast = i === chat.length - 1;
+                return (
+                    msg.role === 'user' ? (
                         <div
-                            className={`relative max-w-[82%] px-5 py-3.5 shadow-sm text-lg leading-relaxed bg-primary text-white rounded-3xl rounded-br-lg`}
+                            key={i}
+                            className={`flex gap-3 items-end flex-row-reverse`}
+                            style={{ animation: 'fadeInUp 0.25s ease' }}
                         >
-                            <p className="text-lg">{msg.content}</p>
+                            <div
+                                className={`relative max-w-[82%] px-4 py-2 shadow-sm text-lg leading-relaxed bg-primary text-white rounded-3xl rounded-br-lg`}
+                            >
+                                <p className="text-lg">{msg.content}</p>
+                            </div>
                         </div>
-                    </div>
-                )
-                    :
-                    (
-                        <ToolsChat key={i} response={msg} />
                     )
-            ))
+                        :
+                        (
+                            <ToolsChat key={i} response={msg} isLast={isLast} />
+                        )
+                )
+            })
             }
         </div>
 

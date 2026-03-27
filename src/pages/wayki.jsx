@@ -6,11 +6,12 @@ import { Send, ArrowLeft, Sparkles } from 'lucide-react';
 import { ReactTextStream } from 'react-text-stream';
 import { decodeDataWayki, parseMarkdown } from '@/utils/wayki';
 import ChatResponse from '@/components/wayki/ChatResponse';
+/* src/pages/wayki.jsx */
 // ============================================
 // CONFIGURACIÓN DE LA API
 // ============================================
 const API_BASE = process.env.NEXT_PUBLIC_WAYKI_API || 'http://10.0.15.36:3000/api';
-
+const IMG_BASE = process.env.URL_IMG_LOCAL + "/images/wayki/" || 'https://www.tucumanturismo.gob.ar/images/wayki/';
 // Sugerencias rápidas
 const SUGERENCIAS = [
     "¿Dónde comer empanadas tucumanas?",
@@ -42,6 +43,7 @@ export default function WaykiChat() {
     const [isLoading, setIsLoading] = useState(false);
     const [authToken, setAuthToken] = useState(null);
     const [tokenLoading, setTokenLoading] = useState(true);
+    const [chatCacheResp, setChatCacheResp] = useState([]);
 
     const messagesEndRef = useRef(null);
     const inputRef = useRef(null);
@@ -94,6 +96,7 @@ export default function WaykiChat() {
             if (!trimmed || isLoading) return;
 
             setMessages({ role: 'user', content: trimmed });
+            const sendContext = [...chatCacheResp, { role: 'user', content: trimmed }];
             setResponse({});
             setInput('');
             setIsLoading(true);
@@ -116,7 +119,9 @@ export default function WaykiChat() {
                         authData?.data?.token;
                     setAuthToken(currentToken);
                 }
-
+                console.log('PASO 1: Enviar al modelo Wayki');
+                /* console.log(JSON.stringify(chatCacheResp)); */
+                console.log(JSON.stringify(sendContext));
                 // PASO 1: Enviar al modelo Wayki
                 const waykiRes = await fetch(`${API_BASE}/wayki`, {
                     method: 'POST',
@@ -125,7 +130,7 @@ export default function WaykiChat() {
                         Authorization: `Bearer ${currentToken}`,
                     },
                     body: JSON.stringify({
-                        messages: [{ role: 'user', content: trimmed }],
+                        messages: sendContext,
                     }),
 
                 });
@@ -186,8 +191,7 @@ export default function WaykiChat() {
             handleSubmit();
         }
     };
-
-    const isFirstMessage = messages.length === 1 && !isLoading;
+    const isFirstMessage = chatCacheResp.length === 1 && !isLoading;
 
     return (
         <>
@@ -200,7 +204,7 @@ export default function WaykiChat() {
             </Head>
 
             <div
-                className="relative flex flex-col bg-stone-50 overflow-hidden"
+                className="relative flex flex-col bg-back/60 overflow-hidden"
                 style={{ minHeight: 'calc(100vh - 80px)' }}
             >
                 <div className='absolute w-full h-full object-cover z-10 opacity-40 object-center top-0 left-0'
@@ -251,11 +255,11 @@ export default function WaykiChat() {
         ============================== */}
                 <div className="flex-1 relative z-10 overflow-y-auto pb-36">
                     <div className="max-w-3xl mx-auto px-4 py-6 flex flex-col gap-5">
-                        <ChatResponse messages={messages} response={response} />
+                        <ChatResponse messages={messages} response={response} setChatCacheResp={setChatCacheResp} />
                         {/* Indicador de escritura */}
                         {isLoading && (
                             <div className="flex gap-3 items-end" style={{ animation: 'fadeInUp 0.2s ease' }}>
-                                <div className="shrink-0 mb-1">
+                                {/* <div className="shrink-0 mb-1">
                                     <div className="w-9 h-9 rounded-full bg-secondary/10 flex items-center justify-center shadow-sm border border-secondary/20">
                                         <img
                                             src={`${process.env.URL_LOCAL_SERVER || ''}${process.env.URL_LOCAL || ''}/images/main/wayki.png`}
@@ -263,7 +267,7 @@ export default function WaykiChat() {
                                             className="w-7 h-7 object-contain animate-bounce"
                                         />
                                     </div>
-                                </div>
+                                </div> */}
                                 <div className="bg-white rounded-3xl rounded-bl-lg px-5 py-4 shadow-sm border border-gray-100 flex gap-2 items-center">
                                     <span className="w-2.5 h-2.5 bg-secondary rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
                                     <span className="w-2.5 h-2.5 bg-secondary rounded-full animate-bounce" style={{ animationDelay: '180ms' }} />
@@ -275,7 +279,7 @@ export default function WaykiChat() {
                         {/* Sugerencias al inicio */}
                         {isFirstMessage && (
                             <div className="mt-4">
-                                <p className="text-sm text-gray-400 mb-3 font-medium px-1">Podés preguntarme sobre...</p>
+                                <p className="text-xl text-secondary mb-2 font-bold px-1">Podés preguntarme sobre...</p>
                                 <div className="flex flex-wrap gap-2">
                                     {SUGERENCIAS.map((s, i) => (
                                         <button

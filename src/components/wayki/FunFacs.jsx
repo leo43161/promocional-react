@@ -1,4 +1,4 @@
-// src/components/WaykiMascot.jsx
+// src/components/wayki/FunFacs.jsx
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence, animate } from 'framer-motion';
 import { X } from 'lucide-react';
