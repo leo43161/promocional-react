@@ -38,8 +38,8 @@ export default function Index() {
   const { lang } = router.query;
   const isEnglish = lang === 'EN';
   const fetchData = () => {
-      console.log(`https://www.tucumanturismo.gob.ar/env/consultar-datos.php`);
-    
+    console.log(`https://www.tucumanturismo.gob.ar/env/consultar-datos.php`);
+
     /* try {
       // Usas una ruta relativa. En producción buscará en midominio.com/api/consultar-datos.php
       const res = await fetch(`${process.env.URL_LOCAL_SERVER}/env/consultar-datos.php`);
@@ -66,19 +66,21 @@ export default function Index() {
           />
         </a> */}
         <div className='relative'>
-         {/* <a href="https://www.tucumanturismo.gob.ar/short/actverano2026" target="_blank" rel="noopener noreferrer">
+          {/* <a href="https://www.tucumanturismo.gob.ar/short/actverano2026" target="_blank" rel="noopener noreferrer">
             <ResponsiveVideo
               desktopSrc="video/Tucuman_Tiene_Todo_Verano.mp4"
               mobileSrc="video/Tucuman_Tiene_Todo_Verano_M.mp4"
             />
           </a>*/}
-          <ResponsiveVideo
+          <a href="https://www.tucumanturismo.gob.ar/files/calendario_semana_santa_2026_.pdf" target="_blank" rel="noopener noreferrer" className='hidden'>
+            <ResponsiveVideo
               desktopSrc="video/Tucuman_Tiene_Todo_Verano.mp4"
               mobileSrc="video/Tucuman_Tiene_Todo_Verano_M.mp4"
             />
-          <div className='md:bottom-4 md:right-4 md:absolute md:w-6/12 flex justify-end w-full'>
+          </a>
+          {/* <div className='md:bottom-4 md:right-4 md:absolute md:w-6/12 flex justify-end w-full'>
             <ContadorFit></ContadorFit>
-          </div>
+          </div> */}
         </div>
       </div>
       <div className='mb-0'>
