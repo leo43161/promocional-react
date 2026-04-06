@@ -72,12 +72,16 @@ export default function Index() {
               mobileSrc="video/Tucuman_Tiene_Todo_Verano_M.mp4"
             />
           </a>*/}
-          <a href="https://www.tucumanturismo.gob.ar/files/calendario_semana_santa_2026_.pdf" target="_blank" rel="noopener noreferrer">
+           {/*<a href="https://www.tucumanturismo.gob.ar/files/calendario_semana_santa_2026_.pdf" target="_blank" rel="noopener noreferrer">
             <ResponsiveVideo
               desktopSrc="video/Banner_Web_SANTA2026.mp4"
               mobileSrc="video/Banner_Web_SANTA2026_M.mp4"
             />
-          </a>
+          </a>*/}
+           <ResponsiveVideo
+              desktopSrc="video/Tucuman_Tiene_Todo.mp4"
+              mobileSrc="video/Tucuman_Tiene_Todo_M.mp4"
+            />
           {/* <div className='md:bottom-4 md:right-4 md:absolute md:w-6/12 flex justify-end w-full'>
             <ContadorFit></ContadorFit>
           </div> */}
