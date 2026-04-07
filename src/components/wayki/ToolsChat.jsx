@@ -46,8 +46,8 @@ function BubbleText({ content }) {
                         [&_a]:font-medium [&_a]:text-primary hover:[&_a]:underline [&_a]:transition-colors
                         [&>ul]:mb-3 [&>ol]:mb-3 
                         [&_ul]:list-disc [&_ul]:ml-5 [&_ul_li]:mb-1.5 [&_li_p_strong]:text-[18px] [&_li_p]:text-[18px] [&_ul_li]:text-[18px] md:[&_li_ul]:text-[17px] [&_ul_li]:pl-0.5 marker:[&_ul]:text-gray-400
-                        [&_ol]:list-none [&_ol]:ml-0 [&_ol_li]:mb-1.5 [&_ol_li]:pl-0.5 marker:[&_ol]:text-gray-500 marker:font-semibold
-                        [&_h3]:text-lg [&_h3]:font-bold [&_h3]:text-gray-800 [&_h3]:mb-2 [&_h3]:mt-4"
+                        [&_ol]:list-none [&_ol]:ml-0 [&_ol_li]:mb-1.5 [&_ol_li]:pl-0.5 [&_ol_li]:text-[18px] marker:[&_ol]:text-gray-500 marker:font-semibold
+                        [&_h3]:text-lg [&_h3]:font-bold [&_h3]:underline [&_h3]:text-gray-800 [&_h3]:mb-2 [&_h3]:mt-4"
                 >
                     <ReactMarkdown
                         remarkPlugins={[remarkGfm]}

@@ -14,11 +14,43 @@ const API_BASE = process.env.NEXT_PUBLIC_WAYKI_API || 'http://10.0.15.36:3000/ap
 const IMG_BASE = process.env.URL_IMG_LOCAL + "/images/wayki/" || 'https://www.tucumanturismo.gob.ar/images/wayki/';
 // Sugerencias rápidas
 const SUGERENCIAS = [
-    "¿Dónde comer empanadas tucumanas?",
-    "Mejores lugares para hacer trekking",
+    "¿Que eventos hay en el cadillal?",
+    "Contame sobre que atractivos turísticos puedo encontrar en el Mollar",
     "Qué visitar en Tafí del Valle",
     "Eventos este fin de semana",
     "Historia de la Casa Histórica",
+];
+const SUGERENCIASNEW = [
+    {
+        esLabel: "¿Que eventos hay en el cadillal?",
+        enLabel: "What events are there in Cadillal?",
+        enValue: "Events en cadillal",
+        esValue: "Eventos en el Cadillal"
+    },
+    {
+        esLabel: "Contame sobre que atractivos turísticos puedo encontrar en el Mollar",
+        enLabel: "Tell me about the tourist attractions I can find in Mollar",
+        enValue: "Mollar",
+        esValue: "El Mollar"
+    },
+    {
+        esLabel: "Qué visitar en Tafí del Valle",
+        enLabel: "What to visit in Tafí del Valle",
+        enValue: "What to visit in Tafí del Valle",
+        esValue: "Qué visitar en Tafí del Valle"
+    },
+    {
+        esLabel: "Que hoteles pet friendly hay en san miguel de tucuman",
+        enLabel: "Pet-friendly hotels in San Miguel de Tucumán",
+        enValue: "Hotels pet friendly",
+        esValue: "Hoteles PetFriendly"
+    },
+    {
+        esLabel: "Historia de la Casa Histórica",
+        enLabel: "History of the Historical House",
+        enValue: "History of the Historical House",
+        esValue: "Historia de la Casa Histórica"
+    }
 ];
 
 // Convierte markdown básico a HTML seguro
@@ -158,13 +190,10 @@ export default function WaykiChat() {
                 }
             } catch (err) {
                 console.error('[Wayki] Error enviando mensaje:', err);
-                setMessages((prev) => [
-                    ...prev,
-                    {
-                        role: 'assistant',
-                        content: 'Ups, tuve un inconveniente 🌿 Probá de nuevo en un momento.',
-                    },
-                ]);
+                setMessages({
+                    role: 'assistant',
+                    content: 'Ups, tuve un inconveniente 🌿 Probá de nuevo en un momento.',
+                });
             } finally {
                 setIsLoading(false);
                 inputRef.current?.focus();
@@ -281,15 +310,18 @@ export default function WaykiChat() {
                             <div className="mt-4">
                                 <p className="text-xl text-secondary mb-2 font-bold px-1">Podés preguntarme sobre...</p>
                                 <div className="flex flex-wrap gap-2">
-                                    {SUGERENCIAS.map((s, i) => (
-                                        <button
-                                            key={i}
-                                            onClick={() => sendMessage(s)}
-                                            className="text-sm bg-white border border-secondary/30 text-secondary hover:bg-secondary hover:text-white px-4 py-2 rounded-full transition-all duration-200 shadow-sm hover:shadow-md font-medium"
-                                        >
-                                            {s}
-                                        </button>
-                                    ))}
+                                    {SUGERENCIAS.map((s, i) => {
+                                        /* const { esLabel, esValue } = SUGERENCIASNEW[i]; */
+                                        return (
+                                            <button
+                                                key={i}
+                                                onClick={() => sendMessage(s)}
+                                                className="text-sm bg-white border border-secondary/30 text-secondary hover:bg-secondary hover:text-white px-4 py-2 rounded-full transition-all duration-200 shadow-sm hover:shadow-md font-medium"
+                                            >
+                                                {s}
+                                            </button>
+                                        )
+                                    })}
                                 </div>
                             </div>
                         )}
@@ -301,34 +333,46 @@ export default function WaykiChat() {
                 {/* ==============================
             INPUT FIJO EN EL FONDO
         ============================== */}
-                <div className="fixed bottom-0 left-0 right-0 z-20 bg-white/95 backdrop-blur-md border-t border-gray-200 shadow-[0_-4px_24px_rgba(0,0,0,0.08)]">
-                    <div className="max-w-3xl mx-auto px-4 py-3 flex gap-3 items-center">
-                        <div className="flex-1 relative bg-stone-50 rounded-2xl border border-gray-200 focus-within:border-primary focus-within:shadow-[0_0_0_3px_rgba(242,101,34,0.12)] transition-all duration-200">
-                            <textarea
-                                ref={inputRef}
-                                value={input}
-                                onChange={(e) => setInput(e.target.value)}
-                                onKeyDown={handleKeyDown}
-                                placeholder="Preguntale algo a Wayki..."
-                                rows={1}
-                                disabled={isLoading || tokenLoading}
-                                className="w-full bg-transparent text-gray-800 placeholder-gray-400 text-base px-2.5 py-2 focus:outline-none resize-none leading-relaxed"
-                                style={{ maxHeight: '120px', minHeight: '52px' }}
+                <div className="fixed bottom-0 left-0 right-0 z-20">
+                    <div className='size-50 absolute -top-35 left-40' >
+                        <div>
+                            <img
+                                src={"images/wayki/explorando.png"}
+                                className='object-cover h-full w-full object-center'
+                                alt=""
                             />
                         </div>
-                        <button
-                            onClick={handleSubmit}
-                            /* disabled={!input.trim() || isLoading || tokenLoading} */
-                            className="bg-primary hover:bg-primary/85 disabled:bg-gray-200 disabled:cursor-not-allowed text-white p-3.5 rounded-2xl transition-all duration-200 shrink-0 shadow-md hover:shadow-lg active:scale-95"
-                            aria-label="Enviar mensaje"
-                        >
-                            <Send className="size-5" />
-                        </button>
                     </div>
-                    <p className="text-center md:text-xs text-gray-400 pb-2 text-[10px]">
-                        Potenciado por Inteligencia Artificial · Los resultados pueden variar
-                    </p>
+                    <div className='bg-white/95 backdrop-blur-md border-t border-gray-200 shadow-[0_-4px_24px_rgba(0,0,0,0.08)]'>
+                        <div className="max-w-3xl mx-auto px-4 py-3 flex gap-3 items-center">
+                            <div className="flex-1 relative bg-stone-50 rounded-2xl border border-gray-200 focus-within:border-primary focus-within:shadow-[0_0_0_3px_rgba(242,101,34,0.12)] transition-all duration-200">
+                                <textarea
+                                    ref={inputRef}
+                                    value={input}
+                                    onChange={(e) => setInput(e.target.value)}
+                                    onKeyDown={handleKeyDown}
+                                    placeholder="Preguntale algo a Wayki..."
+                                    rows={1}
+                                    disabled={isLoading || tokenLoading}
+                                    className="w-full bg-transparent text-gray-800 placeholder-gray-400 text-base px-2.5 py-2 focus:outline-none resize-none leading-relaxed"
+                                    style={{ maxHeight: '120px', minHeight: '52px' }}
+                                />
+                            </div>
+                            <button
+                                onClick={handleSubmit}
+                                /* disabled={!input.trim() || isLoading || tokenLoading} */
+                                className="bg-primary hover:bg-primary/85 disabled:bg-gray-200 disabled:cursor-not-allowed text-white p-3.5 rounded-2xl transition-all duration-200 shrink-0 shadow-md hover:shadow-lg active:scale-95"
+                                aria-label="Enviar mensaje"
+                            >
+                                <Send className="size-5" />
+                            </button>
+                        </div>
+                        <p className="text-center md:text-xs text-gray-400 pb-2 text-[10px]">
+                            Potenciado por Inteligencia Artificial · Los resultados pueden variar
+                        </p>
+                    </div>
                 </div>
+
             </div>
 
             {/* Animación CSS */}
