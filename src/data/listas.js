@@ -2,7 +2,7 @@ export const listLists = {
   'oficinas': 1,
   'museos': 2,
   'penas': 3,
-  /* 'compras': 4, */
+   'compras': 4,
   'festivales': 5,
   'artesano': 6,
   'bodegas': 7,
