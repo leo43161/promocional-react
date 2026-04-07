@@ -13,6 +13,7 @@ export const listLists = {
   'ecosendas-parque-aconquija': 13,
   'otras-bodegas': 14,
   'areas-protegidas': 15,
+  'teatros-cine': 11,
 };
 
 export function idListList() {
