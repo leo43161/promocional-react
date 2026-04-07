@@ -13,14 +13,14 @@ import ChatResponse from '@/components/wayki/ChatResponse';
 const API_BASE = process.env.NEXT_PUBLIC_WAYKI_API || 'http://10.0.15.36:3000/api';
 const IMG_BASE = process.env.URL_IMG_LOCAL + "/images/wayki/" || 'https://www.tucumanturismo.gob.ar/images/wayki/';
 // Sugerencias rápidas
-const SUGERENCIAS = [
+/* const SUGERENCIAS = [
     "¿Que eventos hay en el cadillal?",
     "Contame sobre que atractivos turísticos puedo encontrar en el Mollar",
     "Qué visitar en Tafí del Valle",
     "Eventos este fin de semana",
     "Historia de la Casa Histórica",
-];
-const SUGERENCIASNEW = [
+]; */
+const SUGERENCIAS = [
     {
         esLabel: "¿Que eventos hay en el cadillal?",
         enLabel: "What events are there in Cadillal?",
@@ -62,7 +62,8 @@ const SUGERENCIASNEW = [
 export default function WaykiChat() {
     const router = useRouter();
     const { q } = router.query;
-
+    const language = getCurrentLanguage(router.query);
+    const isSpanish = language.code === 'ES';
     const [messages, setMessages] = useState(
         {
             role: 'assistant',
@@ -126,9 +127,10 @@ export default function WaykiChat() {
         async (text) => {
             const trimmed = text?.trim();
             if (!trimmed || isLoading) return;
-
+            const setLenguage = isSpanish ? '' : ', Response in English';
+            
             setMessages({ role: 'user', content: trimmed });
-            const sendContext = [...chatCacheResp, { role: 'user', content: trimmed }];
+            const sendContext = [...chatCacheResp, { role: 'user', content: trimmed + setLenguage }];
             setResponse({});
             setInput('');
             setIsLoading(true);
@@ -311,14 +313,16 @@ export default function WaykiChat() {
                                 <p className="text-xl text-secondary mb-2 font-bold px-1">Podés preguntarme sobre...</p>
                                 <div className="flex flex-wrap gap-2">
                                     {SUGERENCIAS.map((s, i) => {
-                                        /* const { esLabel, esValue } = SUGERENCIASNEW[i]; */
+                                         const { esLabel, esValue, enLabel, enValue } = s; 
+                                            const label = isSpanish ? esLabel : enLabel;
+                                            const value = isSpanish ? esValue : enValue;
                                         return (
                                             <button
                                                 key={i}
-                                                onClick={() => sendMessage(s)}
+                                                onClick={() => sendMessage(value)}
                                                 className="text-sm bg-white border border-secondary/30 text-secondary hover:bg-secondary hover:text-white px-4 py-2 rounded-full transition-all duration-200 shadow-sm hover:shadow-md font-medium"
                                             >
-                                                {s}
+                                                {label}
                                             </button>
                                         )
                                     })}
