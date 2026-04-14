@@ -6,20 +6,27 @@ import { Send, ArrowLeft, Sparkles } from 'lucide-react';
 import { ReactTextStream } from 'react-text-stream';
 import { decodeDataWayki, parseMarkdown } from '@/utils/wayki';
 import ChatResponse from '@/components/wayki/ChatResponse';
+import { getCurrentLanguage } from '@/utils';
+import { motion, AnimatePresence } from 'framer-motion';
 /* src/pages/wayki.jsx */
 // ============================================
 // CONFIGURACIÓN DE LA API
 // ============================================
 const API_BASE = process.env.NEXT_PUBLIC_WAYKI_API || 'http://10.0.15.36:3000/api';
-const IMG_BASE = process.env.URL_IMG_LOCAL + "/images/wayki/" || 'https://www.tucumanturismo.gob.ar/images/wayki/';
-// Sugerencias rápidas
-/* const SUGERENCIAS = [
-    "¿Que eventos hay en el cadillal?",
-    "Contame sobre que atractivos turísticos puedo encontrar en el Mollar",
-    "Qué visitar en Tafí del Valle",
-    "Eventos este fin de semana",
-    "Historia de la Casa Histórica",
-]; */
+
+const WAYKI_STATES = {
+    IDLE: { src: '/images/wayki/idle.png', alt: 'Wayki esperando' },
+    THINKING: { src: '/images/wayki/pensando.png', alt: 'Wayki pensando' },
+    SEARCHING: { src: '/images/wayki/explorando.png', alt: 'Wayki buscando con lupa' },
+    SPEAKING: { src: '/images/wayki/hablando.png', alt: 'Wayki respondiendo' },
+};
+const getActionFromEvent = (type) => {
+    if (['status', 'start', 'start-step'].includes(type)) return 'THINKING';
+    if (type.includes('-data') || type === 'search') return 'SEARCHING';
+    if (['text-start', 'text-delta'].includes(type)) return 'SPEAKING';
+    if (['finish', 'text-end'].includes(type)) return 'IDLE';
+    return null;
+};
 const SUGERENCIAS = [
     {
         esLabel: "¿Que eventos hay en el cadillal?",
@@ -61,6 +68,7 @@ const SUGERENCIAS = [
 // ============================================
 export default function WaykiChat() {
     const router = useRouter();
+    const [waykiAction, setWaykiAction] = useState('IDLE');
     const { q } = router.query;
     const language = getCurrentLanguage(router.query);
     const isSpanish = language.code === 'ES';
@@ -128,7 +136,7 @@ export default function WaykiChat() {
             const trimmed = text?.trim();
             if (!trimmed || isLoading) return;
             const setLenguage = isSpanish ? '' : ', Response in English';
-            
+
             setMessages({ role: 'user', content: trimmed });
             const sendContext = [...chatCacheResp, { role: 'user', content: trimmed + setLenguage }];
             setResponse({});
@@ -180,7 +188,10 @@ export default function WaykiChat() {
                 let streamBuffer = "";
                 while (true) {
                     const { done, value } = await waykiRawText.read();
-                    if (done) break;
+                    if (done) {
+                        setWaykiAction('IDLE'); // Vuelve a reposo al terminar
+                        break;
+                    }
 
                     const chunk = textDecoder.decode(value, { stream: true }); // stream:true para multibyte
                     const { events, buffer } = decodeDataWayki(chunk, streamBuffer);
@@ -188,6 +199,9 @@ export default function WaykiChat() {
 
                     if (events.length > 0) {
                         setResponse({ role: 'assistant', content: events, type: 'response' });
+                        const lastEvent = events[events.length - 1];
+                        const nextAction = getActionFromEvent(lastEvent?.type);
+                        if (nextAction) setWaykiAction(nextAction);
                     }
                 }
             } catch (err) {
@@ -285,7 +299,7 @@ export default function WaykiChat() {
             ÁREA DE MENSAJES
         ============================== */}
                 <div className="flex-1 relative z-10 overflow-y-auto pb-36">
-                    <div className="max-w-3xl mx-auto px-4 py-6 flex flex-col gap-5">
+                    <div className="max-w-3xl mx-auto px-4 pt-6 pb-15 flex flex-col gap-5">
                         <ChatResponse messages={messages} response={response} setChatCacheResp={setChatCacheResp} />
                         {/* Indicador de escritura */}
                         {isLoading && (
@@ -313,14 +327,14 @@ export default function WaykiChat() {
                                 <p className="text-xl text-secondary mb-2 font-bold px-1">Podés preguntarme sobre...</p>
                                 <div className="flex flex-wrap gap-2">
                                     {SUGERENCIAS.map((s, i) => {
-                                         const { esLabel, esValue, enLabel, enValue } = s; 
-                                            const label = isSpanish ? esLabel : enLabel;
-                                            const value = isSpanish ? esValue : enValue;
+                                        const { esLabel, esValue, enLabel, enValue } = s;
+                                        const label = isSpanish ? esLabel : enLabel;
+                                        const value = isSpanish ? esValue : enValue;
                                         return (
                                             <button
                                                 key={i}
                                                 onClick={() => sendMessage(value)}
-                                                className="text-sm bg-white border border-secondary/30 text-secondary hover:bg-secondary hover:text-white px-4 py-2 rounded-full transition-all duration-200 shadow-sm hover:shadow-md font-medium"
+                                                className="text-sm bg-white border border-secondary/30 text-secondary hover:bg-secondary hover:text-white px-4 py-2 rounded-full transition-all duration-200 shadow-sm hover:shadow-md font-medium text-left"
                                             >
                                                 {label}
                                             </button>
@@ -337,19 +351,39 @@ export default function WaykiChat() {
                 {/* ==============================
             INPUT FIJO EN EL FONDO
         ============================== */}
-                <div className="fixed bottom-0 left-0 right-0 z-20">
-                    <div className='size-50 absolute -top-35 left-40' >
-                        <div>
-                            <img
-                                src={"images/wayki/explorando.png"}
-                                className='object-cover h-full w-full object-center'
-                                alt=""
+                <div className="fixed md:bottom-4 bottom-0 left-0 right-0 z-20">
+
+                    <div className='md:size-55 size-53 absolute md:-top-35 -top-32 md:right-70 -right-5 drop-shadow-2xl z-10'>
+                        <AnimatePresence mode="wait">
+                            <motion.img
+                                key={waykiAction} // El cambio de key dispara la animación de salida/entrada
+                                src={process.env.URL_LOCAL_SERVER + WAYKI_STATES[waykiAction].src}
+                                alt={WAYKI_STATES[waykiAction].alt}
+                                className='object-contain h-full w-full object-center drop-shadow-lg'
+
+                                // Animación inicial (entra desde abajo y rebota)
+                                initial={{ opacity: 0, y: 20, scale: 0.9 }}
+
+                                // Estado visible
+                                animate={{ opacity: 1, y: 0, scale: 1 }}
+
+                                // Animación de salida (se desvanece rápido para dar lugar a la siguiente)
+                                exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.15 } }}
+
+                                // Configuración del rebote
+                                transition={{
+                                    type: "spring",
+                                    stiffness: 300,
+                                    damping: 20,
+                                    mass: 1
+                                }}
                             />
-                        </div>
+                        </AnimatePresence>
                     </div>
-                    <div className='bg-white/95 backdrop-blur-md border-t border-gray-200 shadow-[0_-4px_24px_rgba(0,0,0,0.08)]'>
-                        <div className="max-w-3xl mx-auto px-4 py-3 flex gap-3 items-center">
-                            <div className="flex-1 relative bg-stone-50 rounded-2xl border border-gray-200 focus-within:border-primary focus-within:shadow-[0_0_0_3px_rgba(242,101,34,0.12)] transition-all duration-200">
+                    <div className='bg-secondary/95 backdrop-blur-md shadow-[0_-4px_24px_rgba(0,0,0,0.08)] md:w-4/7 mx-auto md:rounded-3xl md:py-3 py-1 relative z-10 overflow-hidden'>
+                        <img className='absolute w-full h-full object-cover z-11 opacity-9 object-center top-0 left-0' src={process.env.URL_LOCAL_SERVER + "/images/header/textura-tucuman.png"} alt="" />
+                        <div className="w-full md:px-6 px-4 py-3 flex gap-3 items-center z-20">
+                            <div className="flex-1 relative bg-stone-50 rounded-2xl border border-gray-200 focus-within:border-primary focus-within:shadow-[0_0_0_3px_rgba(242,101,34,0.12)] transition-all duration-200  z-20">
                                 <textarea
                                     ref={inputRef}
                                     value={input}
@@ -365,13 +399,13 @@ export default function WaykiChat() {
                             <button
                                 onClick={handleSubmit}
                                 /* disabled={!input.trim() || isLoading || tokenLoading} */
-                                className="bg-primary hover:bg-primary/85 disabled:bg-gray-200 disabled:cursor-not-allowed text-white p-3.5 rounded-2xl transition-all duration-200 shrink-0 shadow-md hover:shadow-lg active:scale-95"
+                                className="bg-primary hover:bg-primary/85 disabled:bg-gray-200 disabled:cursor-not-allowed text-white p-3.5 rounded-2xl transition-all duration-200 shrink-0 shadow-md hover:shadow-lg active:scale-95 z-20"
                                 aria-label="Enviar mensaje"
                             >
                                 <Send className="size-5" />
                             </button>
                         </div>
-                        <p className="text-center md:text-xs text-gray-400 pb-2 text-[10px]">
+                        <p className="text-center md:text-xs text-gray-100 pb-2 text-[10px] z-20">
                             Potenciado por Inteligencia Artificial · Los resultados pueden variar
                         </p>
                     </div>
