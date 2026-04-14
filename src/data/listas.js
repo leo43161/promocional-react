@@ -14,6 +14,7 @@ export const listLists = {
   'otras-bodegas': 14,
   'areas-protegidas': 15,
   'teatros-cine': 11,
+  'familia': 16,
 };
 
 export function idListList() {
