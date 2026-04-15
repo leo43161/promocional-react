@@ -137,7 +137,7 @@ export default function Header() {
                     .map(sub => {
                         let href = '#'; // Default href
                         const redirectSubseccion = redirectSubsecc.find(redirec => redirec.idSubseccion === parseInt(sub.idSubseccion));
-
+                        console.log("sub:", sub);
                         if (sub.lista && listOfLists[parseInt(sub.lista)]) {
                             href = `/listas/${listOfLists[parseInt(sub.lista)]}`;
                         } else if (sub.primerArticuloSubseccion && parseInt(sub.cantidadArticulos) === 1 && !redirectSubseccion) {
