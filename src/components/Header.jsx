@@ -138,14 +138,14 @@ export default function Header() {
                         let href = '#'; // Default href
                         const redirectSubseccion = redirectSubsecc.find(redirec => redirec.idSubseccion === parseInt(sub.idSubseccion));
                         console.log("sub:", sub);
-                        const listasHarcodeadas = {
+                        /* const listasHarcodeadas = {
                             "169": 3,
                             "170": 4,
                             "168": 11,
                         }
                         if (listasHarcodeadas[sub.idSubseccion]) {
                             href = `/listas/${listOfLists[listasHarcodeadas[sub.idSubseccion]]}`;
-                        } else if (sub.lista && listOfLists[parseInt(sub.lista)]) {
+                        } else */ if (sub.lista && listOfLists[parseInt(sub.lista)]) {
                             href = `/listas/${listOfLists[parseInt(sub.lista)]}`;
                         } else if (sub.primerArticuloSubseccion && parseInt(sub.cantidadArticulos) === 1 && !redirectSubseccion) {
                             href = `/articulos/articulo/${sub.primerArticuloSubseccion}/${generateSlug(sub.nombrePrimerArticulo)}`;
