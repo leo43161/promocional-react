@@ -36,7 +36,7 @@ const RutasContent = {
                 descripcion: "Sumergite en la naturaleza",
                 imagen: "/images/banners/ecosendas.jpg",
                 icono: "/icons/rutas/ecosendas.svg",
-                articulo: "167",
+                articulo: "325",
             },
         ],
     },
