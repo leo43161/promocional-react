@@ -8,10 +8,10 @@ export default function BuscadorIAHome() {
     const router = useRouter();
 
     const sugerencias = [
-        "¿Dónde comer las mejores empanadas?",
-        "Museos abiertos hoy",
-        "Clima en Tafí del Valle",
-        "Circuitos de trekking"
+        "¿Donde Hacer Kayak?",
+        "¿Que eventos hay en el cadillal?",
+        "Quiero vacacionar en Tafi del Valle",
+        "Como llegar a El Mollar",
     ];
 
     // Navegar al chat con la consulta como primer mensaje
