@@ -116,12 +116,13 @@ export default function PDFGeneratorButton() {
       <button
         onClick={handleOpenModalClick}
         disabled={isLoading}
-        className="flex items-center px-4 text-white cursor-pointer h-full hover:bg-white hover:text-black transition-all duration-300 disabled:bg-gray-500 disabled:cursor-not-allowed"
+        className="flex items-center md:px-4 pr-2 text-white cursor-pointer h-full hover:bg-white hover:text-black transition-all duration-300 disabled:bg-gray-500 disabled:cursor-not-allowed"
       >
-        <ArrowDownToLine className="text-[26px]" />
-        <p className="font-700 uppercase text-2xl ml-2">
+        <p className="font-700 uppercase md:text-2xl text-xl md:ml-2 mr-1">
           {isLoading && !isModalOpen ? lenguaje.code === 'ES' ? 'Generando...' : 'Generating...' : lenguaje.code === 'ES' ? 'Descargar' : 'Download'}
         </p>
+        <ArrowDownToLine className="md:text-[26px] text-2xl" />
+
       </button>
 
       {/* --- Tooltip de advertencia --- */}

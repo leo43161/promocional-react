@@ -296,7 +296,7 @@ export default function Itinerarios() {
             </div>
             {/* barra de itinerario */}
             <div className="flex items-center justify-between w-full h-[45px] bg-neutral-500 sticky rounded-t-lg bottom-0 right-0 z-20" style={{ backgroundColor: circuitoSelected?.bg }}>
-                <p className="font-700 uppercase text-2xl text-white shrink-0 pl-6">
+                <p className="font-700 uppercase md:text-2xl text-xl text-white shrink-0 md:pl-6 pl-3">
                     {lenguaje.code === 'ES' ? 'Tu itinerario' : 'Your itinerary'}
                 </p>
                 <div className="w-full h-[30px] bg-neutral-200 rounded-full mx-2 md:flex hidden items-center">
@@ -310,7 +310,7 @@ export default function Itinerarios() {
                         ></div>
                     )}
                 </div>
-                <p className="font-700 uppercase text-2xl text-white shrink-0 md:mr-4">
+                <p className="font-700 uppercase md:text-2xl text-xl text-white shrink-0 md:mr-4">
                     {progressText}
                 </p>
 
