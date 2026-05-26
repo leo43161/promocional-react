@@ -86,9 +86,9 @@ export default function Index() {
       {/* <div>
         <EventosHomeSmall />
       </div> */}
-      <div>
+      {/* <div>
         <BuscadorIAHome />
-      </div>
+      </div> */}
       <div className='mb-0'>
         <Itinerarios />
       </div>

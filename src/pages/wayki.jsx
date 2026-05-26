@@ -12,7 +12,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 // ============================================
 // CONFIGURACIÓN DE LA API
 // ============================================
-const API_BASE = process.env.NEXT_PUBLIC_WAYKI_API || 'http://10.0.15.36:3000/api';
+const API_BASE = process.env.NEXT_PUBLIC_WAYKI_API || 'https://waykyapi.redeatt.duckdns.org/api';
 
 const WAYKI_STATES = {
     IDLE: { src: '/images/wayki/idle.png', alt: 'Wayki esperando' },
