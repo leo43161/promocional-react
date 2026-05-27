@@ -145,7 +145,7 @@ export default function FeedbackBar({ userId, prompt, respuesta, idMensaje = nul
                             placeholder="Tu comentario nos ayuda a mejorar..."
                             className="w-full text-[13px] text-gray-700 placeholder-gray-400 bg-stone-50 rounded-xl px-3 py-2 border border-gray-200 focus:border-secondary focus:outline-none resize-none"
                         />
-                        <div className="flex justify-end gap-2">
+                        <div className="flex justify-start gap-2">
                             <button
                                 type="button"
                                 onClick={() => { setOpenComment(false); setComentario(''); }}
