@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import { Send, ArrowLeft, Sparkles } from 'lucide-react';
+import { Send, ArrowLeft, Sparkles, ArrowUp } from 'lucide-react';
 import { ReactTextStream } from 'react-text-stream';
 import { decodeDataWayki, parseMarkdown } from '@/utils/wayki';
 import ChatResponse from '@/components/wayki/ChatResponse';
@@ -54,12 +54,12 @@ const SUGERENCIAS = [
         enValue: "Hotels pet friendly",
         esValue: "Hoteles PetFriendly"
     },
-    {
+    /* {
         esLabel: "Historia de la Casa Histórica",
         enLabel: "History of the Historical House",
         enValue: "History of the Historical House",
         esValue: "Historia de la Casa Histórica"
-    }
+    } */
 ];
 
 // Convierte markdown básico a HTML seguro
@@ -87,12 +87,16 @@ export default function WaykiChat() {
     const [authToken, setAuthToken] = useState(null);
     const [tokenLoading, setTokenLoading] = useState(true);
     const [chatCacheResp, setChatCacheResp] = useState([]);
+    const [sessionUserId, setSessionUserId] = useState(null);
 
     const [getIdSession] = useGetIdSessionMutation();
 
     const messagesEndRef = useRef(null);
     const inputRef = useRef(null);
     const initialQuerySentRef = useRef(false);
+    const scrollContainerRef = useRef(null);
+    const autoScrollEnabledRef = useRef(true);
+    const [showScrollTop, setShowScrollTop] = useState(false);
 
     // Obtiene el id de sesión de la cookie. Si no existe, lo genera y la setea.
     const ensureSessionId = useCallback(async () => {
@@ -100,7 +104,10 @@ export default function WaykiChat() {
         if (cookieRaw) {
             try {
                 const cookieDecrypted = JSON.parse(desencriptar(cookieRaw));
-                if (cookieDecrypted?.id) return cookieDecrypted.id;
+                if (cookieDecrypted?.id) {
+                    setSessionUserId(cookieDecrypted.id);
+                    return cookieDecrypted.id;
+                }
             } catch (e) {
                 console.error('[Wayki] Cookie inválida, regenerando:', e);
             }
@@ -111,6 +118,7 @@ export default function WaykiChat() {
             if (newId) {
                 const encryptedValue = encriptar(JSON.stringify({ permiso: true, id: newId }));
                 setCookie('__cookieSesion', encryptedValue, 60);
+                setSessionUserId(newId);
                 return newId;
             }
         } catch (e) {
@@ -119,12 +127,48 @@ export default function WaykiChat() {
         return null;
     }, [getIdSession]);
 
-    // ============================================
-    // SCROLL AUTOMÁTICO
-    // ============================================
+    // Al montar, si ya hay cookie con id, lo levantamos para que ChatResponse tenga userId desde el inicio.
     useEffect(() => {
-        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, [messages, isLoading]);
+        const cookieRaw = getCookie('__cookieSesion');
+        if (cookieRaw) {
+            try {
+                const decoded = JSON.parse(desencriptar(cookieRaw));
+                if (decoded?.id) setSessionUserId(decoded.id);
+            } catch { /* ignore */ }
+        }
+    }, []);
+
+    // ============================================
+    // SCROLL AUTOMÁTICO + DETECCIÓN DE POSICIÓN
+    // ============================================
+    // El scroll real ocurre sobre `window` (el contenedor crece con el contenido),
+    // así que escuchamos ahí y NO sobre el div interno.
+    useEffect(() => {
+        if (autoScrollEnabledRef.current) {
+            messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        }
+    }, [messages, response, isLoading]);
+
+    // Listener global de scroll
+    useEffect(() => {
+        const handleScroll = () => {
+            const doc = document.documentElement;
+            const scrollTop = window.scrollY || doc.scrollTop;
+            const viewport = window.innerHeight;
+            const total = doc.scrollHeight;
+            const distanceFromBottom = total - scrollTop - viewport;
+
+            autoScrollEnabledRef.current = distanceFromBottom < 160;
+            setShowScrollTop(scrollTop > 240);
+        };
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        handleScroll();
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    const scrollToTop = useCallback(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, []);
 
     // ============================================
     // OBTENER TOKEN JWT
@@ -338,9 +382,18 @@ export default function WaykiChat() {
                 {/* ==============================
             ÁREA DE MENSAJES
         ============================== */}
-                <div className="flex-1 relative z-10 overflow-y-auto pb-36">
+                <div
+                    ref={scrollContainerRef}
+                    className="flex-1 relative z-10 pb-36"
+                >
                     <div className="max-w-3xl mx-auto px-4 pt-6 pb-15 flex flex-col gap-5">
-                        <ChatResponse messages={messages} response={response} setChatCacheResp={setChatCacheResp} />
+                        <ChatResponse
+                            messages={messages}
+                            response={response}
+                            setChatCacheResp={setChatCacheResp}
+                            isLoading={isLoading}
+                            userId={sessionUserId}
+                        />
                         {/* Indicador de escritura */}
                         {isLoading && (
                             <div className="flex gap-3 items-end" style={{ animation: 'fadeInUp 0.2s ease' }}>
@@ -387,6 +440,26 @@ export default function WaykiChat() {
                         <div ref={messagesEndRef} />
                     </div>
                 </div>
+
+                {/* ==============================
+            BOTÓN "VOLVER ARRIBA"
+        ============================== */}
+                <AnimatePresence>
+                    {showScrollTop && (
+                        <motion.button
+                            key="scroll-top"
+                            onClick={scrollToTop}
+                            initial={{ opacity: 0, y: 16, scale: 0.85 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: 16, scale: 0.85 }}
+                            transition={{ duration: 0.2 }}
+                            aria-label="Volver arriba"
+                            className="fixed md:bottom-32 bottom-28 right-4 z-30 bg-primary hover:bg-primary/90 text-white p-3 rounded-full shadow-lg hover:shadow-xl transition-shadow active:scale-95"
+                        >
+                            <ArrowUp className="w-5 h-5" />
+                        </motion.button>
+                    )}
+                </AnimatePresence>
 
                 {/* ==============================
             INPUT FIJO EN EL FONDO

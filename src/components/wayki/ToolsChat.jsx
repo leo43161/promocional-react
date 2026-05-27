@@ -1,10 +1,12 @@
 import { parseMarkdown } from '@/utils/wayki';
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
     Calendar, Clock, MapPin, Tag, Sparkles, Loader2,
     Utensils, Map, Package, BookOpen, Search,
     User, Phone, Mail, Globe, Mountain, Bus, ArrowRight, ArrowLeft,
-    Hotel, Star, Wifi, Car, Coffee, Waves, Tv, Wind, ChefHat, Trees, Baby
+    Hotel, Star, Wifi, Car, Coffee, Waves, Tv, Wind, ChefHat, Trees, Baby,
+    Instagram, Facebook, Link as LinkIcon, List, Info, MessageCircle, ExternalLink,
+    ChevronDown, ChevronUp
 } from 'lucide-react';
 import { generateSlug } from '@/utils';
 import ReactMarkdown from 'react-markdown';
@@ -773,6 +775,215 @@ function HotelsList({ data }) {
     );
 }
 
+// ============================================================
+// LIST-SEARCH (cards genéricas con campos dinámicos)
+// ============================================================
+
+/** Mapea el nombre del svg que viene del backend → ícono lucide */
+const CAMPO_ICONS = {
+    'phone.svg': Phone,
+    'mail.svg': Mail,
+    'clock.svg': Clock,
+    'location-dot.svg': MapPin,
+    'campo-1.svg': MapPin,
+    'diamond-minus.svg': MapPin,
+    'instagram.svg': Instagram,
+    'facebook.svg': Facebook,
+    'globe.svg': Globe,
+    'web.svg': Globe,
+    'link.svg': LinkIcon,
+    'info.svg': Info,
+    'message.svg': MessageCircle,
+};
+
+/** Imagen del CDN para las cards de listado */
+const LIST_IMG_BASE = process.env.URL_IMG_LIST || `${process.env.URL_IMG || ''}`;
+const listImgUrl = (filename) =>
+    filename ? `https://www.tucumanturismo.gob.ar/public/img/listas/${filename}` : null;
+
+/** Limpia URLs problemáticas tipo "https://[texto](url)" devolviendo la url real */
+function cleanUrl(url) {
+    if (!url) return '';
+    const md = url.match(/\(([^)]+)\)\s*$/);
+    if (md && md[1]) return md[1];
+    return url;
+}
+
+/** Detecta el tipo de link a partir de la Url para construir el href correcto */
+function buildHref(url, texto) {
+    if (!url) return null;
+    const clean = cleanUrl(url.trim());
+    if (clean.startsWith('tel:') || clean.startsWith('mailto:') || clean.startsWith('http')) {
+        return clean;
+    }
+    // Heurísticas si vino sin prefijo:
+    if (/^[\w.+-]+@[\w-]+\.[\w.-]+$/.test(clean)) return `mailto:${clean}`;
+    if (/^[\d+()\-\s]{6,}$/.test(clean)) return `tel:${clean.replace(/\s+/g, '')}`;
+    if (clean.startsWith('@')) return null; // handle de instagram sin url completa
+    return clean;
+}
+
+/** Render de un campo (icono + título + texto + link opcional) */
+function CampoItem({ campo }) {
+    const Icon = CAMPO_ICONS[campo.Archivo] || Info;
+    const href = buildHref(campo.Url, campo.Texto);
+    const isInsta = campo.Archivo === 'instagram.svg';
+    const isFb = campo.Archivo === 'facebook.svg';
+
+    const textoLimpio = (campo.Texto || '').replace(/^mailto:/, '').trim();
+    const esSocial = isInsta || isFb;
+
+    // Estado para "ver más" cuando el texto excede 4 líneas
+    const [expanded, setExpanded] = useState(false);
+    const [overflows, setOverflows] = useState(false);
+    const textRef = useRef(null);
+
+    useEffect(() => {
+        const el = textRef.current;
+        if (!el) return;
+        // Comparamos altura real vs altura recortada para detectar overflow
+        const check = () => {
+            // Permite un pequeño margen para evitar falsos positivos por subpíxeles
+            setOverflows(el.scrollHeight - el.clientHeight > 2);
+        };
+        check();
+        // Reaccionar a cambios de tamaño (ej. al expandir cards vecinas)
+        const ro = new ResizeObserver(check);
+        ro.observe(el);
+        return () => ro.disconnect();
+    }, [textoLimpio, expanded]);
+
+    // Para redes sociales mostramos un botón compacto
+    if (esSocial && href) {
+        const color = isInsta
+            ? 'bg-pink-500 hover:bg-pink-600'
+            : 'bg-blue-500 hover:bg-blue-600';
+        return (
+            <a
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`inline-flex items-center gap-1 text-[11px] ${color} font-semibold text-white px-2 py-0.5 rounded-full transition-colors shadow-sm w-fit`}
+            >
+                <Icon className="w-3 h-3 shrink-0" />
+                <span>{isInsta ? 'Instagram' : 'Facebook'}</span>
+            </a>
+        );
+    }
+
+    const textBlock = (
+        <p
+            ref={textRef}
+            className={`text-[12px] leading-snug break-words ${href ? 'text-primary font-semibold group-hover:underline' : 'text-gray-700'} ${expanded ? '' : 'line-clamp-4'}`}
+        >
+            {textoLimpio}
+        </p>
+    );
+
+    const body = (
+        <div className="flex items-start gap-2 group">
+            <div className="w-6 h-6 rounded-lg bg-secondary/10 border border-secondary/15 flex items-center justify-center shrink-0 mt-0.5">
+                <Icon className="w-3.5 h-3.5 text-secondary" />
+            </div>
+            <div className="min-w-0 flex-1">
+                {campo.Titulo && campo.Titulo !== campo.Texto && (
+                    <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-wide leading-tight mb-0.5">
+                        {campo.Titulo}
+                    </p>
+                )}
+                {textBlock}
+                {(overflows || expanded) && (
+                    <button
+                        type="button"
+                        onClick={(e) => {
+                            // Evita disparar el link del padre si el campo tiene href
+                            e.preventDefault();
+                            e.stopPropagation();
+                            setExpanded((v) => !v);
+                        }}
+                        className="mt-0.5 inline-flex items-center gap-0.5 text-[11px] font-semibold text-secondary hover:text-secondary/80 transition-colors"
+                    >
+                        {expanded ? 'Ver menos' : 'Ver más'}
+                        {expanded
+                            ? <ChevronUp className="w-3 h-3" />
+                            : <ChevronDown className="w-3 h-3" />}
+                    </button>
+                )}
+            </div>
+        </div>
+    );
+
+    return href ? (
+        <a href={href} target={href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer" className="block">
+            {body}
+        </a>
+    ) : (
+        body
+    );
+}
+
+/** Tarjeta individual del listado genérico */
+function ListSearchCard({ card }) {
+    const img = listImgUrl(card.Img);
+    const campos = Array.isArray(card.campos) ? card.campos : [];
+
+    return (
+        <div className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 flex flex-col w-65 min-w-65 max-w-65 shrink-0 snap-start h-full">
+            {img ? (
+                <div className="h-32 bg-stone-100 overflow-hidden relative">
+                    <img
+                        src={img}
+                        alt={card.Titulo}
+                        className="w-full h-full object-cover"
+                        loading="lazy"
+                        onError={(e) => { e.target.parentElement.style.display = 'none'; }}
+                    />
+                    <div className="absolute inset-x-0 bottom-0 h-10 bg-linear-to-t from-black/40 to-transparent pointer-events-none" />
+                </div>
+            ) : (
+                <div className="h-16 bg-linear-to-br from-secondary/10 to-primary/10 flex items-center justify-center">
+                    <Info className="w-6 h-6 text-secondary/40" />
+                </div>
+            )}
+
+            <div className="p-3 flex flex-col gap-2 flex-1">
+                <p className="text-[15px] font-bold text-gray-800 leading-snug line-clamp-2">
+                    {card.Titulo}
+                </p>
+
+                {campos.length > 0 && (
+                    <div className="flex flex-col gap-2">
+                        {campos.map((c) => (
+                            <CampoItem key={c.id_LCAM} campo={c} />
+                        ))}
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+}
+
+/** Lista genérica de cards (list-search-data) */
+function ListSearchData({ data }) {
+    console.log(data);
+    // Se acepta tanto {result: {cards}} como {cards} directamente
+    const cards = data?.result?.cards || data?.cards || data?.resultados || [];
+    const searchTerm = data?.result?.search_term || data?.search_term;
+    if (!cards.length) return null;
+
+    const label = searchTerm
+        ? `Resultados para "${searchTerm}"`
+        : 'Información';
+
+    return (
+        <AssistantShell icon={<List className="w-3.5 h-3.5" />} label={label}>
+            <div className="flex gap-3 overflow-x-auto pb-2 snap-x snap-mandatory scrollbar-thin scrollbar-thumb-gray-200 items-stretch">
+                {cards.map((c) => <ListSearchCard key={c.id_LC} card={c} />)}
+            </div>
+        </AssistantShell>
+    );
+}
+
 /** Wrapper: burbuja asistente con ícono + label opcional */
 function AssistantShell({ children, icon, label }) {
     return (
@@ -852,6 +1063,11 @@ function ToolsChat({ response, isLast }) {
 
         case 'search-data':
             return <SearchList data={data || content} />;
+
+        case 'list-search-data':
+            console.log('ListSearchData content:', content);
+            console.log('ListSearchData data:', data);
+            return <ListSearchData data={data || content} />;
 
         // ── Delimitadores (ignorar silenciosamente) ────────
         case 'start':

@@ -1,6 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { parseMarkdown } from '@/utils/wayki';
 import ToolsChat from './ToolsChat';
+import FeedbackBar from './FeedbackBar';
 /* src/components/wayki/ChatResponse.jsx */
 const typesTools = {
     "hotels-data": "",
@@ -21,9 +22,10 @@ const typesArt = {
     "articles-data": "Busca articulo de localidad especifica",
     "destinations-data": "Articulos de destinos en itinerario por localidad",
     "products-data": "Productos turisticos en localidad especifica",
+    "list-search-data": "Listado de items con datos simplificados para mostrar en cards",
 }
 
-export default function ChatResponse({ messages, response, setChatCacheResp }) {
+export default function ChatResponse({ messages, response, setChatCacheResp, isLoading, userId }) {
     const [chat, setChat] = useState([]);
     
     const handleChat = useCallback((data) => {
@@ -70,6 +72,7 @@ export default function ChatResponse({ messages, response, setChatCacheResp }) {
                     case 'adventure-data':
                     case 'guides-data':
                     case 'transport-data':
+                    case 'list-search-data':
                         setChat((prev) => [...prev, { role: 'assistant', type: msj.type, data: msj.data }]);
                         break;
 
@@ -102,6 +105,39 @@ export default function ChatResponse({ messages, response, setChatCacheResp }) {
         }
     }, [messages])
 
+    // Calcula el último prompt del usuario y el último texto del asistente
+    // para asociarlos al feedback que se mande.
+    const { lastPrompt, lastRespuesta, hasAssistantTurn } = useMemo(() => {
+        let lastPrompt = null;
+        let lastRespuesta = null;
+        let hasAssistantTurn = false;
+
+        // Recorrer hacia atrás buscando el último texto del asistente (text-delta o welcome)
+        for (let i = chat.length - 1; i >= 0; i--) {
+            const m = chat[i];
+            if (m.role === 'assistant') {
+                if (!lastRespuesta && (m.type === 'text-delta' || m.type === 'welcome')) {
+                    lastRespuesta = typeof m.content === 'string' ? m.content : '';
+                    hasAssistantTurn = true;
+                }
+            } else if (m.role === 'user') {
+                if (!lastPrompt) lastPrompt = m.content;
+                if (lastRespuesta) break;
+            }
+        }
+        return { lastPrompt, lastRespuesta, hasAssistantTurn };
+    }, [chat]);
+
+    // El feedback se muestra solo cuando el stream terminó, hay un turno del
+    // asistente con texto, y el último mensaje del chat es del asistente.
+    const showFeedback =
+        !isLoading &&
+        hasAssistantTurn &&
+        chat.length > 0 &&
+        chat[chat.length - 1]?.role === 'assistant' &&
+        // Evita mostrar feedback sobre el welcome inicial sin que haya habido pregunta
+        !!lastPrompt;
+
     return (
         <div className='flex flex-col gap-3'>
             {chat.map((msg, i) => {
@@ -127,6 +163,15 @@ export default function ChatResponse({ messages, response, setChatCacheResp }) {
                 )
             })
             }
+
+            {showFeedback && (
+                <FeedbackBar
+                    key={`fb-${chat.length}`}
+                    userId={userId}
+                    prompt={lastPrompt}
+                    respuesta={lastRespuesta}
+                />
+            )}
         </div>
 
     )
