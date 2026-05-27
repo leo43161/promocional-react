@@ -8,6 +8,8 @@ import { decodeDataWayki, parseMarkdown } from '@/utils/wayki';
 import ChatResponse from '@/components/wayki/ChatResponse';
 import { getCurrentLanguage } from '@/utils';
 import { motion, AnimatePresence } from 'framer-motion';
+import { encriptar, desencriptar, getCookie, setCookie } from '@/utils/cookie';
+import { useGetIdSessionMutation } from '@/redux/services/itinerarioService';
 /* src/pages/wayki.jsx */
 // ============================================
 // CONFIGURACIÓN DE LA API
@@ -86,9 +88,36 @@ export default function WaykiChat() {
     const [tokenLoading, setTokenLoading] = useState(true);
     const [chatCacheResp, setChatCacheResp] = useState([]);
 
+    const [getIdSession] = useGetIdSessionMutation();
+
     const messagesEndRef = useRef(null);
     const inputRef = useRef(null);
     const initialQuerySentRef = useRef(false);
+
+    // Obtiene el id de sesión de la cookie. Si no existe, lo genera y la setea.
+    const ensureSessionId = useCallback(async () => {
+        const cookieRaw = getCookie('__cookieSesion');
+        if (cookieRaw) {
+            try {
+                const cookieDecrypted = JSON.parse(desencriptar(cookieRaw));
+                if (cookieDecrypted?.id) return cookieDecrypted.id;
+            } catch (e) {
+                console.error('[Wayki] Cookie inválida, regenerando:', e);
+            }
+        }
+        try {
+            const response = await getIdSession(window.location.href).unwrap();
+            const newId = response?.result?.[0]?.id;
+            if (newId) {
+                const encryptedValue = encriptar(JSON.stringify({ permiso: true, id: newId }));
+                setCookie('__cookieSesion', encryptedValue, 60);
+                return newId;
+            }
+        } catch (e) {
+            console.error('[Wayki] Error generando id de sesión:', e);
+        }
+        return null;
+    }, [getIdSession]);
 
     // ============================================
     // SCROLL AUTOMÁTICO
@@ -138,6 +167,17 @@ export default function WaykiChat() {
             const setLenguage = isSpanish ? '' : ', Response in English';
 
             setMessages({ role: 'user', content: trimmed });
+
+            // Registrar el mensaje del usuario en la API (usando el id de la cookie)
+            ensureSessionId().then((userId) => {
+                if (!userId) return;
+                fetch(`${process.env.URL_SERVER}ia_mensaje`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user_id: userId, prompt: trimmed }),
+                }).catch((e) => console.error('[Wayki] Error guardando mensaje:', e));
+            });
+
             const sendContext = [...chatCacheResp, { role: 'user', content: trimmed + setLenguage }];
             setResponse({});
             setInput('');
