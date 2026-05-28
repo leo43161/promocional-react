@@ -31,34 +31,34 @@ const getActionFromEvent = (type) => {
 };
 const SUGERENCIAS = [
     {
-        esLabel: "¿Que eventos hay en el cadillal?",
-        enLabel: "What events are there in Cadillal?",
-        enValue: "Events en cadillal",
-        esValue: "Eventos en el Cadillal"
+        esLabel: "¿Qué eventos hay en El Cadillal?",
+        enLabel: "What events are there in El Cadillal?",
+        enValue: "Events in El Cadillal",
+        esValue: "Eventos en El Cadillal"
     },
     {
-        esLabel: "Contame sobre que atractivos turísticos puedo encontrar en el Mollar",
-        enLabel: "Tell me about the tourist attractions I can find in Mollar",
-        enValue: "Mollar",
-        esValue: "El Mollar"
+        esLabel: "¿Qué atractivos turísticos hay en El Mollar?",
+        enLabel: "What tourist attractions are there in El Mollar?",
+        enValue: "Tourist attractions El Mollar",
+        esValue: "Atractivos turísticos El Mollar"
     },
     {
-        esLabel: "Qué visitar en Tafí del Valle",
-        enLabel: "What to visit in Tafí del Valle",
-        enValue: "What to visit in Tafí del Valle",
-        esValue: "Qué visitar en Tafí del Valle"
+        esLabel: "¿Qué visitar en Tafí del Valle?",
+        enLabel: "What to visit in Tafí del Valle?",
+        enValue: "Tourism Tafí del Valle",
+        esValue: "Turismo Tafí del Valle"
     },
     {
-        esLabel: "Que hoteles pet friendly hay en san miguel de tucuman",
-        enLabel: "Pet-friendly hotels in San Miguel de Tucumán",
-        enValue: "Hotels pet friendly",
-        esValue: "Hoteles PetFriendly"
+        esLabel: "¿Qué hoteles pet-friendly hay en San Miguel de Tucumán?",
+        enLabel: "What pet-friendly hotels are there in San Miguel de Tucumán?",
+        enValue: "Pet-friendly hotels San Miguel de Tucumán",
+        esValue: "Hoteles pet-friendly San Miguel de Tucumán"
     },
     /* {
         esLabel: "Historia de la Casa Histórica",
-        enLabel: "History of the Historical House",
-        enValue: "History of the Historical House",
-        esValue: "Historia de la Casa Histórica"
+        enLabel: "History of the Casa Histórica",
+        enValue: "History Casa Histórica",
+        esValue: "Historia Casa Histórica"
     } */
 ];
 

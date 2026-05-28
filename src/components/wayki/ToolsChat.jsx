@@ -874,7 +874,7 @@ function CampoItem({ campo }) {
     const textBlock = (
         <p
             ref={textRef}
-            className={`text-[12px] leading-snug break-words ${href ? 'text-primary font-semibold group-hover:underline' : 'text-gray-700'} ${expanded ? '' : 'line-clamp-4'}`}
+            className={`text-[12px] leading-snug wrap-break-words ${href ? 'text-primary font-semibold group-hover:underline' : 'text-gray-700'} ${expanded ? '' : 'line-clamp-4'}`}
         >
             {textoLimpio}
         </p>
