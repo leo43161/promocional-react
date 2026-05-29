@@ -1,326 +1,11 @@
 // src/pages/wayki.jsx
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
-import { Send, ArrowLeft, Sparkles, ArrowUp } from 'lucide-react';
-import { ReactTextStream } from 'react-text-stream';
-import { decodeDataWayki, parseMarkdown } from '@/utils/wayki';
-import ChatResponse from '@/components/wayki/ChatResponse';
-import { getCurrentLanguage } from '@/utils';
-import { motion, AnimatePresence } from 'framer-motion';
-import { encriptar, desencriptar, getCookie, setCookie } from '@/utils/cookie';
-import { useGetIdSessionMutation } from '@/redux/services/itinerarioService';
-/* src/pages/wayki.jsx */
-// ============================================
-// CONFIGURACIÓN DE LA API
-// ============================================
-const API_BASE = process.env.NEXT_PUBLIC_WAYKI_API || 'https://waykyapi.redeatt.duckdns.org/api';
+import { ArrowLeft, Sparkles } from 'lucide-react';
 
-const WAYKI_STATES = {
-    IDLE: { src: '/images/wayki/idle.png', alt: 'Wayki esperando' },
-    THINKING: { src: '/images/wayki/pensando.png', alt: 'Wayki pensando' },
-    SEARCHING: { src: '/images/wayki/explorando.png', alt: 'Wayki buscando con lupa' },
-    SPEAKING: { src: '/images/wayki/hablando.png', alt: 'Wayki respondiendo' },
-};
-const getActionFromEvent = (type) => {
-    if (['status', 'start', 'start-step'].includes(type)) return 'THINKING';
-    if (type.includes('-data') || type === 'search') return 'SEARCHING';
-    if (['text-start', 'text-delta'].includes(type)) return 'SPEAKING';
-    if (['finish', 'text-end'].includes(type)) return 'IDLE';
-    return null;
-};
-const SUGERENCIAS = [
-    {
-        esLabel: "¿Qué eventos hay en El Cadillal?",
-        enLabel: "What events are there in El Cadillal?",
-        enValue: "Events in El Cadillal",
-        esValue: "Eventos en El Cadillal"
-    },
-    {
-        esLabel: "¿Qué atractivos turísticos hay en El Mollar?",
-        enLabel: "What tourist attractions are there in El Mollar?",
-        enValue: "Tourist attractions El Mollar",
-        esValue: "Atractivos turísticos El Mollar"
-    },
-    {
-        esLabel: "¿Qué visitar en Tafí del Valle?",
-        enLabel: "What to visit in Tafí del Valle?",
-        enValue: "Tourism Tafí del Valle",
-        esValue: "Turismo Tafí del Valle"
-    },
-    {
-        esLabel: "¿Qué hoteles pet-friendly hay en San Miguel de Tucumán?",
-        enLabel: "What pet-friendly hotels are there in San Miguel de Tucumán?",
-        enValue: "Pet-friendly hotels San Miguel de Tucumán",
-        esValue: "Hoteles pet-friendly San Miguel de Tucumán"
-    },
-    /* {
-        esLabel: "Historia de la Casa Histórica",
-        enLabel: "History of the Casa Histórica",
-        enValue: "History Casa Histórica",
-        esValue: "Historia Casa Histórica"
-    } */
-];
-
-// Convierte markdown básico a HTML seguro
-
-
-// ============================================
-// COMPONENTE PRINCIPAL
-// ============================================
 export default function WaykiChat() {
     const router = useRouter();
-    const [waykiAction, setWaykiAction] = useState('IDLE');
-    const { q } = router.query;
-    const language = getCurrentLanguage(router.query);
-    const isSpanish = language.code === 'ES';
-    const [messages, setMessages] = useState(
-        {
-            role: 'assistant',
-            content: '¡Hola! Soy **Wayki**, el tapir que guía tu viaje por Tucumán 🌿\n\nPuedo ayudarte con información sobre **destinos turísticos**, gastronomía, eventos, alojamientos y todo lo que necesitás saber para descubrir el **Jardín de la República**.\n\n¿Qué querés explorar hoy?',
-            type: "welcome"
-        },
-    );
-    const [input, setInput] = useState('');
-    const [response, setResponse] = useState({});
-    const [isLoading, setIsLoading] = useState(false);
-    const [authToken, setAuthToken] = useState(null);
-    const [tokenLoading, setTokenLoading] = useState(true);
-    const [chatCacheResp, setChatCacheResp] = useState([]);
-    const [sessionUserId, setSessionUserId] = useState(null);
-
-    const [getIdSession] = useGetIdSessionMutation();
-
-    const messagesEndRef = useRef(null);
-    const inputRef = useRef(null);
-    const initialQuerySentRef = useRef(false);
-    const scrollContainerRef = useRef(null);
-    const autoScrollEnabledRef = useRef(true);
-    const [showScrollTop, setShowScrollTop] = useState(false);
-
-    // Obtiene el id de sesión de la cookie. Si no existe, lo genera y la setea.
-    const ensureSessionId = useCallback(async () => {
-        const cookieRaw = getCookie('__cookieSesion');
-        if (cookieRaw) {
-            try {
-                const cookieDecrypted = JSON.parse(desencriptar(cookieRaw));
-                if (cookieDecrypted?.id) {
-                    setSessionUserId(cookieDecrypted.id);
-                    return cookieDecrypted.id;
-                }
-            } catch (e) {
-                console.error('[Wayki] Cookie inválida, regenerando:', e);
-            }
-        }
-        try {
-            const response = await getIdSession(window.location.href).unwrap();
-            const newId = response?.result?.[0]?.id;
-            if (newId) {
-                const encryptedValue = encriptar(JSON.stringify({ permiso: true, id: newId }));
-                setCookie('__cookieSesion', encryptedValue, 60);
-                setSessionUserId(newId);
-                return newId;
-            }
-        } catch (e) {
-            console.error('[Wayki] Error generando id de sesión:', e);
-        }
-        return null;
-    }, [getIdSession]);
-
-    // Al montar, si ya hay cookie con id, lo levantamos para que ChatResponse tenga userId desde el inicio.
-    useEffect(() => {
-        const cookieRaw = getCookie('__cookieSesion');
-        if (cookieRaw) {
-            try {
-                const decoded = JSON.parse(desencriptar(cookieRaw));
-                if (decoded?.id) setSessionUserId(decoded.id);
-            } catch { /* ignore */ }
-        }
-    }, []);
-
-    // ============================================
-    // SCROLL AUTOMÁTICO + DETECCIÓN DE POSICIÓN
-    // ============================================
-    // El scroll real ocurre sobre `window` (el contenedor crece con el contenido),
-    // así que escuchamos ahí y NO sobre el div interno.
-    useEffect(() => {
-        if (autoScrollEnabledRef.current) {
-            messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
-        }
-    }, [messages, response, isLoading]);
-
-    // Listener global de scroll
-    useEffect(() => {
-        const handleScroll = () => {
-            const doc = document.documentElement;
-            const scrollTop = window.scrollY || doc.scrollTop;
-            const viewport = window.innerHeight;
-            const total = doc.scrollHeight;
-            const distanceFromBottom = total - scrollTop - viewport;
-
-            autoScrollEnabledRef.current = distanceFromBottom < 160;
-            setShowScrollTop(scrollTop > 240);
-        };
-        window.addEventListener('scroll', handleScroll, { passive: true });
-        handleScroll();
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
-
-    const scrollToTop = useCallback(() => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, []);
-
-    // ============================================
-    // OBTENER TOKEN JWT
-    // ============================================
-    useEffect(() => {
-        const getToken = async () => {
-            setTokenLoading(true);
-            try {
-                const res = await fetch(`${API_BASE}/auth/login`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username: 'dev_tester' }),
-                });
-                if (!res.ok) throw new Error(`Auth error: ${res.status}`);
-                const data = await res.json();
-                const tok =
-                    data.token ||
-                    data.access_token ||
-                    data.jwt ||
-                    data?.data?.token ||
-                    data?.data?.access_token;
-                setAuthToken(tok || null);
-            } catch (e) {
-                console.error('[Wayki] Error de autenticación:', e);
-                setAuthToken(null);
-            } finally {
-                setTokenLoading(false);
-            }
-        };
-        getToken();
-    }, []);
-
-    // ============================================
-    // ENVIAR MENSAJE
-    // ============================================
-    const sendMessage = useCallback(
-        async (text) => {
-            const trimmed = text?.trim();
-            if (!trimmed || isLoading) return;
-            const setLenguage = isSpanish ? '' : ', Response in English';
-
-            setMessages({ role: 'user', content: trimmed });
-
-            // Registrar el mensaje del usuario en la API (usando el id de la cookie)
-            ensureSessionId().then((userId) => {
-                if (!userId) return;
-                fetch(`${process.env.URL_SERVER}ia_mensaje`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ user_id: userId, prompt: trimmed }),
-                }).catch((e) => console.error('[Wayki] Error guardando mensaje:', e));
-            });
-
-            const sendContext = [...chatCacheResp, { role: 'user', content: trimmed + setLenguage }];
-            setResponse({});
-            setInput('');
-            setIsLoading(true);
-
-            let currentToken = authToken;
-
-            try {
-                // Re-autenticar si no hay token
-                if (!currentToken) {
-                    const authRes = await fetch(`${API_BASE}/auth/login`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ username: 'dev_tester' }),
-                    });
-                    const authData = await authRes.json();
-                    currentToken =
-                        authData.token ||
-                        authData.access_token ||
-                        authData.jwt ||
-                        authData?.data?.token;
-                    setAuthToken(currentToken);
-                }
-                console.log('PASO 1: Enviar al modelo Wayki');
-                /* console.log(JSON.stringify(chatCacheResp)); */
-                console.log(JSON.stringify(sendContext));
-                // PASO 1: Enviar al modelo Wayki
-                const waykiRes = await fetch(`${API_BASE}/wayki`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${currentToken}`,
-                    },
-                    body: JSON.stringify({
-                        messages: sendContext,
-                    }),
-
-                });
-
-                if (!waykiRes.ok) {
-                    if (waykiRes.status === 401 || waykiRes.status === 403) setAuthToken(null);
-                    throw new Error(`Error Wayki ${waykiRes.status}`);
-                }
-                /* const waykiJson = await waykiRes.json();
-                console.log(waykiJson); */
-                const waykiRawText = waykiRes.body.getReader();
-                const textDecoder = new TextDecoder('utf-8');
-                let streamBuffer = "";
-                while (true) {
-                    const { done, value } = await waykiRawText.read();
-                    if (done) {
-                        setWaykiAction('IDLE'); // Vuelve a reposo al terminar
-                        break;
-                    }
-
-                    const chunk = textDecoder.decode(value, { stream: true }); // stream:true para multibyte
-                    const { events, buffer } = decodeDataWayki(chunk, streamBuffer);
-                    streamBuffer = buffer; // ← guardar remanente para el próximo ciclo
-
-                    if (events.length > 0) {
-                        setResponse({ role: 'assistant', content: events, type: 'response' });
-                        const lastEvent = events[events.length - 1];
-                        const nextAction = getActionFromEvent(lastEvent?.type);
-                        if (nextAction) setWaykiAction(nextAction);
-                    }
-                }
-            } catch (err) {
-                console.error('[Wayki] Error enviando mensaje:', err);
-                setMessages({
-                    role: 'assistant',
-                    content: 'Ups, tuve un inconveniente 🌿 Probá de nuevo en un momento.',
-                });
-            } finally {
-                setIsLoading(false);
-                inputRef.current?.focus();
-            }
-        },
-        [authToken, isLoading]
-    );
-
-    // Enviar la consulta inicial desde la URL
-    useEffect(() => {
-        if (q && !tokenLoading && !initialQuerySentRef.current) {
-            initialQuerySentRef.current = true;
-            sendMessage(q);
-        }
-    }, [q, tokenLoading, sendMessage]);
-
-    const handleSubmit = () => {
-        if (input.trim() && !isLoading) sendMessage(input);
-    };
-
-    const handleKeyDown = (e) => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            handleSubmit();
-        }
-    };
-    const isFirstMessage = chatCacheResp.length === 1 && !isLoading;
 
     return (
         <>
@@ -328,7 +13,7 @@ export default function WaykiChat() {
                 <title>Wayki - Tu Guía Turístico de Tucumán</title>
                 <meta
                     name="description"
-                    content="Chateá con Wayki, el tapir guía turístico virtual de Tucumán. Preguntá sobre destinos, gastronomía, eventos y más."
+                    content="Wayki, el tapir guía turístico virtual de Tucumán. Próximamente con novedades sobre su lanzamiento oficial."
                 />
             </Head>
 
@@ -336,13 +21,16 @@ export default function WaykiChat() {
                 className="relative flex flex-col bg-back/60 overflow-hidden"
                 style={{ minHeight: 'calc(100vh - 80px)' }}
             >
-                <div className='absolute w-full h-full object-cover z-10 opacity-40 object-center top-0 left-0'
+                {/* Fondo textura */}
+                <div
+                    className="absolute w-full h-full object-cover z-10 opacity-40 object-center top-0 left-0"
                     style={{
                         backgroundImage: `url(${process.env.URL_LOCAL_SERVER + "/images/header/textura-tucuman.png"})`,
                         backgroundAttachment: 'fixed',
                     }}
-                 /* src={process.env.URL_LOCAL_SERVER + "/images/header/textura-tucuman.png"} alt="" */ />
-                {/* <img className='absolute w-full md:h-auto z-10 object-center md:top-35 max-[360px]:-bottom-30 -bottom-43 md:bottom-auto left-0 h-full drop-shadow-2xl' src={process.env.URL_LOCAL_SERVER + "/images/header/montana.png"} alt="" /> */}
+                />
+
+                {/* Header */}
                 <div className="sticky top-0 z-20 bg-secondary text-white shadow-lg">
                     <div className="max-w-3xl mx-auto px-4 py-3 flex items-center md:gap-4 gap-1">
                         <button
@@ -352,187 +40,59 @@ export default function WaykiChat() {
                         >
                             <ArrowLeft className="w-5 h-5" />
                         </button>
-
-                        {/* Avatar + Info */}
                         <div className="flex items-center md:gap-3 gap-2 flex-1">
-                            {/* <div className="relative shrink-0">
-                                <div className="w-11 h-11 rounded-full bg-white/10 flex items-center justify-center overflow-hidden">
-                                    <img
-                                        src={`${process.env.URL_LOCAL_SERVER || ''}${process.env.URL_LOCAL || ''}/images/main/wayki.png`}
-                                        alt="Wayki el tapir"
-                                        className={`w-10 h-10 object-contain drop-shadow-md ${isLoading ? 'animate-bounce' : ''}`}
-                                    />
-                                </div>
-                                <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-400 rounded-full border-2 border-secondary animate-pulse" />
-                            </div> */}
                             <div className="min-w-0">
                                 <h1 className="text-lg font-bold leading-tight">Wayki</h1>
                                 <p className="text-xs text-white/70 truncate">
-                                    {isLoading ? 'Escribiendo...' : tokenLoading ? 'Conectando...' : 'Guía turístico virtual · Tucumán'}
+                                    Guía turístico virtual · Tucumán
                                 </p>
                             </div>
                         </div>
-
-                        {/* <div className="shrink-0">
-                            <Sparkles className="w-5 h-5 text-primary" />
-                        </div> */}
                     </div>
                 </div>
 
-                {/* ==============================
-            ÁREA DE MENSAJES
-        ============================== */}
-                <div
-                    ref={scrollContainerRef}
-                    className="flex-1 relative z-10 pb-36"
-                >
-                    <div className="max-w-3xl mx-auto px-4 pt-6 pb-15 flex flex-col gap-5">
-                        <ChatResponse
-                            messages={messages}
-                            response={response}
-                            setChatCacheResp={setChatCacheResp}
-                            isLoading={isLoading}
-                            userId={sessionUserId}
-                        />
-                        {/* Indicador de escritura */}
-                        {isLoading && (
-                            <div className="flex gap-3 items-end" style={{ animation: 'fadeInUp 0.2s ease' }}>
-                                {/* <div className="shrink-0 mb-1">
-                                    <div className="w-9 h-9 rounded-full bg-secondary/10 flex items-center justify-center shadow-sm border border-secondary/20">
-                                        <img
-                                            src={`${process.env.URL_LOCAL_SERVER || ''}${process.env.URL_LOCAL || ''}/images/main/wayki.png`}
-                                            alt="Wayki"
-                                            className="w-7 h-7 object-contain animate-bounce"
-                                        />
-                                    </div>
-                                </div> */}
-                                <div className="bg-white rounded-3xl rounded-bl-lg px-5 py-4 shadow-sm border border-gray-100 flex gap-2 items-center">
-                                    <span className="w-2.5 h-2.5 bg-secondary rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                                    <span className="w-2.5 h-2.5 bg-secondary rounded-full animate-bounce" style={{ animationDelay: '180ms' }} />
-                                    <span className="w-2.5 h-2.5 bg-secondary/60 rounded-full animate-bounce" style={{ animationDelay: '360ms' }} />
-                                </div>
-                            </div>
-                        )}
+                {/* Contenido central */}
+                <div className="flex-1 relative z-10 flex items-center justify-center px-4 py-12">
+                    <div className="max-w-lg w-full text-center">
 
-                        {/* Sugerencias al inicio */}
-                        {isFirstMessage && (
-                            <div className="mt-4">
-                                <p className="text-xl text-secondary mb-2 font-bold px-1">Podés preguntarme sobre...</p>
-                                <div className="flex flex-wrap gap-2">
-                                    {SUGERENCIAS.map((s, i) => {
-                                        const { esLabel, esValue, enLabel, enValue } = s;
-                                        const label = isSpanish ? esLabel : enLabel;
-                                        const value = isSpanish ? esValue : enValue;
-                                        return (
-                                            <button
-                                                key={i}
-                                                onClick={() => sendMessage(value)}
-                                                className="text-sm bg-white border border-secondary/30 text-secondary hover:bg-secondary hover:text-white px-4 py-2 rounded-full transition-all duration-200 shadow-sm hover:shadow-md font-medium text-left"
-                                            >
-                                                {label}
-                                            </button>
-                                        )
-                                    })}
-                                </div>
-                            </div>
-                        )}
-
-                        <div ref={messagesEndRef} />
-                    </div>
-                </div>
-
-                {/* ==============================
-            BOTÓN "VOLVER ARRIBA"
-        ============================== */}
-                <AnimatePresence>
-                    {showScrollTop && (
-                        <motion.button
-                            key="scroll-top"
-                            onClick={scrollToTop}
-                            initial={{ opacity: 0, y: 16, scale: 0.85 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            exit={{ opacity: 0, y: 16, scale: 0.85 }}
-                            transition={{ duration: 0.2 }}
-                            aria-label="Volver arriba"
-                            className="fixed md:bottom-32 bottom-28 right-4 z-30 bg-primary hover:bg-primary/90 text-white p-3 rounded-full shadow-lg hover:shadow-xl transition-shadow active:scale-95"
-                        >
-                            <ArrowUp className="w-5 h-5" />
-                        </motion.button>
-                    )}
-                </AnimatePresence>
-
-                {/* ==============================
-            INPUT FIJO EN EL FONDO
-        ============================== */}
-                <div className="fixed md:bottom-4 bottom-0 left-0 right-0 z-20">
-
-                    <div className='md:size-55 size-53 absolute md:-top-35 -top-32 md:right-70 -right-5 drop-shadow-2xl z-10'>
-                        <AnimatePresence mode="wait">
-                            <motion.img
-                                key={waykiAction} // El cambio de key dispara la animación de salida/entrada
-                                src={process.env.URL_LOCAL_SERVER + WAYKI_STATES[waykiAction].src}
-                                alt={WAYKI_STATES[waykiAction].alt}
-                                className='object-contain h-full w-full object-center drop-shadow-lg'
-
-                                // Animación inicial (entra desde abajo y rebota)
-                                initial={{ opacity: 0, y: 20, scale: 0.9 }}
-
-                                // Estado visible
-                                animate={{ opacity: 1, y: 0, scale: 1 }}
-
-                                // Animación de salida (se desvanece rápido para dar lugar a la siguiente)
-                                exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.15 } }}
-
-                                // Configuración del rebote
-                                transition={{
-                                    type: "spring",
-                                    stiffness: 300,
-                                    damping: 20,
-                                    mass: 1
-                                }}
+                        {/* Imagen de Wayki */}
+                        <div className="flex justify-center mb-6">
+                            <img
+                                src={process.env.URL_LOCAL_SERVER + "/images/wayki/idle.png"}
+                                alt="Wayki el tapir"
+                                className="w-44 h-44 object-contain drop-shadow-xl"
                             />
-                        </AnimatePresence>
-                    </div>
-                    <div className='bg-secondary/95 backdrop-blur-md shadow-[0_-4px_24px_rgba(0,0,0,0.08)] md:w-4/7 mx-auto md:rounded-3xl md:py-3 py-1 relative z-10 overflow-hidden'>
-                        <img className='absolute w-full h-full object-cover z-11 opacity-9 object-center top-0 left-0' src={process.env.URL_LOCAL_SERVER + "/images/header/textura-tucuman.png"} alt="" />
-                        <div className="w-full md:px-6 px-4 py-3 flex gap-3 items-center z-20">
-                            <div className="flex-1 relative bg-stone-50 rounded-2xl border border-gray-200 focus-within:border-primary focus-within:shadow-[0_0_0_3px_rgba(242,101,34,0.12)] transition-all duration-200  z-20">
-                                <textarea
-                                    ref={inputRef}
-                                    value={input}
-                                    onChange={(e) => setInput(e.target.value)}
-                                    onKeyDown={handleKeyDown}
-                                    placeholder="Preguntale algo a Wayki..."
-                                    rows={1}
-                                    disabled={isLoading || tokenLoading}
-                                    className="w-full bg-transparent text-gray-800 placeholder-gray-400 text-base px-2.5 py-2 focus:outline-none resize-none leading-relaxed"
-                                    style={{ maxHeight: '120px', minHeight: '52px' }}
-                                />
-                            </div>
-                            <button
-                                onClick={handleSubmit}
-                                /* disabled={!input.trim() || isLoading || tokenLoading} */
-                                className="bg-primary hover:bg-primary/85 disabled:bg-gray-200 disabled:cursor-not-allowed text-white p-3.5 rounded-2xl transition-all duration-200 shrink-0 shadow-md hover:shadow-lg active:scale-95 z-20"
-                                aria-label="Enviar mensaje"
-                            >
-                                <Send className="size-5" />
-                            </button>
                         </div>
-                        <p className="text-center md:text-xs text-gray-100 pb-2 text-[10px] z-20">
-                            Potenciado por Inteligencia Artificial · Los resultados pueden variar
-                        </p>
+
+                        {/* Tarjeta del mensaje */}
+                        <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-xl border border-white/60 px-8 py-8">
+                            <div className="flex justify-center mb-4">
+                                <span className="inline-flex items-center gap-2 bg-primary/10 text-primary text-sm font-semibold px-4 py-1.5 rounded-full">
+                                    <Sparkles className="w-4 h-4" />
+                                    Próximamente
+                                </span>
+                            </div>
+
+                            <h2 className="text-2xl font-bold text-secondary mb-3 leading-snug">
+                                ¡Gracias por participar de la prueba de Wayki!
+                            </h2>
+
+                            <p className="text-gray-500 text-base leading-relaxed">
+                                Pronto tendremos novedades sobre su lanzamiento oficial.
+                            </p>
+                        </div>
+
+                        {/* Botón volver */}
+                        <button
+                            onClick={() => router.back()}
+                            className="mt-6 inline-flex items-center gap-2 bg-secondary hover:bg-secondary/90 text-white font-semibold px-6 py-3 rounded-full shadow-md hover:shadow-lg transition-all duration-200 active:scale-95"
+                        >
+                            <ArrowLeft className="w-4 h-4" />
+                            Volver al inicio
+                        </button>
                     </div>
                 </div>
-
             </div>
-
-            {/* Animación CSS */}
-            <style jsx global>{`
-        @keyframes fadeInUp {
-          from { opacity: 0; transform: translateY(10px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-      `}</style>
         </>
     );
 }
