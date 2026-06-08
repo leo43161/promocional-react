@@ -152,7 +152,8 @@ export default function FunFacs() {
                         }}
                     >
                         <img
-                            src="/images/main/wayki.png" // Asegúrate que esta ruta sea correcta
+                            src="/images/main/wayki-bubuzela.png" // Asegúrate que esta ruta sea correcta
+                            /* src="/images/main/wayki.png" */ // Asegúrate que esta ruta sea correcta
                             alt="Wayki"
                             className='w-32'
                         />
