@@ -81,8 +81,8 @@ export default function Index() {
             />
           </a>*/}
            <ResponsiveVideo
-              desktopSrc="video/Tucuman_Tiene_Todo.mp4"
-              mobileSrc="video/Tucuman_Tiene_Todo_M.mp4"
+              desktopSrc="video/Desktop_Banner_Mundial.mp4"
+              mobileSrc="video/Mundial_Banner_Mobile.mp4"
             />
           {/* <div className='md:bottom-4 md:right-4 md:absolute md:w-6/12 flex justify-end w-full'>
             <ContadorFit></ContadorFit>
