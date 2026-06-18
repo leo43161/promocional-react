@@ -53,7 +53,7 @@ const BotonesBusqueda = () => {
             onClick={() => handleSelect(buttonS.id)}
             style={{ backgroundColor: isSelected ? buttonS.color : '#73716a' }} // Asegura el color de fondo
           >
-            {/* Icono del botón */}
+            {/* Icono del botón  */}
             <buttonS.icon
               className={`
                 h-5 w-5 lg:h-6 lg:w-6
