@@ -114,7 +114,7 @@ export default function FunFacs() {
                     >
                         <button
                             onClick={() => setIsVisible(false)}
-                            className="absolute top-3 right-3 z-[5] rounded-full p-1 text-gray-400 bg-white transition-all hover:bg-gray-200 hover:text-gray-400 hover:scale-110 drop-shadow-2xl"
+                            className="absolute top-3 right-3 z-5 rounded-full p-1 text-gray-400 bg-white transition-all hover:bg-gray-200 hover:text-gray-400 hover:scale-110 drop-shadow-2xl"
                             aria-label="Cerrar"
                         >
                             <X size={18} />
