@@ -144,7 +144,7 @@ const Footer = () => {
             </strong>
             <ul>
               <li className="mt-2">
-                Santa Fe 2121 - San Miguel de Tucumán
+                Crisóstomo Álvarez 515 - San Miguel de Tucumán
               </li>
               <li>Tucumán- Argentina</li>
               <li>Código Postal: 4000</li>
