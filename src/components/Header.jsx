@@ -324,7 +324,7 @@ export default function Header() {
                             <Circle fill="#fff" size={22} stroke="#00000000" className="animate-ping duration-150 opacity-75" />
                             <Circle fill="#fff" size={22} stroke="#00000000" className="absolute" />
                         </div>
-                        <span>Mira el Cadillal en VIVO</span>
+                        <span>Mira la Plaza Independencia en VIVO</span>
                     </div>
                 )}
                 <div className={`flex justify-between items-center px-2 w-11/12 duration-700 gap-7 ease ${isTopBarVisible ? 'py-4' : 'py-3'}`}>
@@ -543,7 +543,7 @@ export default function Header() {
                             <Circle fill="#fff" stroke="#00000000" className="animate-ping duration-150 opacity-75" />
                             <Circle fill="#fff" stroke="#00000000" className="absolute" />
                         </div>
-                        <span>Mira el Cadillal en VIVO</span>
+                        <span>Mira la Plaza Independencia en VIVO</span>
                     </div>
                 )}
             </div>

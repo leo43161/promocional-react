@@ -14,8 +14,8 @@ export default function ModalVivo({
 
     useEffect(() => {
         if (isOpen) {
-            // Buscamos específicamente por El Cadillal, Tucumán
-            fetch(`https://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=El Cadillal, Tucuman&lang=es`)
+            // Buscamos específicamente por San Miguel de Tucumán
+            fetch(`https://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=San Miguel de Tucuman, Tucuman&lang=es`)
                 .then(res => res.json())
                 .then(data => {
                     setWeather({
@@ -51,7 +51,7 @@ export default function ModalVivo({
                 <div className="md:absolute top-6 left-6 z-20 flex flex-col gap-4 pointer-events-none w-full md:w-auto">
                     <div className="bg-secondary/50 backdrop-blur-md p-4 md:rounded-xl border border-white/10 text-white shadow-2xl">
                         <h2 className="text-sm font-medium uppercase tracking-widest text-primary mb-1">En Vivo</h2>
-                        <h1 className="text-3xl font-bold">El Cadillal</h1>
+                        <h1 className="text-3xl font-bold">Plaza Independencia</h1>
                         <p className="text-white/70">San Miguel de Tucumán</p>
                         
                         {weather && (
