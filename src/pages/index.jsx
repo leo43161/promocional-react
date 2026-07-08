@@ -74,7 +74,7 @@ export default function Index() {
               mobileSrc="video/Tucuman_Tiene_Todo_Verano_M.mp4"
             />
           </a>*/}
-          <a href="https://www.tucumanturismo.gob.ar/files/invierno2026-julio.pdf" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.tucumanturismo.gob.ar/short/calinvierno" target="_blank" rel="noopener noreferrer">
             <ResponsiveVideo
               desktopSrc="video/Desktop_Banner_Mundial.mp4"
               mobileSrc="video/Mundial_Banner_Mobile.mp4"
