@@ -132,7 +132,12 @@ export default function Index() {
         </div>
         <EventosHome />
       </div>
-
+      <div className='mt-22 mb-10'>
+        <a href="https://www.tucumanturismo.gob.ar/articulos/articulo/1164/queso-y-vino-sabores-con-altura" target="_blank" rel="noopener noreferrer">
+          <img src={`${process.env.URL_LOCAL_SERVER}${process.env.URL_LOCAL}/images/banners/quesoyvino.jpg`} className='w-full hidden md:block' alt="Banner QuesoyVino" />
+          <img src={`${process.env.URL_LOCAL_SERVER}${process.env.URL_LOCAL}/images/banners/quesoyvino-m.jpg`} className='w-full md:hidden' alt="Banner QuesoyVino" />
+        </a>
+      </div>
       {/* <div className='mb-20'>
         <Entumesa />
       </div> */}
