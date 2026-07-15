@@ -80,7 +80,7 @@ export default function Index() {
               desktopSrc="video/Desktop_Banner_Mundial.mp4"
               mobileSrc="video/Mundial_Banner_Mobile.mp4"
             />
-            <div className='absolute md:bottom-4 bottom-4 md:left-4 left-2 translate-x-1/2 md:translate-x-0 bg-primary group-hover:bg-secondary animate-nudge group-hover:animate-none transition-colors duration-300 px-4 py-2 md:text-xl text-sm text-white font-bold flex items-center gap-2 cursor-pointer whitespace-nowrap shadow-lg'>
+            <div className='absolute md:bottom-4 bottom-4 md:left-4 left-2 translate-x-1/2 md:translate-x-0 bg-secondary group-hover:bg-primary animate-nudge group-hover:animate-none transition-colors duration-300 px-4 py-2 md:text-xl text-sm text-white font-bold flex items-center gap-2 cursor-pointer whitespace-nowrap shadow-lg'>
               <Download size={20} />
               <span>{isEnglish ? 'Winter Activities Calendar' : 'Calendario de Actividades de Invierno'}</span>
             </div>
