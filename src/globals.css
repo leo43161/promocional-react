@@ -39,6 +39,35 @@
   text-wrap: balance;
 }
 
+@keyframes nudge {
+
+  0%,
+  20%,
+  100% {
+    transform: translateY(0);
+  }
+
+  4% {
+    transform: translateY(-5px);
+  }
+
+  8% {
+    transform: translateY(0);
+  }
+
+  12% {
+    transform: translateY(-3px);
+  }
+
+  16% {
+    transform: translateY(0);
+  }
+}
+
+@utility animate-nudge {
+  animation: nudge 4s ease-in-out infinite;
+}
+
 @layer utilities {
   :root {
     --text: #444242;
