@@ -251,7 +251,16 @@ export default function ArticuloRedirectPage({ id, slug, cards, lista, parallaxI
                     <h1 className="text-center mb-6 text-5xl font-bold ">
                         {lista?.nombre}
                     </h1>
+                    {/* Disclaimer condicional para la lista con id 12 */}
+                    {String(id) === '12' && (
+                        <div className="max-w-3xl mx-auto mb-6 p-4 border border-gray-300 bg-gray-50 rounded-lg shadow-sm">
+                            <p className="text-center text-lg text-gray-700 font-medium m-0">
+                                Para recorrer y disfrutar de estas sendas, contratá prestadores de Turismo Aventura habilitados.
+                            </p>
+                        </div>
+                    )}
                 </div>
+
                 <div className="row g-4 mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {cards.length > 0 ? (
                         cards.map((articulo) => (
