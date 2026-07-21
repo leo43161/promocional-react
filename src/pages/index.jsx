@@ -77,8 +77,8 @@ export default function Index() {
           </a>*/}
           <a href="https://www.tucumanturismo.gob.ar/short/calinvierno" target="_blank" rel="noopener noreferrer" className='group'>
             <ResponsiveVideo
-              desktopSrc="video/Desktop_Banner_Mundial.mp4"
-              mobileSrc="video/Mundial_Banner_Mobile.mp4"
+              desktopSrc="video/Tucuman_Tiene_Todo_INV_.mp4"
+              mobileSrc="video/Tucuman_Tiene_Todo_INV_M.mp4"
             />
             <div className='absolute md:bottom-4 bottom-4 md:left-4 left-2 translate-x-1/2 md:translate-x-0 bg-secondary group-hover:bg-primary animate-nudge group-hover:animate-none transition-colors duration-300 px-4 py-2 md:text-xl text-sm text-white font-bold flex items-center gap-2 cursor-pointer whitespace-nowrap shadow-lg'>
               <Download size={20} />
