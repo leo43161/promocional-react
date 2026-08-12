@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useGetGuiasQuery } from '@/redux/services/prestadoresService';
+import { useGetGuiasQuery, useGetLocalidadesQuery } from '@/redux/services/prestadoresService';
 import ParallaxContainer from '@/components/common/ParallaxContainer';
 import CardPrestadores from '@/components/prestadores/CardPrestadores';
 import Breadcrumb from '@/components/common/Breadcrumb';
@@ -22,6 +22,11 @@ export default function Guias() {
         offset: offset,
         search: searchTerm
     });
+
+    // NUEVO: Ejecuta la consulta para traer las localidades
+    const { data: localidadesData } = useGetLocalidadesQuery();
+    // Extrae el array de localidades o un array vacío por defecto
+    const localidades = localidadesData?.localidades || [];
 
     // Manejar cambio de página
     const handlePageChange = (pageNumber) => {
@@ -76,6 +81,7 @@ export default function Guias() {
                         <Buscador 
                           onSearch={handleSearch} 
                           placeholder="Buscar destinos o circuitos turísticos..." 
+                          localidades={localidades}
                         />
                     </div>
                 </div>
