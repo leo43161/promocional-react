@@ -92,6 +92,12 @@ export default function Index() {
           </div> */}
         </div>
       </div>
+      <div className='mt-0 mb-0'>
+        <a href="https://www.tucumanturismo.gob.ar/articulos/articulo/721/tafi-del-valle" target="_blank" rel="noopener noreferrer">
+          <img src={`${process.env.URL_LOCAL_SERVER}${process.env.URL_LOCAL}/images/banners/tafi-banner.jpeg`} className='w-full hidden md:block' alt="Tafi del Valle" />
+          <img src={`${process.env.URL_LOCAL_SERVER}${process.env.URL_LOCAL}/images/banners/tafi-banner-m.jpeg`} className='w-full md:hidden' alt="Tafi del Valle" />
+        </a>
+      </div>
       {/* <div>
         <EventosHomeSmall />
       </div> */}
