@@ -23,10 +23,20 @@ export default function Guias() {
         search: searchTerm
     });
 
-    // NUEVO: Ejecuta la consulta para traer las localidades
-    const { data: localidadesData } = useGetLocalidadesQuery();
+    // NUEVO: Extraemos también el error para ver si la petición está fallando
+    const { 
+        data: localidadesData, 
+        error: errorLocalidades 
+    } = useGetLocalidadesQuery();
+
+    // LOGS DE DEBUGGING (Abre F12 -> Consola en tu navegador para ver esto)
+    console.log("1. RAW localidadesData:", localidadesData);
+    console.log("2. Error Localidades:", errorLocalidades);
+
     // Extrae el array de localidades o un array vacío por defecto
     const localidades = localidadesData?.localidades || [];
+
+    console.log("3. Array final enviado al buscador:", localidades);
 
     // Manejar cambio de página
     const handlePageChange = (pageNumber) => {
