@@ -73,7 +73,10 @@ export default function Guias() {
                     <h1 className='text-center text-4xl font-bold mb-6'>Buscá aquí los guías de turismo habilitados</h1>
                     <div>
                         {/* Componente de búsqueda */}
-                        <Buscador onSearch={handleSearch} />
+                        <Buscador 
+                          onSearch={handleSearch} 
+                          placeholder="Buscar destinos o circuitos turísticos..." 
+                        />
                     </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-5">
