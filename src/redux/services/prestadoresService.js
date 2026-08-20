@@ -25,6 +25,11 @@ export const prestadoresService = createApi({
         url: `autos`,
       }),
     }),
+    getLocalidades: builder.query({
+      query: () => ({
+        url: `localidades`,
+      }),
+    }),
   }),
 });
 
@@ -32,5 +37,6 @@ export const {
   useGetPrestadoresQuery,
   useGetAgenciasQuery,
   useGetGuiasQuery,
-  useGetAutosQuery
+  useGetAutosQuery,
+  useGetLocalidadesQuery
 } = prestadoresService;

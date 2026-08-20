@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useGetGuiasQuery } from '@/redux/services/prestadoresService';
+import { useGetGuiasQuery, useGetLocalidadesQuery } from '@/redux/services/prestadoresService';
 import ParallaxContainer from '@/components/common/ParallaxContainer';
 import CardPrestadores from '@/components/prestadores/CardPrestadores';
 import Breadcrumb from '@/components/common/Breadcrumb';
@@ -22,6 +22,21 @@ export default function Guias() {
         offset: offset,
         search: searchTerm
     });
+
+    // NUEVO: Extraemos también el error para ver si la petición está fallando
+    const { 
+        data: localidadesData, 
+        error: errorLocalidades 
+    } = useGetLocalidadesQuery();
+
+    // LOGS DE DEBUGGING (Abre F12 -> Consola en tu navegador para ver esto)
+    //console.log("1. RAW localidadesData:", localidadesData);
+    //console.log("2. Error Localidades:", errorLocalidades);
+
+    // Extrae el array de localidades o un array vacío por defecto
+    const localidades = localidadesData?.localidades || [];
+
+    //console.log("3. Array final enviado al buscador:", localidades);
 
     // Manejar cambio de página
     const handlePageChange = (pageNumber) => {
@@ -73,7 +88,11 @@ export default function Guias() {
                     <h1 className='text-center text-4xl font-bold mb-6'>Buscá aquí los guías de turismo habilitados</h1>
                     <div>
                         {/* Componente de búsqueda */}
-                        <Buscador onSearch={handleSearch} />
+                        <Buscador 
+                          onSearch={handleSearch} 
+                          placeholder="Buscar destinos o circuitos turísticos..." 
+                          localidades={localidades}
+                        />
                     </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-5">
