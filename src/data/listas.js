@@ -15,6 +15,7 @@ export const listLists = {
   'areas-protegidas': 15,
   'teatros-cine': 11,
   'familia': 16,
+  'calendario': 17,
 };
 
 export function idListList() {
