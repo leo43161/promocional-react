@@ -92,11 +92,29 @@ export default function Index() {
           </div> */}
         </div>
       </div>
+      {/* Aqui, quiero agregar un carousel de imagenes responsive, con imagen en mobile y desktop, haz un componente que me permita cargar un array de objetos con las imagenes y los links, que tenga un recorrido automatico hacia la derecha, con una duracion de 5 segundos, configurable. */}
       <div className='mt-0 mb-0'>
-        <a href="https://www.tucumanturismo.gob.ar/articulos/articulo/721/tafi-del-valle" target="_blank" rel="noopener noreferrer">
-          <img src={`${process.env.URL_LOCAL_SERVER}${process.env.URL_LOCAL}/images/banners/tafi-banner.jpeg`} className='w-full hidden md:block' alt="Tafi del Valle" />
-          <img src={`${process.env.URL_LOCAL_SERVER}${process.env.URL_LOCAL}/images/banners/tafi-banner-m.jpeg`} className='w-full md:hidden' alt="Tafi del Valle" />
-        </a>
+        <CarouselImages
+          slides={[
+            {
+              desktop: `${process.env.URL_LOCAL_SERVER}${process.env.URL_LOCAL}/images/banners/tafi-banner.jpeg`,
+              mobile: `${process.env.URL_LOCAL_SERVER}${process.env.URL_LOCAL}/images/banners/tafi-banner-m.jpeg`,
+              alt: "Tafi del Valle",
+              href: "https://www.tucumanturismo.gob.ar/articulos/articulo/721/tafi-del-valle",
+              target: "_blank",
+              rel: "noopener noreferrer"
+            },
+            {
+              desktop: `${process.env.URL_LOCAL_SERVER}${process.env.URL_LOCAL}/images/banners/mes-turismo.jpeg`,
+              mobile: `${process.env.URL_LOCAL_SERVER}${process.env.URL_LOCAL}/images/banners/mes-turismo-m.jpeg`,
+              alt: "Mes del Turismo",
+              href: "",
+              target: "_blank",
+              rel: "noopener noreferrer"
+            }
+          ]}
+          interval={5000}
+        />
       </div>
       {/* <div>
         <EventosHomeSmall />

@@ -1,0 +1,151 @@
+'use client';
+
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+
+/**
+ * CarouselImages de banners promocionales.
+ *
+ * - Avance automático hacia la derecha (configurable con `interval`).
+ * - Loop infinito real: clona el primer slide al final y resetea sin salto visible.
+ * - Imagen distinta para mobile y desktop vía <picture>.
+ * - Sin flechas ni botones. Los puntos son opcionales (`showDots`).
+ * - Se pausa al pasar el mouse / al tocar y cuando la pestaña no está visible.
+ * - Respeta `prefers-reduced-motion`: si está activo, no autoavanza.
+ *
+ * slides: [{ desktop, mobile?, alt, href?, target?, rel? }]
+ */
+export default function CarouselImages({
+  slides = [],
+  interval = 5000,
+  transition = 700,
+  autoPlay = true,
+  pauseOnHover = true,
+  showDots = true,
+  aspectMobile = 'aspect-[4/5]',
+  aspectDesktop = 'md:aspect-[1900/450]',
+  className = '',
+}) {
+  const total = slides.length;
+  const [index, setIndex] = useState(0);
+  const [animate, setAnimate] = useState(true);
+  const [paused, setPaused] = useState(false);
+  const [reduceMotion, setReduceMotion] = useState(false);
+  const resetRef = useRef(null);
+
+  // Con más de un slide clonamos el primero al final para cerrar el loop.
+  const items = total > 1 ? [...slides, slides[0]] : slides;
+
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const update = () => setReduceMotion(mq.matches);
+    update();
+    mq.addEventListener('change', update);
+    return () => mq.removeEventListener('change', update);
+  }, []);
+
+  useEffect(() => {
+    const onVisibility = () => setPaused(document.hidden);
+    document.addEventListener('visibilitychange', onVisibility);
+    return () => document.removeEventListener('visibilitychange', onVisibility);
+  }, []);
+
+  useEffect(() => {
+    if (!autoPlay || paused || reduceMotion || total <= 1) return;
+    const id = setInterval(() => setIndex((i) => i + 1), interval);
+    return () => clearInterval(id);
+  }, [autoPlay, paused, reduceMotion, total, interval]);
+
+  // Al llegar al clon, saltamos al slide 0 con la transición apagada.
+  const handleTransitionEnd = useCallback(() => {
+    if (index !== total) return;
+    setAnimate(false);
+    setIndex(0);
+  }, [index, total]);
+
+  useEffect(() => {
+    if (animate) return;
+    resetRef.current = requestAnimationFrame(() =>
+      requestAnimationFrame(() => setAnimate(true))
+    );
+    return () => cancelAnimationFrame(resetRef.current);
+  }, [animate]);
+
+  if (total === 0) return null;
+
+  const active = index % total;
+
+  return (
+    <section
+      className={`relative w-full overflow-hidden ${className}`}
+      aria-roledescription="carrusel"
+      aria-label="Banners promocionales"
+      onMouseEnter={pauseOnHover ? () => setPaused(true) : undefined}
+      onMouseLeave={pauseOnHover ? () => setPaused(false) : undefined}
+      onTouchStart={() => setPaused(true)}
+      onTouchEnd={() => setPaused(false)}
+    >
+      <div
+        className="flex w-full"
+        style={{
+          transform: `translate3d(-${index * 100}%, 0, 0)`,
+          transition: animate ? `transform ${transition}ms cubic-bezier(0.4, 0, 0.2, 1)` : 'none',
+        }}
+        onTransitionEnd={handleTransitionEnd}
+      >
+        {items.map((slide, i) => {
+          const isClone = i === total;
+          const Wrapper = slide.href ? 'a' : 'div';
+          const wrapperProps = slide.href
+            ? {
+                href: slide.href,
+                target: slide.target ?? '_blank',
+                rel: slide.rel ?? 'noopener noreferrer',
+              }
+            : {};
+
+          return (
+            <div
+              key={`${slide.desktop}-${i}`}
+              className="w-full shrink-0 grow-0 basis-full"
+              aria-hidden={isClone || i !== index ? 'true' : undefined}
+            >
+              <Wrapper
+                {...wrapperProps}
+                className="block w-full focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-white"
+                tabIndex={isClone ? -1 : undefined}
+              >
+                <picture>
+                  {slide.mobile && (
+                    <source media="(max-width: 767px)" srcSet={slide.mobile} />
+                  )}
+                  <img
+                    src={slide.desktop}
+                    alt={slide.alt || ''}
+                    loading={i === 0 ? 'eager' : 'lazy'}
+                    fetchPriority={i === 0 ? 'high' : 'auto'}
+                    decoding="async"
+                    draggable={false}
+                    className={`block w-full h-full object-cover ${aspectMobile} ${aspectDesktop}`}
+                  />
+                </picture>
+              </Wrapper>
+            </div>
+          );
+        })}
+      </div>
+
+      {showDots && total > 1 && (
+        <div className="absolute bottom-3 md:bottom-5 left-1/2 -translate-x-1/2 flex items-center gap-2">
+          {slides.map((slide, i) => (
+            <span
+              key={`dot-${i}`}
+              className={`h-1.5 rounded-full transition-all duration-300 ${
+                i === active ? 'w-6 bg-white' : 'w-1.5 bg-white/50'
+              }`}
+            />
+          ))}
+        </div>
+      )}
+    </section>
+  );
+}
