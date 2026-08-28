@@ -114,7 +114,7 @@ export default function Index() {
               rel: "noopener noreferrer"
             }
           ]}
-          interval={3500}
+          interval={4000}
         />
       </div>
       {/* <div>
