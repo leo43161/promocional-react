@@ -21,6 +21,7 @@ export default function CarouselImages({
   autoPlay = true,
   pauseOnHover = true,
   showDots = true,
+  adaptiveHeight = true,
   className = '',
 }) {
   const total = slides.length;
@@ -28,7 +29,9 @@ export default function CarouselImages({
   const [animate, setAnimate] = useState(true);
   const [paused, setPaused] = useState(false);
   const [reduceMotion, setReduceMotion] = useState(false);
+  const [height, setHeight] = useState(null);
   const resetRef = useRef(null);
+  const slideRefs = useRef([]);
  
   // Con más de un slide clonamos el primero al final para cerrar el loop.
   const items = total > 1 ? [...slides, slides[0]] : slides;
@@ -53,12 +56,34 @@ export default function CarouselImages({
     return () => clearInterval(id);
   }, [autoPlay, paused, reduceMotion, total, interval]);
  
+  // --- Altura adaptativa -----------------------------------------------------
+  const measure = useCallback(() => {
+    if (!adaptiveHeight) return;
+    const el = slideRefs.current[index];
+    if (el) setHeight(el.offsetHeight);
+  }, [adaptiveHeight, index]);
+ 
+  // Mide al cambiar de slide y cada vez que el slide activo cambia de tamaño
+  // (cambio de breakpoint, rotación del dispositivo, imagen que termina de cargar).
+  useEffect(() => {
+    measure();
+    const el = slideRefs.current[index];
+    if (!adaptiveHeight || !el || typeof ResizeObserver === 'undefined') return;
+    const observer = new ResizeObserver(measure);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [adaptiveHeight, index, measure]);
+ 
   // Al llegar al clon, saltamos al slide 0 con la transición apagada.
-  const handleTransitionEnd = useCallback(() => {
-    if (index !== total) return;
-    setAnimate(false);
-    setIndex(0);
-  }, [index, total]);
+  const handleTransitionEnd = useCallback(
+    (event) => {
+      if (event.propertyName !== 'transform') return;
+      if (index !== total) return;
+      setAnimate(false);
+      setIndex(0);
+    },
+    [index, total]
+  );
  
   useEffect(() => {
     if (animate) return;
@@ -71,12 +96,17 @@ export default function CarouselImages({
   if (total === 0) return null;
  
   const active = index % total;
+  const motionDuration = reduceMotion ? 0 : transition;
  
   return (
     <section
       className={`relative w-full overflow-hidden ${className}`}
       aria-roledescription="carrusel"
       aria-label="Banners promocionales"
+      style={{
+        height: adaptiveHeight && height ? `${height}px` : undefined,
+        transition: `height ${motionDuration}ms cubic-bezier(0.4, 0, 0.2, 1)`,
+      }}
       onMouseEnter={pauseOnHover ? () => setPaused(true) : undefined}
       onMouseLeave={pauseOnHover ? () => setPaused(false) : undefined}
       onTouchStart={() => setPaused(true)}
@@ -86,7 +116,9 @@ export default function CarouselImages({
         className="flex w-full items-start"
         style={{
           transform: `translate3d(-${index * 100}%, 0, 0)`,
-          transition: animate ? `transform ${transition}ms cubic-bezier(0.4, 0, 0.2, 1)` : 'none',
+          transition: animate
+            ? `transform ${motionDuration}ms cubic-bezier(0.4, 0, 0.2, 1)`
+            : 'none',
         }}
         onTransitionEnd={handleTransitionEnd}
       >
@@ -104,6 +136,9 @@ export default function CarouselImages({
           return (
             <div
               key={`${slide.desktop}-${i}`}
+              ref={(el) => {
+                slideRefs.current[i] = el;
+              }}
               className="w-full shrink-0 grow-0 basis-full"
               aria-hidden={isClone || i !== index ? 'true' : undefined}
             >
@@ -123,6 +158,7 @@ export default function CarouselImages({
                     fetchPriority={i === 0 ? 'high' : 'auto'}
                     decoding="async"
                     draggable={false}
+                    onLoad={measure}
                     className="block w-full h-auto"
                   />
                 </picture>
@@ -147,3 +183,4 @@ export default function CarouselImages({
     </section>
   );
 }
+ 
