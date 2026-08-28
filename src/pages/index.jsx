@@ -106,8 +106,8 @@ export default function Index() {
               rel: "noopener noreferrer"
             },
             {
-              desktop: `${process.env.URL_LOCAL_SERVER}${process.env.URL_LOCAL}/images/banners/mes-turismo.jpeg`,
-              mobile: `${process.env.URL_LOCAL_SERVER}${process.env.URL_LOCAL}/images/banners/mes-turismo-m.jpeg`,
+              desktop: `${process.env.URL_LOCAL_SERVER}${process.env.URL_LOCAL}/images/banners/mes-turismo.jpg`,
+              mobile: `${process.env.URL_LOCAL_SERVER}${process.env.URL_LOCAL}/images/banners/mes-turismo-m.jpg`,
               alt: "Mes del Turismo",
               href: "",
               target: "_blank",
