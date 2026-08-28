@@ -21,8 +21,6 @@ export default function CarouselImages({
   autoPlay = true,
   pauseOnHover = true,
   showDots = true,
-  aspectMobile = 'aspect-[4/5]',
-  aspectDesktop = 'md:aspect-[1900/450]',
   className = '',
 }) {
   const total = slides.length;
@@ -31,10 +29,10 @@ export default function CarouselImages({
   const [paused, setPaused] = useState(false);
   const [reduceMotion, setReduceMotion] = useState(false);
   const resetRef = useRef(null);
-
+ 
   // Con más de un slide clonamos el primero al final para cerrar el loop.
   const items = total > 1 ? [...slides, slides[0]] : slides;
-
+ 
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
     const update = () => setReduceMotion(mq.matches);
@@ -42,26 +40,26 @@ export default function CarouselImages({
     mq.addEventListener('change', update);
     return () => mq.removeEventListener('change', update);
   }, []);
-
+ 
   useEffect(() => {
     const onVisibility = () => setPaused(document.hidden);
     document.addEventListener('visibilitychange', onVisibility);
     return () => document.removeEventListener('visibilitychange', onVisibility);
   }, []);
-
+ 
   useEffect(() => {
     if (!autoPlay || paused || reduceMotion || total <= 1) return;
     const id = setInterval(() => setIndex((i) => i + 1), interval);
     return () => clearInterval(id);
   }, [autoPlay, paused, reduceMotion, total, interval]);
-
+ 
   // Al llegar al clon, saltamos al slide 0 con la transición apagada.
   const handleTransitionEnd = useCallback(() => {
     if (index !== total) return;
     setAnimate(false);
     setIndex(0);
   }, [index, total]);
-
+ 
   useEffect(() => {
     if (animate) return;
     resetRef.current = requestAnimationFrame(() =>
@@ -69,11 +67,11 @@ export default function CarouselImages({
     );
     return () => cancelAnimationFrame(resetRef.current);
   }, [animate]);
-
+ 
   if (total === 0) return null;
-
+ 
   const active = index % total;
-
+ 
   return (
     <section
       className={`relative w-full overflow-hidden ${className}`}
@@ -85,7 +83,7 @@ export default function CarouselImages({
       onTouchEnd={() => setPaused(false)}
     >
       <div
-        className="flex w-full"
+        className="flex w-full items-start"
         style={{
           transform: `translate3d(-${index * 100}%, 0, 0)`,
           transition: animate ? `transform ${transition}ms cubic-bezier(0.4, 0, 0.2, 1)` : 'none',
@@ -102,7 +100,7 @@ export default function CarouselImages({
                 rel: slide.rel ?? 'noopener noreferrer',
               }
             : {};
-
+ 
           return (
             <div
               key={`${slide.desktop}-${i}`}
@@ -125,7 +123,7 @@ export default function CarouselImages({
                     fetchPriority={i === 0 ? 'high' : 'auto'}
                     decoding="async"
                     draggable={false}
-                    className={`block w-full h-full object-cover ${aspectMobile} ${aspectDesktop}`}
+                    className="block w-full h-auto"
                   />
                 </picture>
               </Wrapper>
@@ -133,7 +131,7 @@ export default function CarouselImages({
           );
         })}
       </div>
-
+ 
       {showDots && total > 1 && (
         <div className="absolute bottom-3 md:bottom-5 left-1/2 -translate-x-1/2 flex items-center gap-2">
           {slides.map((slide, i) => (
