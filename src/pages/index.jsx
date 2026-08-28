@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { closeModalVivo, openModalVivo } from '@/redux/features/uiSlice';
 import BuscadorIAHome from '@/components/main/BuscadorIAHome';
 import { Download, MousePointerClick } from 'lucide-react';
+import CarouselImages from '@/components/CarouselImage';
 
 // Objeto para manejar los textos en diferentes idiomas #
 const content = {
