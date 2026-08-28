@@ -3,11 +3,13 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 /**
- * CarouselImages de banners promocionales.
+ * Carousel de banners promocionales.
  *
  * - Avance automático hacia la derecha (configurable con `interval`).
  * - Loop infinito real: clona el primer slide al final y resetea sin salto visible.
- * - Imagen distinta para mobile y desktop vía <picture>.
+ * - Imagen distinta para mobile y desktop vía <picture>, siempre a todo el ancho y sin recorte.
+ * - Altura adaptativa: el contenedor se ajusta al alto del slide activo con una transición,
+ *   así no queda espacio en blanco cuando los banners tienen proporciones distintas.
  * - Sin flechas ni botones. Los puntos son opcionales (`showDots`).
  * - Se pausa al pasar el mouse / al tocar y cuando la pestaña no está visible.
  * - Respeta `prefers-reduced-motion`: si está activo, no autoavanza.
