@@ -109,7 +109,7 @@ export default function Index() {
               desktop: `${process.env.URL_LOCAL_SERVER}${process.env.URL_LOCAL}/images/banners/mes-turismo.jpg`,
               mobile: `${process.env.URL_LOCAL_SERVER}${process.env.URL_LOCAL}/images/banners/mes-turismo-m.jpg`,
               alt: "Mes del Turismo",
-              href: "",
+              href: "https://www.tucumanturismo.gob.ar/listas/calendario",
               target: "_blank",
               rel: "noopener noreferrer"
             }
