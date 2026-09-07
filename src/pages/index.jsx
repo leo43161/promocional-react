@@ -179,7 +179,7 @@ export default function Index() {
         <Rutas />
       </div>
       <div className='mb-20'>
-        <a target='_blank' href='https://teatromercedessosa.com/' rel="noopener noreferrer">
+        <a target='_blank' href='https://entradas.teatromercedessosa.com.ar/' rel="noopener noreferrer">
           <img src={`${process.env.URL_LOCAL_SERVER}${process.env.URL_LOCAL}/images/banners/TeatroMercedesSosa-desktop.jpg`} className='w-full' alt="Banner Teatro Mercedes Sosa" />
         </a>
       </div>
