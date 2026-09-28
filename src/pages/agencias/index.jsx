@@ -7,7 +7,7 @@ import Buscador from '@/components/SearchPrest';
 
 export default function Prestadores() {
     // Estado para controlar la paginación y búsqueda
-    const itemsPerPage = 15;
+    const itemsPerPage = 18;
 
     // Consulta con RTK Query
     const { data: guias, error, isLoading, isFetching } = useGetAgenciasQuery();
