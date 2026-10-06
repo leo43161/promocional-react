@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ImageOff, AlertCircle } from 'lucide-react';
 import { cn } from '@/utils';
 
-// Helper component for image placeholders/error states (sin cambios)
+// Helper component for image placeholders/error states (sin cambios) 
 const ImagePlaceholder = ({ size = 48, message = null }) => (
     <div className="w-full h-full flex flex-col items-center justify-center bg-slate-100 text-slate-400 rounded-lg">
         <ImageOff size={size} />
