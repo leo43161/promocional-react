@@ -105,14 +105,14 @@ export default function Index() {
               target: "_blank",
               rel: "noopener noreferrer"
             },
-            {
+            /* {
               desktop: `${process.env.URL_LOCAL_SERVER}${process.env.URL_LOCAL}/images/banners/mes-turismo.jpg`,
               mobile: `${process.env.URL_LOCAL_SERVER}${process.env.URL_LOCAL}/images/banners/mes-turismo-mobile.jpg`,
               alt: "Mes del Turismo", 
               href: "https://www.tucumanturismo.gob.ar/listas/calendario",
               target: "_blank",
               rel: "noopener noreferrer"
-            }
+            } */
           ]}
           interval={4000}
         />
