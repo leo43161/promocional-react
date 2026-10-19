@@ -20,6 +20,7 @@ import { closeModalVivo, openModalVivo } from '@/redux/features/uiSlice';
 import BuscadorIAHome from '@/components/main/BuscadorIAHome';
 import { Download, MousePointerClick } from 'lucide-react';
 import CarouselImages from '@/components/CarouselImage';
+import SectionNewsHome from '@/components/SectionNewsHome';
 
 // Objeto para manejar los textos en diferentes idiomas #
 const content = {
@@ -178,6 +179,8 @@ export default function Index() {
       <div className='mb-10'>
         <Rutas />
       </div>
+        <SectionNewsHome />
+
       <div className='mb-20'>
         <a target='_blank' href='https://entradas.teatromercedessosa.com.ar/' rel="noopener noreferrer">
           <img src={`${process.env.URL_LOCAL_SERVER}${process.env.URL_LOCAL}/images/banners/TeatroMercedesSosa-desktop.jpg`} className='w-full' alt="Banner Teatro Mercedes Sosa" />

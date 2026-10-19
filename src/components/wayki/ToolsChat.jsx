@@ -43,14 +43,13 @@ function BubbleText({ content }) {
         <div className="flex gap-3 items-end flex-row" style={{ animation: 'fadeInUp 0.25s ease' }}>
             <div className="relative max-w-[99%] md:max-w-[88%] px-4 py-3 shadow-sm bg-white text-gray-800 rounded-3xl rounded-bl-lg border border-gray-100">
                 <div className="text-[13px] md:text-[12px] text-gray-700 leading-relaxed
-                        [&>p:not(:last-child)]:mb-3
-                        [&_strong]:font-bold [&_strong]:text-secondary
-                        [&_a]:font-medium [&_a]:text-primary hover:[&_a]:underline [&_a]:transition-colors
-                        [&>ul]:mb-3 [&>ol]:mb-3 
-                        [&_ul]:list-disc [&_ul]:ml-5 [&_ul_li]:mb-1.5 [&_li_p_strong]:text-[18px] [&_li_p]:text-[18px] [&_ul_li]:text-[18px] md:[&_li_ul]:text-[17px] [&_ul_li]:pl-0.5 marker:[&_ul]:text-gray-400
-                        [&_ol]:list-none [&_ol]:ml-0 [&_ol_li]:mb-1.5 [&_ol_li]:pl-0.5 [&_ol_li]:text-[18px] marker:[&_ol]:text-gray-500 marker:font-semibold
-                        [&_h3]:text-lg [&_h3]:font-bold [&_h3]:underline [&_h3]:text-gray-800 [&_h3]:mb-2 [&_h3]:mt-4"
-                >
+        [&>p:not(:last-child)]:mb-3
+        [&_strong]:font-bold [&_strong]:text-secondary
+        [&_a]:font-medium [&_a]:text-primary hover:[&_a]:underline [&_a]:transition-colors
+        [&>ul]:mb-3 [&>ol]:mb-3 
+        [&_ul]:list-disc [&_ul]:ml-5 [&_ul_li]:mb-1.5 [&_li_p_strong]:text-[18px] [&_li_p]:text-[18px] [&_ul_li]:text-[18px] md:[&_li_ul]:text-[17px] [&_ul_li]:pl-0.5 [&_ul::marker]:text-gray-400
+        [&_ol]:list-decimal [&_ol]:ml-5 [&_ol_li]:mb-1.5 [&_ol_li]:pl-0.5 [&_ol_li]:text-[18px] [&_ol::marker]:text-gray-500 [&_ol::marker]:font-semibold"
+>
                     <ReactMarkdown
                         remarkPlugins={[remarkGfm]}
                         components={{
