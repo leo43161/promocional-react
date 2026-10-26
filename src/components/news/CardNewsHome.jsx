@@ -6,13 +6,13 @@ export default function CardNewsHome({ id, titulo, extracto, imagen, fecha, enla
     // CORRECCIÓN DE LA URL DE LA IMAGEN:
     // Si la imagen viene como ruta relativa, le anteponemos el dominio local de XAMPP (o el servidor de producción)
     const obtenerUrlImagen = (pathImg) => {
-        if (!pathImg) return 'https://www.institucionalturismotuc.gob.ar/public/img/noticias/default.jpg';
+        if (!pathImg) return 'https://www.institucionalturismotuc.gob.ar/public/img/default.jpg';
         if (pathImg.startsWith('http://') || pathImg.startsWith('https://')) {
             return pathImg; // Si ya viene completa, la dejamos tal cual
         }
         // Si es relativa, la unimos a tu servidor local de XAMPP
         // (Ajusta '/institucional/' si la carpeta en tu htdocs se llama diferente)
-        return `http://127.0.0.1/institucional/public/img/${pathImg.startsWith('/') ? pathImg.slice(1) : pathImg}`;
+        return `http://www.institucionalturismotuc.gob.ar/public/img/${pathImg.startsWith('/') ? pathImg.slice(1) : pathImg}`;
     };
 
     const formatearFecha = (fechaStr) => {
@@ -22,7 +22,8 @@ export default function CardNewsHome({ id, titulo, extracto, imagen, fecha, enla
             if (isNaN(dateObj.getTime())) return fechaStr;
             return dateObj.toLocaleDateString('es-ES', {
                 day: 'numeric',
-                month: 'short'
+                month: 'short',
+                timeZone: 'UTC' // <-- Evita que cambie de día por la zona horaria local
             }).toUpperCase();
         } catch (e) {
             return fechaStr;
@@ -39,7 +40,7 @@ export default function CardNewsHome({ id, titulo, extracto, imagen, fecha, enla
                     className="w-full h-full object-cover"
                     onError={(e) => {
                         e.target.onerror = null;
-                        e.target.src = 'https://www.institucionalturismotuc.gob.ar/images/noticias/default.jpg';
+                        e.target.src = 'https://www.institucionalturismotuc.gob.ar/public/img/default.jpg';
                     }}
                 />
                 

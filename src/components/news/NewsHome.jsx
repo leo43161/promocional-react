@@ -9,7 +9,7 @@ export default function NewsHome() {
 
     useEffect(() => {
         setIsLoading(true);
-        fetch('http://127.0.0.1/institucional/api-news/api-news.php') 
+        fetch('http://www.institucionalturismotuc.gob.ar/api-news/api-news.php') 
             .then((res) => {
                 if (!res.ok) throw new Error('Error al obtener noticias');
                 return res.json();
