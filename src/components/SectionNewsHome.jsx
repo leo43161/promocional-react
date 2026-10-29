@@ -4,7 +4,7 @@ import NewsHome from '@/components/news/NewsHome';
 
 export default function SeccionNewsHome() { // O el nombre que uses en tu archivo contenedor
     const currentContent = {
-        featuredNews: "Últimas Noticias Institucionales",
+        featuredNews: "Últimas Noticias",
         learnMore: "Ver todas las noticias"
     };
 
