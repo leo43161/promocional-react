@@ -70,8 +70,8 @@ export default function Itinerario() {
     const dataArray = JSON.parse(data.result[0].ItinerarioJSON);
     const itinerarioDocumento = <ItinerarioMobile data={dataArray} />;
     
-    // Check if all arrays within the data are empty
-    const isEmpty = Object.values(dataArray).every(arr => Array.isArray(arr) && arr.length === 0);
+    // El JSON viene agrupado por circuito: { historica: { destinos: [], alojamientos: [], ... }, ... }
+    const isEmpty = Object.values(dataArray).every(circuito => Object.values(circuito).every(arr => !arr?.length));
 
     if (isEmpty) {
       return (

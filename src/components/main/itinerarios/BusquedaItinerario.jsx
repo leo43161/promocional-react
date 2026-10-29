@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useGetGaleryDestinoQuery, useGetDestinosBusquedaQuery } from "@/redux/services/itinerariosService";
 import ImageGallery from "@/components/articulos/ImageGallery";
 import { setFavorito } from "@/redux/features/itinerarioSlice";
+import YoutubePlayer from "@/components/common/YoutubePlayer";
 import Paginado from "@/components/common/Paginado";
 import { getCurrentLanguage } from "@/utils";
 import { useRouter } from "next/router";
@@ -322,15 +323,9 @@ export default function BusquedaItinerario() {
                                         {productoSeleccionado.video && (
                                             <div>
                                                 <h3 className="text-2xl font-bold mb-2 text-neutral-700">Video</h3>
-                                                <div className="aspect-w-16 aspect-h-9 rounded-lg overflow-hidden border-2 border-gray-100 shadow-sm bg-black">
-                                                    <video
-                                                        // Asumiendo que tienes una variable de entorno para la URL de los videos
-                                                        src={process.env.URL_VIDEOS + productoSeleccionado.video}
-                                                        controls
-                                                        className="w-full h-full object-cover"
-                                                    >
-                                                        Tu navegador no soporta la etiqueta de video.
-                                                    </video>
+                                                {/* El campo video es una URL de YouTube (igual que en la página de artículo) */}
+                                                <div className="aspect-video rounded-lg overflow-hidden border-2 border-gray-100 shadow-sm bg-black [&_iframe]:w-full [&_iframe]:h-full">
+                                                    <YoutubePlayer youtubeUrl={productoSeleccionado.video} title={productoSeleccionado.nombre} />
                                                 </div>
                                             </div>
                                         )}
