@@ -10,9 +10,8 @@ export default function CardNewsHome({ id, titulo, extracto, imagen, fecha, enla
         if (pathImg.startsWith('http://') || pathImg.startsWith('https://')) {
             return pathImg; // Si ya viene completa, la dejamos tal cual
         }
-        // Si es relativa, la unimos a tu servidor local de XAMPP
-        // (Ajusta '/institucional/' si la carpeta en tu htdocs se llama diferente)
-        return `http://www.institucionalturismotuc.gob.ar/public/img/${pathImg.startsWith('/') ? pathImg.slice(1) : pathImg}`;
+        // Si es relativa, la unimos al servidor institucional (https para evitar mixed content)
+        return `https://www.institucionalturismotuc.gob.ar/public/img/${pathImg.startsWith('/') ? pathImg.slice(1) : pathImg}`;
     };
 
     const formatearFecha = (fechaStr) => {

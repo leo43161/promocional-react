@@ -14,9 +14,6 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router'; // Importar useRouter
 import Button from '../components/common/Button';
 import ContadorFit from '@/components/main/ContadorFit';
-import ModalVivo from '@/components/stream/ModalVivo';
-import { useDispatch, useSelector } from 'react-redux';
-import { closeModalVivo, openModalVivo } from '@/redux/features/uiSlice';
 import BuscadorIAHome from '@/components/main/BuscadorIAHome';
 import { Download, MousePointerClick } from 'lucide-react';
 import CarouselImages from '@/components/CarouselImage';
@@ -37,8 +34,6 @@ const content = {
 };
 
 export default function Index() {
-  const showModal = useSelector((state) => state.ui.visibleModal);
-  const dispatch = useDispatch();
   const router = useRouter();
   const { lang } = router.query;
   const isEnglish = lang === 'EN';
@@ -179,8 +174,7 @@ export default function Index() {
       <div className='mb-10'>
         <Rutas />
       </div>
-        <SectionNewsHome />
-
+      <SectionNewsHome />
       <div className='mb-20'>
         <a target='_blank' href='https://entradas.teatromercedessosa.com.ar/' rel="noopener noreferrer">
           <img src={`${process.env.URL_LOCAL_SERVER}${process.env.URL_LOCAL}/images/banners/TeatroMercedesSosa-desktop.jpg`} className='w-full' alt="Banner Teatro Mercedes Sosa" />
@@ -190,7 +184,6 @@ export default function Index() {
         <h1 className="text-5xl mb-12 text-center te+xt-gray-500/70">{currentContent.unmissable}</h1>
         <Imperdible />
       </div> */}
-      <ModalVivo isOpen={showModal} handleCloseModal={() => dispatch(closeModalVivo())} />
     </div>
   )
 }

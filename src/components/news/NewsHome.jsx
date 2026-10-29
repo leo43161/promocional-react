@@ -9,7 +9,7 @@ export default function NewsHome() {
 
     useEffect(() => {
         setIsLoading(true);
-        fetch('http://www.institucionalturismotuc.gob.ar/api-news/api-news.php') 
+        fetch('https://www.institucionalturismotuc.gob.ar/api-news/api-news.php')
             .then((res) => {
                 if (!res.ok) throw new Error('Error al obtener noticias');
                 return res.json();
@@ -54,9 +54,8 @@ export default function NewsHome() {
         return <div className="text-center py-10 text-gray-500">Cargando noticias...</div>;
     }
 
-    if (error) {
-        return <div className="text-center py-10 text-red-500">Error al cargar las noticias.</div>;
-    }
+    // Fuente externa: si falla, no se muestra el carrusel (queda el link a "Ver todas las noticias")
+    if (error) return null;
 
     return (
         <div className='mb-10'>

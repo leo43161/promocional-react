@@ -9,7 +9,8 @@ import HeaderSearch from './HeaderSearch';
 import { ReactLenis } from 'lenis/react';
 import { idListList } from '@/data/listas';
 import { useDispatch, useSelector } from 'react-redux';
-import { openModalVivo } from '@/redux/features/uiSlice';
+import { openModalVivo, closeModalVivo } from '@/redux/features/uiSlice';
+import ModalVivo from './stream/ModalVivo';
 
 // --- Opciones de Idioma (AHORA CON ID) ---
 // AJUSTA los 'id' según los valores que espera tu API para cada idioma
@@ -39,6 +40,7 @@ const listOfLists = idListList();
 export default function Header() {
     const router = useRouter();
     const showVivo = useSelector((state) => state.ui.visibleVivo);
+    const showModalVivo = useSelector((state) => state.ui.visibleModal);
     const dispatch = useDispatch();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [openMobileMenu, setOpenMobileMenu] = useState(null); // Para el acordeón del menú principal móvil
@@ -534,6 +536,12 @@ export default function Header() {
                         <p className='py-3 text-center text-gray-500'>No hay secciones disponibles.</p>
                     )}
                 </nav>
+                {/* Institutional Link (en desktop está en la barra gris superior) */}
+                <a href="https://www.institucionalturismotuc.gob.ar/"
+                    className="block bg-[#006E66] text-white px-3 py-2 text-xl font-bold hover:bg-[#006e67ec]"
+                    target="_blank" rel="noopener noreferrer">
+                    Institucional
+                </a>
                 {showVivo && (
                     <div
                         className='bg-red-500 px-3 py-1 text-xl text-white font-bold flex items-center gap-1 cursor-pointer'
@@ -548,6 +556,7 @@ export default function Header() {
                 )}
             </div>
             {/* --- FIN: NUEVO MENÚ MÓVIL --- */}
+            <ModalVivo isOpen={showModalVivo} handleCloseModal={() => dispatch(closeModalVivo())} />
         </header>
     );
 }

@@ -14,12 +14,12 @@ export default function SeccionNewsHome() { // O el nombre que uses en tu archiv
         <div className="py-8">
             <div className='md:w-11/13 w-11/13 mx-auto'>
                 <div className='relative flex md:justify-center justify-between items-center'>
-                    <h2 className="md:text-5xl text-4xl mb-7 text-gray-500/70 font-bold">
+                    <h2 className="md:text-5xl text-3xl mb-7 text-gray-500/70 font-bold">
                         {currentContent.featuredNews}
                     </h2>
                     <div className='md:absolute right-0 mb-7 md:pe-7'>
                         <a href={newsLink} target="_blank" rel="noopener noreferrer">
-                            <Button className='shadow-lg' size='sm'>
+                            <Button className='shadow-lg whitespace-nowrap' size='sm'>
                                 {currentContent.learnMore}
                             </Button>
                         </a>
