@@ -1,9 +1,9 @@
-import { PDFDownloadLink, usePDF } from '@react-pdf/renderer';
+import { PDFDownloadLink, pdf } from '@react-pdf/renderer';
 import { ArrowDownToLine, QrCode, LoaderCircle, AlertCircle } from 'lucide-react';
 import ItinerarioDoc from '@/components/ItinerarioDoc';
 import ItinerarioMobile from '@/components/ItinerarioMobile';
 import { useSelector } from 'react-redux';
-import { useEffect, useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import Modal from '@/components/common/Modal';
 import { QRCodeSVG } from 'qrcode.react';
 import { setCookie, getCookie, encriptar, desencriptar } from '@/utils/cookie';
@@ -16,7 +16,6 @@ export default function PDFGeneratorButton() {
   const lenguaje = getCurrentLanguage(router.query);
 
   const favoritos = useSelector(state => state.itinerarioReducer.value.favoritos);
-  const [instance, updateInstance] = usePDF({ document: null });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showQR, setShowQR] = useState(false);
   const [pdfUrl, setPdfUrl] = useState(null);
@@ -49,17 +48,6 @@ export default function PDFGeneratorButton() {
     }
   };
 
-  useEffect(() => {
-    if (instance.url && !instance.loading) {
-      setIsDownloading(false);
-      window.open(instance.url, '_blank');
-      updateInstance(null);
-      handleCloseModal();
-    }
-  }, [instance.url, instance.loading]);
-
-
-
   const handleCookieAndSave = async () => {
     let id_session;
     const cookie = getCookie('__cookieSesion');
@@ -89,18 +77,26 @@ export default function PDFGeneratorButton() {
     }
   };
 
+  // Se genera el blob una sola vez por click: con usePDF, resetear la instancia
+  // volvía a renderizar el documento y abría pestañas en loop.
   const handleDownload = async () => {
     setIsDownloading(true);
-    await handleCookieAndSave();
-    setShowQR(false);
-    updateInstance(<ItinerarioDoc data={favoritos} />);
+    try {
+      await handleCookieAndSave();
+      const blob = await pdf(<ItinerarioDoc data={favoritos} />).toBlob();
+      window.open(URL.createObjectURL(blob), '_blank');
+      handleCloseModal();
+    } catch (error) {
+      console.error('Error al generar el PDF:', error);
+    } finally {
+      setIsDownloading(false);
+    }
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setShowQR(false);
     setPdfUrl(null);
-    updateInstance(null);
   };
 
   const handleGenerateQR = async () => {
@@ -108,7 +104,7 @@ export default function PDFGeneratorButton() {
     setShowQR(true);
   };
 
-  const isLoading = instance.loading || isSaving;
+  const isLoading = isDownloading || isSaving;
   const itinerarioDocumento = <ItinerarioMobile data={favoritos} />;
   return (
     // --- Contenedor relativo para posicionar el tooltip ---
